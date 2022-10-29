@@ -1,12 +1,13 @@
 {
+    "name": "enpii/enpii-base",
     "require": {
-        "php": "^8.0.2",
-        "laravel/framework": "^9.0"
+        "php": "^7.2.5|^8.0",
+        "laravel/framework": "^7.0"
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "^6.0",
-        "wpackagist-theme/storefront": "^4.0",
-        "wpackagist-plugin/woocommerce": "^6.0"
+        "wpackagist-plugin/woocommerce": "^6.0",
+        "wpackagist-theme/storefront": "^4.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -20,6 +21,11 @@
             ]
         }
     ],
+    "autoload": {
+        "psr-4": {
+          "Enpii\\Wp_Plugin\\Enpii_Base\\": "src"
+        }
+    },
     "config": {
         "allow-plugins": {
             "composer/installers": true,
@@ -36,6 +42,20 @@
             "dev-docker/wordpress/wp-content/plugins/{$name}/": [
                 "type:wordpress-plugin"
             ]
+        },
+        "mozart": {
+            "dep_namespace": "Enpii\\Wp_Plugin\\Enpii_Base\\Dependencies\\",
+            "dep_directory": "/src/Dependencies/",
+            "classmap_directory": "/classes/dependencies/",
+            "classmap_prefix": "NpWpNPB_",
+            "packages": [
+                "laravel/framework"
+            ],
+            "excluded_packages": [
+            ],
+            "override_autoload": {
+            },
+            "delete_vendor_directories": true
         }
     },
     "scripts": {
