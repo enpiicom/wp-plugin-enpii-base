@@ -1,4 +1,10 @@
-FROM serversideup/php:8.0-fpm-nginx
+ARG PHP_VERSION="7.4"
+
+FROM serversideup/php:$PHP_VERSION-fpm-nginx
+
+ENV ENV_PHP_VERSION=$PHP_VERSION
+# Disable force SSL https://github.com/serversideup/docker-php/tree/main#environment-variables
+ENV SSL_MODE="off"
 
 USER root
 
@@ -6,13 +12,10 @@ RUN apt-get update \
     && apt-get -y --no-install-recommends install \
     # Ghostscript is required for rendering PDF previews
     ghostscript \
-    php8.0-imagick \
-    php8.0-apcu \
-    php8.0-memcache \
+    php7.4-imagick \
+    php7.4-apcu \
+    php7.4-memcache \
     curl
-
-# ENV DEBIAN_FRONTEND=noninteractive
-# ENV TZ=Asia/Ho_Chi_Minh
 
 # Disable force SSL https://github.com/serversideup/docker-php/tree/main#environment-variables
 ENV SSL_MODE="off"
@@ -29,9 +32,9 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 COPY ./dev-docker/config/nginx/default /etc/nginx/sites-available/ssl-off
 
 # Overrides PHP configs
-COPY ./dev-docker/config/php/cli/php-overrides.ini /etc/php/8.0/cli/conf.d/99-overrides.ini
-COPY ./dev-docker/config/php/fpm/php-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
-COPY ./dev-docker/config/php/fpm/pool.d/y-override-php-defaults.conf /etc/php/8.0/fpm/conf.d/pool.d/y-override-php-defaults.conf
+COPY ./dev-docker/config/php/cli/php-overrides.ini /etc/php/${ENV_PHP_VERSION}/cli/conf.d/99-overrides.ini
+COPY ./dev-docker/config/php/fpm/php-overrides.ini /etc/php/${ENV_PHP_VERSION}/fpm/conf.d/99-overrides.ini
+COPY ./dev-docker/config/php/fpm/pool.d/y-override-php-defaults.conf /etc/php/${ENV_PHP_VERSION}/fpm/conf.d/pool.d/y-override-php-defaults.conf
 
 
 RUN mkdir -p /var/www/html/public >/dev/null 2>&1
