@@ -14,16 +14,14 @@ declare(strict_types=1);
 
 namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Rfc4122;
 
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\UuidInterface as BaseUuidInterface;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Uuid;
 
 /**
- * Also known as a Leach-Salz variant UUID, an RFC 4122 variant UUID is a
- * universally unique identifier defined by RFC 4122
- *
- * @link https://tools.ietf.org/html/rfc4122 RFC 4122
+ * The max UUID is special form of UUID that is specified to have all 128 bits
+ * set to one
  *
  * @psalm-immutable
  */
-interface UuidInterface extends BaseUuidInterface
+final class MaxUuid extends Uuid implements UuidInterface
 {
 }

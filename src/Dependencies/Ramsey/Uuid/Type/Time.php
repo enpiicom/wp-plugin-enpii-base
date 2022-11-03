@@ -16,8 +16,7 @@ namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Type;
 
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Exception\UnsupportedOperationException;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Type\Integer as IntegerObject;
-use NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError;
-use stdClass;
+use NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError;
 
 use function json_decode;
 use function json_encode;
@@ -34,22 +33,13 @@ use function sprintf;
  */
 final class Time implements TypeInterface
 {
-    /**
-     * @var IntegerObject
-     */
-    private $seconds;
+    private IntegerObject $seconds;
+    private IntegerObject $microseconds;
 
-    /**
-     * @var IntegerObject
-     */
-    private $microseconds;
-
-    /**
-     * @param mixed $seconds
-     * @param mixed $microseconds
-     */
-    public function __construct($seconds, $microseconds = 0)
-    {
+    public function __construct(
+        float | int | string | IntegerObject $seconds,
+        float | int | string | IntegerObject $microseconds = 0,
+    ) {
         $this->seconds = new IntegerObject($seconds);
         $this->microseconds = new IntegerObject($microseconds);
     }
@@ -104,33 +94,32 @@ final class Time implements TypeInterface
     /**
      * Constructs the object from a serialized string representation
      *
-     * @param string $serialized The serialized string representation of the object
+     * @param string $data The serialized string representation of the object
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @psalm-suppress UnusedMethodCall
      */
-    public function unserialize($serialized): void
+    public function unserialize(string $data): void
     {
-        /** @var stdClass $time */
-        $time = json_decode($serialized);
+        /** @var array{seconds?: int|float|string, microseconds?: int|float|string} $time */
+        $time = json_decode($data, true);
 
-        if (!isset($time->seconds) || !isset($time->microseconds)) {
+        if (!isset($time['seconds']) || !isset($time['microseconds'])) {
             throw new UnsupportedOperationException(
                 'Attempted to unserialize an invalid value'
             );
         }
 
-        $this->__construct($time->seconds, $time->microseconds);
+        $this->__construct($time['seconds'], $time['microseconds']);
     }
 
     /**
-     * @param array{seconds: string, microseconds: string} $data
+     * @param array{seconds?: string, microseconds?: string} $data
      */
     public function __unserialize(array $data): void
     {
         // @codeCoverageIgnoreStart
         if (!isset($data['seconds']) || !isset($data['microseconds'])) {
-            throw new NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError(sprintf('%s(): Argument #1 ($data) is invalid', __METHOD__));
+            throw new NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError(sprintf('%s(): Argument #1 ($data) is invalid', __METHOD__));
         }
         // @codeCoverageIgnoreEnd
 

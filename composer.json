@@ -12,6 +12,7 @@
         "symfony/css-selector": "~5.4.11"
     },
     "require-dev": {
+        "psr/log": "~1.1.4",
         "automattic/vipwpcs": "^2.3",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
         "phpcompatibility/php-compatibility": "*",
@@ -34,7 +35,8 @@
     "autoload": {
         "psr-4": {
           "Enpii\\Wp_Plugin\\Enpii_Base\\": "src"
-        }
+        },
+        "files": [ "./src/Dependencies/Symfony/Polyfill/Php80/bootstrap.php" ]
     },
     "config": {
         "allow-plugins": {

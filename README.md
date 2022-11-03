@@ -20,6 +20,11 @@ docker-compose exec --user=webuser wordpress bash
 The local website will work with http://127.0.0.1:10108/ (or the port you put in env file)
 
 ## Development
+### Working with composer
+- We should use `~1.0.3` when require a package (only update if bugfixing released)
+- We use `mozart` (https://packagist.org/packages/coenjacobs/mozart) package to put the dependencies to a separate folder for the plugin to avoid the conflicts
+  - We should use `mozart` globally
+  - After running `composer update`, you need to run `mozart compose` (this should be run manually). If issues found related to some composer issues e.g. wrong included files, wrong path (due to the moving of files) ... you need to run `composer update` (or `composer dump-autoload`) one more time after fixing `composer.json` file.
 ### Naming Convention
 - Spaces, indentation are defined in `.editorconfig`
 - We follow WordPress conventions https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/#naming-conventions
@@ -47,4 +52,3 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
 	```shell script
 	/path/to/your/php7,4/executable/file ./vendor/bin/phpcbf <path-to-file-need-to-be-fixed>
 	```
-

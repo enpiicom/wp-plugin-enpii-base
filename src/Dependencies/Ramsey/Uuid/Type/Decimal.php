@@ -15,10 +15,11 @@ declare(strict_types=1);
 namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Type;
 
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Exception\InvalidArgumentException;
-use NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError;
+use NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError;
 
 use function is_numeric;
 use function sprintf;
+use function str_starts_with;
 
 /**
  * A value object representing a decimal
@@ -34,20 +35,10 @@ use function sprintf;
  */
 final class Decimal implements NumberInterface
 {
-    /**
-     * @var string
-     */
-    private $value;
+    private string $value;
+    private bool $isNegative = false;
 
-    /**
-     * @var bool
-     */
-    private $isNegative = false;
-
-    /**
-     * @param mixed $value The decimal value to store
-     */
-    public function __construct($value)
+    public function __construct(float | int | string | self $value)
     {
         $value = (string) $value;
 
@@ -59,7 +50,7 @@ final class Decimal implements NumberInterface
         }
 
         // Remove the leading +-symbol.
-        if (strpos($value, '+') === 0) {
+        if (str_starts_with($value, '+')) {
             $value = substr($value, 1);
         }
 
@@ -68,7 +59,7 @@ final class Decimal implements NumberInterface
             $value = '0';
         }
 
-        if (strpos($value, '-') === 0) {
+        if (str_starts_with($value, '-')) {
             $this->isNegative = true;
         }
 
@@ -111,24 +102,25 @@ final class Decimal implements NumberInterface
     /**
      * Constructs the object from a serialized string representation
      *
-     * @param string $serialized The serialized string representation of the object
+     * @param string $data The serialized string representation of the object
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @psalm-suppress UnusedMethodCall
      */
-    public function unserialize($serialized): void
+    public function unserialize(string $data): void
     {
-        $this->__construct($serialized);
+        $this->__construct($data);
     }
 
     /**
-     * @param array{string: string} $data
+     * @param array{string?: string} $data
+     *
+     * @psalm-suppress UnusedMethodCall
      */
     public function __unserialize(array $data): void
     {
         // @codeCoverageIgnoreStart
         if (!isset($data['string'])) {
-            throw new NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError(sprintf('%s(): Argument #1 ($data) is invalid', __METHOD__));
+            throw new NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError(sprintf('%s(): Argument #1 ($data) is invalid', __METHOD__));
         }
         // @codeCoverageIgnoreEnd
 

@@ -15,12 +15,12 @@ declare(strict_types=1);
 namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Type;
 
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Exception\InvalidArgumentException;
-use NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError;
+use NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError;
 
 use function ctype_digit;
 use function ltrim;
 use function sprintf;
-use function strpos;
+use function str_starts_with;
 use function substr;
 
 /**
@@ -40,23 +40,17 @@ final class Integer implements NumberInterface
     /**
      * @psalm-var numeric-string
      */
-    private $value;
+    private string $value;
 
-    /**
-     * @var bool
-     */
-    private $isNegative = false;
+    private bool $isNegative = false;
 
-    /**
-     * @param mixed $value The integer value to store
-     */
-    public function __construct($value)
+    public function __construct(float | int | string | self $value)
     {
         $value = (string) $value;
         $sign = '+';
 
         // If the value contains a sign, remove it for ctype_digit() check.
-        if (strpos($value, '-') === 0 || strpos($value, '+') === 0) {
+        if (str_starts_with($value, '-') || str_starts_with($value, '+')) {
             $sign = substr($value, 0, 1);
             $value = substr($value, 1);
         }
@@ -127,24 +121,23 @@ final class Integer implements NumberInterface
     /**
      * Constructs the object from a serialized string representation
      *
-     * @param string $serialized The serialized string representation of the object
+     * @param string $data The serialized string representation of the object
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @psalm-suppress UnusedMethodCall
      */
-    public function unserialize($serialized): void
+    public function unserialize(string $data): void
     {
-        $this->__construct($serialized);
+        $this->__construct($data);
     }
 
     /**
-     * @param array{string: string} $data
+     * @param array{string?: string} $data
      */
     public function __unserialize(array $data): void
     {
         // @codeCoverageIgnoreStart
         if (!isset($data['string'])) {
-            throw new NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError(sprintf('%s(): Argument #1 ($data) is invalid', __METHOD__));
+            throw new NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError(sprintf('%s(): Argument #1 ($data) is invalid', __METHOD__));
         }
         // @codeCoverageIgnoreEnd
 

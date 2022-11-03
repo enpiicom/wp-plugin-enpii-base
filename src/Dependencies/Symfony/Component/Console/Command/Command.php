@@ -12,7 +12,7 @@
 namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\Console\Command;
 
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\Console\Application;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\Console\NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_Attribute\AsCommand;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\Console\NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_Attribute\AsCommand;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\Console\Completion\CompletionInput;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\Console\Completion\CompletionSuggestions;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\Console\Exception\ExceptionInterface;

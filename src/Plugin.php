@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Enpii\WpPlugin\Enpii_Base;
+namespace Enpii\Wp_Plugin\Enpii_Base;
 
-class Plugin {
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Container\Container;
+
+class Plugin extends Container {
 	public function __construct( $config = [] ) {
 		// asdf
 	}

@@ -27,10 +27,7 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Math\BrickMathCalculator
  */
 class BigNumberConverter implements NumberConverterInterface
 {
-    /**
-     * @var NumberConverterInterface
-     */
-    private $converter;
+    private NumberConverterInterface $converter;
 
     public function __construct()
     {
