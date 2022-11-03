@@ -2,23 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Enpii\Wp_Plugin\Enpii_Base;
+namespace Enpii\WpPlugin\Enpii_Base;
 
-class Plugin
-{
+class Plugin {
+	public function __construct( $config = [] ) {
+		// asdf
+	}
 
-    public function __construct($config = [])
-    {
-        
-    }
 
-    public function setup_wp_hooks()
-    {
-        
-    }
+	public function setup_wp_hooks() {
+	}
 
-    public function bootstrap()
-    {
-        error_log(print_r(__DIR__, true));
-    }
+	public function a_snake_eye_one() {
+	}
+
+	public function bootstrap() {
+	}
 }

@@ -2,9 +2,19 @@
     "name": "enpii/enpii-base",
     "require": {
         "php": "^7.2.5|^8.0",
-        "laravel/framework": "^7.0"
+        "laravel/framework": "^7.0",
+        "symfony/translation-contracts": "~2.5.2",
+        "symfony/translation": "~5.4.14",
+        "symfony/string": "~5.4.15",
+        "symfony/event-dispatcher-contracts": "~2.5.2",
+        "symfony/event-dispatcher": "~5.4.9",
+        "symfony/deprecation-contracts": "~2.5.2",
+        "symfony/css-selector": "~5.4.11"
     },
     "require-dev": {
+        "automattic/vipwpcs": "^2.3",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+        "phpcompatibility/php-compatibility": "*",
         "johnpbloch/wordpress-core": "^6.0",
         "wpackagist-plugin/woocommerce": "^6.0",
         "wpackagist-theme/storefront": "^4.0"
@@ -60,7 +70,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "cp -r `find ./vendor/johnpbloch/wordpress-core -maxdepth 1 -mindepth 1 | cut -c3- | grep -v 'wp-content'` dev-docker/wordpress" 
+            "cp -r `find ./vendor/johnpbloch/wordpress-core -maxdepth 1 -mindepth 1 | cut -c3- | grep -v 'wp-content'` dev-docker/wordpress"
         ],
         "post-update-cmd": [
             "cp -r `find ./vendor/johnpbloch/wordpress-core -maxdepth 1 -mindepth 1 | cut -c3- | grep -v 'wp-content'` dev-docker/wordpress"
