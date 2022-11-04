@@ -35,6 +35,7 @@ COPY ./dev-docker/config/nginx/default /etc/nginx/sites-available/ssl-off
 COPY ./dev-docker/config/php/cli/php-overrides.ini /etc/php/${ENV_PHP_VERSION}/cli/conf.d/99-overrides.ini
 COPY ./dev-docker/config/php/fpm/php-overrides.ini /etc/php/${ENV_PHP_VERSION}/fpm/conf.d/99-overrides.ini
 COPY ./dev-docker/config/php/fpm/pool.d/y-override-php-defaults.conf /etc/php/${ENV_PHP_VERSION}/fpm/conf.d/pool.d/y-override-php-defaults.conf
+COPY ./dev-docker/config/php/fpm/pool.d/z-fpm-with-overrides.conf /etc/php/${ENV_PHP_VERSION}/fpm/conf.d/pool.d/z-fpm-with-overrides.conf
 
 
 RUN mkdir -p /var/www/html/public >/dev/null 2>&1
@@ -43,7 +44,7 @@ RUN mkdir -p /var/www/html/public/wp-content/cache >/dev/null 2>&1
 RUN mkdir -p /var/www/html/public/wp-content/uploads >/dev/null 2>&1
 RUN mkdir -p /var/www/html/public/wp-content/upgrades >/dev/null 2>&1
 RUN chown -R webuser:webgroup /var/www/html/public
-RUN chmod -R 777 /var/www/html/public/wp-content/uploads /var/www/html/public/wp-content/cache
+RUN chmod -R 777 /var/www/html/public/wp-content/uploads /var/www/html/public/wp-content/cache /var/www/html/public/wp-content/upgrades/
 
 USER webuser
 

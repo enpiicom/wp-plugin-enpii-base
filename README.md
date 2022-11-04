@@ -52,3 +52,27 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
 	```shell script
 	/path/to/your/php7,4/executable/file ./vendor/bin/phpcbf <path-to-file-need-to-be-fixed>
 	```
+### Install plugins and themes via the WP Admin Dashbboard
+- We need to ensure needed folders are there (only run once)
+```shell script
+docker compose exec --user=webuser wordpress mkdir -p /var/www/html/public/wp-content/uploads >/dev/null 2>&1
+docker compose exec --user=webuser wordpress mkdir -p /var/www/html/public/wp-content/upgrades >/dev/null 2>&1
+docker compose exec --user=webuser wordpress mkdir -p /var/www/html/public/wp-content/cache >/dev/null 2>&1
+docker compose exec --user=webuser wordpress chmod -R 777 /var/www/html/public/wp-content/cache /var/www/html/public/wp-content/uploads /var/www/html/public/wp-content/upgrades
+```
+- To install plugins, you need to allow the file writting to plugins folder first
+```shell script
+docker compose exec --user=webuser wordpress chmod g+w /var/www/html/public/wp-content/plugins/
+```
+then you need to revoke the write permission
+```shell script
+docker compose exec --user=webuser wordpress chmod g-w /var/www/html/public/wp-content/plugins/
+```
+- To install themes, you need to allow the file writting to themes folder first
+```shell script
+docker compose exec --user=webuser wordpress chmod g+w /var/www/html/public/wp-content/themes/
+```
+then you need to revoke the write permission
+```shell script
+docker compose exec --user=webuser wordpress chmod g-w /var/www/html/public/wp-content/themes/
+```

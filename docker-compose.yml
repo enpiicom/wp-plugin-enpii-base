@@ -12,9 +12,10 @@ services:
     restart: always
     volumes:
       - ./dev-docker/config/nginx/default:/etc/nginx/sites-available/ssl-off
-      - ./dev-docker/config/php/cli/php-overrides.ini:/etc/php/8.0/cli/conf.d/99-overrides.ini
-      - ./dev-docker/config/php/fpm/php-overrides.ini:/etc/php/8.0/fpm/conf.d/99-overrides.ini
-      - ./dev-docker/config/php/fpm/pool.d/y-override-php-defaults.conf:/etc/php/8.0/fpm/pool.d/y-override-php-defaults.conf
+      - ./dev-docker/config/php/cli/php-overrides.ini:/etc/php/${PHP_VERSION}/cli/conf.d/99-overrides.ini
+      - ./dev-docker/config/php/fpm/php-overrides.ini:/etc/php/${PHP_VERSION}/fpm/conf.d/99-overrides.ini
+      - ./dev-docker/config/php/fpm/pool.d/y-override-php-defaults.conf:/etc/php/${PHP_VERSION}/fpm/pool.d/y-override-php-defaults.conf
+      - ./dev-docker/config/php/fpm/pool.d/z-fpm-with-overrides.conf:/etc/php/${PHP_VERSION}/fpm/pool.d/z-fpm-with-overrides.conf
       - ./dev-docker/config/wordpress/wp-config.php:/var/www/html/wp-config.php
       - ./dev-docker/log/nginx:/var/log/nginx
       - ./dev-docker/wordpress:/var/www/html/public
@@ -65,4 +66,3 @@ services:
       - MYSQL_USER=$DB_USER
 volumes:
   mysql_db:
-    
