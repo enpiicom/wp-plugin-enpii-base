@@ -18,7 +18,8 @@ use DateTimeInterface;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Converter\NumberConverterInterface;
 
 /**
- * This interface encapsulates deprecated methods for ramsey/uuid
+ * This interface encapsulates deprecated methods for ramsey/uuid; this
+ * interface and its methods will be removed in ramsey/uuid 5.0.0.
  *
  * @psalm-immutable
  */
@@ -121,6 +122,12 @@ interface DeprecatedUuidInterface
      *     {@see \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Rfc4122\FieldsInterface::getTimestamp()}.
      */
     public function getTimestampHex(): string;
+
+    /**
+     * @deprecated In ramsey/uuid version 5.0.0, this will be removed from this
+     *     interface. It has moved to {@see \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Rfc4122\UuidInterface::getUrn()}.
+     */
+    public function getUrn(): string;
 
     /**
      * @deprecated Use {@see UuidInterface::getFields()} to get a

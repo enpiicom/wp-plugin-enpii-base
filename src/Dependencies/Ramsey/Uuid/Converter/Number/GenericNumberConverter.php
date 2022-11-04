@@ -26,8 +26,14 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Type\Integer as IntegerO
  */
 class GenericNumberConverter implements NumberConverterInterface
 {
-    public function __construct(private CalculatorInterface $calculator)
+    /**
+     * @var CalculatorInterface
+     */
+    private $calculator;
+
+    public function __construct(CalculatorInterface $calculator)
     {
+        $this->calculator = $calculator;
     }
 
     /**

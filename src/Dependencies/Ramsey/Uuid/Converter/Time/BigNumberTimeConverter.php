@@ -29,7 +29,10 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Type\Time;
  */
 class BigNumberTimeConverter implements TimeConverterInterface
 {
-    private TimeConverterInterface $converter;
+    /**
+     * @var TimeConverterInterface
+     */
+    private $converter;
 
     public function __construct()
     {

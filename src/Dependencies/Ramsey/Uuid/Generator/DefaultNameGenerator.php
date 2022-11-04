@@ -16,7 +16,7 @@ namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Generator;
 
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\Exception\NameException;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Ramsey\Uuid\UuidInterface;
-use NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError;
+use NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError;
 
 use function hash;
 
@@ -32,7 +32,7 @@ class DefaultNameGenerator implements NameGeneratorInterface
         try {
             /** @var string|bool $bytes */
             $bytes = @hash($hashAlgorithm, $ns->getBytes() . $name, true);
-        } catch (NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError $e) {
+        } catch (NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_ValueError $e) {
             $bytes = false; // keep same behavior than PHP 7
         }
 
