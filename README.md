@@ -3,7 +3,6 @@
 ```shell script
 cp .env.example .env
 cp -r ./dev-docker/config-example ./dev-docker/config
-cp ./dev-docker/config/wordpress/wp-config.php.example ./dev-docker/config/wordpress/wp-config.php
 docker run --rm --interactive --tty --volume $PWD:/app composer composer install
 docker-compose up -d
 ```
@@ -14,7 +13,7 @@ docker-compose up -d
 ## Working with the containers
 - To SSH to the wordpress containers
 ```
-docker-compose exec --user=webuser wordpress bash
+docker-compose exec --user=devuser wordpress sh
 ```
 
 The local website will work with http://127.0.0.1:10108/ (or the port you put in env file)
@@ -60,19 +59,30 @@ docker compose exec --user=webuser wordpress mkdir -p /var/www/html/public/wp-co
 docker compose exec --user=webuser wordpress mkdir -p /var/www/html/public/wp-content/cache >/dev/null 2>&1
 docker compose exec --user=webuser wordpress chmod -R 777 /var/www/html/public/wp-content/cache /var/www/html/public/wp-content/uploads /var/www/html/public/wp-content/upgrades
 ```
-- To install plugins, you need to allow the file writting to plugins folder first
-```shell script
-docker compose exec --user=webuser wordpress chmod g+w /var/www/html/public/wp-content/plugins/
-```
-then you need to revoke the write permission
-```shell script
-docker compose exec --user=webuser wordpress chmod g-w /var/www/html/public/wp-content/plugins/
-```
-- To install themes, you need to allow the file writting to themes folder first
-```shell script
-docker compose exec --user=webuser wordpress chmod g+w /var/www/html/public/wp-content/themes/
-```
-then you need to revoke the write permission
-```shell script
-docker compose exec --user=webuser wordpress chmod g-w /var/www/html/public/wp-content/themes/
-```
+- To install plugins and themes via the Admin Dashboard, you need to follow these steps:
+	1. Add this part to `wp-config.php` (after `That's all ... ` line)
+	```
+	define( 'FS_METHOD', 'direct' );
+	define( 'FS_CHMOD_DIR', (0755 & ~ umask()) );
+	define( 'FS_CHMOD_FILE', (0644 & ~ umask()) );
+	```
+	2. Allow the file writting folders first
+	For plugins:
+	```shell script
+	docker compose exec --user=devuser wordpress chmod g+w /var/www/public/wp-content/plugins/
+	```
+
+	For themes:
+	```shell script
+	docker compose exec --user=devuser wordpress chmod g+w /var/www/public/wp-content/themes/
+	```
+
+	3. Start to perform plugins, themes installation
+
+	4. Revoke the write permission
+	```shell script
+	docker compose exec --user=devuser wordpress chmod g-w /var/www/public/wp-content/plugins/
+	docker compose exec --user=devuser wordpress chmod g-w /var/www/public/wp-content/themes/
+	```
+
+	5. Remove the previous part added to `wp-config.php` (item 1)

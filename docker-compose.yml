@@ -6,25 +6,25 @@ services:
       context: .
       dockerfile: ./dev-docker/Dockerfile
     ports:
-      - $HTTP_EXPOSING_PORT:80
+      - $HTTP_EXPOSING_PORT:8080
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: always
     volumes:
-      - ./dev-docker/config/nginx/default:/etc/nginx/sites-available/ssl-off
-      - ./dev-docker/config/php/cli/php-overrides.ini:/etc/php/${PHP_VERSION}/cli/conf.d/99-overrides.ini
-      - ./dev-docker/config/php/fpm/php-overrides.ini:/etc/php/${PHP_VERSION}/fpm/conf.d/99-overrides.ini
-      - ./dev-docker/config/php/fpm/pool.d/y-override-php-defaults.conf:/etc/php/${PHP_VERSION}/fpm/pool.d/y-override-php-defaults.conf
-      - ./dev-docker/config/php/fpm/pool.d/z-fpm-with-overrides.conf:/etc/php/${PHP_VERSION}/fpm/pool.d/z-fpm-with-overrides.conf
-      - ./dev-docker/config/wordpress/wp-config.php:/var/www/html/wp-config.php
-      - ./dev-docker/log/nginx:/var/log/nginx
-      - ./dev-docker/wordpress:/var/www/html/public
-      - ./dev-miscs/bedrock-autoloader.php:/var/www/html/public/wp-content/mu-plugins/bedrock-autoloader.php
-      - ./:/var/www/html/public/wp-content/mu-plugins/enpii-base
+      # - ./dev-docker/config/nginx/default:/etc/nginx/sites-available/ssl-off
+      # - ./dev-docker/config/php/cli/php-overrides.ini:/etc/php/${PHP_VERSION}/cli/conf.d/99-overrides.ini
+      # - ./dev-docker/config/php/fpm/php-overrides.ini:/etc/php/${PHP_VERSION}/fpm/conf.d/99-overrides.ini
+      # - ./dev-docker/config/php/fpm/pool.d/y-override-php-defaults.conf:/etc/php/${PHP_VERSION}/fpm/pool.d/y-override-php-defaults.conf
+      # - ./dev-docker/config/php/fpm/pool.d/z-fpm-with-overrides.conf:/etc/php/${PHP_VERSION}/fpm/pool.d/z-fpm-with-overrides.conf
+      - ./dev-docker/config/wordpress/wp-config.php:/var/www/wp-config.php
+      # - ./dev-docker/log/nginx:/var/log/nginx
+      - ./dev-docker/wordpress/:/var/www/html/
+      # - ./dev-miscs/bedrock-autoloader.php:/var/www/html/public/wp-content/mu-plugins/bedrock-autoloader.php
+      # - ./:/var/www/html/public/wp-content/mu-plugins/enpii-base
     #   - ./docker/config/www.conf:/etc/php/8.0/fpm/pool.d/www.conf
       # - ./docker/log/nginx:/var/log/nginx
-    #   - ./docker/wp-config.php:/var/www/wp-config.php
-    #   - ./docker/wordpress:/var/www/wordpress
+      # - ./docker/wp-config.php:/var/www/wp-config.php
+      # - ./docker/wordpress:/var/www/wordpress
       # - ./docker/php/php.ini:/etc/php/8.0/fpm/php.ini
       # - ./docker/php/php.ini:/etc/php/8.0/cli/php.ini
       # - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf

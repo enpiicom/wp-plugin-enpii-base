@@ -65,6 +65,16 @@ define( 'WP_CACHE_KEY_SALT', '6jX|=LbR7eV9M,.2;$o^EZ. u@u[!aF-95g!%Y|&4dCZ[a`+G#
 $table_prefix = 'wp_';
 
 /* That's all, stop editing! Happy blogging. */
+define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_DISPLAY', false );
+// set to 'true' means the default debug.log file would be wp-content/debug.log
+define( 'WP_DEBUG_LOG', ABSPATH . DIRECTORY_SEPARATOR . 'debug.log' );
+define( 'SAVEQUERIES', true );
+
+// define( 'FS_METHOD', 'direct' );
+// define( 'FS_CHMOD_DIR', (0705 & ~ umask()) );
+// define( 'FS_CHMOD_FILE', (0604 & ~ umask()) );
+
 // For https
 // If we're behind a proxy server and using HTTPS, we need to alert WordPress of that fact
 // see also http://codex.wordpress.org/Administration_Over_SSL#Using_a_Reverse_Proxy
@@ -82,12 +92,6 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) )
 	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
-
-define( 'WP_DEBUG', true );
-define( 'WP_DEBUG_DISPLAY', false );
-// set to 'true' means the default debug.log file would be wp-content/debug.log
-define( 'WP_DEBUG_LOG', ABSPATH . DIRECTORY_SEPARATOR . 'debug.log' ); 
-define( 'SAVEQUERIES', true );
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
