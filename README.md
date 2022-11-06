@@ -2,7 +2,6 @@
 - Commands to set up the development environment
 ```shell script
 cp .env.example .env
-cp -r ./dev-docker/config-example ./dev-docker/config
 docker run --rm --interactive --tty --volume $PWD:/app composer composer install
 docker-compose up -d
 ```
@@ -38,7 +37,7 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
 	```
 	- Or if you have your executable php 7.4 on your machine (we need to use php 7.4 to avoid errors)
 	```shell script
-	/path/to/your/php7,4/executable/file ./vendor/bin/phpcs
+	/path/to/your/php7.4/executable/file ./vendor/bin/phpcs
 	```
 - Running **phpcbf** to fix code style issues
 	- With docker (we need to use php 7.4 to avoid errors)
@@ -49,7 +48,7 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
 	```
 	- Or if you have your executable php 7.4 on your machine (we need to use php 7.4 to avoid errors)
 	```shell script
-	/path/to/your/php7,4/executable/file ./vendor/bin/phpcbf <path-to-file-need-to-be-fixed>
+	/path/to/your/php7.4/executable/file ./vendor/bin/phpcbf <path-to-file-need-to-be-fixed>
 	```
 ### Install plugins and themes via the WP Admin Dashbboard
 - We need to ensure needed folders are there (only run once)

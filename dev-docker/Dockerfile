@@ -1,16 +1,16 @@
 FROM trafex/alpine-nginx-php7:1.10.0
 
-# these get automatically installed and removed by "docker-php-ext-*" (unless they're already installed)
-ENV PHPIZE_DEPS \
-		autoconf \
-		dpkg-dev dpkg \
-		file \
-		g++ \
-		gcc \
-		libc-dev \
-		make \
-		pkgconf \
-		re2c
+ARG PHP_TIMEZONE_ARG="UTC"
+ARG PHP_MEMORY_LIMIT_ARG="512M"
+ARG PHP_POST_MAX_SIZE_ARG="32M"
+ARG PHP_UPLOAD_MAX_ARG="32M"
+ARG WP_DEBUG_LOG_ARG="/var/www/log/wordpress/debug.log"
+
+ENV PHP_TIMEZONE=${PHP_TIMEZONE_ARG}
+ENV PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT_ARG}
+ENV PHP_POST_MAX_SIZE=${PHP_POST_MAX_SIZE_ARG}
+ENV PHP_UPLOAD_MAX=${PHP_UPLOAD_MAX_ARG}
+ENV WP_DEBUG_LOG=${WP_DEBUG_LOG_ARG}
 
 # Switch to use a root user from here on
 USER root
@@ -29,11 +29,13 @@ COPY dev-docker/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN adduser -D -H -G nobody devuser
 
-# If you want to use pecl, uuncomment the below
-
+# WP-CLI
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
 
 # Install packages
-RUN apk --no-cache add php7-redis php7-apcu php7-imagick php7-memcached \
+RUN apk --no-cache add php7-redis php7-apcu php7-imagick php7-memcached php7-xdebug \
 	curl wget openssl-dev
 
 COPY ./dev-docker/wordpress/ /var/www/html/
@@ -44,7 +46,7 @@ RUN mkdir -p /var/www/html/wp-content/uploads >/dev/null 2>&1
 RUN mkdir -p /var/www/html/wp-content/upgrade >/dev/null 2>&1
 RUN chmod -R 777 /var/www/html/wp-content/uploads /var/www/html/wp-content/cache /var/www/html/wp-content/upgrade/
 
-COPY ./dev-docker/config/wordpress/wp-config.php /var/www/wp-config.php
+COPY ./dev-docker/config/wordpress/wp-config.php /var/www/html/wp-config.php
 
 RUN chown -R devuser.nobody /var/www/html
 
