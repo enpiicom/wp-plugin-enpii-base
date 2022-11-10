@@ -46,15 +46,15 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY', getenv( 'AUTH_KEY' ) ?: hash( 'sha256', md5( rand( 0, 10000000 ) ) ) );
-define( 'SECURE_AUTH_KEY', getenv( 'SECURE_AUTH_KEY' ) ?: hash( 'sha256', md5( rand( 0, 10000000 ) ) ) );
-define( 'LOGGED_IN_KEY', getenv( 'LOGGED_IN_KEY' ) ?: hash( 'sha256', md5( rand( 0, 10000000 ) ) ) );
-define( 'NONCE_KEY', getenv( 'NONCE_KEY' ) ?: hash( 'sha256', md5( rand( 0, 10000000 ) ) ) );
-define( 'AUTH_SALT', getenv( 'AUTH_SALT' ) ?: hash( 'sha256', md5( rand( 0, 10000000 ) ) ) );
-define( 'SECURE_AUTH_SALT', getenv( 'SECURE_AUTH_SALT' ) ?: hash( 'sha256', md5( rand( 0, 10000000 ) ) ) );
-define( 'LOGGED_IN_SALT', getenv( 'LOGGED_IN_SALT' ) ?: hash( 'sha256', md5( rand( 0, 10000000 ) ) ) );
-define( 'NONCE_SALT', getenv( 'NONCE_SALT' ) ?: hash( 'sha256', md5( rand( 0, 10000000 ) ) ) );
-define( 'WP_CACHE_KEY_SALT', getenv( 'WP_CACHE_KEY_SALT' ) ?: hash( 'sha256', md5( rand( 0, 10000000 ) ) ) );
+define( 'AUTH_KEY', getenv( 'AUTH_KEY' ) ?: hash( 'sha256', md5( php_uname( 'n' ).'1' ) ) );
+define( 'SECURE_AUTH_KEY', getenv( 'SECURE_AUTH_KEY' ) ?: hash( 'sha256', md5( php_uname( 'n' ).'2' ) ) );
+define( 'LOGGED_IN_KEY', getenv( 'LOGGED_IN_KEY' ) ?: hash( 'sha256', md5( php_uname( 'n' ).'3' ) ) );
+define( 'NONCE_KEY', getenv( 'NONCE_KEY' ) ?: hash( 'sha256', md5( php_uname( 'n' ).'4' ) ) );
+define( 'AUTH_SALT', getenv( 'AUTH_SALT' ) ?: hash( 'sha256', md5( php_uname( 'n' ).'5' ) ) );
+define( 'SECURE_AUTH_SALT', getenv( 'SECURE_AUTH_SALT' ) ?: hash( 'sha256', md5( php_uname( 'n' ).'6' ) ) );
+define( 'LOGGED_IN_SALT', getenv( 'LOGGED_IN_SALT' ) ?: hash( 'sha256', md5( php_uname( 'n' ).'7' ) ) );
+define( 'NONCE_SALT', getenv( 'NONCE_SALT' ) ?: hash( 'sha256', md5( php_uname( 'n' ).'8' ) ) );
+define( 'WP_CACHE_KEY_SALT', getenv( 'WP_CACHE_KEY_SALT' ) ?: hash( 'sha256', md5( php_uname( 'n' ).'9' ) ) );
 
 /**
  * WordPress Database Table prefix.

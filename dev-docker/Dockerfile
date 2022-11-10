@@ -48,7 +48,18 @@ RUN chmod -R 777 /var/www/html/wp-content/uploads /var/www/html/wp-content/cache
 
 COPY ./dev-docker/config/wordpress/wp-config.php /var/www/html/wp-config.php
 
-RUN chown -R devuser.nobody /var/www/html
+######## Update here for each particular project
+
+# For using normal plugin as a MU Plugin
+COPY ./dev-miscs/bedrock-autoloader.php /var/www/html/wp-content/mu-plugins/bedrock-autoloader.php
+
+# Current project as a MU Plugin
+RUN mkdir -p /var/www/html/wp-content/mu-plugins/enpii-base >/dev/null 2>&1
+COPY ./ /var/www/html/wp-content/mu-plugins/enpii-base
+
+# WP-CLI
+COPY ./dev-miscs/wp-cli.yml /var/www/html/wp-cli.yml
 
 # Switch to use a non-root user from here on
+RUN chown -R devuser.nobody /var/www/html
 USER nobody
