@@ -66,15 +66,15 @@ $table_prefix = 'wp_';
 
 /* That's all, stop editing! Happy blogging. */
 define( 'WP_DEBUG', ! ! getenv( 'WP_DEBUG' ) );
-define( 'WP_DEBUG_DISPLAY', false );
+define( 'WP_DEBUG_DISPLAY', true );
 // set to 'true' means the default debug.log file would be wp-content/debug.log
 define( 'WP_DEBUG_LOG', getenv( 'WP_DEBUG_LOG' ) );
 define( 'SAVEQUERIES', ! ! getenv( 'SAVEQUERIES' ) );
 
 // ## Below snippets are for installing plugins, themes from the Admin Dashboard
 // define( 'FS_METHOD', 'direct' );
-// define( 'FS_CHMOD_DIR', (0705 & ~ umask()) );
-// define( 'FS_CHMOD_FILE', (0604 & ~ umask()) );
+// define( 'FS_CHMOD_DIR', (0755 & ~ umask()) );
+// define( 'FS_CHMOD_FILE', (0664 & ~ umask()) );
 
 // For https
 // If we're behind a proxy server and using HTTPS, we need to alert WordPress of that fact
@@ -88,6 +88,8 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
 	define( 'WP_HOME', $http_protocol . '://' . $_SERVER['HTTP_HOST'] );
 	define( 'WP_SITEURL', $http_protocol . '://' . $_SERVER['HTTP_HOST'] );
 }
+
+define( 'WP_APP_FORCE_CREATE_WP_APP_FOLDER', ! ! getenv( 'WP_APP_FORCE_CREATE_WP_APP_FOLDER' ) );
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {

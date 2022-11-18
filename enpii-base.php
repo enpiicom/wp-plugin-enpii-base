@@ -9,9 +9,27 @@
  * Text Domain: enpii
  */
 
-use Enpii\Wp_Plugin\Enpii_Base\Plugin;
+defined( 'DIR_SEP' ) || define( 'DIR_SEP', DIRECTORY_SEPARATOR );
+defined( 'WP_APP_FORCE_CREATE_WP_APP_FOLDER' ) || define( 'WP_APP_FORCE_CREATE_WP_APP_FOLDER', true );
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+// We want to have helper functions before loading the dependancies (for overridding purposes)
+require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers-app.php';
+require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers-overrides.php';
+require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers.php';
 
-$enpii_base_instance = new Plugin();
-$enpii_base_instance->bootstrap();
+// We include composer autoload here
+require_once __DIR__ . DIR_SEP . 'vendor' . DIR_SEP . 'autoload.php';
+
+$wp_app_base_path = enpii_base_get_wp_app_base_path();
+if ( WP_APP_FORCE_CREATE_WP_APP_FOLDER ) {
+	enpii_base_prepare_wp_app_folders($wp_app_base_path);
+}
+
+$config = [
+	'wp_app_base_path' => $wp_app_base_path,
+	'app' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'app.php',
+	'cache' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'cache.php',
+];
+
+enpii_base_setup_wp_app($config);
+enpii_base_initialize_enpii_base_plugin();
