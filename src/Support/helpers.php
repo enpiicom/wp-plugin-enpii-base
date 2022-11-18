@@ -12,6 +12,12 @@ if ( ! function_exists( 'enpii_base_get_wp_app_base_path' ) ) {
 	}
 }
 
+if ( ! function_exists( 'enpii_base_get_wp_app_storage_path' ) ) {
+	function enpii_base_get_wp_app_storage_path() {
+		return enpii_base_get_wp_app_base_path() . DIR_SEP . 'storage';
+	}
+}
+
 if ( ! function_exists( 'enpii_base_prepare_wp_app_folders' ) ) {
 	function enpii_base_prepare_wp_app_folders( string $wp_app_base_path ): void {
 		$file_system = new Filesystem();

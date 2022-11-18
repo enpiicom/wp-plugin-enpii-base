@@ -14,7 +14,7 @@ class WP_Application extends Application {
 			'config',
 			function ( $app ) use ( $config ) {
 				return new Repository( $config );
-			} 
+			}
 		);
 
 		return $this;

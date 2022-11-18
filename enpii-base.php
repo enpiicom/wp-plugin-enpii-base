@@ -29,6 +29,7 @@ $config = [
 	'wp_app_base_path' => $wp_app_base_path,
 	'app' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'app.php',
 	'cache' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'cache.php',
+	'logging' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'logging.php',
 ];
 
 enpii_base_setup_wp_app($config);
