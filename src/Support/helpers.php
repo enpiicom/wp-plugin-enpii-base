@@ -31,6 +31,7 @@ if ( ! function_exists( 'enpii_base_prepare_wp_app_folders' ) ) {
 		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage', 0777 );
 		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'logs', 0777 );
 		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework', 0777 );
+		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'views', 0777 );
 
 		$file_system->chmod( $wp_app_base_path . DIR_SEP . 'bootstrap' . DIR_SEP . 'cache', 0777 );
 		$file_system->chmod( $wp_app_base_path . DIR_SEP . 'storage', 0777 );
@@ -47,6 +48,7 @@ if ( ! function_exists( 'enpii_base_prepare_config' ) ) {
 
 if ( ! function_exists( 'enpii_base_setup_wp_app' ) ) {
 	function enpii_base_setup_wp_app( array $config ): void {
+		$config = enpii_base_prepare_config( $config );
 		$wp_app = ( new WP_Application( $config['wp_app_base_path'] ) )->initAppWithConfig( $config );
 		$wp_app->registerConfiguredProviders();
 	}

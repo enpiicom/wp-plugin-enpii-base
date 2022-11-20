@@ -29,12 +29,15 @@ if ( ! function_exists( 'wp_app' ) ) {
 }
 
 if ( ! function_exists( 'dev_logger' ) ) {
-	function dev_logger(...$messages): void {
-		foreach ($messages as $index => $message) {
-			logger("message $index: \n");
-			logger(print_r($message, true));
-			logger("\n");
+	function dev_logger( ...$messages ): void {
+		foreach ( $messages as $index => $message ) {
+			logger( "message $index:" );
+			ob_start();
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
+			var_dump( $message );
+			$debug_message = ob_get_clean();
+			logger( $debug_message );
 		}
-		logger("\n\n\n");
+		logger( "\n\n\n" );
 	}
 }

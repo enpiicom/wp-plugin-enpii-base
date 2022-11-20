@@ -24,6 +24,7 @@
 		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 		<exclude name="WordPress.PHP.YodaConditions"/>
+		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning"/>
 	</rule>
 
 	<rule ref="WordPress-VIP-Go"/>

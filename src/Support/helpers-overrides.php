@@ -7,16 +7,14 @@ declare(strict_types=1);
 |
 */
 
-if (! function_exists('storage_path')) {
-    /**
-     * Get the path to the storage folder.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    function storage_path($path = '')
-    {
-		die(wp_app('path.storage'));
-        return wp_app('path.storage').($path ? DIRECTORY_SEPARATOR.$path : $path);
-    }
+if ( ! function_exists( 'storage_path' ) ) {
+	/**
+	 * Get the path to the storage folder.
+	 *
+	 * @param  string  $path
+	 * @return string
+	 */
+	function storage_path( $path = '' ) {
+		return wp_app( 'path.storage' ) . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
+	}
 }

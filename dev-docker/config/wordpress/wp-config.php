@@ -65,6 +65,8 @@ define( 'WP_CACHE_KEY_SALT', getenv( 'WP_CACHE_KEY_SALT' ) ?: hash( 'sha256', md
 $table_prefix = 'wp_';
 
 /* That's all, stop editing! Happy blogging. */
+define( 'WP_ENV', getenv( 'WP_ENV' ) );
+
 define( 'WP_DEBUG', ! ! getenv( 'WP_DEBUG' ) );
 define( 'WP_DEBUG_DISPLAY', true );
 // set to 'true' means the default debug.log file would be wp-content/debug.log

@@ -30,7 +30,13 @@ $config = [
 	'app' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'app.php',
 	'cache' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'cache.php',
 	'logging' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'logging.php',
+	'view' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'view.php',
 ];
 
-enpii_base_setup_wp_app($config);
-enpii_base_initialize_enpii_base_plugin();
+// We want to have the wp_app working before other plugins start their operations
+add_action('after_setup_theme', function () use ($config) {
+	enpii_base_setup_wp_app($config);
+}, 1000);
+
+// We try to add the enpii_base service provider first in `init`
+add_action('init', 'enpii_base_initialize_enpii_base_plugin', 0);

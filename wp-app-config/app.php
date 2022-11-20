@@ -1,10 +1,12 @@
 <?php
 
+use Enpii\Wp_Plugin\Enpii_Base\App\Providers\View_Service_Provider;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Filesystem\FilesystemServiceProvider;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Providers\FormRequestServiceProvider;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Providers\FoundationServiceProvider;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Validation\ValidationServiceProvider;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\View\ViewServiceProvider;
 
 return [
 	/**
@@ -142,5 +144,6 @@ return [
 		FormRequestServiceProvider::class,
 		ValidationServiceProvider::class,
 		CacheServiceProvider::class,
+		View_Service_Provider::class,
 	]
 ];
