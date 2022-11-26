@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use Enpii\Wp_Plugin\Enpii_Base\App\Http\Controllers\Index_Controller;
 use Enpii\Wp_Plugin\Enpii_Base\Base\Plugin;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Filesystem\Filesystem;
-use Enpii\Wp_Plugin\Enpii_Base\Libs\WP_Application;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Facades\Route;
+use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application;
 
 if ( ! function_exists( 'enpii_base_get_wp_app_base_path' ) ) {
 	function enpii_base_get_wp_app_base_path() {
@@ -40,22 +42,25 @@ if ( ! function_exists( 'enpii_base_prepare_wp_app_folders' ) ) {
 	}
 }
 
-if ( ! function_exists( 'enpii_base_prepare_config' ) ) {
-	function enpii_base_prepare_config( array $config ): array {
-		return apply_filters( 'enpii_base_prepare_config', $config );
+if ( ! function_exists( 'enpii_base_prepare_wp_app_config' ) ) {
+	function enpii_base_prepare_wp_app_config( array $config ): array {
+		return apply_filters( 'enpii_base_wp_app_prepare_config', $config );
 	}
 }
 
 if ( ! function_exists( 'enpii_base_setup_wp_app' ) ) {
 	function enpii_base_setup_wp_app( array $config ): void {
-		$config = enpii_base_prepare_config( $config );
-		$wp_app = ( new WP_Application( $config['wp_app_base_path'] ) )->initAppWithConfig( $config );
+		$config = enpii_base_prepare_wp_app_config( $config );
+		$wp_app = ( new Wp_Application( $config['wp_app_base_path'] ) )->initAppWithConfig( $config );
 		$wp_app->registerConfiguredProviders();
+
+		// We Register `enpii-base` plugin rigth after the app setup
+		$wp_app->register( Plugin::class );
 	}
 }
 
-if ( ! function_exists( 'enpii_base_initialize_enpii_base_plugin' ) ) {
-	function enpii_base_initialize_enpii_base_plugin(): void {
-		wp_app()->register( Plugin::class );
+if ( ! function_exists( 'enpii_base_register_wp_app_routes' ) ) {
+	function enpii_base_register_wp_app_routes(): void {
+		Route::get('/', [Index_Controller::class, 'home']);
 	}
 }

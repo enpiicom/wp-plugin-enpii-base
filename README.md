@@ -30,6 +30,7 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
 - After using `mozart`, remember to manually repair the namespace in:
   - `LogManager`, use namespace `as Monolog`
   - `ParseLogConfiguration` (same as above)
+  - `Symfony\Component\Routing\Route`, find the keyword `compiler_class` and update that option value to the one with the namespace
 ### Naming Convention
 - Spaces, indentation are defined in `.editorconfig`
 - We follow WordPress conventions https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/#naming-conventions

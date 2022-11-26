@@ -1,13 +1,5 @@
 <?php
 
-use Enpii\Wp_Plugin\Enpii_Base\App\Providers\View_Service_Provider;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Filesystem\FilesystemServiceProvider;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Providers\FormRequestServiceProvider;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Providers\FoundationServiceProvider;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Validation\ValidationServiceProvider;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\View\ViewServiceProvider;
-
 return [
 	/**
 	|--------------------------------------------------------------------------
@@ -139,11 +131,29 @@ return [
 	|
 	*/
 	'providers' => [
-		FilesystemServiceProvider::class,
-		FoundationServiceProvider::class,
-		FormRequestServiceProvider::class,
-		ValidationServiceProvider::class,
-		CacheServiceProvider::class,
-		View_Service_Provider::class,
+		// Laravel providers
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Auth\AuthServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Broadcasting\BroadcastServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Bus\BusServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cookie\CookieServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Database\DatabaseServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Encryption\EncryptionServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Filesystem\FilesystemServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Hashing\HashServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Mail\MailServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Notifications\NotificationServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Pagination\PaginationServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Pipeline\PipelineServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Queue\QueueServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Redis\RedisServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Session\SessionServiceProvider::class,
+		\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Validation\ValidationServiceProvider::class,
+
+		// App providers
+		\Enpii\Wp_Plugin\Enpii_Base\App\Providers\View_Service_Provider::class,
 	]
 ];

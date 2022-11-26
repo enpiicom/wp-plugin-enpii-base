@@ -35,7 +35,8 @@ RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
 # Install packages
-RUN apk --no-cache add php7-redis php7-apcu php7-imagick php7-memcached php7-xdebug php7-tokenizer \
+RUN apk --no-cache add php7-redis php7-apcu php7-imagick php7-memcached php7-xdebug \
+		php7-tokenizer php7-xmlwriter \
 	curl wget openssl-dev
 
 COPY ./dev-docker/wordpress/ /var/www/html/

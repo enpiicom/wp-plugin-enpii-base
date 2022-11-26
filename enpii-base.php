@@ -30,6 +30,7 @@ $config = [
 	'app' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'app.php',
 	'cache' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'cache.php',
 	'logging' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'logging.php',
+	'session' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'session.php',
 	'view' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'view.php',
 ];
 
@@ -38,5 +39,11 @@ add_action('after_setup_theme', function () use ($config) {
 	enpii_base_setup_wp_app($config);
 }, 1000);
 
-// We try to add the enpii_base service provider first in `init`
-add_action('init', 'enpii_base_initialize_enpii_base_plugin', 0);
+// $config = enpii_base_prepare_wp_app_config( $config );
+// $wp_app = ( new \Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application( $config['wp_app_base_path'] ) )->initAppWithConfig( $config );
+// $wp_app->registerConfiguredProviders();
+
+// We Register `enpii-base` plugin rigth after the app setup
+// $wp_app->register( \Enpii\Wp_Plugin\Enpii_Base\Base\Plugin::class );
+
+add_action('enpii_base_wp_app_register_routes', 'enpii_base_register_wp_app_routes');

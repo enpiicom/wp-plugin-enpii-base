@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Log\Logger;
-use Enpii\Wp_Plugin\Enpii_Base\Libs\WP_Application;
+use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application;
 
 /**
 | We want to define helper functions for the app here
@@ -19,12 +19,12 @@ if ( ! function_exists( 'wp_app' ) ) {
 	 * @param  array  $parameters
 	 * @return mixed|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Foundation\Application
 	 */
-	function wp_app( string $abstract = null, array $parameters = [] ): WP_Application {
+	function wp_app( string $abstract = null, array $parameters = [] ): Wp_Application {
 		if ( is_null( $abstract ) ) {
-			return WP_Application::getInstance();
+			return Wp_Application::getInstance();
 		}
 
-		return WP_Application::getInstance()->make( $abstract, $parameters );
+		return Wp_Application::getInstance()->make( $abstract, $parameters );
 	}
 }
 
