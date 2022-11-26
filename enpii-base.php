@@ -13,7 +13,7 @@ defined( 'DIR_SEP' ) || define( 'DIR_SEP', DIRECTORY_SEPARATOR );
 defined( 'WP_APP_FORCE_CREATE_WP_APP_FOLDER' ) || define( 'WP_APP_FORCE_CREATE_WP_APP_FOLDER', true );
 
 // We want to have helper functions before loading the dependancies (for overridding purposes)
-require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers-app.php';
+require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers-wp-app.php';
 require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers-overrides.php';
 require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers.php';
 
@@ -24,6 +24,9 @@ $wp_app_base_path = enpii_base_get_wp_app_base_path();
 if ( WP_APP_FORCE_CREATE_WP_APP_FOLDER ) {
 	enpii_base_prepare_wp_app_folders($wp_app_base_path);
 }
+
+// We register `wp-app` routes via the action 'enpii_base_wp_app_register_routes'
+add_action('enpii_base_wp_app_register_routes', 'enpii_base_register_wp_app_routes');
 
 $config = [
 	'wp_app_base_path' => $wp_app_base_path,
@@ -38,12 +41,3 @@ $config = [
 add_action('after_setup_theme', function () use ($config) {
 	enpii_base_setup_wp_app($config);
 }, 1000);
-
-// $config = enpii_base_prepare_wp_app_config( $config );
-// $wp_app = ( new \Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application( $config['wp_app_base_path'] ) )->initAppWithConfig( $config );
-// $wp_app->registerConfiguredProviders();
-
-// We Register `enpii-base` plugin rigth after the app setup
-// $wp_app->register( \Enpii\Wp_Plugin\Enpii_Base\Base\Plugin::class );
-
-add_action('enpii_base_wp_app_register_routes', 'enpii_base_register_wp_app_routes');

@@ -14,7 +14,7 @@ return [
     */
 
     'paths' => [
-        __DIR__.DIR_SEP.'resources'.DIR_SEP.'views',
+        dirname(__DIR__).DIR_SEP.'resources'.DIR_SEP.'views',
     ],
 
     /*

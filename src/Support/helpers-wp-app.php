@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Log\Logger;
 use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application;
 
 /**
@@ -17,9 +16,9 @@ if ( ! function_exists( 'wp_app' ) ) {
 	 *
 	 * @param  string|null  $abstract
 	 * @param  array  $parameters
-	 * @return mixed|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Foundation\Application
+	 * @return mixed|\Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application
 	 */
-	function wp_app( string $abstract = null, array $parameters = [] ): Wp_Application {
+	function wp_app( string $abstract = null, array $parameters = [] ) {
 		if ( is_null( $abstract ) ) {
 			return Wp_Application::getInstance();
 		}
@@ -40,4 +39,17 @@ if ( ! function_exists( 'dev_logger' ) ) {
 		}
 		logger( "\n\n\n" );
 	}
+}
+
+if ( ! function_exists( 'wp_app_view' ) ) {
+	function wp_app_view($view = null, $data = [], $mergeData = [])
+    {
+        $factory = wp_app(\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\View\Factory::class);
+
+        if (func_num_args() === 0) {
+            return $factory;
+        }
+
+        return $factory->make($view, $data, $mergeData);
+    }
 }

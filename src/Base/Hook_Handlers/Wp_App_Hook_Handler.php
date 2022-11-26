@@ -13,6 +13,7 @@ class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {
 	public function handle_wp_app_requests(): void {
 		$wp_app = $this->get_wp_app();
 		$wp_app['env'] = config( 'app.env' );
+		dev_logger(config( 'app.env' ));
 
 		$wp_app->singleton(
 			\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Http\Kernel::class,
@@ -32,10 +33,6 @@ class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {
 		$wp_app->register(RouteServiceProvider::class);
 		$wp_app->register(Route_Service_Provider::class);
 
-		// Route::get('test', function() {
-		// 	die(' test ');
-		// });
-
 		/** @var \Enpii\Wp_Plugin\Enpii_Base\App\Http\Kernel $kernel */
 		$kernel = $wp_app->make( \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Http\Kernel::class );
 
@@ -43,6 +40,8 @@ class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {
 		$response = $kernel->handle( $request );
 
 		$response->send();
+
+		dev_logger(memory_get_usage());
 
 		$kernel->terminate( $request, $response );
 	}

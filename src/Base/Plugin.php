@@ -28,12 +28,11 @@ class Plugin extends WP_Plugin {
 			]);
 		} );
 
-		$this->handle_wp_app_requests();
 		$this->manipulate_hooks();
 	}
 
 	public function manipulate_hooks(): void {
-		// We want to start processing wp-app requests after all plugin loaded
+		// We want to start processing wp-app requests after all plugins and theme loaded
 		add_action( 'init', [ $this, 'handle_wp_app_requests' ], 9999 );
 	}
 
