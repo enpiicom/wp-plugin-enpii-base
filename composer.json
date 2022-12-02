@@ -35,20 +35,21 @@
     }
   ],
   "autoload": {
-    "psr-4": {
-      "Enpii\\Wp_Plugin\\Enpii_Base\\": "src"
-    },
     "files": [
       "./src/Dependencies/Symfony/Polyfill/Php80/bootstrap.php",
       "./src/Dependencies/Illuminate/Foundation/helpers.php",
       "./src/Dependencies/Illuminate/Support/helpers.php",
       "./src/Dependencies/Symfony/Component/VarDumper/Resources/functions/dump.php"
-    ]
+    ],
+    "psr-4": {
+      "Enpii\\Wp_Plugin\\Enpii_Base\\": "src"
+    }
   },
   "config": {
     "allow-plugins": {
       "composer/installers": true,
-      "johnpbloch/wordpress-core-installer": true
+      "johnpbloch/wordpress-core-installer": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
     },
     "vendor-dir": "./vendor",
     "sort-packages": true

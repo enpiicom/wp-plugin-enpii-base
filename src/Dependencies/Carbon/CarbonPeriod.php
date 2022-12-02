@@ -24,6 +24,7 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon\Exceptions\UnreachableExcepti
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon\Traits\IntervalRounding;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon\Traits\Mixin;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon\Traits\Options;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon\Traits\ToStringFormat;
 use Closure;
 use Countable;
 use DateInterval;
@@ -175,6 +176,7 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
         Mixin::mixin as baseMixin;
     }
     use Options;
+    use ToStringFormat;
 
     /**
      * Built-in filter for limit by recurrences.
@@ -1459,13 +1461,21 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      */
     public function toString()
     {
+        $format = $this->localToStringFormat ?? static::$toStringFormat;
+
+        if ($format instanceof Closure) {
+            return $format($this);
+        }
+
         $translator = ([$this->dateClass, 'getTranslator'])();
 
         $parts = [];
 
-        $format = !$this->startDate->isStartOfDay() || ($this->endDate && !$this->endDate->isStartOfDay())
-            ? 'Y-m-d H:i:s'
-            : 'Y-m-d';
+        $format = $format ?? (
+            !$this->startDate->isStartOfDay() || ($this->endDate && !$this->endDate->isStartOfDay())
+                ? 'Y-m-d H:i:s'
+                : 'Y-m-d'
+        );
 
         if ($this->recurrences !== null) {
             $parts[] = $this->translate('period_recurrences', [], $this->recurrences, $translator);

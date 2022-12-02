@@ -31,6 +31,13 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
   - `LogManager`, use namespace `as Monolog`
   - `ParseLogConfiguration` (same as above)
   - `Symfony\Component\Routing\Route`, find the keyword `compiler_class` and update that option value to the one with the namespace
+- Process to perform the composer and mozart:
+  - Remove the `autoload -> files` part in composer.json
+  - `composer install` or `composer update`
+  - `composer dump-autoload`
+  - `mozart compose`
+  - Undo the removing `autoload -> files`
+  - `composer dump-autoload`
 ### Naming Convention
 - Spaces, indentation are defined in `.editorconfig`
 - We follow WordPress conventions https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/#naming-conventions

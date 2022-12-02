@@ -3,7 +3,7 @@
 namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Log;
 
 use InvalidArgumentException;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog\Logger as Monolog;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog\Logger as Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog;
 
 trait ParsesLogConfiguration
 {
@@ -31,7 +31,7 @@ trait ParsesLogConfiguration
     abstract protected function getFallbackChannelName();
 
     /**
-     * Parse the string level into a Monolog constant.
+     * Parse the string level into a Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog constant.
      *
      * @param  array  $config
      * @return int
