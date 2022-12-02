@@ -22,15 +22,17 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
 
 ## Development
 
+### Base concepts
+  - This plugin will create a laravel application `wp_app()` (a DI container https://code.tutsplus.com/tutorials/digging-in-to-laravels-ioc-container--cms-22167) contains everything we need.
+  - Each plugin or theme will act as a Service Provider https://laravel.com/docs/7.x/providers
+  - We are trying to implement Domain Driven Development (DDD) and Command Query Responsibility Segregation (CQRS)
+    - Each hanlder is a class (1 class only for 1 handler). An action may contain many hanlders.
+
 ### Working with composer
 - We should use `~1.0.3` when require a package (only update if bugfixing released)
 - We use `mozart` (https://packagist.org/packages/coenjacobs/mozart) package to put the dependencies to a separate folder for the plugin to avoid the conflicts
   - We should use `mozart` globally
   - After running `composer update`, you need to run `mozart compose` (this should be run manually). If issues found related to some composer issues e.g. wrong included files, wrong path (due to the moving of files) ... you need to run `composer update` (or `composer dump-autoload`) one more time after fixing `composer.json` file.
-- After using `mozart`, remember to manually repair the namespace in:
-  - `LogManager`, use namespace `as Monolog`
-  - `ParseLogConfiguration` (same as above)
-  - `Symfony\Component\Routing\Route`, find the keyword `compiler_class` and update that option value to the one with the namespace
 #### Process to perform the composer and mozart:
   - Remove the `autoload -> files` part in composer.json
   - `composer install` or `composer update`
@@ -38,6 +40,11 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
   - `mozart compose`
   - Undo the removing `autoload -> files`
   - `composer dump-autoload`
+#### After using `mozart`, remember to manually repair the namespace in:
+  - `LogManager`, use namespace `as Monolog`
+  - `ParseLogConfiguration` (same as above)
+  - `Symfony\Component\Routing\Route`, find the keyword `compiler_class` and update that option value to the one with the namespace
+
 ### Naming Convention
 - Spaces, indentation are defined in `.editorconfig`
 - We follow WordPress conventions https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/#naming-conventions
