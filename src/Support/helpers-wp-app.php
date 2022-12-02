@@ -93,7 +93,7 @@ if ( ! function_exists( 'wp_app_abort_unless' ) ) {
 	}
 }
 
-if ( ! function_exists( 'action' ) ) {
+if ( ! function_exists( 'wp_action' ) ) {
 	/**
 	 * Generate the URL to a controller action.
 	 *
@@ -102,12 +102,12 @@ if ( ! function_exists( 'action' ) ) {
 	 * @param  bool  $absolute
 	 * @return string
 	 */
-	function action( $name, $parameters = [], $absolute = true ) {
+	function wp_action( $name, $parameters = [], $absolute = true ) {
 		return wp_app( 'url' )->action( $name, $parameters, $absolute );
 	}
 }
 
-if ( ! function_exists( 'app' ) ) {
+if ( ! function_exists( 'wp_app' ) ) {
 	/**
 	 * Get the available container instance.
 	 *
@@ -117,21 +117,21 @@ if ( ! function_exists( 'app' ) ) {
 	 */
 	function wp_app( $abstract = null, array $parameters = [] ) {
 		if ( is_null( $abstract ) ) {
-			return Container::getInstance();
+			return Wp_Application::getInstance();
 		}
 
-		return Container::getInstance()->make( $abstract, $parameters );
+		return Wp_Application::getInstance()->make( $abstract, $parameters );
 	}
 }
 
-if ( ! function_exists( 'app_path' ) ) {
+if ( ! function_exists( 'wp_app_path' ) ) {
 	/**
 	 * Get the path to the application folder.
 	 *
 	 * @param  string  $path
 	 * @return string
 	 */
-	function app_path( $path = '' ) {
+	function wp_app_path( $path = '' ) {
 		return wp_app()->path( $path );
 	}
 }
@@ -914,23 +914,6 @@ if ( ! function_exists( 'view' ) ) {
 		}
 
 		return $factory->make( $view, $data, $mergeData );
-	}
-}
-
-if ( ! function_exists( 'wp_app' ) ) {
-	/**
-	 * Get the available container instance.
-	 *
-	 * @param  string|null  $abstract
-	 * @param  array  $parameters
-	 * @return mixed|\Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application
-	 */
-	function wp_app( string $abstract = null, array $parameters = [] ) {
-		if ( is_null( $abstract ) ) {
-			return Wp_Application::getInstance();
-		}
-
-		return Wp_Application::getInstance()->make( $abstract, $parameters );
 	}
 }
 
