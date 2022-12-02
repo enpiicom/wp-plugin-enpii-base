@@ -5,7 +5,7 @@ namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Facades;
 /**
  * @method static \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Routing\UrlGenerator setRootControllerNamespace(string $rootNamespace)
  * @method static bool hasValidSignature(\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\Request $request, bool $absolute = true)
- * @method static string action(string $action, $parameters = [], bool $absolute = true)
+ * @method static string wp_app_action(string $action, $parameters = [], bool $absolute = true)
  * @method static string asset(string $path, bool $secure = null)
  * @method static string current()
  * @method static string full()

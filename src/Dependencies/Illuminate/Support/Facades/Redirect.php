@@ -3,7 +3,7 @@
 namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Facades;
 
 /**
- * @method static \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\RedirectResponse action(string $action, array $parameters = [], int $status = 302, array $headers = [])
+ * @method static \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\RedirectResponse wp_app_action(string $action, array $parameters = [], int $status = 302, array $headers = [])
  * @method static \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\RedirectResponse away(string $path, int $status = 302, array $headers = [])
  * @method static \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\RedirectResponse back(int $status = 302, array $headers = [], $fallback = false)
  * @method static \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\RedirectResponse guest(string $path, int $status = 302, array $headers = [], bool $secure = null)

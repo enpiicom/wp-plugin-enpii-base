@@ -215,7 +215,7 @@ class Redirector
      * @param  array  $headers
      * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\RedirectResponse
      */
-    public function action($action, $parameters = [], $status = 302, $headers = [])
+    public function wp_app_action($action, $parameters = [], $status = 302, $headers = [])
     {
         return $this->to($this->generator->action($action, $parameters), $status, $headers);
     }

@@ -67,7 +67,7 @@ interface UrlGenerator
      * @param  bool  $absolute
      * @return string
      */
-    public function action($action, $parameters = [], $absolute = true);
+    public function wp_app_action($action, $parameters = [], $absolute = true);
 
     /**
      * Set the root controller namespace.

@@ -202,7 +202,7 @@ class SimpleMessage
      * @param  string  $url
      * @return $this
      */
-    public function action($text, $url)
+    public function wp_app_action($text, $url)
     {
         $this->actionText = $text;
         $this->actionUrl = $url;

@@ -453,7 +453,7 @@ class UrlGenerator implements UrlGeneratorContract
      *
      * @throws \InvalidArgumentException
      */
-    public function action($action, $parameters = [], $absolute = true)
+    public function wp_app_action($action, $parameters = [], $absolute = true)
     {
         if (is_null($route = $this->routes->getByAction($action = $this->formatAction($action)))) {
             throw new InvalidArgumentException("Action {$action} not defined.");
