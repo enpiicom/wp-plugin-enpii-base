@@ -15,7 +15,7 @@ trait Authorizable
      */
     public function can($abilities, $arguments = [])
     {
-        return app(Gate::class)->forUser($this)->check($abilities, $arguments);
+        return wp_app(Gate::class)->forUser($this)->check($abilities, $arguments);
     }
 
     /**

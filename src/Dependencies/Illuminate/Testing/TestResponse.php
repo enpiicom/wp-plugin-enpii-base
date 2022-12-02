@@ -257,7 +257,7 @@ class TestResponse implements ArrayAccess
     public function assertLocation($uri)
     {
         PHPUnit::assertEquals(
-            app('url')->to($uri), app('url')->to($this->headers->get('Location'))
+            wp_app('url')->to($uri), wp_app('url')->to($this->headers->get('Location'))
         );
 
         return $this;
@@ -300,7 +300,7 @@ class TestResponse implements ArrayAccess
         $cookieValue = $cookie->getValue();
 
         $actual = $encrypted
-            ? CookieValuePrefix::remove(app('encrypter')->decrypt($cookieValue, $unserialize))
+            ? CookieValuePrefix::remove(wp_app('encrypter')->decrypt($cookieValue, $unserialize))
             : $cookieValue;
 
         PHPUnit::assertEquals(
@@ -1160,7 +1160,7 @@ class TestResponse implements ArrayAccess
      */
     protected function session()
     {
-        return app('session.store');
+        return wp_app('session.store');
     }
 
     /**

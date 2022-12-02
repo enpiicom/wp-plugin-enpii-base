@@ -20,7 +20,7 @@ trait AuthorizesRequests
     {
         [$ability, $arguments] = $this->parseAbilityAndArguments($ability, $arguments);
 
-        return app(Gate::class)->authorize($ability, $arguments);
+        return wp_app(Gate::class)->authorize($ability, $arguments);
     }
 
     /**
@@ -37,7 +37,7 @@ trait AuthorizesRequests
     {
         [$ability, $arguments] = $this->parseAbilityAndArguments($ability, $arguments);
 
-        return app(Gate::class)->forUser($user)->authorize($ability, $arguments);
+        return wp_app(Gate::class)->forUser($user)->authorize($ability, $arguments);
     }
 
     /**

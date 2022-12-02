@@ -602,7 +602,7 @@ trait MakesHttpRequests
         }
 
         return collect($this->defaultCookies)->map(function ($value, $key) {
-            return encrypt(CookieValuePrefix::create($key, app('encrypter')->getKey()).$value, false);
+            return encrypt(CookieValuePrefix::create($key, wp_app('encrypter')->getKey()).$value, false);
         })->merge($this->unencryptedCookies)->all();
     }
 

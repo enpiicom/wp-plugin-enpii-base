@@ -54,7 +54,7 @@ class Mix
         if (! isset($manifest[$path])) {
             $exception = new Exception("Unable to locate Mix file: {$path}.");
 
-            if (! app('config')->get('app.debug')) {
+            if (! wp_app('config')->get('app.debug')) {
                 report($exception);
 
                 return $path;
@@ -63,6 +63,6 @@ class Mix
             }
         }
 
-        return new HtmlString(app('config')->get('app.mix_url').$manifestDirectory.$manifest[$path]);
+        return new HtmlString(wp_app('config')->get('app.mix_url').$manifestDirectory.$manifest[$path]);
     }
 }

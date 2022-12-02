@@ -15,11 +15,11 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon\Carbon;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon\CarbonImmutable;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon\CarbonInterval;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon\CarbonPeriod;
-use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
-use Illuminate\Events\Dispatcher;
-use Illuminate\Events\EventDispatcher;
-use Illuminate\Support\Carbon as IlluminateCarbon;
-use Illuminate\Support\Facades\Date;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Events\Dispatcher;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Carbon as IlluminateCarbon;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Facades\Date;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\EventDispatcher\EventDispatcher;
 use Throwable;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -115,7 +115,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function getGlobalApp(...$args)
     {
-        return \function_exists('app') ? \app(...$args) : null;
+        return \function_exists('wp_app') ? \wp_app(...$args) : null;
     }
 
     protected function isEventDispatcher($instance)

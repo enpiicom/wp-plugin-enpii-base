@@ -61,7 +61,7 @@ trait InteractsWithExceptionHandling
     protected function withoutExceptionHandling(array $except = [])
     {
         if ($this->originalExceptionHandler == null) {
-            $this->originalExceptionHandler = app(ExceptionHandler::class);
+            $this->originalExceptionHandler = wp_app(ExceptionHandler::class);
         }
 
         $this->app->instance(ExceptionHandler::class, new class($this->originalExceptionHandler, $except) implements ExceptionHandler

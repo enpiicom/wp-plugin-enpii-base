@@ -129,9 +129,9 @@ class PendingDispatch
     public function __destruct()
     {
         if ($this->afterResponse) {
-            app(Dispatcher::class)->dispatchAfterResponse($this->job);
+            wp_app(Dispatcher::class)->dispatchAfterResponse($this->job);
         } else {
-            app(Dispatcher::class)->dispatch($this->job);
+            wp_app(Dispatcher::class)->dispatch($this->job);
         }
     }
 }

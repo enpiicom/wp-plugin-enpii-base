@@ -11,6 +11,6 @@
 |
 */
 
-app('router')->setCompiledRoutes(
+wp_app('router')->setCompiledRoutes(
     {{routes}}
 );

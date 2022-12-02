@@ -372,7 +372,7 @@ class Handler implements ExceptionHandlerContract
     protected function whoopsHandler()
     {
         try {
-            return app(HandlerInterface::class);
+            return wp_app(HandlerInterface::class);
         } catch (BindingResolutionException $e) {
             return (new WhoopsHandler)->forDebug();
         }

@@ -78,6 +78,6 @@ trait ValidatesRequests
      */
     protected function getValidationFactory()
     {
-        return app(Factory::class);
+        return wp_app(Factory::class);
     }
 }
