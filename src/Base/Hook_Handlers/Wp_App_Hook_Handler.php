@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Enpii\Wp_Plugin\Enpii_Base\Base\Hook_Handlers;
 
+use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Log_Service_Provider;
 use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Route_Service_Provider;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Support\Providers\RouteServiceProvider;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Log\LogServiceProvider;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Facades\Route;
 use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Base_Hook_Handler;
 
@@ -14,6 +16,10 @@ class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {
 		$wp_app = $this->get_wp_app();
 		$wp_app['env'] = config( 'app.env' );
 		dev_logger(config( 'app.env' ));
+
+		$wp_app->register(Log_Service_Provider::class);
+		$wp_app->register(RouteServiceProvider::class);
+		$wp_app->register(Route_Service_Provider::class);
 
 		$wp_app->singleton(
 			\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Http\Kernel::class,
@@ -29,9 +35,6 @@ class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {
 			\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Debug\ExceptionHandler::class,
 			\Enpii\Wp_Plugin\Enpii_Base\App\Exceptions\Handler::class
 		);
-
-		$wp_app->register(RouteServiceProvider::class);
-		$wp_app->register(Route_Service_Provider::class);
 
 		/** @var \Enpii\Wp_Plugin\Enpii_Base\App\Http\Kernel $kernel */
 		$kernel = $wp_app->make( \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Http\Kernel::class );

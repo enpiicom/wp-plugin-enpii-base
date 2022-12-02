@@ -20,7 +20,7 @@ class Wp_Application extends Application {
 		return $this;
 	}
 
-	public function getCacheManager(): CacheManager {
-		return $this->make( 'cache' );
+	public function register_cache_service_provider(): void {
+		$this->register(\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider::class);
 	}
 }

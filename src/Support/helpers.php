@@ -52,7 +52,7 @@ if ( ! function_exists( 'enpii_base_setup_wp_app' ) ) {
 	function enpii_base_setup_wp_app( array $config ): void {
 		$config = enpii_base_prepare_wp_app_config( $config );
 		$wp_app = ( new Wp_Application( $config['wp_app_base_path'] ) )->initAppWithConfig( $config );
-		$wp_app->registerConfiguredProviders();
+		// $wp_app->registerConfiguredProviders();
 
 		// We Register `enpii-base` plugin rigth after the app setup
 		$wp_app->register( Plugin::class );
@@ -62,5 +62,6 @@ if ( ! function_exists( 'enpii_base_setup_wp_app' ) ) {
 if ( ! function_exists( 'enpii_base_register_wp_app_routes' ) ) {
 	function enpii_base_register_wp_app_routes(): void {
 		Route::get('/', [Index_Controller::class, 'home']);
+		Route::get('/home', [Index_Controller::class, 'home']);
 	}
 }

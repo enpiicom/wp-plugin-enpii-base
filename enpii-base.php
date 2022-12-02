@@ -31,9 +31,9 @@ add_action('enpii_base_wp_app_register_routes', 'enpii_base_register_wp_app_rout
 $config = [
 	'wp_app_base_path' => $wp_app_base_path,
 	'app' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'app.php',
-	'cache' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'cache.php',
+	// 'cache' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'cache.php',
 	'logging' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'logging.php',
-	'session' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'session.php',
+	// 'session' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'session.php',
 	'view' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'view.php',
 ];
 
