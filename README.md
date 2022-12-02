@@ -47,6 +47,7 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
   - `LogManager`, use namespace `as Monolog`
   - `ParseLogConfiguration` (same as above)
   - `Symfony\Component\Routing\Route`, find the keyword `compiler_class` and update that option value to the one with the namespace
+  - Replace all `app()` -> `wp_app()`, `collect()` -> `wp_app_collect()`
 
 ### Naming Convention
 - Spaces, indentation are defined in `.editorconfig`

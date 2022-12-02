@@ -13,9 +13,8 @@ use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Base_Hook_Handler;
 
 class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {
 	public function handle_wp_app_requests(): void {
-		$wp_app = $this->get_wp_app();
-		$wp_app['env'] = config( 'app.env' );
-		dev_logger(config( 'app.env' ));
+		$wp_app = wp_app();
+		$wp_app['env'] = wp_app_config( 'app.env' );
 
 		$wp_app->register(Log_Service_Provider::class);
 		$wp_app->register(RouteServiceProvider::class);

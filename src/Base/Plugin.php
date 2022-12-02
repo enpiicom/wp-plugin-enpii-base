@@ -21,12 +21,7 @@ class Plugin extends WP_Plugin {
 	 * @return void
 	 */
 	public function register() {
-		$this->app->instance( 'enpii_base', $this );
-		$this->app->singleton( Wp_App_Hook_Handler::class, function($app) {
-			return new Wp_App_Hook_Handler([
-				'wp_app' => $app,
-			]);
-		} );
+		$this->app->instance( __CLASS__, $this );
 
 		$this->manipulate_hooks();
 	}
@@ -40,7 +35,7 @@ class Plugin extends WP_Plugin {
 		// We want to check that if the uri prefix is for wp-app before invoke the handler
 		// to keep the handler lazy-loading
 		if ($this->is_wp_app_mode()) {
-			self::wp_app_hook_handler()->handle_wp_app_requests();
+			(new Wp_App_Hook_Handler())->handle_wp_app_requests();
 		}
 	}
 

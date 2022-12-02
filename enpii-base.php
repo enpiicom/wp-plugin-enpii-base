@@ -9,6 +9,8 @@
  * Text Domain: enpii
  */
 
+use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application;
+
 defined( 'DIR_SEP' ) || define( 'DIR_SEP', DIRECTORY_SEPARATOR );
 defined( 'WP_APP_FORCE_CREATE_WP_APP_FOLDER' ) || define( 'WP_APP_FORCE_CREATE_WP_APP_FOLDER', true );
 
@@ -22,22 +24,31 @@ require_once __DIR__ . DIR_SEP . 'vendor' . DIR_SEP . 'autoload.php';
 
 $wp_app_base_path = enpii_base_get_wp_app_base_path();
 if ( WP_APP_FORCE_CREATE_WP_APP_FOLDER ) {
-	enpii_base_prepare_wp_app_folders($wp_app_base_path);
+	enpii_base_prepare_wp_app_folders( $wp_app_base_path );
 }
 
 // We register `wp-app` routes via the action 'enpii_base_wp_app_register_routes'
-add_action('enpii_base_wp_app_register_routes', 'enpii_base_register_wp_app_routes');
+add_action( 'enpii_base_wp_app_register_routes', 'enpii_base_register_wp_app_routes' );
 
 $config = [
-	'wp_app_base_path' => $wp_app_base_path,
-	'app' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'app.php',
+	'app'              => require_once __DIR__ . DIR_SEP . 'wp-app-config' . DIR_SEP . 'app.php',
 	// 'cache' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'cache.php',
-	'logging' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'logging.php',
+	// 'logging'          => require_once __DIR__ . DIR_SEP . 'wp-app-config' . DIR_SEP . 'logging.php',
 	// 'session' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'session.php',
-	'view' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'view.php',
+	// 'view'             => require_once __DIR__ . DIR_SEP . 'wp-app-config' . DIR_SEP . 'view.php',
 ];
 
+$config = apply_filters( 'enpii_base_wp_app_prepare_config', $config );
+$wp_app = ( new \Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application( $wp_app_base_path ) )->init_config( $config );
+
+// We register Enpii_Base plugin as a Service Provider
+$wp_app->register( \Enpii\Wp_Plugin\Enpii_Base\Base\Plugin::class );
+
 // We want to have the wp_app working before other plugins start their operations
-add_action('after_setup_theme', function () use ($config) {
-	enpii_base_setup_wp_app($config);
-}, 1000);
+// add_action(
+// 	'after_setup_theme',
+// 	function () use ( $config ) {
+// 		enpii_base_setup_wp_app( $config );
+// 	},
+// 	1000
+// );
