@@ -14,7 +14,7 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog\Handler\SlackWebhookHandler;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog\Handler\StreamHandler;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog\Handler\SyslogHandler;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog\Handler\WhatFailureGroupHandler;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog\Logger as Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog\Logger as Monolog;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -407,7 +407,7 @@ class LogManager implements LoggerInterface
     }
 
     /**
-     * Get a Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog formatter instance.
+     * Get a Monolog formatter instance.
      *
      * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Monolog\Formatter\FormatterInterface
      */

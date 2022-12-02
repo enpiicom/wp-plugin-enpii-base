@@ -12,12 +12,12 @@
     "symfony/css-selector": "~5.4.11"
   },
   "require-dev": {
-    "ramsey/uuid": "~4.2.3",
-    "psr/log": "~1.1.4",
     "automattic/vipwpcs": "^2.3",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-    "phpcompatibility/php-compatibility": "*",
     "johnpbloch/wordpress-core": "^6.0",
+    "phpcompatibility/php-compatibility": "*",
+    "psr/log": "~1.1.4",
+    "ramsey/uuid": "~4.2.3",
     "wpackagist-plugin/woocommerce": "^6.0",
     "wpackagist-theme/storefront": "^4.0",
     "wpackagist-theme/twentytwentythree": "^1.0.0"
