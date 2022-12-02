@@ -230,7 +230,7 @@ class UrlGenerator implements UrlGeneratorContract
      * @param  bool|null  $secure
      * @return string
      */
-    public function asset($path, $secure = null)
+    public function wp_app_asset($path, $secure = null)
     {
         if ($this->isValidUrl($path)) {
             return $path;
@@ -254,7 +254,7 @@ class UrlGenerator implements UrlGeneratorContract
      */
     public function secureAsset($path)
     {
-        return $this->asset($path, true);
+        return $this->wp_app_asset($path, true);
     }
 
     /**

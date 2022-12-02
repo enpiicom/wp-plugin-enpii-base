@@ -113,7 +113,7 @@ if ( ! function_exists( 'wp_app' ) ) {
 	 *
 	 * @param  string|null  $abstract
 	 * @param  array  $parameters
-	 * @return mixed|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Foundation\Application
+	 * @return mixed|\Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application
 	 */
 	function wp_app( $abstract = null, array $parameters = [] ) {
 		if ( is_null( $abstract ) ) {
@@ -136,7 +136,7 @@ if ( ! function_exists( 'wp_app_path' ) ) {
 	}
 }
 
-if ( ! function_exists( 'asset' ) ) {
+if ( ! function_exists( 'wp_asset' ) ) {
 	/**
 	 * Generate an asset path for the application.
 	 *
@@ -144,7 +144,7 @@ if ( ! function_exists( 'asset' ) ) {
 	 * @param  bool|null  $secure
 	 * @return string
 	 */
-	function asset( $path, $secure = null ) {
+	function wp_asset( $path, $secure = null ) {
 		return wp_app( 'url' )->asset( $path, $secure );
 	}
 }

@@ -45,7 +45,7 @@ interface UrlGenerator
      * @param  bool|null  $secure
      * @return string
      */
-    public function asset($path, $secure = null);
+    public function wp_app_asset($path, $secure = null);
 
     /**
      * Get the URL to a named route.
