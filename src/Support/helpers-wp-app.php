@@ -248,7 +248,7 @@ if ( ! function_exists( 'wp_app_cache' ) ) {
 	}
 }
 
-if ( ! function_exists( 'config' ) ) {
+if ( ! function_exists( 'wp_app_config' ) ) {
 	/**
 	 * Get / set the specified configuration value.
 	 *
@@ -271,19 +271,19 @@ if ( ! function_exists( 'config' ) ) {
 	}
 }
 
-if ( ! function_exists( 'config_path' ) ) {
+if ( ! function_exists( 'wp_app_config_path' ) ) {
 	/**
 	 * Get the configuration path.
 	 *
 	 * @param  string  $path
 	 * @return string
 	 */
-	function config_path( $path = '' ) {
+	function wp_app_config_path( $path = '' ) {
 		return wp_app()->configPath( $path );
 	}
 }
 
-if ( ! function_exists( 'cookie' ) ) {
+if ( ! function_exists( 'wp_app_cookie' ) ) {
 	/**
 	 * Create a new cookie instance.
 	 *
@@ -298,7 +298,7 @@ if ( ! function_exists( 'cookie' ) ) {
 	 * @param  string|null  $sameSite
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cookie\CookieJar|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\HttpFoundation\Cookie
 	 */
-	function cookie( $name = null, $value = null, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null ) {
+	function wp_app_cookie( $name = null, $value = null, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null ) {
 		$cookie = wp_app( CookieFactory::class );
 
 		if ( is_null( $name ) ) {
