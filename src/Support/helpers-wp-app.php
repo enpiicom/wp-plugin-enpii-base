@@ -447,7 +447,7 @@ if ( ! function_exists( 'wp_app_encrypt' ) ) {
 	}
 }
 
-if ( ! function_exists( 'event' ) ) {
+if ( ! function_exists( 'wp_app_event' ) ) {
 	/**
 	 * Dispatch an event and call the listeners.
 	 *
@@ -456,7 +456,7 @@ if ( ! function_exists( 'event' ) ) {
 	 * @param  bool  $halt
 	 * @return array|null
 	 */
-	function event( ...$args ) {
+	function wp_app_event( ...$args ) {
 		return wp_app( 'events' )->dispatch( ...$args );
 	}
 }

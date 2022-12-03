@@ -11,7 +11,7 @@ trait Dispatchable
      */
     public static function dispatch()
     {
-        return event(new static(...func_get_args()));
+        return wp_app_event(new static(...func_get_args()));
     }
 
     /**
@@ -23,7 +23,7 @@ trait Dispatchable
     public static function dispatchIf($boolean, ...$arguments)
     {
         if ($boolean) {
-            return event(new static(...$arguments));
+            return wp_app_event(new static(...$arguments));
         }
     }
 
@@ -36,7 +36,7 @@ trait Dispatchable
     public static function dispatchUnless($boolean, ...$arguments)
     {
         if (! $boolean) {
-            return event(new static(...$arguments));
+            return wp_app_event(new static(...$arguments));
         }
     }
 
