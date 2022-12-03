@@ -23,7 +23,7 @@ trait CompilesConditionals
     {
         $guard = is_null($guard) ? '()' : $guard;
 
-        return "<?php if(auth()->guard{$guard}->check()): ?>";
+        return "<?php if(wp_app_auth()->guard{$guard}->check()): ?>";
     }
 
     /**
@@ -36,7 +36,7 @@ trait CompilesConditionals
     {
         $guard = is_null($guard) ? '()' : $guard;
 
-        return "<?php elseif(auth()->guard{$guard}->check()): ?>";
+        return "<?php elseif(wp_app_auth()->guard{$guard}->check()): ?>";
     }
 
     /**
@@ -100,7 +100,7 @@ trait CompilesConditionals
     {
         $guard = is_null($guard) ? '()' : $guard;
 
-        return "<?php if(auth()->guard{$guard}->guest()): ?>";
+        return "<?php if(wp_app_auth()->guard{$guard}->guest()): ?>";
     }
 
     /**
@@ -113,7 +113,7 @@ trait CompilesConditionals
     {
         $guard = is_null($guard) ? '()' : $guard;
 
-        return "<?php elseif(auth()->guard{$guard}->guest()): ?>";
+        return "<?php elseif(wp_app_auth()->guard{$guard}->guest()): ?>";
     }
 
     /**

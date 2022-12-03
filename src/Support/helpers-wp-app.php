@@ -149,14 +149,14 @@ if ( ! function_exists( 'wp_asset' ) ) {
 	}
 }
 
-if ( ! function_exists( 'auth' ) ) {
+if ( ! function_exists( 'wp_app_auth' ) ) {
 	/**
 	 * Get the available auth instance.
 	 *
 	 * @param  string|null  $guard
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Auth\Factory|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Auth\Guard|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Auth\StatefulGuard
 	 */
-	function auth( $guard = null ) {
+	function wp_app_auth( $guard = null ) {
 		if ( is_null( $guard ) ) {
 			return wp_app( AuthFactory::class );
 		}
