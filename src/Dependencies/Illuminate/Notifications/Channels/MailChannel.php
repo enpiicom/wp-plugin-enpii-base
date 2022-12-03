@@ -209,7 +209,7 @@ class MailChannel
             $recipients = [$recipients];
         }
 
-        return collect($recipients)->mapWithKeys(function ($recipient, $email) {
+        return wp_app_collect($recipients)->mapWithKeys(function ($recipient, $email) {
             return is_numeric($email)
                     ? [$email => (is_string($recipient) ? $recipient : $recipient->email)]
                     : [$email => $recipient];

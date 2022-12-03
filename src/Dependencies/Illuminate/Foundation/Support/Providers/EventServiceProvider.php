@@ -100,7 +100,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function discoverEvents()
     {
-        return collect($this->discoverEventsWithin())
+        return wp_app_collect($this->discoverEventsWithin())
                     ->reject(function ($directory) {
                         return ! is_dir($directory);
                     })

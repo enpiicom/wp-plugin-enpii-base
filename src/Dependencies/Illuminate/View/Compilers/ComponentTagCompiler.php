@@ -298,16 +298,16 @@ class ComponentTagCompiler
         // return all of the attributes as both data and attributes since we have
         // now way to partition them. The user can exclude attributes manually.
         if (! class_exists($class)) {
-            return [collect($attributes), collect($attributes)];
+            return [wp_app_collect($attributes), wp_app_collect($attributes)];
         }
 
         $constructor = (new ReflectionClass($class))->getConstructor();
 
         $parameterNames = $constructor
-                    ? collect($constructor->getParameters())->map->getName()->all()
+                    ? wp_app_collect($constructor->getParameters())->map->getName()->all()
                     : [];
 
-        return collect($attributes)->partition(function ($value, $key) use ($parameterNames) {
+        return wp_app_collect($attributes)->partition(function ($value, $key) use ($parameterNames) {
             return in_array(Str::camel($key), $parameterNames);
         })->all();
     }
@@ -374,7 +374,7 @@ class ComponentTagCompiler
             return [];
         }
 
-        return collect($matches)->mapWithKeys(function ($match) {
+        return wp_app_collect($matches)->mapWithKeys(function ($match) {
             $attribute = $match['attribute'];
             $value = $match['value'] ?? null;
 
@@ -444,7 +444,7 @@ class ComponentTagCompiler
      */
     protected function escapeSingleQuotesOutsideOfPhpBlocks(string $value)
     {
-        return collect(token_get_all($value))->map(function ($token) {
+        return wp_app_collect(token_get_all($value))->map(function ($token) {
             if (! is_array($token)) {
                 return $token;
             }
@@ -464,7 +464,7 @@ class ComponentTagCompiler
      */
     protected function attributesToString(array $attributes, $escapeBound = true)
     {
-        return collect($attributes)
+        return wp_app_collect($attributes)
                 ->map(function (string $value, string $attribute) use ($escapeBound) {
                     return $escapeBound && isset($this->boundAttributes[$attribute]) && $value !== 'true' && ! is_numeric($value)
                                 ? "'{$attribute}' => \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute({$value})"

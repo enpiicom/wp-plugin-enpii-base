@@ -277,7 +277,7 @@ class Gate implements GateContract
      */
     public function check($abilities, $arguments = [])
     {
-        return collect($abilities)->every(function ($ability) use ($arguments) {
+        return wp_app_collect($abilities)->every(function ($ability) use ($arguments) {
             return $this->inspect($ability, $arguments)->allowed();
         });
     }
@@ -291,7 +291,7 @@ class Gate implements GateContract
      */
     public function any($abilities, $arguments = [])
     {
-        return collect($abilities)->contains(function ($ability) use ($arguments) {
+        return wp_app_collect($abilities)->contains(function ($ability) use ($arguments) {
             return $this->check($ability, $arguments);
         });
     }

@@ -172,7 +172,7 @@ class MorphToMany extends BelongsToMany
     {
         $defaults = [$this->foreignPivotKey, $this->relatedPivotKey, $this->morphType];
 
-        return collect(array_merge($defaults, $this->pivotColumns))->map(function ($column) {
+        return wp_app_collect(array_merge($defaults, $this->pivotColumns))->map(function ($column) {
             return $this->table.'.'.$column.' as pivot_'.$column;
         })->unique()->all();
     }

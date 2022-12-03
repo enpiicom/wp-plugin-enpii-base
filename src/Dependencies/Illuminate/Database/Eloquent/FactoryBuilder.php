@@ -169,9 +169,9 @@ class FactoryBuilder
         $results = $this->make($attributes);
 
         if ($results instanceof Model) {
-            $this->store(collect([$results]));
+            $this->store(wp_app_collect([$results]));
 
-            $this->callAfterCreating(collect([$results]));
+            $this->callAfterCreating(wp_app_collect([$results]));
         } else {
             $this->store($results);
 
@@ -221,7 +221,7 @@ class FactoryBuilder
     {
         if ($this->amount === null) {
             return tap($this->makeInstance($attributes), function ($instance) {
-                $this->callAfterMaking(collect([$instance]));
+                $this->callAfterMaking(wp_app_collect([$instance]));
             });
         }
 

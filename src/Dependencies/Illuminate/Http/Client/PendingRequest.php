@@ -122,7 +122,7 @@ class PendingRequest
             'http_errors' => false,
         ];
 
-        $this->beforeSendingCallbacks = collect([function (Request $request, array $options) {
+        $this->beforeSendingCallbacks = wp_app_collect([function (Request $request, array $options) {
             $this->cookies = $options['cookies'];
         }]);
     }
@@ -578,7 +578,7 @@ class PendingRequest
      */
     protected function parseMultipartBodyFormat(array $data)
     {
-        return collect($data)->map(function ($value, $key) {
+        return wp_app_collect($data)->map(function ($value, $key) {
             return is_array($value) ? $value : ['name' => $key, 'contents' => $value];
         })->values()->all();
     }
@@ -687,7 +687,7 @@ class PendingRequest
     {
         return function ($handler) {
             return function ($request, $options) use ($handler) {
-                $response = ($this->stubCallbacks ?? collect())
+                $response = ($this->stubCallbacks ?? wp_app_collect())
                      ->map
                      ->__invoke((new Request($request))->withData($options['laravel_data']), $options)
                      ->filter()
@@ -768,7 +768,7 @@ class PendingRequest
      */
     public function stub($callback)
     {
-        $this->stubCallbacks = collect($callback);
+        $this->stubCallbacks = wp_app_collect($callback);
 
         return $this;
     }

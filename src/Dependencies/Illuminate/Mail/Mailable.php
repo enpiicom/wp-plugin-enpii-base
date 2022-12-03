@@ -674,7 +674,7 @@ class Mailable implements MailableContract, Renderable
             'address' => $expected->email,
         ];
 
-        return collect($this->{$property})->contains(function ($actual) use ($expected) {
+        return wp_app_collect($this->{$property})->contains(function ($actual) use ($expected) {
             if (! isset($expected['name'])) {
                 return $actual['address'] == $expected['address'];
             }
@@ -781,7 +781,7 @@ class Mailable implements MailableContract, Renderable
      */
     public function attach($file, array $options = [])
     {
-        $this->attachments = collect($this->attachments)
+        $this->attachments = wp_app_collect($this->attachments)
                     ->push(compact('file', 'options'))
                     ->unique('file')
                     ->all();
@@ -813,7 +813,7 @@ class Mailable implements MailableContract, Renderable
      */
     public function attachFromStorageDisk($disk, $path, $name = null, array $options = [])
     {
-        $this->diskAttachments = collect($this->diskAttachments)->push([
+        $this->diskAttachments = wp_app_collect($this->diskAttachments)->push([
             'disk' => $disk,
             'path' => $path,
             'name' => $name ?? basename($path),
@@ -835,7 +835,7 @@ class Mailable implements MailableContract, Renderable
      */
     public function attachData($data, $name, array $options = [])
     {
-        $this->rawAttachments = collect($this->rawAttachments)
+        $this->rawAttachments = wp_app_collect($this->rawAttachments)
                 ->push(compact('data', 'name', 'options'))
                 ->unique(function ($file) {
                     return $file['name'].$file['data'];

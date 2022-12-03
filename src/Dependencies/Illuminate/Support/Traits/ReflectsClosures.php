@@ -21,7 +21,7 @@ trait ReflectsClosures
     {
         $reflection = new ReflectionFunction($closure);
 
-        return collect($reflection->getParameters())->mapWithKeys(function ($parameter) {
+        return wp_app_collect($reflection->getParameters())->mapWithKeys(function ($parameter) {
             if ($parameter->isVariadic()) {
                 return [$parameter->getName() => null];
             }

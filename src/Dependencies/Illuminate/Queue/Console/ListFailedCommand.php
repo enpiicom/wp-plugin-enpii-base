@@ -51,7 +51,7 @@ class ListFailedCommand extends Command
     {
         $failed = $this->laravel['queue.failer']->all();
 
-        return collect($failed)->map(function ($failed) {
+        return wp_app_collect($failed)->map(function ($failed) {
             return $this->parseFailedJob((array) $failed);
         })->filter()->all();
     }

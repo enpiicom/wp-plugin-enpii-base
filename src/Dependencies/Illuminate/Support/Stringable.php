@@ -191,7 +191,7 @@ class NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_Np
      */
     public function explode($delimiter, $limit = PHP_INT_MAX)
     {
-        return collect(explode($delimiter, $this->value, $limit));
+        return wp_app_collect(explode($delimiter, $this->value, $limit));
     }
 
     /**
@@ -206,7 +206,7 @@ class NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_Np
     {
         $segments = preg_split($pattern, $this->value, $limit, $flags);
 
-        return ! empty($segments) ? collect($segments) : collect();
+        return ! empty($segments) ? wp_app_collect($segments) : wp_app_collect();
     }
 
     /**
@@ -332,10 +332,10 @@ class NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_NpWpNPB_Np
         preg_match_all($pattern, $this->value, $matches);
 
         if (empty($matches[0])) {
-            return collect();
+            return wp_app_collect();
         }
 
-        return collect($matches[1] ?? $matches[0]);
+        return wp_app_collect($matches[1] ?? $matches[0]);
     }
 
     /**

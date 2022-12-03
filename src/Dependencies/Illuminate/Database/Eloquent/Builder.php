@@ -1051,7 +1051,7 @@ class Builder
      */
     protected function groupWhereSliceForScope(QueryBuilder $query, $whereSlice)
     {
-        $whereBooleans = collect($whereSlice)->pluck('boolean');
+        $whereBooleans = wp_app_collect($whereSlice)->pluck('boolean');
 
         // Here we'll check if the given subset of where clauses contains any "or"
         // booleans and in this case create a nested where expression. That way

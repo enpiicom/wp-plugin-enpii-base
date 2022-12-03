@@ -258,7 +258,7 @@ abstract class ServiceProvider
             return $paths;
         }
 
-        return collect(static::$publishes)->reduce(function ($paths, $p) {
+        return wp_app_collect(static::$publishes)->reduce(function ($paths, $p) {
             return array_merge($paths, $p);
         }, []);
     }

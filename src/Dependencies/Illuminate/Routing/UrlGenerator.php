@@ -432,7 +432,7 @@ class UrlGenerator implements UrlGeneratorContract
      */
     public function toRoute($route, $parameters, $absolute)
     {
-        $parameters = collect(Arr::wrap($parameters))->map(function ($value, $key) use ($route) {
+        $parameters = wp_app_collect(Arr::wrap($parameters))->map(function ($value, $key) use ($route) {
             return $value instanceof UrlRoutable && $route->bindingFieldFor($key)
                     ? $value->{$route->bindingFieldFor($key)}
                     : $value;

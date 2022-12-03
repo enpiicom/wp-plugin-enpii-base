@@ -185,14 +185,14 @@ class BusFake implements QueueingDispatcher
     public function dispatched($command, $callback = null)
     {
         if (! $this->hasDispatched($command)) {
-            return collect();
+            return wp_app_collect();
         }
 
         $callback = $callback ?: function () {
             return true;
         };
 
-        return collect($this->commands[$command])->filter(function ($command) use ($callback) {
+        return wp_app_collect($this->commands[$command])->filter(function ($command) use ($callback) {
             return $callback($command);
         });
     }
@@ -207,14 +207,14 @@ class BusFake implements QueueingDispatcher
     public function dispatchedAfterResponse(string $command, $callback = null)
     {
         if (! $this->hasDispatchedAfterResponse($command)) {
-            return collect();
+            return wp_app_collect();
         }
 
         $callback = $callback ?: function () {
             return true;
         };
 
-        return collect($this->commandsAfterResponse[$command])->filter(function ($command) use ($callback) {
+        return wp_app_collect($this->commandsAfterResponse[$command])->filter(function ($command) use ($callback) {
             return $callback($command);
         });
     }
@@ -314,7 +314,7 @@ class BusFake implements QueueingDispatcher
             return true;
         }
 
-        return collect($this->jobsToFake)
+        return wp_app_collect($this->jobsToFake)
             ->filter(function ($job) use ($command) {
                 return $job instanceof Closure
                             ? $job($command)

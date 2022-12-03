@@ -140,7 +140,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
      */
     public function assertTimesSent($expectedCount, $notification)
     {
-        $actualCount = collect($this->notifications)
+        $actualCount = wp_app_collect($this->notifications)
             ->flatten(1)
             ->reduce(function ($count, $sent) use ($notification) {
                 return $count + count($sent[$notification] ?? []);
@@ -163,14 +163,14 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
     public function sent($notifiable, $notification, $callback = null)
     {
         if (! $this->hasSent($notifiable, $notification)) {
-            return collect();
+            return wp_app_collect();
         }
 
         $callback = $callback ?: function () {
             return true;
         };
 
-        $notifications = collect($this->notificationsFor($notifiable, $notification));
+        $notifications = wp_app_collect($this->notificationsFor($notifiable, $notification));
 
         return $notifications->filter(function ($arguments) use ($callback) {
             return $callback(...array_values($arguments));

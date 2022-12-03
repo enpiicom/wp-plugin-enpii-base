@@ -86,7 +86,7 @@ class PackageManifest
      */
     public function config($key)
     {
-        return collect($this->getManifest())->flatMap(function ($configuration) use ($key) {
+        return wp_app_collect($this->getManifest())->flatMap(function ($configuration) use ($key) {
             return (array) ($configuration[$key] ?? []);
         })->filter()->all();
     }
@@ -127,7 +127,7 @@ class PackageManifest
 
         $ignoreAll = in_array('*', $ignore = $this->packagesToIgnore());
 
-        $this->write(collect($packages)->mapWithKeys(function ($package) {
+        $this->write(wp_app_collect($packages)->mapWithKeys(function ($package) {
             return [$this->format($package['name']) => $package['extra']['laravel'] ?? []];
         })->each(function ($configuration) use (&$ignore) {
             $ignore = array_merge($ignore, $configuration['dont-discover'] ?? []);

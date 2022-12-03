@@ -96,7 +96,7 @@ class DynamoDbFailedJobProvider implements FailedJobProviderInterface
             'ScanIndexForward' => false,
         ]);
 
-        return collect($results['Items'])->map(function ($result) {
+        return wp_app_collect($results['Items'])->map(function ($result) {
             return (object) [
                 'id' => $result['uuid']['S'],
                 'connection' => $result['connection']['S'],

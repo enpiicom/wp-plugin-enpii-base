@@ -541,7 +541,7 @@ trait MakesHttpRequests
      */
     protected function transformHeadersToServerVars(array $headers)
     {
-        return collect(array_merge($this->defaultHeaders, $headers))->mapWithKeys(function ($value, $name) {
+        return wp_app_collect(array_merge($this->defaultHeaders, $headers))->mapWithKeys(function ($value, $name) {
             $name = strtr(strtoupper($name), '-', '_');
 
             return [$this->formatServerHeaderKey($name) => $value];
@@ -601,7 +601,7 @@ trait MakesHttpRequests
             return array_merge($this->defaultCookies, $this->unencryptedCookies);
         }
 
-        return collect($this->defaultCookies)->map(function ($value, $key) {
+        return wp_app_collect($this->defaultCookies)->map(function ($value, $key) {
             return wp_app_encrypt(CookieValuePrefix::create($key, wp_app('encrypter')->getKey()).$value, false);
         })->merge($this->unencryptedCookies)->all();
     }

@@ -1207,7 +1207,7 @@ trait HasAttributes
             );
         }
 
-        return collect($this->original)->mapWithKeys(function ($value, $key) {
+        return wp_app_collect($this->original)->mapWithKeys(function ($value, $key) {
             return [$key => $this->transformModelValue($key, $value)];
         })->all();
     }
@@ -1525,7 +1525,7 @@ trait HasAttributes
      */
     public static function cacheMutatedAttributes($class)
     {
-        static::$mutatorCache[$class] = collect(static::getMutatorMethods($class))->map(function ($match) {
+        static::$mutatorCache[$class] = wp_app_collect(static::getMutatorMethods($class))->map(function ($match) {
             return lcfirst(static::$snakeAttributes ? Str::snake($match) : $match);
         })->all();
     }

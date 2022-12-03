@@ -116,14 +116,14 @@ class EventFake implements Dispatcher
     public function dispatched($event, $callback = null)
     {
         if (! $this->hasDispatched($event)) {
-            return collect();
+            return wp_app_collect();
         }
 
         $callback = $callback ?: function () {
             return true;
         };
 
-        return collect($this->events[$event])->filter(function ($arguments) use ($callback) {
+        return wp_app_collect($this->events[$event])->filter(function ($arguments) use ($callback) {
             return $callback(...$arguments);
         });
     }
@@ -228,7 +228,7 @@ class EventFake implements Dispatcher
             return true;
         }
 
-        return collect($this->eventsToFake)
+        return wp_app_collect($this->eventsToFake)
             ->filter(function ($event) use ($eventName, $payload) {
                 return $event instanceof Closure
                             ? $event($eventName, $payload)

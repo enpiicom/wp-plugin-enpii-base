@@ -17,7 +17,7 @@ class RedirectController extends Controller
      */
     public function __invoke(Request $request, UrlGenerator $url)
     {
-        $parameters = collect($request->route()->parameters());
+        $parameters = wp_app_collect($request->route()->parameters());
 
         $status = $parameters->get('status');
 

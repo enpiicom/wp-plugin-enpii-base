@@ -164,7 +164,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileJoins(Builder $query, $joins)
     {
-        return collect($joins)->map(function ($join) use ($query) {
+        return wp_app_collect($joins)->map(function ($join) use ($query) {
             $table = $this->wrapTable($join->table);
 
             $nestedJoins = is_null($join->joins) ? '' : ' '.$this->compileJoins($query, $join->joins);
@@ -208,7 +208,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileWheresToArray($query)
     {
-        return collect($query->wheres)->map(function ($where) use ($query) {
+        return wp_app_collect($query->wheres)->map(function ($where) use ($query) {
             return $where['boolean'].' '.$this->{"where{$where['type']}"}($query, $where);
         })->all();
     }
@@ -880,7 +880,7 @@ class Grammar extends BaseGrammar
         // We need to build a list of parameter place-holders of values that are bound
         // to the query. Each insert should have the exact same amount of parameter
         // bindings so we will loop through the record and parameterize them all.
-        $parameters = collect($values)->map(function ($record) {
+        $parameters = wp_app_collect($values)->map(function ($record) {
             return '('.$this->parameterize($record).')';
         })->implode(', ');
 
@@ -958,7 +958,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileUpdateColumns(Builder $query, array $values)
     {
-        return collect($values)->map(function ($value, $key) {
+        return wp_app_collect($values)->map(function ($value, $key) {
             return $this->wrap($key).' = '.$this->parameter($value);
         })->implode(', ');
     }

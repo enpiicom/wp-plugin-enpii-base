@@ -117,7 +117,7 @@ class Request implements ArrayAccess
      */
     public function headers()
     {
-        return collect($this->request->getHeaders())->mapWithKeys(function ($values, $header) {
+        return wp_app_collect($this->request->getHeaders())->mapWithKeys(function ($values, $header) {
             return [$header => $values];
         })->all();
     }
@@ -146,7 +146,7 @@ class Request implements ArrayAccess
             return false;
         }
 
-        return collect($this->data)->reject(function ($file) use ($name, $value, $filename) {
+        return wp_app_collect($this->data)->reject(function ($file) use ($name, $value, $filename) {
             return $file['name'] != $name ||
                 ($value && $file['contents'] != $value) ||
                 ($filename && $file['filename'] != $filename);

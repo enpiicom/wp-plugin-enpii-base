@@ -74,7 +74,7 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
      */
     protected function matchAgainstRoutes(array $routes, $request, $includingMethod = true)
     {
-        [$fallbacks, $routes] = collect($routes)->partition(function ($route) {
+        [$fallbacks, $routes] = wp_app_collect($routes)->partition(function ($route) {
             return $route->isFallback;
         });
 

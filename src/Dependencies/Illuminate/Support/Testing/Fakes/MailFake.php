@@ -104,7 +104,7 @@ class MailFake implements Factory, Mailer, MailQueue
      */
     public function assertNothingSent()
     {
-        $mailableNames = collect($this->mailables)->map(function ($mailable) {
+        $mailableNames = wp_app_collect($this->mailables)->map(function ($mailable) {
             return get_class($mailable);
         })->join(', ');
 
@@ -173,7 +173,7 @@ class MailFake implements Factory, Mailer, MailQueue
      */
     public function assertNothingQueued()
     {
-        $mailableNames = collect($this->queuedMailables)->map(function ($mailable) {
+        $mailableNames = wp_app_collect($this->queuedMailables)->map(function ($mailable) {
             return get_class($mailable);
         })->join(', ');
 
@@ -190,7 +190,7 @@ class MailFake implements Factory, Mailer, MailQueue
     public function sent($mailable, $callback = null)
     {
         if (! $this->hasSent($mailable)) {
-            return collect();
+            return wp_app_collect();
         }
 
         $callback = $callback ?: function () {
@@ -223,7 +223,7 @@ class MailFake implements Factory, Mailer, MailQueue
     public function queued($mailable, $callback = null)
     {
         if (! $this->hasQueued($mailable)) {
-            return collect();
+            return wp_app_collect();
         }
 
         $callback = $callback ?: function () {
@@ -254,7 +254,7 @@ class MailFake implements Factory, Mailer, MailQueue
      */
     protected function mailablesOf($type)
     {
-        return collect($this->mailables)->filter(function ($mailable) use ($type) {
+        return wp_app_collect($this->mailables)->filter(function ($mailable) use ($type) {
             return $mailable instanceof $type;
         });
     }
@@ -267,7 +267,7 @@ class MailFake implements Factory, Mailer, MailQueue
      */
     protected function queuedMailablesOf($type)
     {
-        return collect($this->queuedMailables)->filter(function ($mailable) use ($type) {
+        return wp_app_collect($this->queuedMailables)->filter(function ($mailable) use ($type) {
             return $mailable instanceof $type;
         });
     }

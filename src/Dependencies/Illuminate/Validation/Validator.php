@@ -867,7 +867,7 @@ class Validator implements ValidatorContract
      */
     protected function attributesThatHaveMessages()
     {
-        return collect($this->messages()->toArray())->map(function ($message, $key) {
+        return wp_app_collect($this->messages()->toArray())->map(function ($message, $key) {
             return explode('.', $key)[0];
         })->unique()->flip()->all();
     }
@@ -1016,7 +1016,7 @@ class Validator implements ValidatorContract
      */
     public function setRules(array $rules)
     {
-        $rules = collect($rules)->mapWithKeys(function ($value, $key) {
+        $rules = wp_app_collect($rules)->mapWithKeys(function ($value, $key) {
             return [str_replace('\.', $this->dotPlaceholder, $key) => $value];
         })->toArray();
 

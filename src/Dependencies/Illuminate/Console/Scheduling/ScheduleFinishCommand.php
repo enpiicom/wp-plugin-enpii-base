@@ -35,7 +35,7 @@ class ScheduleFinishCommand extends Command
      */
     public function handle(Schedule $schedule)
     {
-        collect($schedule->events())->filter(function ($value) {
+        wp_app_collect($schedule->events())->filter(function ($value) {
             return $value->mutexName() == $this->argument('id');
         })->each->callAfterCallbacksWithExitCode($this->laravel, $this->argument('code'));
     }

@@ -62,7 +62,7 @@ class ViewCacheCommand extends Command
      */
     protected function bladeFilesIn(array $paths)
     {
-        return collect(
+        return wp_app_collect(
             Finder::create()
                 ->in($paths)
                 ->exclude('vendor')
@@ -80,8 +80,8 @@ class ViewCacheCommand extends Command
     {
         $finder = $this->laravel['view']->getFinder();
 
-        return collect($finder->getPaths())->merge(
-            collect($finder->getHints())->flatten()
+        return wp_app_collect($finder->getPaths())->merge(
+            wp_app_collect($finder->getHints())->flatten()
         );
     }
 }

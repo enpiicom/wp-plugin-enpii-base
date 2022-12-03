@@ -167,7 +167,7 @@ class Blueprint
      */
     protected function commandsNamed(array $names)
     {
-        return collect($this->commands)->filter(function ($command) use ($names) {
+        return wp_app_collect($this->commands)->filter(function ($command) use ($names) {
             return in_array($command->name, $names);
         });
     }
@@ -257,7 +257,7 @@ class Blueprint
      */
     protected function creating()
     {
-        return collect($this->commands)->contains(function ($command) {
+        return wp_app_collect($this->commands)->contains(function ($command) {
             return $command->name === 'create';
         });
     }

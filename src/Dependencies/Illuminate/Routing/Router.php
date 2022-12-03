@@ -695,11 +695,11 @@ class Router implements BindingRegistrar, RegistrarContract
      */
     public function gatherRouteMiddleware(Route $route)
     {
-        $excluded = collect($route->excludedMiddleware())->map(function ($name) {
+        $excluded = wp_app_collect($route->excludedMiddleware())->map(function ($name) {
             return (array) MiddlewareNameResolver::resolve($name, $this->middleware, $this->middlewareGroups);
         })->flatten()->values()->all();
 
-        $middleware = collect($route->gatherMiddleware())->map(function ($name) {
+        $middleware = wp_app_collect($route->gatherMiddleware())->map(function ($name) {
             return (array) MiddlewareNameResolver::resolve($name, $this->middleware, $this->middlewareGroups);
         })->flatten()->reject(function ($name) use ($excluded) {
             return in_array($name, $excluded, true);

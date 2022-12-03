@@ -19,6 +19,7 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Bus\PendingDis
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Mix;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\Exceptions\HttpResponseException;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Queue\CallQueuedClosure;
+use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Collection;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Facades\Date;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\HtmlString;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Symfony\Component\HttpFoundation\Response;
@@ -246,6 +247,19 @@ if ( ! function_exists( 'wp_app_cache' ) ) {
 
 		return wp_app( 'cache' )->put( key( $arguments[0] ), reset( $arguments[0] ), $arguments[1] ?? null );
 	}
+}
+
+if (! function_exists('wp_app_collect')) {
+    /**
+     * Create a collection from the given value.
+     *
+     * @param  mixed  $value
+     * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Collection
+     */
+    function wp_app_collect($value = null)
+    {
+        return new Collection($value);
+    }
 }
 
 if ( ! function_exists( 'wp_app_config' ) ) {
@@ -493,7 +507,7 @@ if ( ! function_exists( 'wp_app_info' ) ) {
 	}
 }
 
-if ( ! function_exists( 'logger' ) ) {
+if ( ! function_exists( 'wp_app_logger' ) ) {
 	/**
 	 * Log a debug message to the logs.
 	 *
@@ -501,7 +515,7 @@ if ( ! function_exists( 'logger' ) ) {
 	 * @param  array  $context
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Log\LogManager|null
 	 */
-	function logger( $message = null, array $context = [] ) {
+	function wp_app_logger( $message = null, array $context = [] ) {
 		if ( is_null( $message ) ) {
 			return wp_app( 'log' );
 		}
@@ -510,31 +524,31 @@ if ( ! function_exists( 'logger' ) ) {
 	}
 }
 
-if ( ! function_exists( 'logs' ) ) {
+if ( ! function_exists( 'wp_app_logs' ) ) {
 	/**
 	 * Get a log driver instance.
 	 *
 	 * @param  string|null  $driver
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Log\LogManager|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Psr\Log\LoggerInterface
 	 */
-	function logs( $driver = null ) {
+	function wp_app_logs( $driver = null ) {
 		return $driver ? wp_app( 'log' )->driver( $driver ) : wp_app( 'log' );
 	}
 }
 
-if ( ! function_exists( 'method_field' ) ) {
+if ( ! function_exists( 'wp_app_method_field' ) ) {
 	/**
 	 * Generate a form field to spoof the HTTP verb used by forms.
 	 *
 	 * @param  string  $method
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\HtmlString
 	 */
-	function method_field( $method ) {
+	function wp_app_method_field( $method ) {
 		return new HtmlString( '<input type="hidden" name="_method" value="' . $method . '">' );
 	}
 }
 
-if ( ! function_exists( 'mix' ) ) {
+if ( ! function_exists( 'wp_app_mix' ) ) {
 	/**
 	 * Get the path to a versioned Mix file.
 	 *
@@ -544,7 +558,7 @@ if ( ! function_exists( 'mix' ) ) {
 	 *
 	 * @throws \Exception
 	 */
-	function mix( $path, $manifestDirectory = '' ) {
+	function wp_app_mix( $path, $manifestDirectory = '' ) {
 		return wp_app( Mix::class )( ...func_get_args() );
 	}
 }

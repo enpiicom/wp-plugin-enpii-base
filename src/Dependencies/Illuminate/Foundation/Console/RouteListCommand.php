@@ -85,7 +85,7 @@ class RouteListCommand extends Command
      */
     protected function getRoutes()
     {
-        $routes = collect($this->router->getRoutes())->map(function ($route) {
+        $routes = wp_app_collect($this->router->getRoutes())->map(function ($route) {
             return $this->getRouteInformation($route);
         })->filter()->all();
 
@@ -170,7 +170,7 @@ class RouteListCommand extends Command
      */
     protected function getMiddleware($route)
     {
-        return collect($this->router->gatherRouteMiddleware($route))->map(function ($middleware) {
+        return wp_app_collect($this->router->gatherRouteMiddleware($route))->map(function ($middleware) {
             return $middleware instanceof Closure ? 'Closure' : $middleware;
         })->implode("\n");
     }

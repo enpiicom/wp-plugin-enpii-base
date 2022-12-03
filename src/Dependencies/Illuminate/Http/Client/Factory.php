@@ -50,7 +50,7 @@ class Factory
      */
     public function __construct()
     {
-        $this->stubCallbacks = collect();
+        $this->stubCallbacks = wp_app_collect();
     }
 
     /**
@@ -107,7 +107,7 @@ class Factory
             return $this;
         }
 
-        $this->stubCallbacks = $this->stubCallbacks->merge(collect([
+        $this->stubCallbacks = $this->stubCallbacks->merge(wp_app_collect([
             $callback instanceof Closure
                     ? $callback
                     : function () use ($callback) {
@@ -253,14 +253,14 @@ class Factory
     public function recorded($callback)
     {
         if (empty($this->recorded)) {
-            return collect();
+            return wp_app_collect();
         }
 
         $callback = $callback ?: function () {
             return true;
         };
 
-        return collect($this->recorded)->filter(function ($pair) use ($callback) {
+        return wp_app_collect($this->recorded)->filter(function ($pair) use ($callback) {
             return $callback($pair[0], $pair[1]);
         });
     }

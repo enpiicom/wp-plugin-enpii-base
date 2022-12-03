@@ -83,7 +83,7 @@ trait SerializesAndRestoresModelIdentifiers
         $collectionClass = get_class($collection);
 
         return new $collectionClass(
-            collect($value->id)->map(function ($id) use ($collection) {
+            wp_app_collect($value->id)->map(function ($id) use ($collection) {
                 return $collection[$id] ?? null;
             })->filter()
         );

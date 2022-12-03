@@ -136,7 +136,7 @@ class FileLoader implements Loader
      */
     protected function loadJsonPaths($locale)
     {
-        return collect(array_merge($this->jsonPaths, [$this->path]))
+        return wp_app_collect(array_merge($this->jsonPaths, [$this->path]))
             ->reduce(function ($output, $path) use ($locale) {
                 if ($this->files->exists($full = "{$path}/{$locale}.json")) {
                     $decoded = json_decode($this->files->get($full), true);

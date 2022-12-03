@@ -58,7 +58,7 @@ class TransformsRequest
      */
     protected function cleanArray(array $data, $keyPrefix = '')
     {
-        return collect($data)->map(function ($value, $key) use ($keyPrefix) {
+        return wp_app_collect($data)->map(function ($value, $key) use ($keyPrefix) {
             return $this->cleanValue($keyPrefix.$key, $value);
         })->all();
     }

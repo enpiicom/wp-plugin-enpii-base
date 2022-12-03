@@ -419,7 +419,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function registerErrorViewPaths()
     {
-        $paths = collect(wp_app_config('view.paths'));
+        $paths = wp_app_collect(wp_app_config('view.paths'));
 
         View::replaceNamespace('errors', $paths->map(function ($path) {
             return "{$path}/errors";
@@ -489,7 +489,7 @@ class Handler implements ExceptionHandlerContract
             'exception' => get_class($e),
             'file' => $e->getFile(),
             'line' => $e->getLine(),
-            'trace' => collect($e->getTrace())->map(function ($trace) {
+            'trace' => wp_app_collect($e->getTrace())->map(function ($trace) {
                 return Arr::except($trace, ['args']);
             })->all(),
         ] : [

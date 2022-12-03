@@ -2254,7 +2254,7 @@ class Builder
      */
     public function get($columns = ['*'])
     {
-        return collect($this->onceWithColumns(Arr::wrap($columns), function () {
+        return wp_app_collect($this->onceWithColumns(Arr::wrap($columns), function () {
             return $this->processor->processSelect($this, $this->runSelect());
         }));
     }
@@ -2286,7 +2286,7 @@ class Builder
 
         $total = $this->getCountForPagination();
 
-        $results = $total ? $this->forPage($page, $perPage)->get($columns) : collect();
+        $results = $total ? $this->forPage($page, $perPage)->get($columns) : wp_app_collect();
 
         return $this->paginator($results, $total, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
@@ -2448,7 +2448,7 @@ class Builder
         );
 
         if (empty($queryResult)) {
-            return collect();
+            return wp_app_collect();
         }
 
         // If the columns are qualified with a table or have an alias, we cannot use
@@ -2502,7 +2502,7 @@ class Builder
             }
         }
 
-        return collect($results);
+        return wp_app_collect($results);
     }
 
     /**
@@ -2527,7 +2527,7 @@ class Builder
             }
         }
 
-        return collect($results);
+        return wp_app_collect($results);
     }
 
     /**

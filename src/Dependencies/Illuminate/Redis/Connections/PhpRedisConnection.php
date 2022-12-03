@@ -129,7 +129,7 @@ class PhpRedisConnection extends Connection implements ConnectionContract
         if (count($dictionary) === 1) {
             $dictionary = $dictionary[0];
         } else {
-            $input = collect($dictionary);
+            $input = wp_app_collect($dictionary);
 
             $dictionary = $input->nth(2)->combine($input->nth(2, 1))->toArray();
         }

@@ -207,7 +207,7 @@ class PostgresGrammar extends Grammar
      */
     protected function compileUpdateColumns(Builder $query, array $values)
     {
-        return collect($values)->map(function ($value, $key) {
+        return wp_app_collect($values)->map(function ($value, $key) {
             $column = last(explode('.', $key));
 
             if ($this->isJsonSelector($key)) {
@@ -265,7 +265,7 @@ class PostgresGrammar extends Grammar
      */
     public function prepareBindingsForUpdate(array $bindings, array $values)
     {
-        $values = collect($values)->map(function ($value, $column) {
+        $values = wp_app_collect($values)->map(function ($value, $column) {
             return is_array($value) || ($this->isJsonSelector($column) && ! $this->isExpression($value))
                 ? json_encode($value)
                 : $value;

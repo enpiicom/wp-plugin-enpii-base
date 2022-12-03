@@ -89,7 +89,7 @@ class Response implements ArrayAccess
      */
     public function headers()
     {
-        return collect($this->response->getHeaders())->mapWithKeys(function ($v, $k) {
+        return wp_app_collect($this->response->getHeaders())->mapWithKeys(function ($v, $k) {
             return [$k => $v];
         })->all();
     }

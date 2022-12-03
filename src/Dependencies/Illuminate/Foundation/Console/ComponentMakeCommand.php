@@ -101,7 +101,7 @@ class ComponentMakeCommand extends GeneratorCommand
     {
         $name = str_replace('\\', '/', $this->argument('name'));
 
-        return collect(explode('/', $name))
+        return wp_app_collect(explode('/', $name))
             ->map(function ($part) {
                 return Str::kebab($part);
             })

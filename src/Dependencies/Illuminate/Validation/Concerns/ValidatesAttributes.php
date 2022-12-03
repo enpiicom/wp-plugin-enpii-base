@@ -641,7 +641,7 @@ trait ValidatesAttributes
             return false;
         }
 
-        $validations = collect($parameters)
+        $validations = wp_app_collect($parameters)
             ->unique()
             ->map(function ($validation) {
                 if ($validation === 'rfc') {

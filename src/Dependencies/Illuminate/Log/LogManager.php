@@ -237,7 +237,7 @@ class LogManager implements LoggerInterface
      */
     protected function createStackDriver(array $config)
     {
-        $handlers = collect($config['channels'])->flatMap(function ($channel) {
+        $handlers = wp_app_collect($config['channels'])->flatMap(function ($channel) {
             return $this->channel($channel)->getHandlers();
         })->all();
 

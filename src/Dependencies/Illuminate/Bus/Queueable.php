@@ -146,7 +146,7 @@ trait Queueable
      */
     public function chain($chain)
     {
-        $this->chained = collect($chain)->map(function ($job) {
+        $this->chained = wp_app_collect($chain)->map(function ($job) {
             return $this->serializeJob($job);
         })->all();
 

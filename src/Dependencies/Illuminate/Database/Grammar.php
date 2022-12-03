@@ -94,7 +94,7 @@ abstract class Grammar
      */
     protected function wrapSegments($segments)
     {
-        return collect($segments)->map(function ($segment, $key) use ($segments) {
+        return wp_app_collect($segments)->map(function ($segment, $key) use ($segments) {
             return $key == 0 && count($segments) > 1
                             ? $this->wrapTable($segment)
                             : $this->wrapValue($segment);

@@ -132,7 +132,7 @@ abstract class Component
         if (! isset(static::$propertyCache[$class])) {
             $reflection = new ReflectionClass($this);
 
-            static::$propertyCache[$class] = collect($reflection->getProperties(ReflectionProperty::IS_PUBLIC))
+            static::$propertyCache[$class] = wp_app_collect($reflection->getProperties(ReflectionProperty::IS_PUBLIC))
                 ->reject(function (ReflectionProperty $property) {
                     return $property->isStatic();
                 })
@@ -165,7 +165,7 @@ abstract class Component
         if (! isset(static::$methodCache[$class])) {
             $reflection = new ReflectionClass($this);
 
-            static::$methodCache[$class] = collect($reflection->getMethods(ReflectionMethod::IS_PUBLIC))
+            static::$methodCache[$class] = wp_app_collect($reflection->getMethods(ReflectionMethod::IS_PUBLIC))
                 ->reject(function (ReflectionMethod $method) {
                     return $this->shouldIgnore($method->getName());
                 })

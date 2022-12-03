@@ -144,7 +144,7 @@ class MySqlGrammar extends Grammar
      */
     protected function compileUpdateColumns(Builder $query, array $values)
     {
-        return collect($values)->map(function ($value, $key) {
+        return wp_app_collect($values)->map(function ($value, $key) {
             if ($this->isJsonSelector($key)) {
                 return $this->compileJsonUpdateColumn($key, $value);
             }
@@ -210,7 +210,7 @@ class MySqlGrammar extends Grammar
      */
     public function prepareBindingsForUpdate(array $bindings, array $values)
     {
-        $values = collect($values)->reject(function ($value, $column) {
+        $values = wp_app_collect($values)->reject(function ($value, $column) {
             return $this->isJsonSelector($column) && is_bool($value);
         })->map(function ($value) {
             return is_array($value) ? json_encode($value) : $value;

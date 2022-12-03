@@ -79,7 +79,7 @@ trait CallsCommands
      */
     protected function context()
     {
-        return collect($this->option())->only([
+        return wp_app_collect($this->option())->only([
             'ansi',
             'no-ansi',
             'no-interaction',

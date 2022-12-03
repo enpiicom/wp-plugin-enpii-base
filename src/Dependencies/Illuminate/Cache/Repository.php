@@ -120,11 +120,11 @@ class Repository implements ArrayAccess, CacheContract
      */
     public function many(array $keys)
     {
-        $values = $this->store->many(collect($keys)->map(function ($value, $key) {
+        $values = $this->store->many(wp_app_collect($keys)->map(function ($value, $key) {
             return is_string($key) ? $key : $value;
         })->values()->all());
 
-        return collect($values)->map(function ($value, $key) use ($keys) {
+        return wp_app_collect($values)->map(function ($value, $key) use ($keys) {
             return $this->handleManyResult($keys, $key, $value);
         })->all();
     }

@@ -102,7 +102,7 @@ class ComponentAttributeBag implements ArrayAccess, Htmlable, IteratorAggregate
      */
     public function filter($callback)
     {
-        return new static(collect($this->attributes)->filter($callback)->all());
+        return new static(wp_app_collect($this->attributes)->filter($callback)->all());
     }
 
     /**

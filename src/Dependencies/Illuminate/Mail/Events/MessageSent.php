@@ -40,7 +40,7 @@ class MessageSent
      */
     public function __serialize()
     {
-        $hasAttachments = collect($this->message->getChildren())
+        $hasAttachments = wp_app_collect($this->message->getChildren())
                                 ->whereInstanceOf(Swift_Attachment::class)
                                 ->isNotEmpty();
 
