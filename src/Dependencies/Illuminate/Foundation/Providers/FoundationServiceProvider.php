@@ -55,7 +55,7 @@ class FoundationServiceProvider extends AggregateServiceProvider
     public function registerRequestValidation()
     {
         Request::macro('validate', function (array $rules, ...$params) {
-            return validator()->validate($this->all(), $rules, ...$params);
+            return wp_app_validator()->validate($this->all(), $rules, ...$params);
         });
 
         Request::macro('validateWithBag', function (string $errorBag, array $rules, ...$params) {

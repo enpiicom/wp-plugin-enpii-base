@@ -99,7 +99,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      *
      * @return string
      */
-    public function url()
+    public function wp_app_url()
     {
         return rtrim(preg_replace('/\?.*/', '', $this->getUri()), '/');
     }

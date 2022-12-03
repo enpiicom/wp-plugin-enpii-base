@@ -273,7 +273,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function invalid($request, ValidationException $exception)
     {
-        return wp_app_redirect($exception->redirectTo ?? url()->previous())
+        return wp_app_redirect($exception->redirectTo ?? wp_app_url()->previous())
                     ->withInput(Arr::except($request->input(), $this->dontFlash))
                     ->withErrors($exception->errors(), $exception->errorBag);
     }

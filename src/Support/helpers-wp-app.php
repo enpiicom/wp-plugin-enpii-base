@@ -137,7 +137,7 @@ if ( ! function_exists( 'wp_app_path' ) ) {
 	}
 }
 
-if ( ! function_exists( 'wp_asset' ) ) {
+if ( ! function_exists( 'wp_app_asset' ) ) {
 	/**
 	 * Generate an asset path for the application.
 	 *
@@ -145,7 +145,7 @@ if ( ! function_exists( 'wp_asset' ) ) {
 	 * @param  bool|null  $secure
 	 * @return string
 	 */
-	function wp_asset( $path, $secure = null ) {
+	function wp_app_asset( $path, $secure = null ) {
 		return wp_app( 'url' )->asset( $path, $secure );
 	}
 }
@@ -749,19 +749,19 @@ if ( ! function_exists( 'wp_app_route' ) ) {
 	}
 }
 
-if ( ! function_exists( 'secure_asset' ) ) {
+if ( ! function_exists( 'wp_app_secure_asset' ) ) {
 	/**
 	 * Generate an asset path for the application.
 	 *
 	 * @param  string  $path
 	 * @return string
 	 */
-	function secure_asset( $path ) {
-		return asset( $path, true );
+	function wp_app_secure_asset( $path ) {
+		return wp_app_asset( $path, true );
 	}
 }
 
-if ( ! function_exists( 'secure_url' ) ) {
+if ( ! function_exists( 'wp_app_secure_url' ) ) {
 	/**
 	 * Generate a HTTPS url for the application.
 	 *
@@ -769,12 +769,12 @@ if ( ! function_exists( 'secure_url' ) ) {
 	 * @param  mixed  $parameters
 	 * @return string
 	 */
-	function secure_url( $path, $parameters = [] ) {
+	function wp_app_secure_url( $path, $parameters = [] ) {
 		return url( $path, $parameters, true );
 	}
 }
 
-if ( ! function_exists( 'session' ) ) {
+if ( ! function_exists( 'wp_app_session' ) ) {
 	/**
 	 * Get / set the specified session value.
 	 *
@@ -784,7 +784,7 @@ if ( ! function_exists( 'session' ) ) {
 	 * @param  mixed  $default
 	 * @return mixed|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Session\Store|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Session\SessionManager
 	 */
-	function session( $key = null, $default = null ) {
+	function wp_app_session( $key = null, $default = null ) {
 		if ( is_null( $key ) ) {
 			return wp_app( 'session' );
 		}
@@ -797,31 +797,31 @@ if ( ! function_exists( 'session' ) ) {
 	}
 }
 
-if ( ! function_exists( 'storage_path' ) ) {
+if ( ! function_exists( 'wp_app_storage_path' ) ) {
 	/**
 	 * Get the path to the storage folder.
 	 *
 	 * @param  string  $path
 	 * @return string
 	 */
-	function storage_path( $path = '' ) {
+	function wp_app_storage_path( $path = '' ) {
 		return wp_app( 'path.storage' ) . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
 	}
 }
 
-if ( ! function_exists( 'today' ) ) {
+if ( ! function_exists( 'wp_app_today' ) ) {
 	/**
 	 * Create a new Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon instance for the current date.
 	 *
 	 * @param  \DateTimeZone|string|null  $tz
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Carbon
 	 */
-	function today( $tz = null ) {
+	function wp_app_today( $tz = null ) {
 		return Date::today( $tz );
 	}
 }
 
-if ( ! function_exists( 'trans' ) ) {
+if ( ! function_exists( 'wp_app_trans' ) ) {
 	/**
 	 * Translate the given message.
 	 *
@@ -830,7 +830,7 @@ if ( ! function_exists( 'trans' ) ) {
 	 * @param  string|null  $locale
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Translation\Translator|string|array|null
 	 */
-	function trans( $key = null, $replace = [], $locale = null ) {
+	function wp_app_trans( $key = null, $replace = [], $locale = null ) {
 		if ( is_null( $key ) ) {
 			return wp_app( 'translator' );
 		}
@@ -839,7 +839,7 @@ if ( ! function_exists( 'trans' ) ) {
 	}
 }
 
-if ( ! function_exists( 'trans_choice' ) ) {
+if ( ! function_exists( 'wp_app_trans_choice' ) ) {
 	/**
 	 * Translates the given message based on a count.
 	 *
@@ -849,30 +849,12 @@ if ( ! function_exists( 'trans_choice' ) ) {
 	 * @param  string|null  $locale
 	 * @return string
 	 */
-	function trans_choice( $key, $number, array $replace = [], $locale = null ) {
+	function wp_app_trans_choice( $key, $number, array $replace = [], $locale = null ) {
 		return wp_app( 'translator' )->choice( $key, $number, $replace, $locale );
 	}
 }
 
-if ( ! function_exists( '__' ) ) {
-	/**
-	 * Translate the given message.
-	 *
-	 * @param  string|null  $key
-	 * @param  array  $replace
-	 * @param  string|null  $locale
-	 * @return string|array|null
-	 */
-	function __( $key = null, $replace = [], $locale = null ) {
-		if ( is_null( $key ) ) {
-			return $key;
-		}
-
-		return trans( $key, $replace, $locale );
-	}
-}
-
-if ( ! function_exists( 'url' ) ) {
+if ( ! function_exists( 'wp_app_url' ) ) {
 	/**
 	 * Generate a url for the application.
 	 *
@@ -881,7 +863,7 @@ if ( ! function_exists( 'url' ) ) {
 	 * @param  bool|null  $secure
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Routing\UrlGenerator|string
 	 */
-	function url( $path = null, $parameters = [], $secure = null ) {
+	function wp_app_url( $path = null, $parameters = [], $secure = null ) {
 		if ( is_null( $path ) ) {
 			return wp_app( UrlGenerator::class );
 		}
@@ -890,7 +872,7 @@ if ( ! function_exists( 'url' ) ) {
 	}
 }
 
-if ( ! function_exists( 'validator' ) ) {
+if ( ! function_exists( 'wp_app_validator' ) ) {
 	/**
 	 * Create a new Validator instance.
 	 *
@@ -900,7 +882,7 @@ if ( ! function_exists( 'validator' ) ) {
 	 * @param  array  $customAttributes
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Validation\Validator|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Validation\Factory
 	 */
-	function validator( array $data = [], array $rules = [], array $messages = [], array $customAttributes = [] ) {
+	function wp_app_validator( array $data = [], array $rules = [], array $messages = [], array $customAttributes = [] ) {
 		$factory = wp_app( ValidationFactory::class );
 
 		if ( func_num_args() === 0 ) {
@@ -911,7 +893,7 @@ if ( ! function_exists( 'validator' ) ) {
 	}
 }
 
-if ( ! function_exists( 'view' ) ) {
+if ( ! function_exists( 'wp_app_view' ) ) {
 	/**
 	 * Get the evaluated view contents for the given view.
 	 *
@@ -920,7 +902,7 @@ if ( ! function_exists( 'view' ) ) {
 	 * @param  array  $mergeData
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\View\View|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\View\Factory
 	 */
-	function view( $view = null, $data = [], $mergeData = [] ) {
+	function wp_app_view( $view = null, $data = [], $mergeData = [] ) {
 		$factory = wp_app( ViewFactory::class );
 
 		if ( func_num_args() === 0 ) {
@@ -934,48 +916,13 @@ if ( ! function_exists( 'view' ) ) {
 if ( ! function_exists( 'dev_logger' ) ) {
 	function dev_logger( ...$messages ): void {
 		foreach ( $messages as $index => $message ) {
-			logger( "message $index:" );
+			wp_app_logger( "========== message $index: ============" );
 			ob_start();
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
 			var_dump( $message );
 			$debug_message = ob_get_clean();
-			logger( $debug_message );
+			wp_app_logger( $debug_message );
 		}
-		logger( "\n\n\n" );
-	}
-}
-
-if ( ! function_exists( 'wp_app_view' ) ) {
-	function wp_app_view( $view = null, $data = [], $mergeData = [] ) {
-		$factory = wp_app( \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\View\Factory::class );
-
-		if ( func_num_args() === 0 ) {
-			return $factory;
-		}
-
-		return $factory->make( $view, $data, $mergeData );
-	}
-}
-
-if ( ! function_exists( 'wp_app_config' ) ) {
-	/**
-	 * Get / set the specified configuration value.
-	 *
-	 * If an array is passed as the key, we will assume you want to set an array of values.
-	 *
-	 * @param  array|string|null  $key
-	 * @param  mixed  $default
-	 * @return mixed|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Config\Repository
-	 */
-	function wp_app_config( $key = null, $default = null ) {
-		if ( is_null( $key ) ) {
-			return wp_app( 'config' );
-		}
-
-		if ( is_array( $key ) ) {
-			return wp_app( 'config' )->set( $key );
-		}
-
-		return wp_app( 'config' )->get( $key, $default );
+		wp_app_logger( "\n\n" );
 	}
 }

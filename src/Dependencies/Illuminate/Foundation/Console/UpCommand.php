@@ -29,13 +29,13 @@ class UpCommand extends Command
     public function handle()
     {
         try {
-            if (! file_exists(storage_path('framework/down'))) {
+            if (! file_exists(wp_app_storage_path('framework/down'))) {
                 $this->comment('Application is already up.');
 
                 return true;
             }
 
-            unlink(storage_path('framework/down'));
+            unlink(wp_app_storage_path('framework/down'));
 
             $this->info('Application is now live.');
         } catch (Exception $e) {

@@ -461,7 +461,7 @@ class Event
     protected function ensureOutputIsBeingCaptured()
     {
         if (is_null($this->output) || $this->output == $this->getDefaultOutput()) {
-            $this->sendOutputTo(storage_path('logs/schedule-'.sha1($this->mutexName()).'.log'));
+            $this->sendOutputTo(wp_app_storage_path('logs/schedule-'.sha1($this->mutexName()).'.log'));
         }
     }
 
