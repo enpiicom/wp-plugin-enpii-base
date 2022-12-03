@@ -165,7 +165,7 @@ if ( ! function_exists( 'wp_app_auth' ) ) {
 	}
 }
 
-if ( ! function_exists( 'back' ) ) {
+if ( ! function_exists( 'wp_app_back' ) ) {
 	/**
 	 * Create a new redirect response to the previous location.
 	 *
@@ -174,7 +174,7 @@ if ( ! function_exists( 'back' ) ) {
 	 * @param  mixed  $fallback
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\RedirectResponse
 	 */
-	function back( $status = 302, $headers = [], $fallback = false ) {
+	function wp_app_back( $status = 302, $headers = [], $fallback = false ) {
 		return wp_app( 'redirect' )->back( $status, $headers, $fallback );
 	}
 }
