@@ -36,6 +36,6 @@ class Kernel extends ConsoleKernel {
 	protected function commands() {
 		// $this->load(__DIR__.'/Commands');
 
-		// require base_path('routes/console.php');
+		// require wp_app_base_path('routes/console.php');
 	}
 }

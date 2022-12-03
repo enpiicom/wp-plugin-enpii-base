@@ -220,7 +220,7 @@ class Event
     {
         $this->callBeforeCallbacks($container);
 
-        $this->exitCode = Process::fromShellCommandline($this->buildCommand(), base_path(), null, null, null)->run();
+        $this->exitCode = Process::fromShellCommandline($this->buildCommand(), wp_app_base_path(), null, null, null)->run();
 
         $this->callAfterCallbacks($container);
     }
@@ -235,7 +235,7 @@ class Event
     {
         $this->callBeforeCallbacks($container);
 
-        Process::fromShellCommandline($this->buildCommand(), base_path(), null, null, null)->run();
+        Process::fromShellCommandline($this->buildCommand(), wp_app_base_path(), null, null, null)->run();
     }
 
     /**

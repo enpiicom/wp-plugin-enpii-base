@@ -274,9 +274,9 @@ class VendorPublishCommand extends Command
      */
     protected function status($from, $to, $type)
     {
-        $from = str_replace(base_path(), '', realpath($from));
+        $from = str_replace(wp_app_base_path(), '', realpath($from));
 
-        $to = str_replace(base_path(), '', realpath($to));
+        $to = str_replace(wp_app_base_path(), '', realpath($to));
 
         $this->line('<info>Copied '.$type.'</info> <comment>['.$from.']</comment> <info>To</info> <comment>['.$to.']</comment>');
     }
