@@ -45,14 +45,6 @@ class Route_Service_Provider extends RouteServiceProvider
 		Route::prefix('/wp-app')
 			->group(function () {
 				do_action('enpii_base_wp_app_register_routes');
-
-				// // ZidPay webhooks
-				// Route::get('/', function () {
-				// 	return ' yeah ';
-				// });
-				// Route::get('/', function () {
-				// 	return ' yeah 3 ';
-				// });
 			});
 
     }

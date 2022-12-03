@@ -37,6 +37,17 @@ class Wp_Application extends Application {
 		$this->register(\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider::class);
 	}
 
+	/**
+     * Get the path to the resources directory.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    public function resourcePath($path = '')
+    {
+        return dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'resources'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+
 	public static function getInstance()
     {
         if (is_null(static::$instance)) {

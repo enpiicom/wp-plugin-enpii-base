@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Enpii\Wp_Plugin\Enpii_Base\Base;
 
+use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Log_Service_Provider;
+use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Route_Service_Provider;
+use Enpii\Wp_Plugin\Enpii_Base\App\Providers\View_Service_Provider;
 use Enpii\Wp_Plugin\Enpii_Base\Base\Hook_Handlers\Wp_App_Hook_Handler;
 use Enpii\Wp_Plugin\Enpii_Base\Libs\WP_Plugin;
 use Enpii\Wp_Plugin\Enpii_Base\Support\Traits\Accessor_Set_Get_Has_Trait;
@@ -11,8 +14,7 @@ use Enpii\Wp_Plugin\Enpii_Base\Support\Traits\Accessor_Set_Get_Has_Trait;
 class Plugin extends WP_Plugin {
 	use Accessor_Set_Get_Has_Trait;
 
-	public static function wp_app_hook_handler(): Wp_App_Hook_Handler {
-		return wp_app()->make(Wp_App_Hook_Handler::class);
+	public function boot() {
 	}
 
 	/**
@@ -21,7 +23,13 @@ class Plugin extends WP_Plugin {
 	 * @return void
 	 */
 	public function register() {
-		$this->app->instance( __CLASS__, $this );
+		/** @var  */
+		$wp_app = $this->app;
+		$wp_app->instance( __CLASS__, $this );
+
+		$wp_app->register(Log_Service_Provider::class);
+		$wp_app->register(Route_Service_Provider::class);
+		$wp_app->register(View_Service_Provider::class);
 
 		$this->manipulate_hooks();
 	}

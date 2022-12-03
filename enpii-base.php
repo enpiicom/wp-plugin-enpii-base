@@ -16,7 +16,6 @@ defined( 'WP_APP_FORCE_CREATE_WP_APP_FOLDER' ) || define( 'WP_APP_FORCE_CREATE_W
 
 // We want to have helper functions before loading the dependancies (for overridding purposes)
 require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers-wp-app.php';
-require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers-overrides.php';
 require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'Support' . DIR_SEP . 'helpers.php';
 
 // We include composer autoload here
@@ -31,7 +30,7 @@ if ( WP_APP_FORCE_CREATE_WP_APP_FOLDER ) {
 add_action( 'enpii_base_wp_app_register_routes', 'enpii_base_register_wp_app_routes' );
 
 $config = [
-	'app'              => require_once __DIR__ . DIR_SEP . 'wp-app-config' . DIR_SEP . 'app.php',
+	'app' => require_once __DIR__ . DIR_SEP . 'wp-app-config' . DIR_SEP . 'app.php',
 	// 'cache' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'cache.php',
 	// 'logging'          => require_once __DIR__ . DIR_SEP . 'wp-app-config' . DIR_SEP . 'logging.php',
 	// 'session' => require_once __DIR__ . DIR_SEP . 'wp-app-config'. DIR_SEP .'session.php',

@@ -16,10 +16,6 @@ class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {
 		$wp_app = wp_app();
 		$wp_app['env'] = wp_app_config( 'app.env' );
 
-		$wp_app->register(Log_Service_Provider::class);
-		$wp_app->register(RouteServiceProvider::class);
-		$wp_app->register(Route_Service_Provider::class);
-
 		$wp_app->singleton(
 			\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Http\Kernel::class,
 			\Enpii\Wp_Plugin\Enpii_Base\App\Http\Kernel::class
