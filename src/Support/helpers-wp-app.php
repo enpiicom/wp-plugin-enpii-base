@@ -364,14 +364,14 @@ if ( ! function_exists( 'wp_app_decrypt' ) ) {
 	}
 }
 
-if ( ! function_exists( 'dispatch' ) ) {
+if ( ! function_exists( 'wp_app_dispatch' ) ) {
 	/**
 	 * Dispatch a job to its appropriate handler.
 	 *
 	 * @param  mixed  $job
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Bus\PendingDispatch
 	 */
-	function dispatch( $job ) {
+	function wp_app_dispatch( $job ) {
 		if ( $job instanceof Closure ) {
 			$job = CallQueuedClosure::create( $job );
 		}
@@ -380,7 +380,7 @@ if ( ! function_exists( 'dispatch' ) ) {
 	}
 }
 
-if ( ! function_exists( 'dispatch_now' ) ) {
+if ( ! function_exists( 'wp_app_dispatch_now' ) ) {
 	/**
 	 * Dispatch a command to its appropriate handler in the current process.
 	 *
@@ -388,12 +388,12 @@ if ( ! function_exists( 'dispatch_now' ) ) {
 	 * @param  mixed  $handler
 	 * @return mixed
 	 */
-	function dispatch_now( $job, $handler = null ) {
+	function wp_app_dispatch_now( $job, $handler = null ) {
 		return wp_app( Dispatcher::class )->dispatchNow( $job, $handler );
 	}
 }
 
-if ( ! function_exists( 'elixir' ) ) {
+if ( ! function_exists( 'wp_app_elixir' ) ) {
 	/**
 	 * Get the path to a versioned Elixir file.
 	 *
@@ -405,7 +405,7 @@ if ( ! function_exists( 'elixir' ) ) {
 	 *
 	 * @deprecated Use Laravel Mix instead.
 	 */
-	function elixir( $file, $buildDirectory = 'build' ) {
+	function wp_app_elixir( $file, $buildDirectory = 'build' ) {
 		static $manifest = [];
 		static $manifestPath;
 
@@ -434,7 +434,7 @@ if ( ! function_exists( 'elixir' ) ) {
 	}
 }
 
-if ( ! function_exists( 'encrypt' ) ) {
+if ( ! function_exists( 'wp_app_encrypt' ) ) {
 	/**
 	 * Encrypt the given value.
 	 *
@@ -442,7 +442,7 @@ if ( ! function_exists( 'encrypt' ) ) {
 	 * @param  bool  $serialize
 	 * @return string
 	 */
-	function encrypt( $value, $serialize = true ) {
+	function wp_app_encrypt( $value, $serialize = true ) {
 		return wp_app( 'encrypter' )->encrypt( $value, $serialize );
 	}
 }
