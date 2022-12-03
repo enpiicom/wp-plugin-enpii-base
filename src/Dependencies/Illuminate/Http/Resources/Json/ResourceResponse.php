@@ -34,7 +34,7 @@ class ResourceResponse implements Responsable
      */
     public function toResponse($request)
     {
-        return tap(response()->json(
+        return tap(wp_app_response()->json(
             $this->wrap(
                 $this->resource->resolve($request),
                 $this->resource->with($request),

@@ -668,7 +668,7 @@ if ( ! function_exists( 'wp_app_request' ) ) {
 	}
 }
 
-if ( ! function_exists( 'rescue' ) ) {
+if ( ! function_exists( 'wp_app_rescue' ) ) {
 	/**
 	 * Catch a potential exception and return a default value.
 	 *
@@ -677,7 +677,7 @@ if ( ! function_exists( 'rescue' ) ) {
 	 * @param  bool  $report
 	 * @return mixed
 	 */
-	function rescue( callable $callback, $rescue = null, $report = true ) {
+	function wp_app_rescue( callable $callback, $rescue = null, $report = true ) {
 		try {
 			return $callback();
 		} catch ( Throwable $e ) {
@@ -690,7 +690,7 @@ if ( ! function_exists( 'rescue' ) ) {
 	}
 }
 
-if ( ! function_exists( 'resolve' ) ) {
+if ( ! function_exists( 'wp_app_resolve' ) ) {
 	/**
 	 * Resolve a service from the container.
 	 *
@@ -698,24 +698,24 @@ if ( ! function_exists( 'resolve' ) ) {
 	 * @param  array  $parameters
 	 * @return mixed
 	 */
-	function resolve( $name, array $parameters = [] ) {
+	function wp_app_resolve( $name, array $parameters = [] ) {
 		return wp_app( $name, $parameters );
 	}
 }
 
-if ( ! function_exists( 'resource_path' ) ) {
+if ( ! function_exists( 'wp_app_resource_path' ) ) {
 	/**
 	 * Get the path to the resources folder.
 	 *
 	 * @param  string  $path
 	 * @return string
 	 */
-	function resource_path( $path = '' ) {
+	function wp_app_resource_path( $path = '' ) {
 		return wp_app()->resourcePath( $path );
 	}
 }
 
-if ( ! function_exists( 'response' ) ) {
+if ( ! function_exists( 'wp_app_response' ) ) {
 	/**
 	 * Return a new response from the application.
 	 *
@@ -724,7 +724,7 @@ if ( ! function_exists( 'response' ) ) {
 	 * @param  array  $headers
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\Response|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Routing\ResponseFactory
 	 */
-	function response( $content = '', $status = 200, array $headers = [] ) {
+	function wp_app_response( $content = '', $status = 200, array $headers = [] ) {
 		$factory = wp_app( ResponseFactory::class );
 
 		if ( func_num_args() === 0 ) {
@@ -735,7 +735,7 @@ if ( ! function_exists( 'response' ) ) {
 	}
 }
 
-if ( ! function_exists( 'route' ) ) {
+if ( ! function_exists( 'wp_app_route' ) ) {
 	/**
 	 * Generate the URL to a named route.
 	 *
@@ -744,7 +744,7 @@ if ( ! function_exists( 'route' ) ) {
 	 * @param  bool  $absolute
 	 * @return string
 	 */
-	function route( $name, $parameters = [], $absolute = true ) {
+	function wp_app_route( $name, $parameters = [], $absolute = true ) {
 		return wp_app( 'url' )->route( $name, $parameters, $absolute );
 	}
 }

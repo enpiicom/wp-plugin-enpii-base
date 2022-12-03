@@ -242,8 +242,8 @@ class Handler implements ExceptionHandlerContract
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $request->expectsJson()
-                    ? response()->json(['message' => $exception->getMessage()], 401)
-                    : wp_app_redirect()->guest($exception->redirectTo() ?? route('login'));
+                    ? wp_app_response()->json(['message' => $exception->getMessage()], 401)
+                    : wp_app_redirect()->guest($exception->redirectTo() ?? wp_app_route('login'));
     }
 
     /**
@@ -287,7 +287,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function invalidJson($request, ValidationException $exception)
     {
-        return response()->json([
+        return wp_app_response()->json([
             'message' => $exception->getMessage(),
             'errors' => $exception->errors(),
         ], $exception->status);
@@ -403,7 +403,7 @@ class Handler implements ExceptionHandlerContract
         $this->registerErrorViewPaths();
 
         if (view()->exists($view = $this->getHttpExceptionView($e))) {
-            return response()->view($view, [
+            return wp_app_response()->view($view, [
                 'errors' => new ViewErrorBag,
                 'exception' => $e,
             ], $e->getStatusCode(), $e->getHeaders());
