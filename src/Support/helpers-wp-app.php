@@ -47,7 +47,7 @@ if ( ! function_exists( 'wp_app_abort' ) ) {
 		if ( $code instanceof Response ) {
 			throw new HttpResponseException( $code );
 		} elseif ( $code instanceof Responsable ) {
-			throw new HttpResponseException( $code->toResponse( request() ) );
+			throw new HttpResponseException( $code->toResponse( wp_app_request() ) );
 		}
 
 		wp_app()->abort( $code, $message, $headers );
@@ -633,19 +633,19 @@ if ( ! function_exists( 'wp_app_redirect' ) ) {
 	}
 }
 
-if ( ! function_exists( 'report' ) ) {
+if ( ! function_exists( 'wp_app_report' ) ) {
 	/**
 	 * Report an exception.
 	 *
 	 * @param  \Throwable  $exception
 	 * @return void
 	 */
-	function report( Throwable $exception ) {
+	function wp_app_report( Throwable $exception ) {
 		wp_app( ExceptionHandler::class )->report( $exception );
 	}
 }
 
-if ( ! function_exists( 'request' ) ) {
+if ( ! function_exists( 'wp_app_request' ) ) {
 	/**
 	 * Get an instance of the current request or an input item from the request.
 	 *
@@ -653,7 +653,7 @@ if ( ! function_exists( 'request' ) ) {
 	 * @param  mixed  $default
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\Request|string|array
 	 */
-	function request( $key = null, $default = null ) {
+	function wp_app_request( $key = null, $default = null ) {
 		if ( is_null( $key ) ) {
 			return wp_app( 'request' );
 		}

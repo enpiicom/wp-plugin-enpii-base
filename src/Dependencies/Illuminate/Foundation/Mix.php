@@ -55,7 +55,7 @@ class Mix
             $exception = new Exception("Unable to locate Mix file: {$path}.");
 
             if (! wp_app('config')->get('app.debug')) {
-                report($exception);
+                wp_app_report($exception);
 
                 return $path;
             } else {

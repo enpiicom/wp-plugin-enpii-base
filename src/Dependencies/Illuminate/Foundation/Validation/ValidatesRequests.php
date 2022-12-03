@@ -19,7 +19,7 @@ trait ValidatesRequests
      */
     public function validateWith($validator, Request $request = null)
     {
-        $request = $request ?: request();
+        $request = $request ?: wp_app_request();
 
         if (is_array($validator)) {
             $validator = $this->getValidationFactory()->make($request->all(), $validator);
