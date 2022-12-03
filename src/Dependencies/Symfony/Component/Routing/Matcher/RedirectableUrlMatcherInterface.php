@@ -27,5 +27,5 @@ interface RedirectableUrlMatcherInterface
      *
      * @return array
      */
-    public function redirect(string $path, string $route, string $scheme = null);
+    public function wp_app_redirect(string $path, string $route, string $scheme = null);
 }

@@ -424,7 +424,7 @@ if ( ! function_exists( 'wp_app_elixir' ) ) {
 		static $manifestPath;
 
 		if ( empty( $manifest ) || $manifestPath !== $buildDirectory ) {
-			$path = public_path( $buildDirectory . '/rev-manifest.json' );
+			$path = wp_app_public_path( $buildDirectory . '/rev-manifest.json' );
 
 			if ( file_exists( $path ) ) {
 				$manifest = json_decode( file_get_contents( $path ), true );
@@ -438,7 +438,7 @@ if ( ! function_exists( 'wp_app_elixir' ) ) {
 			return '/' . trim( $buildDirectory . '/' . $manifest[ $file ], '/' );
 		}
 
-		$unversioned = public_path( $file );
+		$unversioned = wp_app_public_path( $file );
 
 		if ( file_exists( $unversioned ) ) {
 			return '/' . trim( $file, '/' );
@@ -563,19 +563,19 @@ if ( ! function_exists( 'wp_app_mix' ) ) {
 	}
 }
 
-if ( ! function_exists( 'now' ) ) {
+if ( ! function_exists( 'wp_app_now' ) ) {
 	/**
 	 * Create a new Enpii\Wp_Plugin\Enpii_Base\Dependencies\Carbon instance for the current time.
 	 *
 	 * @param  \DateTimeZone|string|null  $tz
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Carbon
 	 */
-	function now( $tz = null ) {
+	function wp_app_now( $tz = null ) {
 		return Date::now( $tz );
 	}
 }
 
-if ( ! function_exists( 'old' ) ) {
+if ( ! function_exists( 'wp_app_old' ) ) {
 	/**
 	 * Retrieve an old input item.
 	 *
@@ -583,12 +583,12 @@ if ( ! function_exists( 'old' ) ) {
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	function old( $key = null, $default = null ) {
+	function wp_app_old( $key = null, $default = null ) {
 		return wp_app( 'request' )->old( $key, $default );
 	}
 }
 
-if ( ! function_exists( 'policy' ) ) {
+if ( ! function_exists( 'wp_app_policy' ) ) {
 	/**
 	 * Get a policy instance for a given class.
 	 *
@@ -597,24 +597,24 @@ if ( ! function_exists( 'policy' ) ) {
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	function policy( $class ) {
+	function wp_app_policy( $class ) {
 		return wp_app( Gate::class )->getPolicyFor( $class );
 	}
 }
 
-if ( ! function_exists( 'public_path' ) ) {
+if ( ! function_exists( 'wp_app_public_path' ) ) {
 	/**
 	 * Get the path to the public folder.
 	 *
 	 * @param  string  $path
 	 * @return string
 	 */
-	function public_path( $path = '' ) {
+	function wp_app_public_path( $path = '' ) {
 		return wp_app()->make( 'path.public' ) . ( $path ? DIRECTORY_SEPARATOR . ltrim( $path, DIRECTORY_SEPARATOR ) : $path );
 	}
 }
 
-if ( ! function_exists( 'redirect' ) ) {
+if ( ! function_exists( 'wp_app_redirect' ) ) {
 	/**
 	 * Get an instance of the redirector.
 	 *
@@ -624,7 +624,7 @@ if ( ! function_exists( 'redirect' ) ) {
 	 * @param  bool|null  $secure
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Routing\Redirector|\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Http\RedirectResponse
 	 */
-	function redirect( $to = null, $status = 302, $headers = [], $secure = null ) {
+	function wp_app_redirect( $to = null, $status = 302, $headers = [], $secure = null ) {
 		if ( is_null( $to ) ) {
 			return wp_app( 'redirect' );
 		}

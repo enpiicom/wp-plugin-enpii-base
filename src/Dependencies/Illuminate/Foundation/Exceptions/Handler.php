@@ -243,7 +243,7 @@ class Handler implements ExceptionHandlerContract
     {
         return $request->expectsJson()
                     ? response()->json(['message' => $exception->getMessage()], 401)
-                    : redirect()->guest($exception->redirectTo() ?? route('login'));
+                    : wp_app_redirect()->guest($exception->redirectTo() ?? route('login'));
     }
 
     /**
@@ -273,7 +273,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function invalid($request, ValidationException $exception)
     {
-        return redirect($exception->redirectTo ?? url()->previous())
+        return wp_app_redirect($exception->redirectTo ?? url()->previous())
                     ->withInput(Arr::except($request->input(), $this->dontFlash))
                     ->withErrors($exception->errors(), $exception->errorBag);
     }

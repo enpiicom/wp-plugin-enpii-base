@@ -51,7 +51,7 @@ if ( ! function_exists( 'enpii_base_prepare_wp_app_config' ) ) {
 if ( ! function_exists( 'enpii_base_setup_wp_app' ) ) {
 	function enpii_base_setup_wp_app( array $config ): void {
 		$config = enpii_base_prepare_wp_app_config( $config );
-		$wp_app = ( new Wp_Application( $config['wp_app_base_path'] ) )->initAppWithConfig( $config );
+		$wp_app = ( new Wp_Application( $config['wp_app_base_path'] ) )->init_config( $config );
 		// $wp_app->registerConfiguredProviders();
 
 		// We Register `enpii-base` plugin rigth after the app setup
