@@ -191,7 +191,7 @@ if ( ! function_exists( 'wp_app_base_path' ) ) {
 	}
 }
 
-if ( ! function_exists( 'bcrypt' ) ) {
+if ( ! function_exists( 'wp_app_bcrypt' ) ) {
 	/**
 	 * Hash the given value against the bcrypt algorithm.
 	 *
@@ -199,19 +199,19 @@ if ( ! function_exists( 'bcrypt' ) ) {
 	 * @param  array  $options
 	 * @return string
 	 */
-	function bcrypt( $value, $options = [] ) {
+	function wp_app_bcrypt( $value, $options = [] ) {
 		return wp_app( 'hash' )->driver( 'bcrypt' )->make( $value, $options );
 	}
 }
 
-if ( ! function_exists( 'broadcast' ) ) {
+if ( ! function_exists( 'wp_app_broadcast' ) ) {
 	/**
 	 * Begin broadcasting an event.
 	 *
 	 * @param  mixed|null  $event
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Broadcasting\PendingBroadcast
 	 */
-	function broadcast( $event = null ) {
+	function wp_app_broadcast( $event = null ) {
 		return wp_app( BroadcastFactory::class )->event( $event );
 	}
 }

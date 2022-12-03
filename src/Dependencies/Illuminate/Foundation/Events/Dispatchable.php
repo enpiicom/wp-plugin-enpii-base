@@ -47,6 +47,6 @@ trait Dispatchable
      */
     public static function broadcast()
     {
-        return broadcast(new static(...func_get_args()));
+        return wp_app_broadcast(new static(...func_get_args()));
     }
 }
