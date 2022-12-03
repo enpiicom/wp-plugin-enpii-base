@@ -309,18 +309,18 @@ if ( ! function_exists( 'wp_app_cookie' ) ) {
 	}
 }
 
-if ( ! function_exists( 'csrf_field' ) ) {
+if ( ! function_exists( 'wp_app_csrf_field' ) ) {
 	/**
 	 * Generate a CSRF token form field.
 	 *
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\HtmlString
 	 */
-	function csrf_field() {
-		return new HtmlString( '<input type="hidden" name="_token" value="' . csrf_token() . '">' );
+	function wp_app_csrf_field() {
+		return new HtmlString( '<input type="hidden" name="_token" value="' . wp_app_csrf_token() . '">' );
 	}
 }
 
-if ( ! function_exists( 'csrf_token' ) ) {
+if ( ! function_exists( 'wp_app_csrf_token' ) ) {
 	/**
 	 * Get the CSRF token value.
 	 *
@@ -328,7 +328,7 @@ if ( ! function_exists( 'csrf_token' ) ) {
 	 *
 	 * @throws \RuntimeException
 	 */
-	function csrf_token() {
+	function wp_app_csrf_token() {
 		$session = wp_app( 'session' );
 
 		if ( isset( $session ) ) {
@@ -339,14 +339,14 @@ if ( ! function_exists( 'csrf_token' ) ) {
 	}
 }
 
-if ( ! function_exists( 'database_path' ) ) {
+if ( ! function_exists( 'wp_app_database_path' ) ) {
 	/**
 	 * Get the database path.
 	 *
 	 * @param  string  $path
 	 * @return string
 	 */
-	function database_path( $path = '' ) {
+	function wp_app_database_path( $path = '' ) {
 		return wp_app()->databasePath( $path );
 	}
 }

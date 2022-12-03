@@ -63,7 +63,7 @@ class Factory implements ArrayAccess
      */
     public static function construct(Faker $faker, $pathToFactories = null)
     {
-        $pathToFactories = $pathToFactories ?: database_path('factories');
+        $pathToFactories = $pathToFactories ?: wp_app_database_path('factories');
 
         return (new static($faker))->load($pathToFactories);
     }
