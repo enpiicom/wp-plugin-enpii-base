@@ -11,7 +11,7 @@ trait CompilesHelpers
      */
     protected function compileCsrf()
     {
-        return '<?php echo csrf_field(); ?>';
+        return '<?php echo wp_app_csrf_field(); ?>';
     }
 
     /**
