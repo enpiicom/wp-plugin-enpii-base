@@ -461,7 +461,7 @@ if ( ! function_exists( 'wp_app_event' ) ) {
 	}
 }
 
-if ( ! function_exists( 'factory' ) ) {
+if ( ! function_exists( 'wp_app_factory' ) ) {
 	/**
 	 * Create a model factory builder for a given class and amount.
 	 *
@@ -469,7 +469,7 @@ if ( ! function_exists( 'factory' ) ) {
 	 * @param  int  $amount
 	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Database\Eloquent\FactoryBuilder
 	 */
-	function factory( $class, $amount = null ) {
+	function wp_app_factory( $class, $amount = null ) {
 		$factory = wp_app( EloquentFactory::class );
 
 		if ( isset( $amount ) && is_int( $amount ) ) {
@@ -480,7 +480,7 @@ if ( ! function_exists( 'factory' ) ) {
 	}
 }
 
-if ( ! function_exists( 'info' ) ) {
+if ( ! function_exists( 'wp_app_info' ) ) {
 	/**
 	 * Write some information to the log.
 	 *
@@ -488,7 +488,7 @@ if ( ! function_exists( 'info' ) ) {
 	 * @param  array  $context
 	 * @return void
 	 */
-	function info( $message, $context = [] ) {
+	function wp_app_info( $message, $context = [] ) {
 		wp_app( 'log' )->info( $message, $context );
 	}
 }
