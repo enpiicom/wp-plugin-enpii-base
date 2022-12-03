@@ -55,7 +55,7 @@ abstract class TrustHosts
      */
     protected function shouldSpecifyTrustedHosts()
     {
-        return config('app.env') !== 'local' &&
+        return wp_app_config('app.env') !== 'local' &&
                ! $this->app->runningUnitTests();
     }
 

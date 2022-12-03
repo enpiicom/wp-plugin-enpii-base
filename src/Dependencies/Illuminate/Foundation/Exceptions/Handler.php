@@ -302,7 +302,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function prepareResponse($request, Throwable $e)
     {
-        if (! $this->isHttpException($e) && config('app.debug')) {
+        if (! $this->isHttpException($e) && wp_app_config('app.debug')) {
             return $this->toIlluminateResponse($this->convertExceptionToResponse($e), $e);
         }
 
@@ -339,11 +339,11 @@ class Handler implements ExceptionHandlerContract
     protected function renderExceptionContent(Throwable $e)
     {
         try {
-            return config('app.debug') && class_exists(Whoops::class)
+            return wp_app_config('app.debug') && class_exists(Whoops::class)
                         ? $this->renderExceptionWithWhoops($e)
-                        : $this->renderExceptionWithSymfony($e, config('app.debug'));
+                        : $this->renderExceptionWithSymfony($e, wp_app_config('app.debug'));
         } catch (Exception $e) {
-            return $this->renderExceptionWithSymfony($e, config('app.debug'));
+            return $this->renderExceptionWithSymfony($e, wp_app_config('app.debug'));
         }
     }
 
@@ -419,7 +419,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function registerErrorViewPaths()
     {
-        $paths = collect(config('view.paths'));
+        $paths = collect(wp_app_config('view.paths'));
 
         View::replaceNamespace('errors', $paths->map(function ($path) {
             return "{$path}/errors";
@@ -484,7 +484,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function convertExceptionToArray(Throwable $e)
     {
-        return config('app.debug') ? [
+        return wp_app_config('app.debug') ? [
             'message' => $e->getMessage(),
             'exception' => get_class($e),
             'file' => $e->getFile(),

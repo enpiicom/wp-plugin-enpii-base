@@ -216,7 +216,7 @@ if ( ! function_exists( 'wp_app_broadcast' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cache' ) ) {
+if ( ! function_exists( 'wp_app_cache' ) ) {
 	/**
 	 * Get / set the specified cache value.
 	 *
@@ -227,7 +227,7 @@ if ( ! function_exists( 'cache' ) ) {
 	 *
 	 * @throws \Exception
 	 */
-	function cache() {
+	function wp_app_cache() {
 		$arguments = func_get_args();
 
 		if ( empty( $arguments ) ) {

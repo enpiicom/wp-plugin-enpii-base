@@ -25,9 +25,9 @@ trait RefreshDatabase
      */
     protected function usingInMemoryDatabase()
     {
-        $default = config('database.default');
+        $default = wp_app_config('database.default');
 
-        return config("database.connections.$default.database") === ':memory:';
+        return wp_app_config("database.connections.$default.database") === ':memory:';
     }
 
     /**

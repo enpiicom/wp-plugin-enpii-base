@@ -44,7 +44,7 @@
 {{ $salutation }}
 @else
 @lang('Regards'),<br>
-{{ config('app.name') }}
+{{ wp_app_config('app.name') }}
 @endif
 
 {{-- Subcopy --}}

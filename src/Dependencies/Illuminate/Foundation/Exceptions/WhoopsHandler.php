@@ -60,7 +60,7 @@ class WhoopsHandler
      */
     protected function registerBlacklist($handler)
     {
-        foreach (config('app.debug_blacklist', config('app.debug_hide', [])) as $key => $secrets) {
+        foreach (wp_app_config('app.debug_blacklist', wp_app_config('app.debug_hide', [])) as $key => $secrets) {
             foreach ($secrets as $secret) {
                 $handler->blacklist($key, $secret);
             }
@@ -77,8 +77,8 @@ class WhoopsHandler
      */
     protected function registerEditor($handler)
     {
-        if (config('app.editor', false)) {
-            $handler->setEditor(config('app.editor'));
+        if (wp_app_config('app.editor', false)) {
+            $handler->setEditor(wp_app_config('app.editor'));
         }
 
         return $this;

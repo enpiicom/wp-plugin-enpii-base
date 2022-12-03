@@ -182,7 +182,7 @@ class VerifyCsrfToken
      */
     protected function addCookieToResponse($request, $response)
     {
-        $config = config('session');
+        $config = wp_app_config('session');
 
         if ($response instanceof Responsable) {
             $response = $response->toResponse($request);
