@@ -351,7 +351,7 @@ if ( ! function_exists( 'wp_app_database_path' ) ) {
 	}
 }
 
-if ( ! function_exists( 'decrypt' ) ) {
+if ( ! function_exists( 'wp_app_decrypt' ) ) {
 	/**
 	 * Decrypt the given value.
 	 *
@@ -359,7 +359,7 @@ if ( ! function_exists( 'decrypt' ) ) {
 	 * @param  bool  $unserialize
 	 * @return mixed
 	 */
-	function decrypt( $value, $unserialize = true ) {
+	function wp_app_decrypt( $value, $unserialize = true ) {
 		return wp_app( 'encrypter' )->decrypt( $value, $unserialize );
 	}
 }
