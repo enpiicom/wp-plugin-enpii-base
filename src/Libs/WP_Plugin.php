@@ -20,9 +20,9 @@ abstract class Wp_Plugin extends ServiceProvider implements Wp_Plugin_Interface 
 	/**
 	 * We want to get the views for each plugin by this order: child theme, parent theme, and the plugin it self
 	 */
-	protected function prepare_views_paths($namespace): void {
-		$this->loadViewsFrom(realpath(get_stylesheet_directory().DIR_SEP.'views'), $namespace);
-		$this->loadViewsFrom(realpath(get_template_directory().DIR_SEP.'views'), $namespace);
-		$this->loadViewsFrom(realpath(dirname(__DIR__).'/../resources/views'), $namespace);
+	protected function prepare_views_paths( $namespace ): void {
+		$this->loadViewsFrom( realpath( get_stylesheet_directory() . DIR_SEP . 'views' ), $namespace );
+		$this->loadViewsFrom( realpath( get_template_directory() . DIR_SEP . 'views' ), $namespace );
+		$this->loadViewsFrom( realpath( dirname( __DIR__ ) . '/../resources/views' ), $namespace );
 	}
 }

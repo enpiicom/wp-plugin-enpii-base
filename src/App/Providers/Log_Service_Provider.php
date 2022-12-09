@@ -7,15 +7,19 @@ namespace Enpii\Wp_Plugin\Enpii_Base\App\Providers;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Log\LogServiceProvider;
 
 class Log_Service_Provider extends LogServiceProvider {
-	public function boot()
-    {
-        wp_app_config([
-			'logging' => apply_filters('enpii_base_wp_app_logging_config', [
-				'default' => env('WP_APP_DEFAULT_LOG_CHANNEL', 'stack'),
-				'channels' => $this->generate_logging_channels(),
-			]),
-		]);
-    }
+	public function boot() {
+		wp_app_config(
+			[
+				'logging' => apply_filters(
+					'enpii_base_wp_app_logging_config',
+					[
+						'default'  => env( 'WP_APP_DEFAULT_LOG_CHANNEL', 'stack' ),
+						'channels' => $this->generate_logging_channels(),
+					]
+				),
+			]
+		);
+	}
 
 	protected function generate_logging_channels(): array {
 		/**
@@ -34,34 +38,34 @@ class Log_Service_Provider extends LogServiceProvider {
 		*/
 		return [
 			'stack' => [
-				'driver' => 'stack',
-				'channels' => ['daily'],
+				'driver'   => 'stack',
+				'channels' => [ 'daily' ],
 			],
 			'single' => [
 				'driver' => 'single',
-				'path' => wp_app_storage_path('/logs').'/laravel.log',
-				'level' => 'debug',
+				'path'   => wp_app_storage_path( '/logs' ) . '/laravel.log',
+				'level'  => 'debug',
 			],
 			'daily' => [
 				'driver' => 'daily',
-				'path' => wp_app_storage_path('/logs').'/laravel.log',
-				'level' => 'debug',
-				'days' => 14,
+				'path'   => wp_app_storage_path( '/logs' ) . '/laravel.log',
+				'level'  => 'debug',
+				'days'   => 14,
 			],
 			'stderr' => [
-				'driver' => 'monolog',
+				'driver'  => 'monolog',
 				'handler' => StreamHandler::class,
-				'with' => [
+				'with'    => [
 					'stream' => 'php://stderr',
 				],
 			],
 			'syslog' => [
 				'driver' => 'syslog',
-				'level' => 'debug',
+				'level'  => 'debug',
 			],
 			'errorlog' => [
 				'driver' => 'errorlog',
-				'level' => 'debug',
+				'level'  => 'debug',
 			],
 		];
 	}

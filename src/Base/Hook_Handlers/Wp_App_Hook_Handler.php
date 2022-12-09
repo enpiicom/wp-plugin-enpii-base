@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace Enpii\Wp_Plugin\Enpii_Base\Base\Hook_Handlers;
 
-use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Log_Service_Provider;
-use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Route_Service_Provider;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Support\Providers\RouteServiceProvider;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Log\LogServiceProvider;
-use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Facades\Route;
 use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Base_Hook_Handler;
 
 class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {

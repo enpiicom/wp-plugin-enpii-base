@@ -42,17 +42,6 @@ if ( ! function_exists( 'enpii_base_prepare_wp_app_config' ) ) {
 	}
 }
 
-if ( ! function_exists( 'enpii_base_setup_wp_app' ) ) {
-	function enpii_base_setup_wp_app( array $config ): void {
-		$config = enpii_base_prepare_wp_app_config( $config );
-		$wp_app = ( new Wp_Application( $config['wp_app_base_path'] ) )->init_config( $config );
-		// $wp_app->registerConfiguredProviders();
-
-		// We Register `enpii-base` plugin rigth after the app setup
-		$wp_app->register( Plugin::class );
-	}
-}
-
 if ( ! function_exists( 'enpii_base_wp_cli_register_commands' ) ) {
 	function enpii_base_wp_cli_register_commands(): void {
 		\WP_CLI::add_command( 'enpii-base', Enpii_Base_Wp_Cli::class );

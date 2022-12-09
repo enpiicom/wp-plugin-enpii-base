@@ -249,17 +249,16 @@ if ( ! function_exists( 'wp_app_cache' ) ) {
 	}
 }
 
-if (! function_exists('wp_app_collect')) {
-    /**
-     * Create a collection from the given value.
-     *
-     * @param  mixed  $value
-     * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Collection
-     */
-    function wp_app_collect($value = null)
-    {
-        return new Collection($value);
-    }
+if ( ! function_exists( 'wp_app_collect' ) ) {
+	/**
+	 * Create a collection from the given value.
+	 *
+	 * @param  mixed  $value
+	 * @return \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Collection
+	 */
+	function wp_app_collect( $value = null ) {
+		return new Collection( $value );
+	}
 }
 
 if ( ! function_exists( 'wp_app_config' ) ) {
@@ -427,6 +426,7 @@ if ( ! function_exists( 'wp_app_elixir' ) ) {
 			$path = wp_app_public_path( $buildDirectory . '/rev-manifest.json' );
 
 			if ( file_exists( $path ) ) {
+				// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
 				$manifest = json_decode( file_get_contents( $path ), true );
 				$manifestPath = $buildDirectory;
 			}

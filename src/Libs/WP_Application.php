@@ -34,26 +34,24 @@ class Wp_Application extends Application {
 	}
 
 	public function register_cache_service_provider(): void {
-		$this->register(\Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider::class);
+		$this->register( \Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider::class );
 	}
 
 	/**
-     * Get the path to the resources directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function resourcePath($path = '')
-    {
-        return dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'resources'.($path ? DIRECTORY_SEPARATOR.$path : $path);
-    }
+	 * Get the path to the resources directory.
+	 *
+	 * @param  string  $path
+	 * @return string
+	 */
+	public function resourcePath( $path = '' ) {
+		return dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'resources' . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
+	}
 
-	public static function getInstance()
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new self;
-        }
+	public static function getInstance() {
+		if ( is_null( static::$instance ) ) {
+			static::$instance = new self();
+		}
 
-        return static::$instance;
-    }
+		return static::$instance;
+	}
 }

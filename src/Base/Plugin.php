@@ -17,7 +17,7 @@ class Plugin extends WP_Plugin {
 	use Accessor_Set_Get_Has_Trait;
 
 	public function boot() {
-		$this->prepare_views_paths(ENPII_BASE_SLUG);
+		$this->prepare_views_paths( ENPII_BASE_SLUG );
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Plugin extends WP_Plugin {
 		$this->app->instance( __CLASS__, $this );
 
 		// We want to register main providers here
-		do_action('enpii_base_register_main_service_providers');
+		do_action( 'enpii_base_register_main_service_providers' );
 	}
 
 	public function manipulate_hooks(): void {
@@ -48,28 +48,28 @@ class Plugin extends WP_Plugin {
 
 	public function register_main_service_providers(): void {
 		/**
-		 | We want to register main Service Providers for the wp_app()
-		 | You can remove this handler to replace with the Service Providers you want
+		| We want to register main Service Providers for the wp_app()
+		| You can remove this handler to replace with the Service Providers you want
 		 */
-		$this->app->register(Log_Service_Provider::class);
-		$this->app->register(Route_Service_Provider::class);
-		$this->app->register(View_Service_Provider::class);
+		$this->app->register( Log_Service_Provider::class );
+		$this->app->register( Route_Service_Provider::class );
+		$this->app->register( View_Service_Provider::class );
 	}
 
 	public function handle_wp_app_requests(): void {
 		// We want to check that if the uri prefix is for wp-app before invoke the handler
 		// to keep the handler lazy-loading
-		if ($this->is_wp_app_mode()) {
-			(new Wp_App_Hook_Handler())->handle_wp_app_requests();
+		if ( $this->is_wp_app_mode() ) {
+			( new Wp_App_Hook_Handler() )->handle_wp_app_requests();
 		}
 	}
 
 	public function register_wp_app_routes(): void {
 		// We want to check that if the uri prefix is for wp-app before invoke the handler
 		// to keep the handler lazy-loading
-		if ($this->is_wp_app_mode()) {
-			Route::get('/', [Index_Controller::class, 'home']);
-			Route::get('/home', [Index_Controller::class, 'home']);
+		if ( $this->is_wp_app_mode() ) {
+			Route::get( '/', [ Index_Controller::class, 'home' ] );
+			Route::get( '/home', [ Index_Controller::class, 'home' ] );
 		}
 	}
 
@@ -81,6 +81,6 @@ class Plugin extends WP_Plugin {
 	protected function is_wp_app_mode(): bool {
 		$wp_app_prefix = 'wp-app';
 		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
-		return ( strpos( $uri, '/' . $wp_app_prefix.'/' ) === 0 || $uri === '/' . $wp_app_prefix );
+		return ( strpos( $uri, '/' . $wp_app_prefix . '/' ) === 0 || $uri === '/' . $wp_app_prefix );
 	}
 }
