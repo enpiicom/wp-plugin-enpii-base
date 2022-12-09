@@ -46,6 +46,5 @@ class Route_Service_Provider extends RouteServiceProvider
 			->group(function () {
 				do_action('enpii_base_wp_app_register_routes');
 			});
-
     }
 }

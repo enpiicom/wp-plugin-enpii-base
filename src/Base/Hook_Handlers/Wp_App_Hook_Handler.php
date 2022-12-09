@@ -39,7 +39,7 @@ class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {
 
 		$response->send();
 
-		dev_logger(memory_get_usage());
+		// dev_logger(memory_get_usage());
 
 		$kernel->terminate( $request, $response );
 	}
