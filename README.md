@@ -5,6 +5,11 @@ cp .env.example .env
 docker run --rm --interactive --tty --volume $PWD:/app composer composer install
 docker-compose up -d
 ```
+- Run the WP CLI command to prepare the necessary things
+```
+docker-compose exec wordpress wp enpii-base prepare_wp_app
+```
+
 ## Explaination
 - `dev-docker` is the folder for docker related stuffs
 - `dev-docker/wordpress` would be the document root for the webserver default host (it's `/var/www/html` in the container)

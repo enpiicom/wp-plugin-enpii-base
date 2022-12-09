@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enpii\Wp_Plugin\Enpii_Base\Base;
 
 use Enpii\Wp_Plugin\Enpii_Base\App\Http\Controllers\Index_Controller;
+use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Filesystem_Service_Provider;
 use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Log_Service_Provider;
 use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Route_Service_Provider;
 use Enpii\Wp_Plugin\Enpii_Base\App\Providers\View_Service_Provider;
@@ -13,11 +14,17 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Support\Facades\Route;
 use Enpii\Wp_Plugin\Enpii_Base\Libs\WP_Plugin;
 use Enpii\Wp_Plugin\Enpii_Base\Support\Traits\Accessor_Set_Get_Has_Trait;
 
+/**
+ *
+ * @package Enpii\Wp_Plugin\Enpii_Base\Base
+ * @method get_base_bath() string, the directory path of the plugin
+ * @method get_base_url() string, the url to plugin directory
+ */
 class Plugin extends WP_Plugin {
 	use Accessor_Set_Get_Has_Trait;
 
 	public function boot() {
-		$this->prepare_views_paths( ENPII_BASE_SLUG );
+		$this->prepare_views_paths( ENPII_BASE_PLUGIN_SLUG );
 	}
 
 	/**
@@ -54,6 +61,7 @@ class Plugin extends WP_Plugin {
 		$this->app->register( Log_Service_Provider::class );
 		$this->app->register( Route_Service_Provider::class );
 		$this->app->register( View_Service_Provider::class );
+		$this->app->register( Filesystem_Service_Provider::class );
 	}
 
 	public function handle_wp_app_requests(): void {
@@ -79,7 +87,7 @@ class Plugin extends WP_Plugin {
 	 * @return bool
 	 */
 	protected function is_wp_app_mode(): bool {
-		$wp_app_prefix = 'wp-app';
+		$wp_app_prefix = enpii_base_get_wp_app_prefix();
 		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
 		return ( strpos( $uri, '/' . $wp_app_prefix . '/' ) === 0 || $uri === '/' . $wp_app_prefix );
 	}

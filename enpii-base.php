@@ -9,13 +9,18 @@
  * Text Domain: enpii
  */
 
-defined( 'DIR_SEP' ) || define( 'DIR_SEP', DIRECTORY_SEPARATOR );
+// Update these constants whenever you bump the version
+defined( 'ENPII_BASE_VERSION' ) || define( 'ENPII_BASE_PLUGIN_SLUG', '0.0.1' );
 
-defined( 'ENPII_BASE_SLUG' ) || define( 'ENPII_BASE_SLUG', 'enpii-base' );
-defined( 'ENPII_BASE_VERSION' ) || define( 'ENPII_BASE_SLUG', '0.0.1' );
+// General fixed constants
+defined( 'DIR_SEP' ) || define( 'DIR_SEP', DIRECTORY_SEPARATOR );
 
 // We include composer autoload here
 require_once __DIR__ . DIR_SEP . 'vendor' . DIR_SEP . 'autoload.php';
+
+// Plugin constants
+defined( 'ENPII_BASE_PLUGIN_SLUG' ) || define( 'ENPII_BASE_PLUGIN_SLUG', 'enpii-base' );
+defined( 'ENPII_BASE_WP_APP_PREFIX' ) || define( 'ENPII_BASE_WP_APP_PREFIX', env('ENPII_BASE_WP_APP_PREFIX', 'wp-app') );
 
 /**
  | WP CLI handlers
@@ -33,4 +38,7 @@ $config = apply_filters( 'enpii_base_wp_app_prepare_config', [
 $wp_app = ( new \Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application( $wp_app_base_path ) )->init_config( $config );
 
 // We register Enpii_Base plugin as a Service Provider
-$wp_app->register( \Enpii\Wp_Plugin\Enpii_Base\Base\Plugin::class );
+$enpii_base_plugin = new \Enpii\Wp_Plugin\Enpii_Base\Base\Plugin($wp_app);
+$enpii_base_plugin->set_base_path(__DIR__);
+$enpii_base_plugin->set_base_url(plugin_dir_url( __FILE__ ));
+$wp_app->register( $enpii_base_plugin );

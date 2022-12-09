@@ -36,9 +36,9 @@ if ( ! function_exists( 'enpii_base_wp_app_get_base_path' ) ) {
 	}
 }
 
-if ( ! function_exists( 'enpii_base_prepare_wp_app_config' ) ) {
-	function enpii_base_prepare_wp_app_config( array $config ): array {
-		return apply_filters( 'enpii_base_wp_app_prepare_config', $config );
+if ( ! function_exists( 'enpii_base_get_wp_app_prefix' ) ) {
+	function enpii_base_get_wp_app_prefix(): string {
+		return ENPII_BASE_WP_APP_PREFIX;
 	}
 }
 
