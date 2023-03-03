@@ -12,12 +12,12 @@ use Enpii\Wp_Plugin\Enpii_Base\Support\Traits\Config_Trait;
  * The goal is to be able to manipulate (add, edit, remove) WordPress hook handlers
  * @package Enpii\Wp_Plugin\Enpii_Base\Libs
  */
-class Wp_Base_Hook_Handler implements Wp_Hook_Handler_Inferface {
+abstract class Wp_Base_Hook_Handler implements Wp_Hook_Handler_Inferface {
 	use Config_Trait;
 
 	protected $wp_app;
 
-	public function __construct( array $config = [], bool $strict = false ) {
+	public function init_by_config( array $config = [], bool $strict = false ): void {
 		$this->bind_config( $config, $strict );
 	}
 

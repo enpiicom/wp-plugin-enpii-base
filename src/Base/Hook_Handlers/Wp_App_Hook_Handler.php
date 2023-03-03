@@ -7,7 +7,7 @@ namespace Enpii\Wp_Plugin\Enpii_Base\Base\Hook_Handlers;
 use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Base_Hook_Handler;
 
 class Wp_App_Hook_Handler extends Wp_Base_Hook_Handler {
-	public function handle_wp_app_requests(): void {
+	public function handle(): void {
 		$wp_app = wp_app();
 		$wp_app['env'] = wp_app_config( 'app.env' );
 
