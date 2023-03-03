@@ -7,8 +7,7 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvide
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Application;
 use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application;
 
-class Wp_App_HWP_Application_Testook_Handler_Test extends \Codeception\Test\Unit
-{
+class Wp_App_HWP_Application_Testook_Handler_Test extends \Codeception\Test\Unit {
 	protected Wp_Application $wp_app;
 	protected $wp_app_base_path;
 
