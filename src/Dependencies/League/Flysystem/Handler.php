@@ -1,6 +1,6 @@
 <?php
 
-namespace Enpii\Wp_Plugin\Enpii_Base\Dependencies\League\Flysystem;
+namespace Enpii\WP_Plugin\Enpii_Base\Dependencies\League\Flysystem;
 
 use BadMethodCallException;
 
@@ -76,7 +76,7 @@ abstract class Handler
 
         return $this;
     }
-    
+
     /**
      * Retrieve the Filesystem object.
      *
