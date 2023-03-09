@@ -2,6 +2,7 @@
 - Commands to set up the development environment
 ```shell script
 cp .env.example .env
+docker pull composer
 docker run --rm --interactive --tty --volume $PWD:/app composer composer install
 docker-compose up -d
 ```
@@ -26,6 +27,11 @@ docker-compose exec --user=devuser wordpress sh
 The local website will work with http://127.0.0.1:10108/ (or the port you put in env file)
 
 ## Development
+- Remember to enable git case sensitive for files
+```
+git config core.ignorecase false
+```
+- Add `XDEBUG_MODE=off` before `composer` to turn off XDebug to speedup the composer
 
 ### Base concepts
   - This plugin will create a laravel application `wp_app()` (a DI container https://code.tutsplus.com/tutorials/digging-in-to-laravels-ioc-container--cms-22167) contains everything we need.
@@ -45,11 +51,17 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
 
 #### Process to perform the composer and mozart:
   - Remove the `autoload -> files` part in composer.json
-  - `composer install` or `composer update`
+  - `XDEBUG_MODE=off composer install` or `XDEBUG_MODE=off composer update`
   - `composer dump-autoload`
   - `mozart compose`
   - Undo the removing `autoload -> files`
   - `composer dump-autoload`
+
+Or you can do the alternative way
+  - `XDEBUG_MODE=off composer install --no-autoloader` or `XDEBUG_MODE=off composer update --no-autoloader`
+  - `mozart compose`
+  - `composer dump-autoload`
+
 #### After using `mozart`, remember to manually repair the namespace in:
   - `LogManager`, use namespace `as Monolog`
   - `ParseLogConfiguration` (same as above)
@@ -65,8 +77,10 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
 	- With docker (we need to use php 7.4 to avoid errors)
 	```shell script
 	# Run the docker pull once if you haven't run that before
-	docker pull serversideup/php:7.4-cli
-	docker run --rm --interactive --tty -v $PWD:/var/www/html serversideup/php:7.4-cli ./vendor/bin/phpcs
+	docker pull npbtrac/php:7.4-x86
+	# For arm
+	# docker pull npbtrac/php:7.4-arm
+	docker run --rm --interactive --tty -v $PWD:/var/www/html npbtrac/php:7.4-arm ./vendor/bin/phpcs
 	```
 	- Or if you have your executable php 7.4 on your machine (we need to use php 7.4 to avoid errors)
 	```shell script
@@ -83,14 +97,19 @@ The local website will work with http://127.0.0.1:10108/ (or the port you put in
 	```shell script
 	/path/to/your/php7.4/executable/file ./vendor/bin/phpcbf <path-to-file-need-to-be-fixed>
 	```
+### Testing
+- To run unit test
+```
+composer codecept unit
+```
 
 ### Install plugins and themes via the WP Admin Dashbboard
 - We need to ensure needed folders are there (only run once)
 ```shell script
-docker compose exec --user=webuser wordpress mkdir -p /var/www/html/wp-content/uploads >/dev/null 2>&1
-docker compose exec --user=webuser wordpress mkdir -p /var/www/html/wp-content/upgrade >/dev/null 2>&1
-docker compose exec --user=webuser wordpress mkdir -p /var/www/html/wp-content/cache >/dev/null 2>&1
-docker compose exec --user=webuser wordpress chmod -R 777 /var/www/html/wp-content/cache /var/www/html/wp-content/uploads /var/www/html/wp-content/upgrade
+docker compose exec --user=devuser wordpress mkdir -p /var/www/html/wp-content/uploads >/dev/null 2>&1
+docker compose exec --user=devuser wordpress mkdir -p /var/www/html/wp-content/upgrade >/dev/null 2>&1
+docker compose exec --user=devuser wordpress mkdir -p /var/www/html/wp-content/cache >/dev/null 2>&1
+docker compose exec --user=devuser wordpress chmod -R 777 /var/www/html/wp-content/cache /var/www/html/wp-content/uploads /var/www/html/wp-content/upgrade
 ```
 - To install plugins and themes via the Admin Dashboard, you need to follow these steps:
 	1. Add this part to `wp-config.php` (after `That's all ... ` line)

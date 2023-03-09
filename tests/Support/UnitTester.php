@@ -1,5 +1,5 @@
 <?php
-namespace Tests;
+namespace Enpii\WP_Plugin\Enpii_Base\Tests;
 
 /**
  * Inherited Methods

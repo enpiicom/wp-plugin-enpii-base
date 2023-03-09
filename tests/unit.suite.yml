@@ -1,4 +1,4 @@
 actor: UnitTester
 modules:
     enabled:
-        - \Tests\Helper\Unit
+        - Enpii\WP_Plugin\Enpii_Base\Tests\Helper\Unit

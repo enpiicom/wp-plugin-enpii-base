@@ -1,14 +1,12 @@
 <?php
 
-namespace Tests\Unit;
+namespace Enpii\WP_Plugin\Enpii_Base\Tests\Unit\Base\Hook_Handlers;
 
-use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Filesystem_Service_Provider;
-use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Log_Service_Provider;
-use Enpii\Wp_Plugin\Enpii_Base\App\Providers\Route_Service_Provider;
-use Enpii\Wp_Plugin\Enpii_Base\App\Providers\View_Service_Provider;
-use Enpii\Wp_Plugin\Enpii_Base\Base\Hook_Handlers\Register_Main_Service_Providers_Hook_Handler;
-use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Base_Hook_Handler;
-use \Tests\Support\UnitTester;
+use Enpii\WP_Plugin\Enpii_Base\App\Providers\Filesystem_Service_Provider;
+use Enpii\WP_Plugin\Enpii_Base\App\Providers\Log_Service_Provider;
+use Enpii\WP_Plugin\Enpii_Base\App\Providers\Route_Service_Provider;
+use Enpii\WP_Plugin\Enpii_Base\App\Providers\View_Service_Provider;
+use Enpii\WP_Plugin\Enpii_Base\Base\Hook_Handlers\Register_Main_Service_Providers_Hook_Handler;
 
 class Register_Main_Service_Providers_Hook_Handler_Test extends \Codeception\Test\Unit {
 	public function test_handle(): void {

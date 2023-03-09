@@ -1,19 +1,19 @@
 <?php
 
-namespace Tests\Unit;
+namespace Enpii\WP_Plugin\Enpii_Base\Tests\Unit\Base\Libs;
 
 use Codeception\Stub;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider;
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Application;
-use Enpii\Wp_Plugin\Enpii_Base\Libs\Wp_Application;
+use Enpii\Wp_Plugin\Enpii_Base\Libs\WP_Application;
 
-class Wp_App_HWP_Application_Testook_Handler_Test extends \Codeception\Test\Unit {
-	protected Wp_Application $wp_app;
+class WP_Application_Test extends \Codeception\Test\Unit {
+	protected WP_Application $wp_app;
 	protected $wp_app_base_path;
 
 	protected function _before() {
 		$this->wp_app_base_path = codecept_root_dir();
-		$this->wp_app = (new Wp_Application($this->wp_app_base_path));
+		$this->wp_app = (new WP_Application($this->wp_app_base_path));
 	}
 
 	public function test_init_config(): void {
@@ -34,7 +34,7 @@ class Wp_App_HWP_Application_Testook_Handler_Test extends \Codeception\Test\Unit
 	}
 
 	public function test_resource_path() {
-		$wp_app = Stub::make(Wp_Application::class, ['resourcePath' => function () { return $this->wp_app_base_path; }]);
+		$wp_app = Stub::make(WP_Application::class, ['resourcePath' => function () { return $this->wp_app_base_path; }]);
 		$resourcePath = $wp_app->resourcePath($this->wp_app_base_path);
 
 		// We need to ensure the resource path is correct
