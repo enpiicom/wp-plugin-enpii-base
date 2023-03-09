@@ -17,7 +17,7 @@ class WP_Base_Hook_Handler implements WP_Hook_Handler_Inferface {
 
 	protected $wp_app;
 
-	public function init_by_config( array $config = [], bool $strict = false ): void {
+	public function __construct( array $config = [], bool $strict = false ) {
 		$this->bind_config( $config, $strict );
 	}
 
