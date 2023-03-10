@@ -50,7 +50,7 @@ class WP_Application_Test extends \Codeception\Test\Unit {
 		$plugin->set_base_url( $this->wp_app_base_path );
 		$wp_app->register( $plugin );
 
-		// We need to ensure all the Cache service provider is registered
+		// We need to ensure the plugin is registered as a service provider with all correct configs set
 		$this->assertEquals($config['env'], $this->wp_app['config']['env'], 'Config is not correct');
 		$this->assertEquals(__DIR__ , $plugin->get_base_path() , 'Base path is not correct');
 		$this->assertEquals($this->wp_app_base_path , $plugin->get_base_url() , 'Base url is not correct');
