@@ -8,21 +8,9 @@ use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvide
 use Enpii\Wp_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Application;
 use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Support\ServiceProvider;
 use Enpii\Wp_Plugin\Enpii_Base\Libs\WP_Application;
+use Enpii\WP_Plugin\Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 
-class WP_Application_Test extends \Codeception\Test\Unit {
-	protected WP_Application $wp_app;
-	protected $wp_app_base_path;
-
-	protected function setUp(): void {
-		\WP_Mock::setUp();
-		$this->wp_app_base_path = codecept_root_dir();
-		$this->wp_app = (new WP_Application($this->wp_app_base_path));
-	}
-
-	protected function tearDown(): void {
-		\WP_Mock::tearDown();
-	}
-
+class WP_Application_Test extends Unit_Test_Case {
 	public function test_init_config(): void {
 		$config = [
 			'env' => 'local',
