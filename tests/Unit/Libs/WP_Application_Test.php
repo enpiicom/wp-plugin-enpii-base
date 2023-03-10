@@ -58,7 +58,7 @@ class WP_Application_Test extends \Codeception\Test\Unit {
 	}
 
 	public function test_resource_path() {
-		$wp_app = \Codeception\Stub::make( $this->wp_app, ['resourcePath' => function () { return $this->wp_app_base_path; }]);
+		$wp_app = Stub::make( $this->wp_app, ['resourcePath' => function () { return $this->wp_app_base_path; }]);
 		$resourcePath = $wp_app->resourcePath($this->wp_app_base_path);
 
 		// We need to ensure the resource path is correct
