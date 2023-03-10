@@ -37,5 +37,9 @@ $wp_app_base_path = enpii_base_wp_app_get_base_path();
 $config = apply_filters( 'enpii_base_wp_app_prepare_config', [
 	'app' => require_once __DIR__ . DIR_SEP . 'wp-app-config' . DIR_SEP . 'app.php',
 ] );
+// We initiate the WP Application instance
+$wp_app = new \Enpii\WP_Plugin\Enpii_Base\Libs\WP_Application( $wp_app_base_path );
+$wp_app->init_config( $config );
+
 // We register Enpii_Base plugin as a Service Provider
-( new \Enpii\WP_Plugin\Enpii_Base\Libs\WP_Application( $wp_app_base_path ) )->register_plugin_service_provider( $config );
+$wp_app->register_plugin( __DIR__, plugin_dir_url( __FILE__ ) );

@@ -38,12 +38,11 @@ class WP_Application extends Application {
 		$this->register( \Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider::class );
 	}
 
-	public function register_plugin_service_provider( $config = null ): void {
-		$wp_app = $this->init_config( $config );
-		$plugin = new Plugin( $wp_app );
-		$plugin->set_base_path( __DIR__ );
-		$plugin->set_base_url( plugin_dir_url( __FILE__ ) );
-		$wp_app->register( $plugin );
+	public function register_plugin( $plugin_base_path, $plugin_base_url ): void {
+		$plugin = new Plugin( $this );
+		$plugin->set_base_path( $plugin_base_path );
+		$plugin->set_base_url( $plugin_base_url );
+		$this->register( $plugin );
 	}
 
 	/**

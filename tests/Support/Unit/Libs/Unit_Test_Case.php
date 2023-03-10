@@ -12,7 +12,15 @@ class Unit_Test_Case extends \Codeception\Test\Unit {
 	protected function setUp(): void {
 		\WP_Mock::setUp();
 		$this->wp_app_base_path = codecept_root_dir();
-		$this->wp_app = (new WP_Application($this->wp_app_base_path));
+		$config = [
+			'app' => '../../../../wp-app-config/app.php',
+			'env' => 'local',
+			'view' => [
+				'paths' => [$this->wp_app_base_path],
+				'compiled' => [codecept_output_dir()],
+			]
+		];
+		$this->wp_app = (new WP_Application($this->wp_app_base_path))->init_config($config);
 	}
 
 	protected function tearDown(): void {
