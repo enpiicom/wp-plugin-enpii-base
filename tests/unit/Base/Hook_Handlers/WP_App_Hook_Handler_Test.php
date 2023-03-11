@@ -10,7 +10,7 @@ use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Application;
 use Enpii\WP_Plugin\Enpii_Base\Libs\WP_Base_Hook_Handler;
 use Enpii\WP_Plugin\Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 
-class Wp_App_Hook_Handler_Test extends Unit_Test_Case {
+class WP_App_Hook_Handler_Test extends Unit_Test_Case {
 	public function test_handle(): void {
 		(new Register_Main_Service_Providers_Hook_Handler())->handle();
 
