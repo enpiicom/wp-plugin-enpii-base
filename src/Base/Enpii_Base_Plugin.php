@@ -13,7 +13,7 @@ use Enpii\WP_Plugin\Enpii_Base\Support\Traits\Accessor_Set_Get_Has_Trait;
 /**
  *
  * @package Enpii\WP_Plugin\Enpii_Base\Base
- * @method get_base_bath() string, the directory path of the plugin
+ * @method get_base_path() string, the directory path of the plugin
  * @method get_base_url() string, the url to plugin directory
  */
 final class Enpii_Base_Plugin extends WP_Plugin {
