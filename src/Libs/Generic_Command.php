@@ -11,7 +11,7 @@ class Generic_Command implements Command_Interface {
 
 	protected Application $wp_app;
 
-	public function __construct(Application $wp_app, array $config = []) {
+	public function __construct( Application $wp_app, array $config = [] ) {
 		$this->wp_app = $wp_app;
 	}
 

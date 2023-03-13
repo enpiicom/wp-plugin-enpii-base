@@ -33,8 +33,8 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	 * @return void
 	 * @throws InvalidArgumentException
 	 */
-	public function bind_base_params(array $base_params_arr): void {
-		$this->bind_config($base_params_arr, true);
+	public function bind_base_params( array $base_params_arr ): void {
+		$this->bind_config( $base_params_arr, true );
 	}
 
 	/**
@@ -49,17 +49,17 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 		$this->app->instance( __CLASS__, $this );
 	}
 
-	public function execute_generic_handler(string $handler_classname, Command_Interface $command = null): void {
+	public function execute_generic_handler( string $handler_classname, Command_Interface $command = null ): void {
 		$handler = new $handler_classname();
-		if ( !($handler instanceof Handler_Inferface) ) {
+		if ( ! ( $handler instanceof Handler_Inferface ) ) {
 			throw new InvalidArgumentException( sprintf( 'The target classname %s must implement %s', $handler_classname, Handler_Inferface::class ) );
 		}
 
-		if ( empty($command) ) {
+		if ( empty( $command ) ) {
 			$command = new Generic_Command( $this->app );
 		}
 
-		$handler->handle($command);
+		$handler->handle( $command );
 	}
 
 	/**

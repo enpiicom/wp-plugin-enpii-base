@@ -21,8 +21,8 @@ abstract class Base_Handler implements Handler_Inferface {
 
 	protected Application $wp_app;
 
-	public function __construct(Application $app, array $config = [], bool $strict = false ) {
-		$this->set_wp_app($app);
+	public function __construct( Application $app, array $config = [], bool $strict = false ) {
+		$this->set_wp_app( $app );
 		$this->bind_config( $config, $strict );
 	}
 }

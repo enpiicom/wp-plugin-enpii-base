@@ -52,7 +52,7 @@ final class Enpii_Base_Plugin extends WP_Plugin {
 		| You can remove this handler to replace with the Service Providers you want
 		 */
 		if ( $this->is_wp_app_mode() ) {
-			$this->execute_generic_handler(Register_Main_Service_Providers_Handler::class);
+			$this->execute_generic_handler( Register_Main_Service_Providers_Handler::class );
 		}
 	}
 
@@ -60,7 +60,7 @@ final class Enpii_Base_Plugin extends WP_Plugin {
 		// We want to check that if the uri prefix is for wp-app before invoke the handler
 		// to keep the handler lazy-loading
 		if ( $this->is_wp_app_mode() ) {
-			$this->execute_generic_handler(Process_WP_App_Request_Handler::class);
+			$this->execute_generic_handler( Process_WP_App_Request_Handler::class );
 		}
 	}
 
@@ -68,7 +68,7 @@ final class Enpii_Base_Plugin extends WP_Plugin {
 		// We want to check that if the uri prefix is for wp-app before invoke the handler
 		// to keep the handler lazy-loading
 		if ( $this->is_wp_app_mode() ) {
-			$this->execute_generic_handler(Register_Base_WP_App_Routes_Handler::class);
+			$this->execute_generic_handler( Register_Base_WP_App_Routes_Handler::class );
 		}
 	}
 
