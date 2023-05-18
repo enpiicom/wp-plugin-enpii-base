@@ -2278,7 +2278,7 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      * @return CarbonInterface[]
      */
     #[ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
