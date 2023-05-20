@@ -25,7 +25,7 @@ class Register_Main_Service_Providers_Job_Command extends Base_Job_Command {
 				\Enpii\WP_Plugin\Enpii_Base\App\Providers\Database_Service_Provider::class,
 				\Enpii\WP_Plugin\Enpii_Base\App\Providers\Composer_Service_Provider::class,
 				\Enpii\WP_Plugin\Enpii_Base\App\Providers\Migration_Service_Provider::class,
-				\Enpii\WP_Plugin\Enpii_Base\App\Providers\Plates_Template_Service_Provider::class,
+				// \Enpii\WP_Plugin\Enpii_Base\App\Providers\Plates_Template_Service_Provider::class,
 			];
 		}
 		$this->set_providers($providers);

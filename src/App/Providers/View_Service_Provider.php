@@ -14,6 +14,12 @@ class View_Service_Provider extends ViewServiceProvider {
 		parent::register();
 	}
 
+	public function boot() {
+		/** @var \Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\View\Factory $view */
+		$view = wp_app_view();
+		$view->addExtension('php', 'blade');
+	}
+
 	protected function before_register(): void {
 		wp_app_config(
 			[
