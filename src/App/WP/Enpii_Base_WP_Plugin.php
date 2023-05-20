@@ -67,17 +67,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws InvalidArgumentException
 	 */
 	public function register_main_service_providers(): void {
-		Register_Main_Service_Providers_Job_Command::dispatchNow([
-			\Enpii\WP_Plugin\Enpii_Base\App\Providers\View_Service_Provider::class,
-			\Enpii\WP_Plugin\Enpii_Base\App\Providers\Route_Service_Provider::class,
-			\Enpii\WP_Plugin\Enpii_Base\App\Providers\Filesystem_Service_Provider::class,
-			\Enpii\WP_Plugin\Enpii_Base\App\Providers\Cache_Service_Provider::class,
-			\Enpii\WP_Plugin\Enpii_Base\App\Providers\Artisan_Service_Provider::class,
-			\Enpii\WP_Plugin\Enpii_Base\App\Providers\Queue_Service_Provider::class,
-			\Enpii\WP_Plugin\Enpii_Base\App\Providers\Database_Service_Provider::class,
-			\Enpii\WP_Plugin\Enpii_Base\App\Providers\Composer_Service_Provider::class,
-			\Enpii\WP_Plugin\Enpii_Base\App\Providers\Migration_Service_Provider::class,
-		]);
+		Register_Main_Service_Providers_Job_Command::dispatchNow();
 	}
 
 	public function process_wp_app_request(): void {
@@ -128,6 +118,10 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 	public function wp_app_init(): void {
 		do_action( 'enpii_base_wp_app_init' );
+	}
+
+	public function get_views_path() {
+		return $this->get_base_path() . DIR_SEP . 'resources' . DIR_SEP . 'views';
 	}
 
 	/**

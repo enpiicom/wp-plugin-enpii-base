@@ -95,6 +95,7 @@ class WP_Application extends Application {
 			]
 		);
 		$this->instance( $plugin_classsname, $plugin );
+		$this->alias( $plugin_classsname, $plugin_slug );
 		$this->register( $plugin );
 	}
 
