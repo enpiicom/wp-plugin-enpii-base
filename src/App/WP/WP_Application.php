@@ -111,12 +111,17 @@ class WP_Application extends Application {
 		$theme_classsname,
 		$theme_base_path,
 		$theme_base_url,
-		$child_theme_base_path = null,
-		$child_theme_base_url = null
+		$parent_theme_base_path = null,
+		$parent_theme_base_url = null
 	): void {
 		$theme = new $theme_classsname( $this );
 		if ( ! ( $theme instanceof WP_Theme_Interface ) ) {
 			throw new InvalidArgumentException( sprintf( 'The target classname %s must implement %s', $theme_classsname, WP_Theme_Interface::class ) );
+		}
+
+		if (get_template_directory() !== get_stylesheet_uri()) {
+			$parent_theme_base_path = get_template_directory();
+			$parent_theme_base_url = get_template_directory_uri();
 		}
 
 		/** @var \Enpii\WP_Plugin\Enpii_Base\Libs\WP_Theme $theme  */
@@ -124,8 +129,8 @@ class WP_Application extends Application {
 			[
 				WP_Theme_Interface::PARAM_KEY_THEME_BASE_PATH => $theme_base_path,
 				WP_Theme_Interface::PARAM_KEY_THEME_BASE_URL  => $theme_base_url,
-				WP_Theme_Interface::PARAM_KEY_CHILD_THEME_BASE_PATH  => $child_theme_base_path,
-				WP_Theme_Interface::PARAM_KEY_CHILD_THEME_BASE_URL  => $child_theme_base_url,
+				WP_Theme_Interface::PARAM_KEY_PARENT_THEME_BASE_PATH  => $parent_theme_base_path,
+				WP_Theme_Interface::PARAM_KEY_PARENT_THEME_BASE_URL  => $parent_theme_base_url,
 			]
 		);
 		$this->instance( $theme_classsname, $theme );
