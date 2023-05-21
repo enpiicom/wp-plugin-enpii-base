@@ -44,11 +44,11 @@ class View_Service_Provider extends ViewServiceProvider {
 		// then the fallback is the Enpii Base plugin views
 		return get_stylesheet_directory() === get_template_directory() ?
 			[
-				get_stylesheet_directory() . DIR_SEP . 'resources' . DIR_SEP . 'views',
+				get_stylesheet_directory(),
 			]
 		 	: [
-				get_stylesheet_directory() . DIR_SEP . 'resources' . DIR_SEP . 'views',
-				get_template_directory() . DIR_SEP . 'resources' . DIR_SEP . 'views',
+				get_stylesheet_directory(),
+				get_template_directory(),
 			];
 	}
 

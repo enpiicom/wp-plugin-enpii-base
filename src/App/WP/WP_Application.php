@@ -15,6 +15,7 @@ use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Application;
 use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Mix;
 use Enpii\WP_Plugin\Enpii_Base\Foundation\Shared\Base_Command_Handler;
 use Enpii\WP_Plugin\Enpii_Base\Foundation\Shared\Base_Query_Handler;
+use Enpii\WP_Plugin\Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
 use Enpii\WP_Plugin\Enpii_Base\Foundation\WP\WP_Plugin_Interface;
 use Enpii\WP_Plugin\Enpii_Base\Foundation\WP\WP_Theme_Interface;
 use InvalidArgumentException;
@@ -24,6 +25,7 @@ use TypeError;
  * @package Enpii\WP_Plugin\Enpii_Base\App\WP
  */
 class WP_Application extends Application {
+
 	/**
      * We override the parent instance for not messing up with other application
      *
@@ -36,6 +38,9 @@ class WP_Application extends Application {
 	 * @var array
 	 */
 	protected static array $config;
+
+	protected string $wp_app_slug = 'wp-app';
+	protected string $wp_app_api_slug = 'wp-app-api';
 
 	/**
      * We don't want to have this class publicly initialized
@@ -70,6 +75,9 @@ class WP_Application extends Application {
 
 		static::$config = $config;
 		$instance = new static($basePath);
+		$instance->wp_app_slug = $config['wp_app_slug'];
+		$instance->wp_app_api_slug = $config['wp_app_api_slug'];
+
 		static::$instance = $instance;
 
 		return $instance;
@@ -122,6 +130,55 @@ class WP_Application extends Application {
 		);
 		$this->instance( $theme_classsname, $theme );
 		$this->register( $theme );
+	}
+
+	/**
+	 * For checking if the request uri is for 'wp-app'
+	 *
+	 * @return bool
+	 */
+	public function is_wp_app_mode(): bool {
+		$wp_app_prefix = $this->wp_app_slug;
+		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
+		return ( strpos( $uri, '/' . $wp_app_prefix . '/' ) === 0 || $uri === '/' . $wp_app_prefix );
+	}
+
+	/**
+	 * For checking if the request uri is for 'wp-app'
+	 *
+	 * @return bool
+	 */
+	public function is_wp_app_api_mode(): bool {
+		$wp_site_prefix = $this->wp_app_api_slug;
+		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
+		return ( strpos( $uri, '/' . $wp_site_prefix . '/' ) === 0 || $uri === '/' . $wp_site_prefix );
+	}
+
+	/**
+	 * Get the slug for wp-app mode
+	 * @return string
+	 */
+	public function get_wp_app_slug(): string {
+		return $this->wp_app_slug;
+	}
+
+	/**
+	 * Get the slug for wp-app-api mode
+	 * @return string
+	 */
+	public function get_wp_app_api_slug(): string {
+		return $this->wp_app_api_slug;
+	}
+
+	/**
+	 * For checking if the request uri is for 'wp-app'
+	 *
+	 * @return bool
+	 */
+	public function is_wp_site_mode(): bool {
+		$wp_site_prefix = 'site';
+		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
+		return ( strpos( $uri, '/' . $wp_site_prefix . '/' ) === 0 || $uri === '/' . $wp_site_prefix );
 	}
 
 	// Todo: refactor this using constant
