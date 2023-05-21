@@ -72,19 +72,11 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function register_base_wp_app_routes(): void {
-		// We want to check that if the uri prefix is for wp-app before invoke the handler
-		// to keep the handler lazy-loading
-		if ( wp_app()->is_wp_app_mode() ) {
-			Register_Base_WP_App_Routes_Job_Command::dispatchNow();
-		}
+		Register_Base_WP_App_Routes_Job_Command::dispatchNow();
 	}
 
 	public function register_base_wp_app_api_routes(): void {
-		// We want to check that if the uri prefix is for wp-app-api before invoke the handler
-		// to keep the handler lazy-loading
-		if ( wp_app()->is_wp_app_api_mode() ) {
-			Register_Base_WP_App_Api_Routes_Job_Command::dispatchNow();
-		}
+		Register_Base_WP_App_Api_Routes_Job_Command::dispatchNow();
 	}
 
 	public function register_wp_cli_commands(): void {
