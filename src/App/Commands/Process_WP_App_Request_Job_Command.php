@@ -10,7 +10,7 @@ class Process_WP_App_Request_Job_Command extends Base_Job_Command {
 	public function handle(): void {
 		/** @var \Enpii\WP_Plugin\Enpii_Base\App\Http\Kernel $kernel */
 		$wp_app = wp_app();
-		$kernel = $wp_app->make( \Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Http\Kernel::class );
+		$kernel = $wp_app->make( \Enpii_Base\Deps\Illuminate\Contracts\Http\Kernel::class );
 
 		$request = \Enpii\WP_Plugin\Enpii_Base\App\Http\Request::capture();
 		$response = $kernel->handle( $request );

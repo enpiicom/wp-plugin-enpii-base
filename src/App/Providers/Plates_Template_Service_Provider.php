@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Enpii\WP_Plugin\Enpii_Base\App\Providers;
 
 use Enpii\WP_Plugin\Enpii_Base\App\View\Plates\Engine;
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Support\ServiceProvider;
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\League\Plates\Engine as PlatesEngine;
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\League\Plates\Template\Theme as PlatesTheme;
+use Enpii_Base\Deps\Illuminate\Support\ServiceProvider;
+use Enpii_Base\Deps\League\Plates\Engine as PlatesEngine;
+use Enpii_Base\Deps\League\Plates\Template\Theme as PlatesTheme;
 
 class Plates_Template_Service_Provider extends ServiceProvider {
 	/**
@@ -45,7 +45,7 @@ class Plates_Template_Service_Provider extends ServiceProvider {
 		});
 
         $app->resolving('view', function($view) use ($app) {
-			/** @var \Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\View\Factory $view */
+			/** @var \Enpii_Base\Deps\Illuminate\View\Factory $view */
             $view->addExtension('php', 'plates', function() use ($app) {
                 return new Engine($app->make(PlatesEngine::class));
             });

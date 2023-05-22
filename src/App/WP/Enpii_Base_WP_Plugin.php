@@ -8,8 +8,8 @@ use Enpii\WP_Plugin\Enpii_Base\App\Commands\Init_WP_App_Bootstrap_Job_Command;
 use Enpii\WP_Plugin\Enpii_Base\App\Commands\Register_Base_WP_App_Api_Routes_Job_Command;
 use Enpii\WP_Plugin\Enpii_Base\App\Commands\Register_Base_WP_App_Routes_Job_Command;
 use Enpii\WP_Plugin\Enpii_Base\App\Commands\Register_Main_Service_Providers_Job_Command;
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Container\BindingResolutionException;
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Http\Response;
+use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
+use Enpii_Base\Deps\Illuminate\Http\Response;
 use Enpii\WP_Plugin\Enpii_Base\Foundation\WP\WP_Plugin;
 use InvalidArgumentException;
 use WP_CLI;
@@ -144,8 +144,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 		$wp_app = wp_app();
 
-		/** @var \Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Foundation\Http\Kernel $kernel */
-		$kernel = $wp_app->make( \Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Http\Kernel::class );
+		/** @var \Enpii_Base\Deps\Illuminate\Foundation\Http\Kernel $kernel */
+		$kernel = $wp_app->make( \Enpii_Base\Deps\Illuminate\Contracts\Http\Kernel::class );
 
 		/** @var \Enpii\WP_Plugin\Enpii_Base\App\Http\Request $request */
 		$request = \Enpii\WP_Plugin\Enpii_Base\App\Http\Request::capture();

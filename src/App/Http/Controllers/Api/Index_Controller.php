@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii\WP_Plugin\Enpii_Base\App\Http\Controllers\Api;
 
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\Symfony\Component\HttpFoundation\JsonResponse;
+use Enpii_Base\Deps\Symfony\Component\HttpFoundation\JsonResponse;
 use Enpii\WP_Plugin\Enpii_Base\Foundation\Http\Base_Controller;
 
 class Index_Controller extends Base_Controller {

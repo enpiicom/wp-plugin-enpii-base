@@ -49,7 +49,7 @@
             "./src/Dependencies/Illuminate/Support/helpers.php"
         ],
         "psr-4": {
-            "Enpii\\WP_Plugin\\Enpii_Base\\": "src"
+            "Enpii_Base\\": "src"
         }
     },
     "autoload-dev": {
@@ -57,8 +57,8 @@
           "./src/Dependencies/Symfony/Component/VarDumper/Resources/functions/dump.php"
       ],
       "psr-4": {
-          "Enpii\\WP_Plugin\\Enpii_Base\\Tests\\": "tests",
-          "Enpii\\WP_Plugin\\Enpii_Base\\Tests\\Unit\\": "tests/unit"
+          "Enpii_Base\\Tests\\": "tests",
+          "Enpii_Base\\Tests\\Unit\\": "tests/unit"
       }
   },
     "config": {
@@ -85,13 +85,12 @@
             ]
         },
         "mozart": {
-            "dep_namespace": "Enpii\\WP_Plugin\\Enpii_Base\\Dependencies\\",
-            "dep_directory": "/src/Dependencies/",
-            "classmap_directory": "/classes/dependencies/",
-            "classmap_prefix": "NpWpNPB_",
+            "dep_namespace": "Enpii_Base\\Deps\\",
+            "dep_directory": "/src/Deps/",
+            "classmap_directory": "/classes/deps/",
+            "classmap_prefix": "Enpii_Base_",
             "packages": [
-                "laravel/framework",
-                "league/plates"
+                "laravel/framework"
             ],
             "excluded_packages": [],
             "override_autoload": [],

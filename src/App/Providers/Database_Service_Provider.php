@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii\WP_Plugin\Enpii_Base\App\Providers;
 
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Database\DatabaseServiceProvider;
+use Enpii_Base\Deps\Illuminate\Database\DatabaseServiceProvider;
 
 class Database_Service_Provider extends DatabaseServiceProvider {
 	public function register() {

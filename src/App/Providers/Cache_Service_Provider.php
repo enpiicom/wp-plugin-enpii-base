@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii\WP_Plugin\Enpii_Base\App\Providers;
 
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Cache\CacheServiceProvider;
+use Enpii_Base\Deps\Illuminate\Cache\CacheServiceProvider;
 
 class Cache_Service_Provider extends CacheServiceProvider {
 	public function register() {

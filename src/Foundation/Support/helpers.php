@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Filesystem\Filesystem;
+use Enpii_Base\Deps\Illuminate\Filesystem\Filesystem;
 
 if ( ! function_exists( 'enpii_base_wp_app_prepare_folders' ) ) {
 	function enpii_base_wp_app_prepare_folders( string $wp_app_base_path ): void {

@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Enpii\WP_Plugin\Enpii_Base\App\View\Plates;
 
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\Container\BindingResolutionException;
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\League\Plates\Engine as PlatesEngine;
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\League\Plates\Template\Theme as PlatesTheme;
-use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Contracts\View\Engine as EngineContract;
+use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
+use Enpii_Base\Deps\League\Plates\Engine as PlatesEngine;
+use Enpii_Base\Deps\League\Plates\Template\Theme as PlatesTheme;
+use Enpii_Base\Deps\Illuminate\Contracts\View\Engine as EngineContract;
 use Throwable;
 
 class Engine implements EngineContract
@@ -28,7 +28,7 @@ class Engine implements EngineContract
      */
     public function get($path, array $data = array())
     {
-		/** @var \Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\View\FileViewFinder $view_finder */
+		/** @var \Enpii_Base\Deps\Illuminate\View\FileViewFinder $view_finder */
 		$view_finder = wp_app_view()->getFinder();
 		$template_full = array_keys($view_finder->getViews())[0] ?? '';
 		$template_path = array_keys($view_finder->getViews())[1] ?? '';
