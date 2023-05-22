@@ -4,7 +4,6 @@
     "require": {
         "php": "^7.2.5|~8.0.0|~8.1.0",
         "laravel/framework": "7.30.6",
-        "league/plates": "~3.5.0",
         "mcaskill/composer-exclude-files": "^3.0.0",
         "symfony/translation-contracts": "~2.5.2",
         "symfony/translation": "~5.4.14",
@@ -46,7 +45,7 @@
             "./src/Foundation/Support/helpers-wp-app.php",
             "./src/Foundation/Support/helpers-wp-app-overrides.php",
             "./src/Foundation/Support/helpers.php",
-            "./src/Dependencies/Illuminate/Support/helpers.php"
+            "./src/Deps/Illuminate/Support/helpers.php"
         ],
         "psr-4": {
             "Enpii_Base\\": "src"
@@ -54,7 +53,7 @@
     },
     "autoload-dev": {
       "files": [
-          "./src/Dependencies/Symfony/Component/VarDumper/Resources/functions/dump.php"
+          "./src/Deps/Symfony/Component/VarDumper/Resources/functions/dump.php"
       ],
       "psr-4": {
           "Enpii_Base\\Tests\\": "tests",
