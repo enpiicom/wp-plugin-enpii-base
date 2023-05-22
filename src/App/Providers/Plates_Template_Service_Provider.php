@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Enpii\WP_Plugin\Enpii_Base\App\Providers;
+namespace Enpii_Base\App\Providers;
 
-use Enpii\WP_Plugin\Enpii_Base\App\View\Plates\Engine;
+use Enpii_Base\App\View\Plates\Engine;
 use Enpii_Base\Deps\Illuminate\Support\ServiceProvider;
 use Enpii_Base\Deps\League\Plates\Engine as PlatesEngine;
 use Enpii_Base\Deps\League\Plates\Template\Theme as PlatesTheme;

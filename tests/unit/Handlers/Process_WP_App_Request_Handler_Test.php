@@ -1,14 +1,14 @@
 <?php
 
-namespace Enpii\WP_Plugin\Enpii_Base\Tests\Unit\Base\Handlers;
+namespace Enpii_Base\Tests\Unit\Base\Handlers;
 
 use Codeception\Stub;
-use Enpii\WP_Plugin\Enpii_Base\App\Http\Kernel;
+use Enpii_Base\App\Http\Kernel;
 use Enpii_Base\Deps\Illuminate\Foundation\Application;
-use Enpii\WP_Plugin\Enpii_Base\Handlers\Process_WP_App_Request_Handler;
-use Enpii\WP_Plugin\Enpii_Base\Handlers\Register_Main_Service_Providers_Handler;
-use Enpii\WP_Plugin\Enpii_Base\Libs\Generic_Command;
-use Enpii\WP_Plugin\Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Handlers\Process_WP_App_Request_Handler;
+use Enpii_Base\Handlers\Register_Main_Service_Providers_Handler;
+use Enpii_Base\Libs\Generic_Command;
+use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 
 class Process_WP_App_Request_Handler_Test extends Unit_Test_Case {
 	public function test_handle(): void {

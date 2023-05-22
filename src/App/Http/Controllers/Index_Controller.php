@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Enpii\WP_Plugin\Enpii_Base\App\Http\Controllers;
+namespace Enpii_Base\App\Http\Controllers;
 
-use Enpii\WP_Plugin\Enpii_Base\App\WP\Enpii_Base_WP_Plugin;
+use Enpii_Base\App\WP\Enpii_Base_WP_Plugin;
 
 class Index_Controller extends \Enpii_Base\Deps\Illuminate\Routing\Controller {
 	public function home() {

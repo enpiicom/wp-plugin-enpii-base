@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Enpii\WP_Plugin\Enpii_Base\App\Http;
+namespace Enpii_Base\App\Http;
 
 use Enpii_Base\Deps\Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -48,6 +48,6 @@ class Kernel extends HttpKernel {
 	 * @var array
 	 */
 	protected $routeMiddleware = [
-		'wp_user_session_validation' => \Enpii\WP_Plugin\Enpii_Base\App\Http\Middleware\WP_User_Session_Validation::class,
+		'wp_user_session_validation' => \Enpii_Base\App\Http\Middleware\WP_User_Session_Validation::class,
 	];
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Enpii\WP_Plugin\Enpii_Base\App\View\Plates;
+namespace Enpii_Base\App\View\Plates;
 
 use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
 use Enpii_Base\Deps\League\Plates\Engine as PlatesEngine;

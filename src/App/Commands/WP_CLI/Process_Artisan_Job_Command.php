@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Enpii\WP_Plugin\Enpii_Base\App\Commands\WP_CLI;
+namespace Enpii_Base\App\Commands\WP_CLI;
 
-use Enpii\WP_Plugin\Enpii_Base\Foundation\Shared\Base_Job_Command;
+use Enpii_Base\Foundation\Shared\Base_Job_Command;
 
 class Process_Artisan_Job_Command extends Base_Job_Command {
 	public function handle(): void {
-		/** @var \Enpii\WP_Plugin\Enpii_Base\App\Console\Kernel $kernel */
+		/** @var \Enpii_Base\App\Console\Kernel $kernel */
 		$kernel = wp_app()->make(
 			\Enpii_Base\Deps\Illuminate\Contracts\Console\Kernel::class
 		);

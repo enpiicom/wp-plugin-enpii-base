@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Enpii\WP_Plugin\Enpii_Base\App\Exceptions;
+namespace Enpii_Base\App\Exceptions;
 
 use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
 use Enpii_Base\Deps\Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;

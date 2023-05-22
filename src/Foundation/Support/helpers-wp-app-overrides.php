@@ -22,7 +22,7 @@ use Enpii_Base\Deps\Illuminate\Support\Collection;
 use Enpii_Base\Deps\Illuminate\Support\Facades\Date;
 use Enpii_Base\Deps\Illuminate\Support\HtmlString;
 use Enpii_Base\Deps\Symfony\Component\HttpFoundation\Response;
-use Enpii\WP_Plugin\Enpii_Base\App\WP\WP_Application;
+use Enpii_Base\App\WP\WP_Application;
 use Enpii_Base\Deps\Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -114,7 +114,7 @@ if ( ! function_exists( 'wp_app' ) ) {
 	 *
 	 * @param  string|null  $abstract
 	 * @param  array  $parameters
-	 * @return mixed|\Enpii\WP_Plugin\Enpii_Base\App\WP\WP_Application
+	 * @return mixed|\Enpii_Base\App\WP\WP_Application
 	 */
 	function wp_app( $abstract = null, array $parameters = [] ) {
 		if ( is_null( $abstract ) ) {

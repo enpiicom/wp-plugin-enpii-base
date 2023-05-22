@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Enpii\WP_Plugin\Enpii_Base\App\Providers;
+namespace Enpii_Base\App\Providers;
 
 use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
 use Enpii_Base\Deps\Illuminate\View\ViewServiceProvider;

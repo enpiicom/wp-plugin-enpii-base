@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Enpii\WP_Plugin\Enpii_Base\App\Console;
+namespace Enpii_Base\App\Console;
 
 use Enpii_Base\Deps\Illuminate\Console\Scheduling\Schedule;
 use Enpii_Base\Deps\Illuminate\Foundation\Console\Kernel as ConsoleKernel;

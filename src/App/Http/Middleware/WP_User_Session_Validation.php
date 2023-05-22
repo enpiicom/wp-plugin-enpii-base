@@ -1,6 +1,6 @@
 <?php
 
-namespace Enpii\WP_Plugin\Enpii_Base\App\Http\Middleware;
+namespace Enpii_Base\App\Http\Middleware;
 
 use Closure;
 use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
