@@ -54,6 +54,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		add_action( 'enpii_base_wp_app_api_register_routes', [ $this, 'register_base_wp_app_api_routes' ] );
 
 		// Other hooks
+		add_filter( 'template_include', [ $this, 'use_blade_to_compile_template' ], 99999);
 	}
 
 	public function bootstrap_wp_app(): void {
@@ -174,6 +175,25 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	public function skip_use_wp_theme() {
 		do_action( 'enpii_base_wp_app_skip_use_wp_theme' );
 
+		return false;
+	}
+
+	public function use_blade_to_compile_template( $template) {
+		/** @var \Enpii_Base\Deps\Illuminate\View\Compilers\BladeCompiler $blade_compiler */
+		$blade_compiler = wp_app('blade.compiler');
+
+		/** @var \Enpii_Base\Deps\Illuminate\View\Factory $view */
+		$view = wp_app_view();
+		$view->addExtension('php', 'blade');
+
+		/** @var \Enpii_Base\Deps\Illuminate\View\View $wp_app_view */
+		// $wp_app_view = wp_app_view(basename($template, '.php'));
+		$tmp = wp_app_view(basename($template, '.php'));
+		// dev_dump($blade_compiler->getCompiledPath());
+		echo $tmp;
+		// die();
+		// $compiled_template_path = $blade_compiler->getCompiledPath($template);
+		// dev_dump($compiled_template_path);
 		return false;
 	}
 
