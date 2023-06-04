@@ -11,6 +11,7 @@ use Enpii_Base\App\Commands\Register_Main_Service_Providers_Job_Command;
 use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
 use Enpii_Base\Deps\Illuminate\Http\Response;
 use Enpii_Base\Foundation\WP\WP_Plugin;
+use Exception;
 use InvalidArgumentException;
 use WP_CLI;
 use WP_Query;
@@ -187,14 +188,24 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		$view->addExtension('php', 'blade');
 
 		/** @var \Enpii_Base\Deps\Illuminate\View\View $wp_app_view */
-		// $wp_app_view = wp_app_view(basename($template, '.php'));
-		$tmp = wp_app_view(basename($template, '.php'));
-		// dev_dump($blade_compiler->getCompiledPath());
-		echo $tmp;
+		// $wp_app_view = wp_app_view(basename($template, '.php'))
+
+		// We catch exception if view is not rendered correctly
+		// 	exception InvalidArgumentException for view file not found in FileViewFinder
+		try {
+			$tmp = wp_app_view(basename($template, '.php'));
+			// dev_dump($blade_compiler->getCompiledPath());
+			echo $tmp;
+			$template = false;
+		} catch (InvalidArgumentException $e) {
+		} catch (Exception $e) {
+			throw $e;
+		}
+
 		// die();
 		// $compiled_template_path = $blade_compiler->getCompiledPath($template);
-		// dev_dump($compiled_template_path);
-		return false;
+		// dev_dump($template);
+		return $template;
 	}
 
 	public function wp_app_complete_execution(): void {
