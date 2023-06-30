@@ -55,7 +55,9 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		add_action( 'enpii_base_wp_app_api_register_routes', [ $this, 'register_base_wp_app_api_routes' ] );
 
 		// Other hooks
-		add_filter( 'template_include', [ $this, 'use_blade_to_compile_template' ], 99999);
+		if ($this->is_blade_for_template_available()) {
+			add_filter( 'template_include', [ $this, 'use_blade_to_compile_template' ], 99999);
+		}
 	}
 
 	public function bootstrap_wp_app(): void {
@@ -180,11 +182,9 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function use_blade_to_compile_template( $template) {
-		/** @var \Enpii_Base\Deps\Illuminate\View\Compilers\BladeCompiler $blade_compiler */
-		$blade_compiler = wp_app('blade.compiler');
-
 		/** @var \Enpii_Base\Deps\Illuminate\View\Factory $view */
 		$view = wp_app_view();
+		// We want to have blade to compile the php file as well
 		$view->addExtension('php', 'blade');
 
 		/** @var \Enpii_Base\Deps\Illuminate\View\View $wp_app_view */
@@ -202,9 +202,6 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			throw $e;
 		}
 
-		// die();
-		// $compiled_template_path = $blade_compiler->getCompiledPath($template);
-		// dev_dump($template);
 		return $template;
 	}
 
@@ -253,5 +250,10 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			add_action( 'wp', [$this, 'wp_app_render_content'], 9999, 1 );
 			add_action( 'shutdown', [$this, 'wp_app_complete_execution'], 9999, 0 );
 		}
+	}
+
+	private function is_blade_for_template_available(): bool {
+		// We only want to use Blade
+		return !wp_app()->is_wp_app_mode();
 	}
 }
