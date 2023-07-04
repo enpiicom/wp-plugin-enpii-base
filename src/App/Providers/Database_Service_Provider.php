@@ -58,12 +58,12 @@ class Database_Service_Provider extends DatabaseServiceProvider {
 								'database' => DB_NAME,
 								'username' => DB_USER,
 								'password' => DB_PASSWORD,
-								'unix_socket' => DB_SOCKET,
-								'charset' => DB_CHARSET,
-								'collation' => DB_COLLATE,
-								'prefix' => DB_TABLE_PREFIX,
-								'strict' => DB_STRICT_MODE,
-								'engine' => DB_ENGINE,
+								// 'unix_socket' => DB_SOCKET,
+								// 'charset' => DB_CHARSET,
+								// 'collation' => DB_COLLATE,
+								// 'prefix' => DB_TABLE_PREFIX,
+								// 'strict' => DB_STRICT_MODE,
+								// 'engine' => DB_ENGINE,
 							],
 
 							'mysql_logs' => [

@@ -20,7 +20,10 @@ class Unit_Test_Case extends \Codeception\Test\Unit {
 				'compiled' => [codecept_output_dir()],
 			]
 		];
-		$this->wp_app = (new WP_Application($this->wp_app_base_path))->init_config($config);
+		$this->wp_app = WP_Application::init_instance_with_config(
+			$this->wp_app_base_path,
+			$config
+		);
 	}
 
 	protected function tearDown(): void {
