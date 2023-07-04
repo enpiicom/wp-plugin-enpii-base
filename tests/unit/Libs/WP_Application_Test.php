@@ -20,6 +20,8 @@ class WP_Application_Test extends Unit_Test_Case {
 	public function test_init_config(): void {
 		$config = [
 			'env' => 'local',
+			'wp_app_slug' => 'app_slug_local',
+			'wp_app_api_slug' => 'api_slug_local',
 		];
 		$this->wp_app = WP_Application::init_instance_with_config(
 			$this->wp_app_base_path,
@@ -27,7 +29,9 @@ class WP_Application_Test extends Unit_Test_Case {
 		);
 
 		// We need to ensure all the configs are binded
-		$this->assertEquals($config['env'], $this->wp_app['config']['env'], 'Config is not correct');
+		$this->assertEquals($config['env'], $this->wp_app['config']['env'], 'Config env is not correct');
+		$this->assertEquals($config['wp_app_slug'], $this->wp_app['config']['wp_app_slug'], 'Config app slug is not correct');
+		$this->assertEquals($config['wp_app_api_slug'], $this->wp_app['config']['wp_app_api_slug'], 'Config api slug is not correct');
 	}
 
 	public function test_register_providers(): void {
