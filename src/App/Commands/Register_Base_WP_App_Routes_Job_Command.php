@@ -14,9 +14,8 @@ class Register_Base_WP_App_Routes_Job_Command extends Base_Job_Command {
 	public function handle(): void {
 		if (wp_app()->is_debug_mode()) {
 			// For Frontend
-			Route::get( '/', [ Index_Controller::class, 'home' ] );
-			Route::get( '/home', [ Index_Controller::class, 'home' ] );
-			Route::get( '/enpii-base', [ Index_Controller::class, 'enpii_base' ] );
+			Route::get( '/', [ Index_Controller::class, 'index' ] );
+			Route::get( '/enpii-base-2', [ Index_Controller::class, 'enpii_base' ] );
 
 			// For Admin
 			Route::group(

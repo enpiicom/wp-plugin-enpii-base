@@ -137,6 +137,44 @@ class WP_Application extends Application {
 		$this->register( $theme );
 	}
 
+	/**
+	 * A shortcut to register actions for enpii_base_wp_app_register_routes
+	 * @param mixed $callback
+	 * @param int $priority
+	 * @param int $accepted_args
+	 * @return void
+	 */
+	public function register_routes($callback, $priority = 10, $accepted_args = 1): void {
+		add_action( 'enpii_base_wp_app_register_routes', $callback, $priority, $accepted_args );
+	}
+
+	/**
+	 * A shortcut to register actions for enpii_base_wp_app_api_register_routes
+	 * @param mixed $callback
+	 * @param int $priority
+	 * @param int $accepted_args
+	 * @return void
+	 */
+	public function register_api_routes($callback, $priority = 10, $accepted_args = 1): void {
+		add_action( 'enpii_base_wp_app_api_register_routes', $callback, $priority, $accepted_args );
+	}
+
+	/**
+	 * Get the slug for wp-app mode
+	 * @return string
+	 */
+	public function get_wp_app_slug(): string {
+		return $this->wp_app_slug;
+	}
+
+	/**
+	 * Get the slug for wp-app-api mode
+	 * @return string
+	 */
+	public function get_wp_app_api_slug(): string {
+		return $this->wp_app_api_slug;
+	}
+
 	public function is_debug_mode(): bool {
 		return wp_app_config('app.debug');
 	}
@@ -161,22 +199,6 @@ class WP_Application extends Application {
 		$wp_site_prefix = $this->wp_app_api_slug;
 		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
 		return ( strpos( $uri, '/' . $wp_site_prefix . '/' ) === 0 || $uri === '/' . $wp_site_prefix );
-	}
-
-	/**
-	 * Get the slug for wp-app mode
-	 * @return string
-	 */
-	public function get_wp_app_slug(): string {
-		return $this->wp_app_slug;
-	}
-
-	/**
-	 * Get the slug for wp-app-api mode
-	 * @return string
-	 */
-	public function get_wp_app_api_slug(): string {
-		return $this->wp_app_api_slug;
 	}
 
 	/**
