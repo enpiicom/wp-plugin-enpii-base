@@ -45,7 +45,7 @@
       "./src/Foundation/Support/helpers-wp-app.php",
       "./src/Foundation/Support/helpers-wp-app-overrides.php",
       "./src/Foundation/Support/helpers.php",
-      "./src/Deps/Illuminate/Support/helpers.php"
+      "./src-deps/Illuminate/Support/helpers.php"
     ],
     "psr-4": {
       "Enpii_Base\\Deps\\": "src-deps",
@@ -54,7 +54,7 @@
   },
   "autoload-dev": {
     "files": [
-      "./src/Deps/Symfony/Component/VarDumper/Resources/functions/dump.php"
+      "./src-deps/Symfony/Component/VarDumper/Resources/functions/dump.php"
     ],
     "psr-4": {
       "Enpii_Base\\Tests\\": "tests",
@@ -90,12 +90,11 @@
       "classmap_directory": "/classes/deps/",
       "classmap_prefix": "Enpii_Base_",
       "packages": [
-        "laravel/framework",
-        "league/plates"
+        "laravel/framework"
       ],
       "excluded_packages": [],
       "override_autoload": [],
-      "delete_vendor_directories": true
+      "delete_vendor_directories": false
     }
   },
   "scripts": {
