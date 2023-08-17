@@ -138,3 +138,16 @@ docker compose exec --user=devuser wordpress chmod -R 777 /var/www/html/wp-conte
 	```
 
 	5. Remove the previous part added to `wp-config.php` (item 1)
+
+### Code Generating
+
+#### Job Generating
+-
+```
+wp enpii-base artisan make:job Name_Of_The_Action_Job --target-path="<path-to-project>/html/wp-content/mu-plugins/enpii-base/src/App/Jobs" --base-namespace="Enpii_Base\App\Jobs" --force --sync --dry-run
+```
+	- `--target-path=<path>` is the folder you want to have the new file to be generated
+	- `--base-namespace=<namespace>` is the namespace (exclude the filename) of the file
+	- `--force` force to recreate file if there's an existing one
+	- `--sync` create a Job to be executed right away or for queuing
+	- `--dry-run` perform a run without any affects on the files

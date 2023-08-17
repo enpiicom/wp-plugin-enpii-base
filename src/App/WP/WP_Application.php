@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP;
 
-use Enpii_Base\App\Commands\Generic_WP_App_Command;
 use Enpii_Base\App\Providers\Bus_Service_Provider;
 use Enpii_Base\App\Providers\Events_Service_Provider;
 use Enpii_Base\App\Providers\Log_Service_Provider;
 use Enpii_Base\App\Providers\Routing_Service_Provider;
-use Enpii_Base\App\Queries\Generic_WP_App_Query;
 use Enpii_Base\Deps\Illuminate\Config\Repository;
 use Enpii_Base\Deps\Illuminate\Foundation\Application;
 use Enpii_Base\Deps\Illuminate\Foundation\Mix;
-use Enpii_Base\Foundation\Shared\Base_Command_Handler;
-use Enpii_Base\Foundation\Shared\Base_Query_Handler;
-use Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
 use Enpii_Base\Foundation\WP\WP_Plugin_Interface;
 use Enpii_Base\Foundation\WP\WP_Theme_Interface;
 use InvalidArgumentException;
@@ -140,6 +135,7 @@ class WP_Application extends Application {
 
 	/**
 	 * A shortcut to register actions for enpii_base_wp_app_register_routes
+	 * 	We must call this method inside the `manipulate_hooks` method
 	 * @param mixed $callback
 	 * @param int $priority
 	 * @param int $accepted_args
@@ -151,6 +147,7 @@ class WP_Application extends Application {
 
 	/**
 	 * A shortcut to register actions for enpii_base_wp_api_register_routes
+	 * 	We must call this method inside the `manipulate_hooks` method
 	 * @param mixed $callback
 	 * @param int $priority
 	 * @param int $accepted_args

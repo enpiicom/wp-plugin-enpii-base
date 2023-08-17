@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP;
 
-use Enpii_Base\App\Commands\Register_Base_WP_Api_Routes_Job_Command;
-use Enpii_Base\App\Commands\Register_Base_WP_App_Routes_Job_Command;
-use Enpii_Base\App\Commands\Register_Main_Service_Providers_Job_Command;
 use Enpii_Base\App\Jobs\Init_WP_App_Bootstrap_Job;
 use Enpii_Base\App\Jobs\Process_WP_App_Request_Job;
 use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes_Job;
@@ -55,8 +52,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		// We want to start processing wp-app requests after all plugins and theme loaded
 		add_action( 'enpii_base_wp_app_init', [ $this, 'register_main_service_providers' ] );
 
-		add_action( 'enpii_base_wp_app_register_routes', [ $this, 'register_base_wp_app_routes' ] );
-		add_action( 'enpii_base_wp_api_register_routes', [ $this, 'register_base_wp_api_routes' ] );
+		wp_app()->register_routes([ $this, 'register_base_wp_app_routes' ]);
+		wp_app()->register_api_routes([ $this, 'register_base_wp_api_routes' ]);
 
 		// Other hooks
 		if ($this->is_blade_for_template_available()) {
@@ -190,14 +187,10 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		// We want to have blade to compile the php file as well
 		$view->addExtension('php', 'blade');
 
-		/** @var \Enpii_Base\Deps\Illuminate\View\View $wp_app_view */
-		// $wp_app_view = wp_app_view(basename($template, '.php'))
-
 		// We catch exception if view is not rendered correctly
 		// 	exception InvalidArgumentException for view file not found in FileViewFinder
 		try {
 			$tmp = wp_app_view(basename($template, '.php'));
-			// dev_dump($blade_compiler->getCompiledPath());
 			echo $tmp;
 			$template = false;
 		} catch (InvalidArgumentException $e) {

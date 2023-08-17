@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Foundation\WP;
 
+use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
 use Enpii_Base\Deps\Illuminate\Support\ServiceProvider;
 use Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
 use Enpii_Base\Foundation\Shared\Traits\Config_Trait;
@@ -25,6 +26,15 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	protected $plugin_slug;
 	protected $base_path;
 	protected $base_url;
+
+	/**
+	 *
+	 * @return static
+	 * @throws BindingResolutionException
+	 */
+	public static function app_instance() {
+		return wp_app(get_called_class());
+	}
 
 	/**
 	 * We want to bind the the base params using an array

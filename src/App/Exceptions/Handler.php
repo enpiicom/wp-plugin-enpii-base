@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Exceptions;
 
+use Enpii_Base\App\WP\Enpii_Base_WP_Plugin;
 use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
 use Enpii_Base\Deps\Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Enpii_Base\Deps\Illuminate\Foundation\Exceptions\WhoopsHandler;
@@ -89,7 +90,7 @@ class Handler extends ExceptionHandler {
 	 */
     protected function getHttpExceptionView(HttpExceptionInterface $e)
     {
-        return "errors/error";
+		return Enpii_Base_WP_Plugin::app_instance()->get_plugin_slug().'::'. 'errors/error';
     }
 
 	/**
