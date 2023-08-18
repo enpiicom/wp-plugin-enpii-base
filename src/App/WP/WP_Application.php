@@ -105,6 +105,7 @@ class WP_Application extends Application {
 
 	public function register_theme(
 		$theme_classsname,
+		$theme_slug,
 		$theme_base_path,
 		$theme_base_url,
 		$parent_theme_base_path = null,
@@ -123,6 +124,7 @@ class WP_Application extends Application {
 		/** @var \Enpii_Base\Libs\WP_Theme $theme  */
 		$theme->bind_base_params(
 			[
+				WP_Theme_Interface::PARAM_KEY_THEME_SLUG => $theme_slug,
 				WP_Theme_Interface::PARAM_KEY_THEME_BASE_PATH => $theme_base_path,
 				WP_Theme_Interface::PARAM_KEY_THEME_BASE_URL  => $theme_base_url,
 				WP_Theme_Interface::PARAM_KEY_PARENT_THEME_BASE_PATH  => $parent_theme_base_path,
