@@ -10,9 +10,9 @@ use Enpii_Base\App\Providers\Events_Service_Provider;
 use Enpii_Base\App\Providers\Log_Service_Provider;
 use Enpii_Base\App\Providers\Routing_Service_Provider;
 use Enpii_Base\App\Queries\Generic_WP_App_Query;
-use Enpii_Base\Deps\Illuminate\Config\Repository;
-use Enpii_Base\Deps\Illuminate\Foundation\Application;
-use Enpii_Base\Deps\Illuminate\Foundation\Mix;
+use Illuminate\Config\Repository;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Mix;
 use Enpii_Base\Foundation\Shared\Base_Command_Handler;
 use Enpii_Base\Foundation\Shared\Base_Query_Handler;
 use Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
@@ -66,7 +66,7 @@ class WP_Application extends Application {
 	 * @param mixed $config
 	 * @return WP_Application
 	 * @throws TypeError
-	 * @throws \Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException
+	 * @throws \Illuminate\Contracts\Container\BindingResolutionException
 	 */
 	public static function init_instance_with_config( $basePath = null, $config = null ): self {
 		$instance = static::$instance;

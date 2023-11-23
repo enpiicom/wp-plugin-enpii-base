@@ -2,7 +2,7 @@
 
 namespace Enpii_Base\App\Jobs;
 
-use Enpii_Base\Deps\Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route;
 use Enpii_Base\Foundation\Bus\Dispatchable_Trait;
 use Enpii_Base\Foundation\Jobs\Base_Job;
 

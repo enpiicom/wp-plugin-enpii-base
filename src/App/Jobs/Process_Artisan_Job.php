@@ -18,7 +18,7 @@ class Process_Artisan_Job extends Base_Job
     {
         /** @var \Enpii_Base\App\Console\Kernel $kernel */
 		$kernel = wp_app()->make(
-			\Enpii_Base\Deps\Illuminate\Contracts\Console\Kernel::class
+			\Illuminate\Contracts\Console\Kernel::class
 		);
 
 		// We need to remove 2 first items to match the artisan arguments

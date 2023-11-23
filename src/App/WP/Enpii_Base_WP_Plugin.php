@@ -12,8 +12,8 @@ use Enpii_Base\App\Jobs\Process_WP_App_Request_Job;
 use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes_Job;
 use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes_Job;
 use Enpii_Base\App\Jobs\Register_Main_Service_Providers_Job;
-use Enpii_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
-use Enpii_Base\Deps\Illuminate\Http\Response;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\Response;
 use Enpii_Base\Foundation\WP\WP_Plugin;
 use Exception;
 use InvalidArgumentException;
@@ -185,12 +185,12 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function use_blade_to_compile_template( $template) {
-		/** @var \Enpii_Base\Deps\Illuminate\View\Factory $view */
+		/** @var \Illuminate\View\Factory $view */
 		$view = wp_app_view();
 		// We want to have blade to compile the php file as well
 		$view->addExtension('php', 'blade');
 
-		/** @var \Enpii_Base\Deps\Illuminate\View\View $wp_app_view */
+		/** @var \Illuminate\View\View $wp_app_view */
 		// $wp_app_view = wp_app_view(basename($template, '.php'))
 
 		// We catch exception if view is not rendered correctly

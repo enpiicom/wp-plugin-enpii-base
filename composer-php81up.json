@@ -1,0 +1,28 @@
+{
+  "name": "enpii/enpii-base",
+  "type": "wordpress-muplugin",
+  "require": {
+    "php": "^8.1.0",
+    "symfony/var-dumper": "^6.0.0",
+    "laravel/framework": "^10.0.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "files": [
+      "./src/Foundation/Support/helpers-wp-app.php",
+      "./src/Foundation/Support/helpers-wp-app-overrides.php",
+      "./src/Foundation/Support/helpers.php"],
+    "psr-4": {
+      "Enpii_Base\\": "src"
+    }
+  },
+  "config": {
+    "vendor-dir": "./vendor-php81up",
+    "sort-packages": true
+  },
+  "extra": {
+    "exclude-from-files": [
+    ]
+  }
+}
