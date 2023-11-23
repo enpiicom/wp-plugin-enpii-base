@@ -8,10 +8,10 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Foundation\Exceptions\WhoopsHandler;
 use Illuminate\Http\Request;
-use Enpii_Base\Deps\Monolog\Handler\HandlerInterface;
-use Enpii_Base\Deps\Symfony\Component\HttpFoundation\Response;
-use Enpii_Base\Deps\Symfony\Component\HttpKernel\Exception\HttpException;
-use Enpii_Base\Deps\Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Monolog\Handler\HandlerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Exception;
 use Throwable;
 
@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler {
 	 * @param \Illuminate\Http\Request $request
 	 * @param Throwable $exception
 	 *
-	 * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Enpii_Base\Deps\Symfony\Component\HttpFoundation\Response
+	 * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
 	 * @throws Throwable
 	 */
 	public function render( $request, Throwable $exception ) {

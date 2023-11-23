@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Enpii_Base\Deps\Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Below functions are for development debugging

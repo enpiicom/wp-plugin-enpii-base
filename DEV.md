@@ -1,9 +1,9 @@
 ### For pushing to WordPress.org repo
 - To get dependencies for PHP 8.0
 ```
-COMPOSER=composer-php80down.json composer install --no-dev
+COMPOSER=composer-php80down.json composer install --no-dev --ignore-platform-reqs
 ```
-- To get dependencies for PHP 8.1+
+- Get all needed dependencies
 ```
-COMPOSER=composer-php81up.json composer install --no-dev
+composer update --ignore-platform-reqs
 ```

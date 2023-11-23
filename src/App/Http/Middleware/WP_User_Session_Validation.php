@@ -5,7 +5,7 @@ namespace Enpii_Base\App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
-use Enpii_Base\Deps\Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class WP_User_Session_Validation
 {

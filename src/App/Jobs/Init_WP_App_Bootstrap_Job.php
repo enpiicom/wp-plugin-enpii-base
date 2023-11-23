@@ -16,7 +16,7 @@ class Init_WP_App_Bootstrap_Job extends Base_Job
      */
     public function handle(): void
     {
-        $wp_app = wp_app();
+		$wp_app = wp_app();
 		$wp_app['env'] = wp_app_config( 'app.env' );
 
 		$wp_app->singleton(

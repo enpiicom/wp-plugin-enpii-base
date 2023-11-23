@@ -25,7 +25,7 @@ if ( ! class_exists( \Enpii_Base\App\WP\WP_Application::class ) ) {
 		// Lower that 8.1, we load dependencies for <= 8.0
 		require_once __DIR__ . DIR_SEP . 'vendor-php80down' . DIR_SEP . 'autoload.php';
 	} else {
-		require_once __DIR__ . DIR_SEP . 'vendor-php81up' . DIR_SEP . 'autoload.php';
+		require_once __DIR__ . DIR_SEP . 'vendor' . DIR_SEP . 'autoload.php';
 	}
 }
 

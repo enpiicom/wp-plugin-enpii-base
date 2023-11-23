@@ -21,9 +21,9 @@ use Illuminate\Queue\CallQueuedClosure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\HtmlString;
-use Enpii_Base\Deps\Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Enpii_Base\App\WP\WP_Application;
-use Enpii_Base\Deps\Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
 | We want to define helper functions for the app here
@@ -35,13 +35,13 @@ if ( ! function_exists( 'wp_app_abort' ) ) {
 	/**
 	 * Throw an HttpException with the given data.
 	 *
-	 * @param  \Enpii_Base\Deps\Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
+	 * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
 	 * @param  string  $message
 	 * @param  array  $headers
 	 * @return void
 	 *
-	 * @throws \Enpii_Base\Deps\Symfony\Component\HttpKernel\Exception\HttpException
-	 * @throws \Enpii_Base\Deps\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+	 * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 	 */
 	function wp_app_abort( $code, $message = '', array $headers = [] ) {
 		if ( $code instanceof Response ) {
@@ -59,13 +59,13 @@ if ( ! function_exists( 'wp_app_abort_if' ) ) {
 	 * Throw an HttpException with the given data if the given condition is true.
 	 *
 	 * @param  bool  $boolean
-	 * @param  \Enpii_Base\Deps\Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
+	 * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
 	 * @param  string  $message
 	 * @param  array  $headers
 	 * @return void
 	 *
-	 * @throws \Enpii_Base\Deps\Symfony\Component\HttpKernel\Exception\HttpException
-	 * @throws \Enpii_Base\Deps\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+	 * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 	 */
 	function wp_app_abort_if( $boolean, $code, $message = '', array $headers = [] ) {
 		if ( $boolean ) {
@@ -79,13 +79,13 @@ if ( ! function_exists( 'wp_app_abort_unless' ) ) {
 	 * Throw an HttpException with the given data unless the given condition is true.
 	 *
 	 * @param  bool  $boolean
-	 * @param  \Enpii_Base\Deps\Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
+	 * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
 	 * @param  string  $message
 	 * @param  array  $headers
 	 * @return void
 	 *
-	 * @throws \Enpii_Base\Deps\Symfony\Component\HttpKernel\Exception\HttpException
-	 * @throws \Enpii_Base\Deps\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+	 * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 	 */
 	function wp_app_abort_unless( $boolean, $code, $message = '', array $headers = [] ) {
 		if ( ! $boolean ) {
@@ -309,7 +309,7 @@ if ( ! function_exists( 'wp_app_cookie' ) ) {
 	 * @param  bool  $httpOnly
 	 * @param  bool  $raw
 	 * @param  string|null  $sameSite
-	 * @return \Illuminate\Cookie\CookieJar|\Enpii_Base\Deps\Symfony\Component\HttpFoundation\Cookie
+	 * @return \Illuminate\Cookie\CookieJar|\Symfony\Component\HttpFoundation\Cookie
 	 */
 	function wp_app_cookie( $name = null, $value = null, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null ) {
 		$cookie = wp_app( CookieFactory::class );
@@ -529,7 +529,7 @@ if ( ! function_exists( 'wp_app_logs' ) ) {
 	 * Get a log driver instance.
 	 *
 	 * @param  string|null  $driver
-	 * @return \Illuminate\Log\LogManager|\Enpii_Base\Deps\Psr\Log\LoggerInterface
+	 * @return \Illuminate\Log\LogManager|\Psr\Log\LoggerInterface
 	 */
 	function wp_app_logs( $driver = null ) {
 		return $driver ? wp_app( 'log' )->driver( $driver ) : wp_app( 'log' );
@@ -565,7 +565,7 @@ if ( ! function_exists( 'wp_app_mix' ) ) {
 
 if ( ! function_exists( 'wp_app_now' ) ) {
 	/**
-	 * Create a new Enpii_Base\Deps\Carbon instance for the current time.
+	 * Create a new Carbon instance for the current time.
 	 *
 	 * @param  \DateTimeZone|string|null  $tz
 	 * @return \Illuminate\Support\Carbon
@@ -811,7 +811,7 @@ if ( ! function_exists( 'wp_app_storage_path' ) ) {
 
 if ( ! function_exists( 'wp_app_today' ) ) {
 	/**
-	 * Create a new Enpii_Base\Deps\Carbon instance for the current date.
+	 * Create a new Carbon instance for the current date.
 	 *
 	 * @param  \DateTimeZone|string|null  $tz
 	 * @return \Illuminate\Support\Carbon
