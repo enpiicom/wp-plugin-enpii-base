@@ -23,6 +23,7 @@ class Process_WP_App_Request_Job extends Base_Job
 		$request = \Enpii_Base\App\Http\Request::capture();
 		$response = $kernel->handle( $request );
 
+
 		$response->sendHeaders();
 		$response->sendContent();
 

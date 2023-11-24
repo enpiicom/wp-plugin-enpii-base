@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Exception;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ViewErrorBag;
 use Throwable;
 
 class Handler extends ExceptionHandler {
@@ -59,6 +61,63 @@ class Handler extends ExceptionHandler {
 	public function render( $request, Throwable $exception ) {
 		return parent::render( $request, $exception );
 	}
+
+	/**
+     * Register the error template hint paths.
+     *
+     * @return void
+     */
+    protected function registerErrorViewPaths()
+    {
+        View::replaceNamespace('errors', collect(wp_app_config('view.paths'))->map(function ($path) {
+            return "{$path}/errors";
+        })->push(__DIR__.'/views')->all());
+    }
+
+	/**
+     * Render the given HttpException.
+     *
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderHttpException(HttpExceptionInterface $e)
+    {
+        $this->registerErrorViewPaths();
+		// devdd(wp_app_config('app.debug'));
+        if ($view = $this->getHttpExceptionView($e)) {
+            try {
+                return response()->view($view, [
+                    'errors' => new ViewErrorBag,
+                    'exception' => $e,
+                ], $e->getStatusCode(), $e->getHeaders());
+            } catch (Throwable $t) {
+				if (!wp_app_config('app.debug')) {
+					throw $t;
+				}
+
+                $this->report($t);
+            }
+        }
+
+        return $this->convertExceptionToResponse($e);
+    }
+
+	/**
+     * Get the response content for the given exception.
+     *
+     * @param  \Throwable  $e
+     * @return string
+     */
+    protected function renderExceptionContent(Throwable $e)
+    {
+        try {
+            return wp_app_config('app.debug') && wp_app()->has(ExceptionRenderer::class)
+                        ? $this->renderExceptionWithCustomRenderer($e)
+                        : $this->renderExceptionWithSymfony($e, wp_app_config('app.debug'));
+        } catch (Throwable $e) {
+            return $this->renderExceptionWithSymfony($e, wp_app_config('app.debug'));
+        }
+    }
 
 	/**
 	 * @inheritedDoc

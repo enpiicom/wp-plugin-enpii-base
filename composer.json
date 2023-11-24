@@ -36,7 +36,8 @@
     "files": [
       "./src/Foundation/Support/helpers-wp-app.php",
       "./src/Foundation/Support/helpers-wp-app-overrides.php",
-      "./src/Foundation/Support/helpers.php"
+      "./src/Foundation/Support/helpers.php",
+      "./src/Foundation/helpers.php"
     ],
     "psr-4": {
       "Enpii_Base\\Deps\\": "src-deps",
@@ -63,6 +64,7 @@
   },
   "extra": {
     "exclude-from-files": [
+      "laravel/framework/src/Illuminate/Foundation/helpers.php"
     ],
     "installer-paths": {
       "dev-docker/wordpress/wp-content/themes/{$name}/": [

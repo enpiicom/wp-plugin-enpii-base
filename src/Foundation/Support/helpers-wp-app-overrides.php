@@ -23,12 +23,14 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\HtmlString;
 use Symfony\Component\HttpFoundation\Response;
 use Enpii_Base\App\WP\WP_Application;
-use Symfony\Component\VarDumper\VarDumper;
+use Illuminate\Routing\Router;
 
 /**
-| We want to define helper functions for the app here
+| We want to define helper functions for the wp_app here
 | We don't need to use the prefix for these functions
-|
+| This helper will add the prefix 'wp_app'
+| to the base Laravel \Illuminate\Support\helpers.php
+| to use with WP_Application rather than the Application from Laravel
 */
 
 if ( ! function_exists( 'wp_app_abort' ) ) {
@@ -94,7 +96,7 @@ if ( ! function_exists( 'wp_app_abort_unless' ) ) {
 	}
 }
 
-if ( ! function_exists( 'wp_action' ) ) {
+if ( ! function_exists( 'wp_app_action' ) ) {
 	/**
 	 * Generate the URL to a controller action.
 	 *
@@ -103,7 +105,7 @@ if ( ! function_exists( 'wp_action' ) ) {
 	 * @param  bool  $absolute
 	 * @return string
 	 */
-	function wp_action( $name, $parameters = [], $absolute = true ) {
+	function wp_app_action( $name, $parameters = [], $absolute = true ) {
 		return wp_app( 'url' )->action( $name, $parameters, $absolute );
 	}
 }
@@ -402,7 +404,24 @@ if ( ! function_exists( 'wp_app_dispatch_now' ) ) {
 	 * @return mixed
 	 */
 	function wp_app_dispatch_now( $job, $handler = null ) {
-		return wp_app( Dispatcher::class )->dispatchNow( $job, $handler );
+		/** @var Dispatcher $dispatcher */
+		$dispatcher = wp_app( Dispatcher::class );
+		return method_exists($dispatcher, 'dispatchNow') ? $dispatcher->dispatchNow( $job, $handler ) : $dispatcher->dispatchSync( $job, $handler );
+	}
+}
+
+if ( ! function_exists( 'wp_app_dispatch_sync' ) ) {
+	/**
+	 * Dispatch a command to its appropriate handler in the current process.
+	 *
+	 * @param  mixed  $job
+	 * @param  mixed  $handler
+	 * @return mixed
+	 */
+	function wp_app_dispatch_sync( $job, $handler = null ) {
+		/** @var Dispatcher $dispatcher */
+		$dispatcher = wp_app( Dispatcher::class );
+		return method_exists($dispatcher, 'dispatchSync') ? $dispatcher->dispatchSync( $job, $handler ) : $dispatcher->dispatchNow( $job, $handler );
 	}
 }
 
@@ -600,6 +619,35 @@ if ( ! function_exists( 'wp_app_policy' ) ) {
 	function wp_app_policy( $class ) {
 		return wp_app( Gate::class )->getPolicyFor( $class );
 	}
+}
+
+if (! function_exists('wp_app_precognitive')) {
+	/**
+     * Handle a Precognition controller hook.
+     *
+     * @param  null|callable  $callable
+     * @return mixed
+     */
+    function wp_app_precognitive($callable = null)
+    {
+        $callable ??= function () {
+            //
+        };
+
+        $payload = $callable(function ($default, $precognition = null) {
+            $response = wp_app_request()->isPrecognitive()
+                ? ($precognition ?? $default)
+                : $default;
+
+				wp_app_abort(Router::toResponse(request(), value($response)));
+        });
+
+        if (wp_app_request()->isPrecognitive()) {
+            wp_app_abort(204, 'precognitive', ['Precognition-Success' => 'true']);
+        }
+
+        return $payload;
+    }
 }
 
 if ( ! function_exists( 'wp_app_public_path' ) ) {
