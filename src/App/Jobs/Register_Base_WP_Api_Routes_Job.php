@@ -21,6 +21,7 @@ class Register_Base_WP_Api_Routes_Job extends Base_Job
         if (wp_app()->is_debug_mode()) {
 			// For API
 			Route::get( '/', [ Index_Controller::class, 'home' ] );
+			Route::get( 'info', [ Index_Controller::class, 'info' ] );
 
 			// For API with session validation
 			Route::group(

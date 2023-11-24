@@ -8,6 +8,7 @@ use Enpii_Base\App\Commands\Register_Base_WP_Api_Routes_Job_Command;
 use Enpii_Base\App\Commands\Register_Base_WP_App_Routes_Job_Command;
 use Enpii_Base\App\Commands\Register_Main_Service_Providers_Job_Command;
 use Enpii_Base\App\Jobs\Init_WP_App_Bootstrap_Job;
+use Enpii_Base\App\Jobs\Process_WP_Api_Request_Job;
 use Enpii_Base\App\Jobs\Process_WP_App_Request_Job;
 use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes_Job;
 use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes_Job;
@@ -164,6 +165,10 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		Process_WP_App_Request_Job::dispatchSync();
 	}
 
+	public function wp_api_process_request($wp): void {
+		Process_WP_Api_Request_Job::dispatchNow();
+	}
+
 	/**
 	 * @return mixed
 	 */
@@ -250,7 +255,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 		if (wp_app()->is_wp_api_mode()) {
 			add_filter( 'wp_using_themes', [$this, 'skip_use_wp_theme'], 9999, 0 );
-			add_action( 'wp', [$this, 'wp_app_render_content'], 9999, 1 );
+			add_action( 'wp', [$this, 'wp_api_process_request'], 9999, 1 );
 			add_action( 'shutdown', [$this, 'wp_app_complete_execution'], 9999, 0 );
 		}
 	}

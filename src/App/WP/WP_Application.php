@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP;
 
-use Enpii_Base\App\Commands\Generic_WP_App_Command;
 use Enpii_Base\App\Providers\Bus_Service_Provider;
 use Enpii_Base\App\Providers\Events_Service_Provider;
 use Enpii_Base\App\Providers\Log_Service_Provider;
 use Enpii_Base\App\Providers\Routing_Service_Provider;
-use Enpii_Base\App\Queries\Generic_WP_App_Query;
 use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Mix;
-use Enpii_Base\Foundation\Shared\Base_Command_Handler;
-use Enpii_Base\Foundation\Shared\Base_Query_Handler;
-use Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
 use Enpii_Base\Foundation\WP\WP_Plugin_Interface;
 use Enpii_Base\Foundation\WP\WP_Theme_Interface;
 use InvalidArgumentException;
@@ -56,7 +51,7 @@ class WP_Application extends Application {
         }
 
         $this->registerBaseBindings();
-        $this->registerBaseServiceProviders();
+		$this->registerBaseServiceProviders();
         $this->registerCoreContainerAliases();
     }
 
