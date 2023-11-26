@@ -214,10 +214,6 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
         }
 	}
 
-	public function get_views_path() {
-		return $this->get_base_path() . DIR_SEP . 'resources' . DIR_SEP . 'views';
-	}
-
 	public function register_telescope($providers) {
 		return Register_Telescope_Job::dispatchSync($providers);
 	}
