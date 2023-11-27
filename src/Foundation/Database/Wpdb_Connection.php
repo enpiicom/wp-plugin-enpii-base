@@ -9,7 +9,6 @@ use Exception;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\UniqueConstraintViolationException;
-use Illuminate\Support\Arr;
 use PDO;
 
 class Wpdb_Connection extends MySqlConnection {
@@ -29,7 +28,7 @@ class Wpdb_Connection extends MySqlConnection {
     {
         parent::__construct($pdo, $database, $tablePrefix, $config);
 
-		$this->wpdb = $config['wpdb'];
+		$this->wpdb = !empty($config['wpdb']) ? $config['wpdb'] : $GLOBALS['wpdb'];
     }
 
 	/**
@@ -96,7 +95,7 @@ class Wpdb_Connection extends MySqlConnection {
 
 			$result = $this->wpdb->get_results($prepared_query);
 
-            return $result;
+			return $result;
         });
     }
 

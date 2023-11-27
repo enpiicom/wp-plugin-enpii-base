@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Enpii_Base\App\Providers;
 
 use Enpii_Base\Foundation\Database\Connectors\Connection_Factory;
+use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\DatabaseServiceProvider;
+use Illuminate\Database\DatabaseTransactionsManager;
 
 class Database_Service_Provider extends DatabaseServiceProvider {
 	public function register() {
@@ -99,6 +101,7 @@ class Database_Service_Provider extends DatabaseServiceProvider {
 				'mysql_logs' => $default_mysql_config,
 				'mysql_queues' => $default_mysql_config,
 				'wpdb' => array_merge($default_mysql_config, [
+					'driver' => 'wpdb',
 					'wpdb' => $wpdb,
 				]),
 			],
