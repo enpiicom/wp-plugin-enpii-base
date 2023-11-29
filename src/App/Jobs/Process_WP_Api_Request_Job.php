@@ -3,7 +3,7 @@
 namespace Enpii_Base\App\Jobs;
 
 use Enpii_Base\Foundation\Bus\Dispatchable_Trait;
-use Enpii_Base\Foundation\Jobs\Base_Job;
+use Enpii_Base\Foundation\Shared\Base_Job;
 
 class Process_WP_Api_Request_Job extends Base_Job
 {

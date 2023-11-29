@@ -8,7 +8,7 @@ use Enpii_Base\App\Http\Controllers\Index_Controller;
 use Enpii_Base\App\Http\Controllers\Main_Controller;
 use Illuminate\Support\Facades\Route;
 use Enpii_Base\Foundation\Bus\Dispatchable_Trait;
-use Enpii_Base\Foundation\Jobs\Base_Job;
+use Enpii_Base\Foundation\Shared\Base_Job;
 
 class Register_Base_WP_App_Routes_Job extends Base_Job
 {

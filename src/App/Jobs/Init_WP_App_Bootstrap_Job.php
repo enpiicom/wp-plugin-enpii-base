@@ -3,7 +3,7 @@
 namespace Enpii_Base\App\Jobs;
 
 use Enpii_Base\Foundation\Bus\Dispatchable_Trait;
-use Enpii_Base\Foundation\Jobs\Base_Job;
+use Enpii_Base\Foundation\Shared\Base_Job;
 
 class Init_WP_App_Bootstrap_Job extends Base_Job
 {
