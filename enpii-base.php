@@ -19,12 +19,15 @@ defined( 'ENPII_BASE_PLUGIN_SLUG' ) || define( 'ENPII_BASE_PLUGIN_SLUG', 'enpii-
 // General fixed constants
 defined( 'DIR_SEP' ) || define( 'DIR_SEP', DIRECTORY_SEPARATOR );
 
+require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'helpers.php';
+
 // We include the vendor in the repo if there is no vendor loaded before
 if ( ! class_exists( \Enpii_Base\App\WP\WP_Application::class ) ) {
 	if (version_compare(phpversion(), '8.1.0', '<')) {
-		// Lower that 8.1, we load dependencies for <= 8.0
-		require_once __DIR__ . DIR_SEP . 'vendor-php80down' . DIR_SEP . 'autoload.php';
+		// Lower that 8.1, we load dependencies for <= 8.0, we use Laravel 7
+		require_once __DIR__ . DIR_SEP . 'vendor-laravel7' . DIR_SEP . 'autoload.php';
 	} else {
+		// PHP >= 8.1, we use Laravel 10 as the latest
 		require_once __DIR__ . DIR_SEP . 'vendor' . DIR_SEP . 'autoload.php';
 	}
 }

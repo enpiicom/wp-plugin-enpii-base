@@ -245,16 +245,17 @@ class WP_Application extends Application {
 		return $this->namespace = 'Enpii_Base\\';
     }
 
-	public function is_laravel_8_up(): bool
+	public function get_laravel_major_version()
 	{
-		return version_compare('8.0.0', Application::VERSION, '<=');
+		return enpii_base_get_major_version(Application::VERSION);
+		return (int) enpii_base_get_major_version(Application::VERSION);
 	}
 
 	public function get_composer_folder_name(): string
 	{
 		// We only want to have these Watches on Laravel 8+
 		if (version_compare('8.0.0', Application::VERSION, '>')) {
-			return 'vendor-php80down';
+			return 'vendor-laravel7';
 		}
 
 		return 'vendor';

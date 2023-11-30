@@ -16,7 +16,11 @@
     "codeception/module-asserts": "^3.0.0",
     "codeception/module-phpbrowser": "^3.0.0",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
-    "phpcompatibility/php-compatibility": "^9.3.5"
+    "phpcompatibility/php-compatibility": "^9.3.5",
+    "johnpbloch/wordpress-core": "^6.0",
+    "wpackagist-plugin/woocommerce": "^8.0",
+    "wpackagist-theme/storefront": "^4.0",
+    "wpackagist-theme/twentytwentythree": "^1.0.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -53,6 +57,7 @@
   "config": {
     "allow-plugins": {
       "composer/installers": true,
+      "johnpbloch/wordpress-core-installer": true,
       "mcaskill/composer-exclude-files": true,
       "dealerdirect/phpcodesniffer-composer-installer": true
     },
@@ -62,9 +67,41 @@
   "extra": {
     "exclude-from-files": [
       "laravel/framework/src/Illuminate/Foundation/helpers.php"
-    ]
+    ],
+    "installer-paths": {
+      "dev-docker/wordpress/wp-content/themes/{$name}/": [
+        "type:wordpress-theme"
+      ],
+      "dev-docker/wordpress/wp-content/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ]
+    },
+    "mozart": {
+      "dep_namespace": "Enpii_Base\\Deps\\",
+      "dep_directory": "/src-deps/",
+      "classmap_directory": "/classes/deps/",
+      "classmap_prefix": "Enpii_Base_",
+      "packages": [
+      ],
+      "excluded_packages": [],
+      "override_autoload": [],
+      "delete_vendor_directories": false
+    }
   },
   "scripts": {
+    "post-install-cmd": [
+      "[ $COMPOSER_DEV_MODE -eq 0 ] || cp -r `find ./vendor/johnpbloch/wordpress-core -maxdepth 1 -mindepth 1 | cut -c3- | grep -v 'wp-content'` dev-docker/wordpress",
+      "rm -rf `find ./vendor/johnpbloch/wordpress-core -maxdepth 1 -mindepth 1 | cut -c3- | grep -v 'composer.json'`"
+    ],
+    "post-update-cmd": [
+      "[ $COMPOSER_DEV_MODE -eq 0 ] || cp -r `find ./vendor/johnpbloch/wordpress-core -maxdepth 1 -mindepth 1 | cut -c3- | grep -v 'wp-content'` dev-docker/wordpress",
+      "rm -rf `find ./vendor/johnpbloch/wordpress-core -maxdepth 1 -mindepth 1 | cut -c3- | grep -v 'composer.json'`"
+    ],
+    "dev-update": [
+      "@composer update --dev --ignore-platform-reqs",
+      "cp -r `find ./vendor/johnpbloch/wordpress-core -maxdepth 1 -mindepth 1 | cut -c3- | grep -v 'wp-content'` dev-docker/wordpress",
+      "rm -rf `find ./vendor/johnpbloch/wordpress-core -maxdepth 1 -mindepth 1 | cut -c3- | grep -v 'composer.json'`"
+    ],
     "phpcs": [
       "./vendor/bin/phpcs"
     ],

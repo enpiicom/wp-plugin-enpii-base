@@ -67,6 +67,23 @@ trait Dispatchable_Trait
             : new Fluent;
     }
 
+	/**
+     * Dispatch a command to its appropriate handler in the current process.
+     *
+     * Queueable jobs will be dispatched to the "sync" queue.
+     *
+     * @param  mixed  ...$arguments
+     * @return mixed
+     */
+    public static function dispatchNow(...$arguments)
+    {
+		if (enpii_base_get_major_version(\Illuminate\Foundation\Application::VERSION) < 8) {
+			return wp_app(Dispatcher::class)->dispatchNow(new static(...$arguments));
+		} else {
+			return wp_app(Dispatcher::class)->dispatchSync(new static(...$arguments));
+		}
+    }
+
     /**
      * Dispatch a command to its appropriate handler in the current process.
      *
@@ -77,10 +94,10 @@ trait Dispatchable_Trait
      */
     public static function dispatchSync(...$arguments)
     {
-		if (wp_app()->is_laravel_8_up()) {
-			return app(Dispatcher::class)->dispatchSync(new static(...$arguments));
+		if (enpii_base_get_major_version(\Illuminate\Foundation\Application::VERSION) >= 8) {
+			return wp_app(Dispatcher::class)->dispatchSync(new static(...$arguments));
 		} else {
-			return app(Dispatcher::class)->dispatchNow(new static(...$arguments));
+			return wp_app(Dispatcher::class)->dispatchNow(new static(...$arguments));
 		}
     }
 
