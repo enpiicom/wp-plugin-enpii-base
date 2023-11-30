@@ -9,7 +9,7 @@ use Enpii_Base\Foundation\Http\Base_Controller;
 
 class Index_Controller extends Base_Controller {
 	public function home(): JsonResponse {
-		return $this->respond_json([
+		return wp_app_response()->json([
             'message' => 'Welcome to WP App API',
         ]);
 	}

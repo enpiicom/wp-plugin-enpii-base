@@ -32,6 +32,9 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		// We need to ensure all needed properties are set
 		$this->validate_needed_properties();
 
+		// We want to stop some default actions of WordPress
+		$this->prevent_defaults();
+
 		// We want to create hooks for this plugin here
 		$this->enroll_self_hooks();
 
@@ -153,7 +156,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function wp_api_process_request($wp): void {
-		Process_WP_Api_Request_Job::dispatchNow();
+		Process_WP_Api_Request_Job::dispatchSync();
 	}
 
 	/**
@@ -222,12 +225,27 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * All hooks created by this plugin should be enrolled here
 	 * @return void
 	 */
+	private function prevent_defaults(): void {
+		if (wp_app()->is_wp_app_mode() || wp_app()->is_wp_api_mode()) {
+			// We want to cancel all headers set by WP
+			add_filter( 'wp_headers', function () {
+				return [];
+			}, 999999);
+		}
+	}
+
+	/**
+	 * All hooks created by this plugin should be enrolled here
+	 * @return void
+	 */
 	private function enroll_self_hooks(): void {
 		// For `enpii_base_wp_app_bootstrap`
+		//	We add this hook to perform the bootstrap actions needed for WP App
 		add_action( 'plugins_loaded', [ $this, 'wp_app_bootstrap' ], 5 );
 
 		// For `enpii_base_wp_app_init`
-		add_action( 'init', [$this, 'wp_app_init'], 9999 );
+		//	We want this hook works after all the init steps worked on all plugins
+		add_action( 'init', [$this, 'wp_app_init'], 999999 );
 
 		if (wp_app()->is_wp_app_mode() || wp_app()->is_wp_api_mode()) {
 			add_filter( 'do_parse_request', [$this, 'wp_app_parse_request'], 9999, 0 );

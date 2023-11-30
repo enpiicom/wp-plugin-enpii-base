@@ -266,6 +266,11 @@ class WP_Application extends Application {
 		return dirname($this->resourcePath()). DIR_SEP . $this->get_composer_folder_name();
 	}
 
+	public static function isset(): bool
+	{
+		return ! is_null(static::$instance);
+	}
+
 	/**
      * @inheritedDoc
      *
