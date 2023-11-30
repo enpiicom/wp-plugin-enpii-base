@@ -26,3 +26,9 @@ wp74 enpii-base artisan --force vendor:publish --tag=telescope-assets # alternat
 ```
 wp enpii-base artisan vendor:publish --tag=telescope-migrations
 ```
+
+### For phpcs
+- To suppress phpcs check for a single line, put this boefore that line and use the proper ruleset
+```
+// phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesce_equalFound
+```

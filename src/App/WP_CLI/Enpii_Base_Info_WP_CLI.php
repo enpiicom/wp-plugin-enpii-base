@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP_CLI;
 
-use Enpii_Base\App\Jobs\Show_Basic_Info_Job;
+use Enpii_Base\App\Jobs\WP_CLI\Show_Basic_Info_Job;
 
 class Enpii_Base_Info_WP_CLI {
 	public function __invoke( $args ) {

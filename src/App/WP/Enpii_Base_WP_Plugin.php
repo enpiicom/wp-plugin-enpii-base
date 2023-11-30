@@ -10,7 +10,7 @@ use Enpii_Base\App\Jobs\Process_WP_App_Request_Job;
 use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes_Job;
 use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes_Job;
 use Enpii_Base\App\Jobs\Register_Main_Service_Providers_Job;
-use Enpii_Base\App\Jobs\Register_Telescope_Tinker_Job;
+use Enpii_Base\App\Queries\Add_Telescope_Tinker_Query;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Response;
 use Enpii_Base\Foundation\WP\WP_Plugin;
@@ -60,7 +60,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		add_action( 'enpii_base_wp_app_register_routes', [ $this, 'register_base_wp_app_routes' ] );
 		add_action( 'enpii_base_wp_api_register_routes', [ $this, 'register_base_wp_api_routes' ] );
 
-		add_filter( 'enpii_base_wp_app_main_service_providers' , [ $this, 'register_telescope' ] );
+		add_filter( 'enpii_base_wp_app_main_service_providers' , [ $this, 'register_telescope_tinker' ] );
 
 		/** Other hooks */
 		if ($this->is_blade_for_template_available()) {
@@ -217,8 +217,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
         }
 	}
 
-	public function register_telescope($providers) {
-		return Register_Telescope_Tinker_Job::dispatchSync($providers);
+	public function register_telescope_tinker($providers) {
+		return Add_Telescope_Tinker_Query::dispatchSync($providers);
 	}
 
 	/**

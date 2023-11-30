@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Enpii_Base\Foundation\WP;
 
 use Enpii\WP_Plugin\Enpii_Base\Dependencies\Illuminate\Support\ServiceProvider;
-use Enpii\WP_Plugin\Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
-use Enpii\WP_Plugin\Enpii_Base\Libs\Interfaces\Command_Interface;
-use Enpii\WP_Plugin\Enpii_Base\Libs\Interfaces\Handler_Inferface;
-use Enpii\WP_Plugin\Enpii_Base\Foundation\Shared\Traits\Config_Trait;
+use Enpii_Base\Foundation\Shared\Traits\Config_Trait;
+use Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
 use InvalidArgumentException;
 
 /**

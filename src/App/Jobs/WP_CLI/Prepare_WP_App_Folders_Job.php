@@ -1,6 +1,6 @@
 <?php
 
-namespace Enpii_Base\App\Jobs;
+namespace Enpii_Base\App\Jobs\WP_CLI;
 
 use Enpii_Base\Foundation\Bus\Dispatchable_Trait;
 use Enpii_Base\Foundation\Shared\Base_Job;

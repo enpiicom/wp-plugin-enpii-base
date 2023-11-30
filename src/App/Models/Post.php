@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model {
-
 	/**
 	 * The table associated with the model.
 	 *

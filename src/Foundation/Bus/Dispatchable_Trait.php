@@ -11,7 +11,6 @@ use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Support\Fluent;
 
 trait Dispatchable_Trait {
-
 	/**
 	 * Dispatch the job with the given arguments.
 	 *
