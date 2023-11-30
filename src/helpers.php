@@ -33,11 +33,11 @@ if ( ! function_exists( 'enpii_base_setup_wp_app' ) ) {
 		$wp_app_base_path = enpii_base_wp_app_get_base_path();
 		$config = apply_filters(
 			'enpii_base_wp_app_prepare_config',
-			array(
+			[
 				'app'         => require_once dirname( __DIR__ ) . DIR_SEP . 'wp-app-config' . DIR_SEP . 'app.php',
 				'wp_app_slug' => ENPII_BASE_WP_APP_PREFIX,
 				'wp_api_slug' => ENPII_BASE_WP_API_PREFIX,
-			) 
+			] 
 		);
 		// We initiate the WP Application instance
 		\Enpii_Base\App\WP\WP_Application::init_instance_with_config(

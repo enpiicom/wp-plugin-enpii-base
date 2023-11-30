@@ -1,5 +1,5 @@
 <?php
-namespace Enpii_Base\Tests;
+namespace Enpii_Base\Tests\Support;
 
 /**
  * Inherited Methods
