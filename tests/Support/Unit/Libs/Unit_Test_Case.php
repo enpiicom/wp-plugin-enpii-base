@@ -10,24 +10,16 @@ class Unit_Test_Case extends \Codeception\Test\Unit {
 	protected $wp_app_base_path;
 	protected Unit_Tester $tester;
 
-	protected function setUp(): void {
+	protected function _before(): void {
 	}
 
-	protected function tearDown(): void {
+	protected function _after(): void {
+		parent::_after();
 	}
 
 	protected function setup_wp_app() {
 		$this->wp_app_base_path = codecept_root_dir();
-		$config = [
-			'app' => '../../../../wp-app-config/app.php',
-			'env' => 'local',
-			'view' => [
-				'paths' => [$this->wp_app_base_path],
-				'compiled' => [codecept_output_dir()],
-			],
-			'wp_app_slug' => 'wp-app',
-			'wp_api_slug' => 'wp-api',
-		];
+		$config = $this->get_wp_app_config();
 		$this->wp_app = WP_Application::init_instance_with_config(
 			$this->wp_app_base_path,
 			$config
