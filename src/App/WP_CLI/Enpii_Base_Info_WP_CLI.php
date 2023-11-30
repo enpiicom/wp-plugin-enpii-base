@@ -11,6 +11,6 @@ class Enpii_Base_Info_WP_CLI {
 		Show_Basic_Info_Job::dispatchSync();
 
 		// Return 0 to tell that everything is alright
-		exit(0);
-    }
+		exit( 0 );
+	}
 }

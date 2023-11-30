@@ -23,7 +23,7 @@ require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'helpers.php';
 
 // We include the vendor in the repo if there is no vendor loaded before
 if ( ! class_exists( \Enpii_Base\App\WP\WP_Application::class ) ) {
-	if (version_compare(phpversion(), '8.1.0', '<')) {
+	if ( version_compare( phpversion(), '8.1.0', '<' ) ) {
 		// Lower that 8.1, we load dependencies for <= 8.0, we use Laravel 7
 		require_once __DIR__ . DIR_SEP . 'vendor-laravel7' . DIR_SEP . 'autoload.php';
 	} else {

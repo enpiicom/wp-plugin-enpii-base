@@ -54,7 +54,7 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 	 */
 	protected function prepare_views_paths( $namespace ): void {
 		$this->loadViewsFrom( realpath( $this->get_base_path() ), $namespace );
-		if (!empty($this->get_parent_base_path())) {
+		if ( ! empty( $this->get_parent_base_path() ) ) {
 			$this->loadViewsFrom( realpath( $this->get_parent_base_path() ), $namespace );
 		}
 	}

@@ -9,9 +9,9 @@ use WP_CLI;
 
 class Enpii_Base_Prepare_Folders_WP_CLI {
 	public function __invoke( $args ) {
-        Prepare_WP_App_Folders_Job::dispatchSync();
+		Prepare_WP_App_Folders_Job::dispatchSync();
 
 		// Return 0 to tell that everything is alright
-		exit(0);
-    }
+		exit( 0 );
+	}
 }
