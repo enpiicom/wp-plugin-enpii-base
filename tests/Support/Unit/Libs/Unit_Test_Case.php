@@ -39,8 +39,8 @@ class Unit_Test_Case extends \Codeception\Test\Unit {
 		return [
 			'app' => [],
 			'view' => [
-				'paths' => [$this->wp_app_base_path],
-				'compiled' => [codecept_output_dir()],
+				'paths' => [ $this->wp_app_base_path ],
+				'compiled' => [ codecept_output_dir() ],
 			],
 			'env' => 'local',
 			'wp_app_slug' => 'wp-app',

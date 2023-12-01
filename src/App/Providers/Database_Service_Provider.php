@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Providers;
 
-use Enpii_Base\Foundation\Database\Connectors\Connection_FactoryTest;
-use Illuminate\Database\DatabaseManager;
+use Enpii_Base\Foundation\Database\Connectors\Connection_Factory;
 use Illuminate\Database\DatabaseServiceProvider;
-use Illuminate\Database\DatabaseTransactionsManager;
 
 class Database_Service_Provider extends DatabaseServiceProvider {
 	public function register() {
@@ -18,7 +16,7 @@ class Database_Service_Provider extends DatabaseServiceProvider {
 		$this->app->extend(
 			'db.factory',
 			function ( $instance, $app ) {
-				return new Connection_FactoryTest( $app );
+				return new Connection_Factory( $app );
 			}
 		);
 
@@ -31,7 +29,7 @@ class Database_Service_Provider extends DatabaseServiceProvider {
 					function ( $config, $name ) {
 						$config['name'] = $name;
 
-						/** @var Connection_FactoryTest  */
+						/** @var \Enpii_Base\Foundation\Database\Connectors\Connection_Factory $db_factory */
 						$db_factory = wp_app( 'db.factory' );
 						return $db_factory->make( $config, $name );
 					}

@@ -6,6 +6,7 @@ namespace Enpii_Base\Tests\Unit;
 
 use Enpii_Base\App\WP\WP_Application;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use WP_Mock;
 
 class Helpers_Test extends Unit_Test_Case {
 
@@ -45,4 +46,5 @@ class Helpers_Test extends Unit_Test_Case {
 
 		// Assert that the WP_Application instance has been created
 		$this->assertTrue( WP_Application::isset() );
+	}
 }
