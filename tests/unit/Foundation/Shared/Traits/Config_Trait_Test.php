@@ -9,7 +9,7 @@ use InvalidArgumentException;
 class Config_Trait_Test extends Unit_Test_Case {
 	public function test_bind_config(): void {
 		// Create a dummy class that uses the Config_Trait
-		$dummyObject = new class() {
+		$dummy_object = new class() {
 			use Config_Trait;
 
 			public $property1;
@@ -25,24 +25,23 @@ class Config_Trait_Test extends Unit_Test_Case {
 		];
 
 		// Call the bind_config method
-		$result = $dummyObject->bind_config( $config );
+		$result = $dummy_object->bind_config( $config );
 
 		// Assert that the properties are correctly assigned
-		$this->assertEquals( 'value1', $dummyObject->property1 );
-		$this->assertEquals( 'value2', $dummyObject->property2 );
-		$this->assertEquals( 'value3', $dummyObject->property3 );
-		$this->assertSame( $dummyObject, $result );
+		$this->assertEquals( 'value1', $dummy_object->property1 );
+		$this->assertEquals( 'value2', $dummy_object->property2 );
+		$this->assertEquals( 'value3', $dummy_object->property3 );
+		$this->assertSame( $dummy_object, $result );
 	}
 
 	public function test_bind_config_strict_mode(): void {
 		// Create a dummy class that uses the Config_Trait
-		$dummyObject = new class() {
+		$dummy_object = new class() {
 			use Config_Trait;
 
 			public $property1;
 			public $property2;
 			public $property3;
-
 		};
 
 		// Create a test configuration array with an unknown property
@@ -54,6 +53,6 @@ class Config_Trait_Test extends Unit_Test_Case {
 
 		// Call the bind_config method with strict mode enabled
 		$this->expectException( InvalidArgumentException::class );
-		$dummyObject->bind_config( $config, true );
+		$dummy_object->bind_config( $config, true );
 	}
 }
