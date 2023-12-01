@@ -45,5 +45,4 @@ class Helpers_Test extends Unit_Test_Case {
 
 		// Assert that the WP_Application instance has been created
 		$this->assertTrue( WP_Application::isset() );
-	}
 }
