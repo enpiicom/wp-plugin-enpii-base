@@ -57,17 +57,6 @@ class WP_Application extends Application {
 	 * @param  string  $path
 	 * @return string
 	 */
-	public function databasePath( $path = '' ) {
-		// Todo: refactor this using constant
-		return dirname(dirname( dirname( __DIR__ ) )) . DIRECTORY_SEPARATOR . 'database' . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
-	}
-
-	/**
-	 * @inheritedDoc
-	 *
-	 * @param  string  $path
-	 * @return string
-	 */
 	public function resourcePath( $path = '' ) {
 		// Todo: refactor this using constant
 		return dirname(dirname( dirname( __DIR__ ) )) . DIRECTORY_SEPARATOR . 'resources' . ( $path ? DIRECTORY_SEPARATOR . $path : $path );

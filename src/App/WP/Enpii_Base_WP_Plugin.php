@@ -45,6 +45,14 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		do_action( 'enpii_base_wp_app_registered' );
 	}
 
+	public function boot() {
+		if ($this->app->runningInConsole()) {
+			$this->publishes([
+				$this->get_base_path().'/public-assets/dist' => wp_app_public_path('plugins/'. $this->get_plugin_slug()),
+			], ['enpii-base-assets', 'laravel-assets']);
+		}
+	}
+
 	public function manipulate_hooks(): void {
 		/** WP CLI */
 		add_action( 'cli_init', [ $this, 'register_wp_cli_commands' ] );
@@ -100,6 +108,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			'enpii-base prepare-folders',
 			$this->app->make(\Enpii_Base\App\WP_CLI\Enpii_Base_Prepare_Folders_WP_CLI::class)
 		);
+		$args = $_SERVER['argv'];
+		// devdd($args);
 		WP_CLI::add_command(
 			'enpii-base artisan',
 			$this->app->make(\Enpii_Base\App\WP_CLI\Enpii_Base_Artisan_WP_CLI::class)
