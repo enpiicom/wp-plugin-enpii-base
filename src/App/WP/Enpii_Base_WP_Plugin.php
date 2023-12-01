@@ -47,6 +47,12 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 	public function boot() {
 		if ($this->app->runningInConsole()) {
+			// Register migrations rules
+			$this->publishes([
+				$this->get_base_path().'/database/migrations' => database_path('migrations'),
+			], ['enpii-base-migrations', 'laravel-migrations']);
+
+			// Register assets
 			$this->publishes([
 				$this->get_base_path().'/public-assets/dist' => wp_app_public_path('plugins/'. $this->get_plugin_slug()),
 			], ['enpii-base-assets', 'laravel-assets']);

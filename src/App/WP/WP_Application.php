@@ -79,6 +79,20 @@ class WP_Application extends Application {
     }
 
 	/**
+     * @inheritDoc
+     */
+    public function runningInConsole()
+    {
+		if ($this->isRunningInConsole === null) {
+			if (strpos(wp_app_request()->getPathInfo(), 'wp-admin/admin/setup') !== false && wp_app_request()->get('force_app_running_in_console')) {
+				$this->isRunningInConsole = true;
+			}
+		}
+
+        return parent::runningInConsole();
+    }
+
+	/**
 	 * We want to use the array to load the config
 	 *
 	 * @param mixed $config
