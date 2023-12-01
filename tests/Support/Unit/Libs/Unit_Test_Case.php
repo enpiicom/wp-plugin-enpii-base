@@ -11,6 +11,7 @@ class Unit_Test_Case extends \Codeception\Test\Unit {
 	protected Unit_Tester $tester;
 
 	protected function _before(): void {
+		parent::_before();
 	}
 
 	protected function _after(): void {

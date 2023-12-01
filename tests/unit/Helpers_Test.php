@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Enpii_Base\Tests\Unit;
+
 use Enpii_Base\App\WP\WP_Application;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 
