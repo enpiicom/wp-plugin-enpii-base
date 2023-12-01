@@ -3,9 +3,12 @@
 namespace Enpii_Base\Tests\Support\Unit\Libs;
 
 use Enpii_Base\App\WP\WP_Application;
+use Enpii_Base\Tests\Support\Helpers\Test_Utils;
 use Enpii_Base\Tests\Support\Unit_Tester;
 
 class Unit_Test_Case extends \Codeception\Test\Unit {
+	use Test_Utils;
+
 	protected WP_Application $wp_app;
 	protected $wp_app_base_path;
 	protected Unit_Tester $tester;
