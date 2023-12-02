@@ -16,8 +16,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Response;
 use Enpii_Base\Foundation\WP\WP_Plugin;
 use Exception;
-use Illuminate\Support\Env;
-use Illuminate\Support\Facades\Artisan;
 use InvalidArgumentException;
 use WP_CLI;
 use WP_Query;
@@ -215,7 +213,6 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		// 	exception InvalidArgumentException for view file not found in FileViewFinder
 		try {
 			$tmp = wp_app_view(basename($template, '.php'));
-			// dev_dump($blade_compiler->getCompiledPath());
 			echo $tmp;
 			$template = false;
 		} catch (InvalidArgumentException $e) {
