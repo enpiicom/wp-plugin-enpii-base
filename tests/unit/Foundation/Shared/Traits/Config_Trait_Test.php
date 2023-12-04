@@ -9,7 +9,7 @@ use InvalidArgumentException;
 class Config_Trait_Test extends Unit_Test_Case {
 	public function test_bind_config(): void {
 		// Create a dummy class that uses the Config_Trait
-		$dummy_object = new class() {
+		$dummy_obj = new class() {
 			use Config_Trait;
 
 			public $property1;
@@ -25,13 +25,13 @@ class Config_Trait_Test extends Unit_Test_Case {
 		];
 
 		// Call the bind_config method
-		$result = $dummy_object->bind_config( $config );
+		$result = $dummy_obj->bind_config( $config );
 
 		// Assert that the properties are correctly assigned
-		$this->assertEquals( 'value1', $dummy_object->property1 );
-		$this->assertEquals( 'value2', $dummy_object->property2 );
-		$this->assertEquals( 'value3', $dummy_object->property3 );
-		$this->assertSame( $dummy_object, $result );
+		$this->assertEquals( 'value1', $dummy_obj->property1 );
+		$this->assertEquals( 'value2', $dummy_obj->property2 );
+		$this->assertEquals( 'value3', $dummy_obj->property3 );
+		$this->assertSame( $dummy_obj, $result );
 	}
 
 	public function test_bind_config_strict_mode(): void {
