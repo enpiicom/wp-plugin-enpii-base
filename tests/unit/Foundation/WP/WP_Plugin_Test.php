@@ -164,7 +164,7 @@ class WP_Plugin_Test extends Unit_Test_Case {
 
 		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
 								->disableOriginalConstructor()
-								->setMethods( [ 'loadViewsFrom' ] )
+								->onlyMethods( [ 'loadViewsFrom' ] )
 								->getMockForAbstractClass();
 		$wp_plugin_mock->expects( $this->exactly( 3 ) )
 						->method( 'loadViewsFrom' );
@@ -187,7 +187,7 @@ class WP_Plugin_Test extends Unit_Test_Case {
 
 		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
 								->disableOriginalConstructor()
-								->setMethods( [ 'loadViewsFrom' ] )
+								->onlyMethods( [ 'loadViewsFrom' ] )
 								->getMockForAbstractClass();
 		$wp_plugin_mock->expects( $this->exactly( 2 ) )
 						->method( 'loadViewsFrom' );
