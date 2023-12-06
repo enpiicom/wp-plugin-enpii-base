@@ -5,7 +5,6 @@ namespace Enpii_Base\Tests\Unit\Foundation\WP;
 use Enpii_Base\App\WP\WP_Application;
 use Enpii_Base\Foundation\WP\WP_Plugin;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
-use http\Exception\InvalidArgumentException;
 use Mockery;
 
 class WP_Plugin_Test extends Unit_Test_Case {
@@ -72,8 +71,8 @@ class WP_Plugin_Test extends Unit_Test_Case {
 		];
 
 		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
-					->disableOriginalConstructor()
-					->getMockForAbstractClass();
+								->disableOriginalConstructor()
+								->getMockForAbstractClass();
 		$wp_plugin_mock->bind_base_params( $config );
 
 		$this->assertEquals( $config['plugin_slug'], $this->get_protected_property_value( $wp_plugin_mock, 'plugin_slug' ) );
@@ -149,5 +148,51 @@ class WP_Plugin_Test extends Unit_Test_Case {
 		$this->set_property_value( $wp_plugin_mock, 'base_url', '' );
 		$this->expectException( \InvalidArgumentException::class );
 		$this->invoke_protected_method( $wp_plugin_mock, 'validate_needed_properties' );
+	}
+
+	/**
+	 * @throws \ReflectionException
+	 */
+	public function test_prepare_views_paths(): void {
+		\WP_Mock::userFunction( 'get_stylesheet_directory' )
+				->once()
+				->andReturn( '/path/to/stylesheet/dir' );
+
+		\WP_Mock::userFunction( 'get_template_directory' )
+				->once()
+				->andReturn( '/path/to/template/dir' );
+
+		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
+								->disableOriginalConstructor()
+								->setMethods( [ 'loadViewsFrom' ] )
+								->getMockForAbstractClass();
+		$wp_plugin_mock->expects( $this->exactly( 3 ) )
+						->method( 'loadViewsFrom' );
+		$namespace = 'NAMESPACE';
+		$this->set_property_value( $wp_plugin_mock, 'base_path', 'base_path' );
+		$this->invoke_protected_method( $wp_plugin_mock, 'prepare_views_paths', [ $namespace ] );
+	}
+
+	/**
+	 * @throws \ReflectionException
+	 */
+	public function test_prepare_views_paths_no_child_theme(): void {
+		\WP_Mock::userFunction( 'get_stylesheet_directory' )
+				->once()
+				->andReturn( '/path/to/stylesheet/dir' );
+
+		\WP_Mock::userFunction( 'get_template_directory' )
+				->once()
+				->andReturn( '/path/to/stylesheet/dir' );
+
+		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
+								->disableOriginalConstructor()
+								->setMethods( [ 'loadViewsFrom' ] )
+								->getMockForAbstractClass();
+		$wp_plugin_mock->expects( $this->exactly( 2 ) )
+						->method( 'loadViewsFrom' );
+		$namespace = 'NAMESPACE';
+		$this->set_property_value( $wp_plugin_mock, 'base_path', 'base_path' );
+		$this->invoke_protected_method( $wp_plugin_mock, 'prepare_views_paths', [ $namespace ] );
 	}
 }
