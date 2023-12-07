@@ -25,9 +25,9 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 
 	protected $plugin_slug;
 	// phpcs:ignore PHPCompatibility.Classes.NewTypedProperties.Found
-	protected string $base_path;
+	protected $base_path;
 	// phpcs:ignore PHPCompatibility.Classes.NewTypedProperties.Found
-	protected string $base_url;
+	protected $base_url;
 
 	/**
 	 * Get the wp_app instance of the plugin

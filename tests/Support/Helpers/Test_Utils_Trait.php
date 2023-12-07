@@ -4,7 +4,7 @@ namespace Enpii_Base\Tests\Support\Helpers;
 
 use ReflectionClass;
 
-trait Test_Utils {
+trait Test_Utils_Trait {
 
 	/**
 	 * @description: For testing protected, private method in class

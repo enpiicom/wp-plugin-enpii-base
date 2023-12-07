@@ -5,7 +5,6 @@
  */
 
 require_once dirname( __DIR__ ) . '/enpii-base-bootstrap.php';
-require_once dirname( __DIR__ ) . '/vendor/autoload.php';
 
 function output_debug( $debug_string ) {
 	// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r, WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fwrite
