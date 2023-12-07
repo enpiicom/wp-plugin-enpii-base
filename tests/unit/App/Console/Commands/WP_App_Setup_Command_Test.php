@@ -12,16 +12,19 @@ use Mockery;
 class WP_App_Setup_Command_Test extends Unit_Test_Case {
 
 	public function test_handle() {
+		// Mock the WP_App_Setup_Command class
 		$command_mock = $this->getMockBuilder( WP_App_Setup_Command::class )
 							->disableOriginalConstructor()
 							->getMock();
-		// Dispatch the job synchronously
+
+		// Mock the Setup_WP_App_In_Console_Job class
 		$console_job = Mockery::mock( Setup_WP_App_In_Console_Job::class );
 
-		// Assert that the mock objects and their methods were called as expected
+		// Dispatch the job synchronously and assert that the mock objects and their methods were called as expected
 		$console_job->shouldReceive( 'dispatchSync' )
 					->with( $command_mock )
 					->andReturnSelf();
+		
 		$command_mock->handle();
 	}
 }
