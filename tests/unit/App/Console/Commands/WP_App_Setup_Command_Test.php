@@ -11,7 +11,7 @@ use Mockery;
 
 class WP_App_Setup_Command_Test extends Unit_Test_Case {
 
-	public function test_handle() {
+	public function test_handle(): void {
 		// Mock the WP_App_Setup_Command class
 		$command_mock = $this->getMockBuilder( WP_App_Setup_Command::class )
 							->disableOriginalConstructor()
@@ -24,7 +24,7 @@ class WP_App_Setup_Command_Test extends Unit_Test_Case {
 		$console_job->shouldReceive( 'dispatchSync' )
 					->with( $command_mock )
 					->andReturnSelf();
-		
+
 		$command_mock->handle();
 	}
 }
