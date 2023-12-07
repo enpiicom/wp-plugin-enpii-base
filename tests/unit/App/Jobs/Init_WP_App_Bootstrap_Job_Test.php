@@ -5,30 +5,25 @@ declare(strict_types=1);
 namespace Enpii_Base\Tests\Unit\App\Jobs;
 
 use Enpii_Base\App\Jobs\Init_WP_App_Bootstrap_Job;
-use Enpii_Base\App\WP\WP_Application;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
-use Mockery;
 
-class Init_WP_App_Bootstrap_Job_Test extends Unit_Test_Case
-{
+class Init_WP_App_Bootstrap_Job_Test extends Unit_Test_Case {
+
 	public function test_handle(): void {
 		$this->setup_wp_app();
-		$wp_app_hook_handler = $this->getMockBuilder(Init_WP_App_Bootstrap_Job::class)->getMock();
+		$wp_app = $this->wp_app;
 
-		// Create a mock of the WPApp class
-		$wp_app = $this->getMockBuilder(WP_Application::class)
-						->disableOriginalConstructor()
-		               ->getMock();
+		// Mock the Init_WP_App_Bootstrap_Job class
+		$wp_app_bootstrap_job_mock = $this->getMockBuilder( Init_WP_App_Bootstrap_Job::class )->getMock();
+		$wp_app_bootstrap_job_mock->handle();
 
-		// Expect the singleton method to be called with HttpKernel classes
-		$wp_app->expects($this->once())
-		       ->method('singleton')
-		       ->with(\Illuminate\Contracts\Http\Kernel::class,
-			       \Enpii_Base\App\Http\Kernel::class);
+		$http_kernel = $wp_app->make( \Enpii_Base\App\Http\Kernel::class );
+		$console_kernel = $wp_app->make( \Enpii_Base\App\Console\Kernel::class );
+		$exception_handler = $wp_app->make( \Enpii_Base\App\Exceptions\Handler::class );
 
-		// Replace the original instance with the mock instance
-		$this->wp_app->instance( WP_Application::class, $wp_app );
-
-		$wp_app_hook_handler->handle();
+		// Assert that the resolved instances match the expected classes
+		$this->assertInstanceOf( \Illuminate\Contracts\Http\Kernel::class, $http_kernel );
+		$this->assertInstanceOf( \Illuminate\Contracts\Console\Kernel::class, $console_kernel );
+		$this->assertInstanceOf( \Illuminate\Contracts\Debug\ExceptionHandler::class, $exception_handler );
 	}
 }
