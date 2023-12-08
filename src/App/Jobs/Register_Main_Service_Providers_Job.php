@@ -33,7 +33,7 @@ class Register_Main_Service_Providers_Job extends Base_Job {
 	 */
 	public function handle(): void {
 		// The order of Providers matters
-		//	So we need to consider
+		//  So we need to consider
 		$providers = ! empty( $this->get_providers() )
 			? $this->get_providers()
 			: [
