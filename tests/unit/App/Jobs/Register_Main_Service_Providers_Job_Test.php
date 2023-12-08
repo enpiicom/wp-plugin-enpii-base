@@ -45,6 +45,36 @@ class Register_Main_Service_Providers_Job_Test extends Unit_Test_Case {
 		parent::setUp();
 	}
 
+	public function test_constructor_with_config() {
+		// Arrange
+		$config = [ 'key' => 'value' ];
+
+		// Create a mock for the Register_Main_Service_Providers_Job class
+		$job_mock = $this->getMockBuilder( Register_Main_Service_Providers_Job::class )
+						->disableOriginalConstructor()
+						->getMock();
+
+		// Expect the bind_config method to be called exactly once with the given arguments
+		$job_mock->expects( $this->once() )
+				->method( 'bind_config' )
+				->with( $config, true );
+		// Act
+		$job_mock->__construct( $config );
+
+		// No additional assertions needed as the expectations are already set
+	}
+
+	public function test_constructor_without_config() {
+		// Create a mock for the Register_Main_Service_Providers_Job class
+		$job_mock = $this->getMockBuilder( Register_Main_Service_Providers_Job::class )
+						->disableOriginalConstructor()
+						->getMock();
+		// Expect no calls to the bind_config method
+		$job_mock->__construct();
+
+		// No dditional assertions needed as the expectations are already set
+	}
+
 	public function test_handle(): void {
 		$this->setup_wp_app();
 
