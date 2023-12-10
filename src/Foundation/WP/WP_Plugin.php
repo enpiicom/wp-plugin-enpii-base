@@ -116,6 +116,18 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 				);
 			}
 		}
+
+		if ( !preg_match('/^[a-zA-Z0-9_-]+$/i', $this->plugin_slug) ) {
+			throw new InvalidArgumentException(
+				sprintf(
+					__('Property %s must be set for %s.', 'enpii') . ' ' . __('Value must contain only alphanumeric characters _ -', 'enpii'),
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+					'plugin_slug',
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+					get_class( $this )
+				)
+			);
+		}
 	}
 
 	/**
