@@ -46,7 +46,6 @@ class WP_Plugin_Test extends Unit_Test_Case {
 	}
 
 	/**
-	 * @throws \Illuminate\Contracts\Container\BindingResolutionException
 	 */
 	public function test_wp_app_instance() {
 		// Set up the WP_Plugin mock
@@ -95,14 +94,18 @@ class WP_Plugin_Test extends Unit_Test_Case {
 
 	public function test_boot() {
 		// Set up the abstract WP_Plugin class mock
-		$wp_plugin_mock = Mockery::mock( WP_Plugin::class )
-								->shouldAllowMockingMethod( 'boot' )
-								->shouldAllowMockingProtectedMethods()
-								->makePartial();
-		$wp_plugin_mock->shouldReceive( 'prepare_views_paths' )->once();
+		$mockClass = $this->getMockBuilder( WP_Plugin::class )
+							->disableOriginalConstructor()
+							->onlyMethods( [ 'prepare_views_paths', 'get_plugin_slug' ] )
+							->getMockForAbstractClass();
 
-		// Call the boot method
-		$wp_plugin_mock->boot();
+		// Set the expectation that the method 'prepare_views_paths' will be called with the result of 'get_plugin_slug'
+		$mockClass->expects( $this->once() )
+					->method( 'prepare_views_paths' )
+					->with( $mockClass->get_plugin_slug() );
+
+		// Call the 'boot' method
+		$mockClass->boot();
 	}
 
 	public function test_get_views_path() {
@@ -121,6 +124,28 @@ class WP_Plugin_Test extends Unit_Test_Case {
 
 	public function test_view() {
 		// Todo: We need to test later. Blocker: Unable to mock global wp_app_view() function
+	}
+
+	/**
+	 * @throws \Exception
+	 */
+	public function test_translate() {
+		// Mock the WP_Plugin class
+		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
+								->onlyMethods( [ '_t', 'get_text_domain' ] )
+								->disableOriginalConstructor()
+								->getMockForAbstractClass();
+
+		// Set the expectation that the _t() function will be called
+		$wp_plugin_mock->expects( $this->once() )
+						->method( '_t' )
+						->withAnyParameters()
+						->willReturn( 'Translated' );
+
+		// Call the '_t' method and assert the returned value
+		$translated_text = $wp_plugin_mock->_t( 'Untranslated Text' );
+
+		$this->assertEquals( 'Translated', $translated_text );
 	}
 
 	/**
