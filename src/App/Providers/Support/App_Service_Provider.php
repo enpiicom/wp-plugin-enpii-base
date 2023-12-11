@@ -20,7 +20,7 @@ class App_Service_Provider extends ServiceProvider {
 			apply_filters(
 				App_Const::FILTER_WP_APP_APP_CONFIG,
 				$this->get_default_config()
-			),
+			)
 		);
 	}
 

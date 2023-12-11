@@ -29,9 +29,8 @@ class Write_Setup_Client_Script_Job extends Base_Job {
 			// phpcs:ignore Generic.Strings.UnnecessaryStringConcat.Found
 			$setup_url = esc_url( home_url() . '/' . enpii_base_get_wp_app_prefix() . '' . '/wp-admin/admin/setup?force_app_running_in_console=1' );
 
-			echo <<<SCRIPT
+			$script_to_print = <<<SCRIPT
 			<script type="text/javascript">
-				// phpcs:ignore WordPress.Security.EscapeOutput.HeredocOutputNotEscaped
 				let enpii_base_setup_url = '$setup_url';
 				if (typeof(jQuery) !== 'undefined') {
 					jQuery.ajax({
@@ -43,6 +42,7 @@ class Write_Setup_Client_Script_Job extends Base_Job {
 				}
 			</script>
 SCRIPT;
+			echo esc_html( $script_to_print );
 		}
 	}
 }
