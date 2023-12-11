@@ -108,6 +108,66 @@ class WP_Plugin_Test extends Unit_Test_Case {
 		$mockClass->boot();
 	}
 
+	/**
+	 * @throws \ReflectionException
+	 */
+	public function test_get_plugin_slug(): void {
+		// Set the plugin slug
+		$expected = 'my-plugin';
+
+		// Mock the WP_Plugin class
+		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
+								->disableOriginalConstructor()
+								->getMockForAbstractClass();
+		$this->set_property_value( $wp_plugin_mock, 'plugin_slug', $expected );
+
+		// Get the actual result
+		$actual = $wp_plugin_mock->get_plugin_slug();
+
+		// Assert that the actual result matches the expected result
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * @throws \ReflectionException
+	 */
+	public function test_get_base_path(): void {
+		// Set the base path
+		$expected = 'my-base-path';
+
+		// Mock the WP_Plugin class
+		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
+								->disableOriginalConstructor()
+								->getMockForAbstractClass();
+		$this->set_property_value( $wp_plugin_mock, 'base_path', $expected );
+
+		// Get the actual result
+		$actual = $wp_plugin_mock->get_base_path();
+
+		// Assert that the actual result matches the expected result
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * @throws \ReflectionException
+	 */
+	public function test_get_base_url(): void {
+		// Set the base url
+		$expected = 'my-base-url';
+
+		// Mock the WP_Plugin class
+		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
+								->disableOriginalConstructor()
+								->getMockForAbstractClass();
+		$this->set_property_value( $wp_plugin_mock, 'base_url', $expected );
+
+		// Get the actual result
+		$actual = $wp_plugin_mock->get_base_url();
+
+		// Assert that the actual result matches the expected result
+		$this->assertEquals( $expected, $actual );
+	}
+
 	public function test_get_views_path() {
 		// Set up the abstract WP_Plugin class mock
 		$wp_plugin_mock = Mockery::mock( WP_Plugin::class )
@@ -124,6 +184,25 @@ class WP_Plugin_Test extends Unit_Test_Case {
 
 	public function test_view() {
 		// Todo: We need to test later. Blocker: Unable to mock global wp_app_view() function
+	}
+
+	/**
+	 * @throws \ReflectionException
+	 */
+	public function test_get_plugin_basename(): void {
+		// Mock the WP_Plugin class
+		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
+								->disableOriginalConstructor()
+								->getMockForAbstractClass();
+		$this->set_property_value( $wp_plugin_mock, 'base_path', '/path/to/base' );
+		$this->set_property_value( $wp_plugin_mock, 'plugin_slug', 'your-plugin' );
+		\WP_Mock::userFunction( 'plugin_basename' )
+				->once()
+				->andReturn( $wp_plugin_mock->get_base_path() . DIR_SEP . $wp_plugin_mock->get_plugin_slug() . '.php' );
+
+		// Get the actual result
+		$actual_result = $wp_plugin_mock->get_plugin_basename();
+		$this->assertEquals( $wp_plugin_mock->get_base_path() . DIR_SEP . $wp_plugin_mock->get_plugin_slug() . '.php', $actual_result );
 	}
 
 	/**

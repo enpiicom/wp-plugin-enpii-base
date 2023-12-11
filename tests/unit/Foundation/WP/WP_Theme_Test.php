@@ -55,6 +55,7 @@ class WP_Theme_Test extends Unit_Test_Case {
 			'parent_base_url' => 'https://example.com/parent-base-url',
 		];
 
+		// Mock the WP_Theme class
 		$wp_theme_mock = $this->getMockBuilder( WP_Theme::class )
 								->disableOriginalConstructor()
 								->getMockForAbstractClass();
@@ -72,13 +73,15 @@ class WP_Theme_Test extends Unit_Test_Case {
 	public function test_get_theme_slug(): void {
 		// Set the theme slug
 		$expected = 'my-theme';
+
+		// Mock the WP_Theme class
 		$wp_theme_mock = $this->getMockBuilder( WP_Theme::class )
 								->disableOriginalConstructor()
 								->getMockForAbstractClass();
 		$this->set_property_value( $wp_theme_mock, 'theme_slug', $expected );
 
 		// Get the actual result
-		$actual = $this->get_protected_property_value( $wp_theme_mock, 'theme_slug' );
+		$actual = $wp_theme_mock->get_theme_slug();
 
 		// Assert that the actual result matches the expected result
 		$this->assertEquals( $expected, $actual );
@@ -88,15 +91,17 @@ class WP_Theme_Test extends Unit_Test_Case {
 	 * @throws \ReflectionException
 	 */
 	public function test_get_base_path(): void {
-		// Set the theme slug
+		// Set the theme base path
 		$expected = 'my-base-path';
+
+		// Mock the WP_Theme class
 		$wp_theme_mock = $this->getMockBuilder( WP_Theme::class )
 								->disableOriginalConstructor()
 								->getMockForAbstractClass();
 		$this->set_property_value( $wp_theme_mock, 'base_path', $expected );
 
 		// Get the actual result
-		$actual = $this->get_protected_property_value( $wp_theme_mock, 'base_path' );
+		$actual = $wp_theme_mock->get_base_path();
 
 		// Assert that the actual result matches the expected result
 		$this->assertEquals( $expected, $actual );
@@ -105,15 +110,17 @@ class WP_Theme_Test extends Unit_Test_Case {
 	 * @throws \ReflectionException
 	 */
 	public function test_get_base_url(): void {
-		// Set the theme slug
+		// Set the theme base url
 		$expected = 'my-base-url';
+
+		// Mock the WP_Theme class
 		$wp_theme_mock = $this->getMockBuilder( WP_Theme::class )
 								->disableOriginalConstructor()
 								->getMockForAbstractClass();
 		$this->set_property_value( $wp_theme_mock, 'base_url', $expected );
 
 		// Get the actual result
-		$actual = $this->get_protected_property_value( $wp_theme_mock, 'base_url' );
+		$actual = $wp_theme_mock->get_base_url();
 
 		// Assert that the actual result matches the expected result
 		$this->assertEquals( $expected, $actual );
@@ -123,15 +130,17 @@ class WP_Theme_Test extends Unit_Test_Case {
 	 * @throws \ReflectionException
 	 */
 	public function test_get_parent_base_path(): void {
-		// Set the theme slug
+		// Set the theme parent base path
 		$expected = 'my-parent-base-path';
+
+		// Mock the WP_Theme class
 		$wp_theme_mock = $this->getMockBuilder( WP_Theme::class )
 								->disableOriginalConstructor()
 								->getMockForAbstractClass();
 		$this->set_property_value( $wp_theme_mock, 'parent_base_path', $expected );
 
 		// Get the actual result
-		$actual = $this->get_protected_property_value( $wp_theme_mock, 'parent_base_path' );
+		$actual = $wp_theme_mock->get_parent_base_path();
 
 		// Assert that the actual result matches the expected result
 		$this->assertEquals( $expected, $actual );
@@ -140,15 +149,17 @@ class WP_Theme_Test extends Unit_Test_Case {
 	 * @throws \ReflectionException
 	 */
 	public function test_get_parent_base_url(): void {
-		// Set the theme slug
+		// Set the theme parent base url
 		$expected = 'my-parent-base-url';
+
+		// Mock the WP_Theme class
 		$wp_theme_mock = $this->getMockBuilder( WP_Theme::class )
 								->disableOriginalConstructor()
 								->getMockForAbstractClass();
 		$this->set_property_value( $wp_theme_mock, 'parent_base_url', $expected );
 
 		// Get the actual result
-		$actual = $this->get_protected_property_value( $wp_theme_mock, 'parent_base_url' );
+		$actual = $wp_theme_mock->get_parent_base_url();
 
 		// Assert that the actual result matches the expected result
 		$this->assertEquals( $expected, $actual );
