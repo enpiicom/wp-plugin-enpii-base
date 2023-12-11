@@ -16,20 +16,20 @@ if ( ! function_exists( 'devd' ) ) {
 
 		// We want to put the file name and the 7 steps trace to know where
 		//  where the dump is produced
-		if (!enpii_base_is_console_mode()) {
+		if ( ! enpii_base_is_console_mode() ) {
 			echo 'Traceback: ';
 			dump( $dev_trace );
 		}
 
-		echo '=== start of dump === '. $dev_trace[0]['file'] . ':' . $dev_trace[0]['line'].': '. "\n";
-		dump(...$vars);
+		echo '=== start of dump === ' . $dev_trace[0]['file'] . ':' . $dev_trace[0]['line'] . ': ' . "\n";
+		dump( ...$vars );
 	}
 }
 
 if ( ! function_exists( 'devdd' ) ) {
 	function devdd( ...$vars ): void {
-		devd(...$vars);
-		die(' end of devdd ');
+		devd( ...$vars );
+		die( ' end of devdd ' );
 	}
 }
 
@@ -41,14 +41,14 @@ if ( ! function_exists( 'dev_error_log' ) ) {
 		$log_message .= "Debugging dev_error_log \n======= Dev logging start here \n" . $dev_trace[0]['file'] . ':' . $dev_trace[0]['line'] . " \n";
 		foreach ( $vars as $index => $var ) {
 			$dump_content = null;
-			if ($var === false) {
+			if ( $var === false ) {
 				$type = 'NULL';
 			} else {
-				$type = is_object($var) ? get_class($var) : gettype($var);
+				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
 
-				$dump_content = is_object($var) ? json_encode($var, JSON_PRETTY_PRINT, 7) : var_export($var, true);
+				$dump_content = is_object( $var ) ? json_encode( $var, JSON_PRETTY_PRINT, 7 ) : var_export( $var, true );
 			}
-			$log_message .= "Var no $index: type ".$type." - " . $dump_content . " \n";
+			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
 		}
 		$log_message .= "\n======= Dev logging ends here\n\n\n\n";
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
@@ -75,7 +75,7 @@ if ( ! function_exists( 'dev_logger' ) ) {
 		$log_message = '';
 		$log_message .= "Debugging dev_logger \n======= Dev logging start here \n" . $dev_trace[0]['file'] . ':' . $dev_trace[0]['line'] . " \n";
 		foreach ( $vars as $index => $var ) {
-			$log_message .= "Var no $index: " . VarDumper::dump( $var ). "\n";
+			$log_message .= "Var no $index: " . VarDumper::dump( $var ) . "\n";
 
 		}
 		$log_message .= "\n======= Dev logging ends here\n\n\n\n";

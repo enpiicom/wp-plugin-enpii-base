@@ -13,11 +13,11 @@ trait Config_Trait {
 	/**
 	 * Mass assign array values with properties that map array keys
 	 * @param array $config
-	 * @param bool $strict 	default = false, that means all existing keys should be assigned
-	 * 						if set to true, that means exception thrown if a key doesn't
-	 * 						match the object property
+	 * @param bool $strict  default = false, that means all existing keys should be assigned
+	 *                      if set to true, that means exception thrown if a key doesn't
+	 *                      match the object property
 	 * @return self
-     * @throws InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function bind_config( array $config = [], bool $strict = false ): self {
 		if ( is_array( $config ) && ! empty( $config ) ) {
