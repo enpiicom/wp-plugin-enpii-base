@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Below functions are for development debugging
+ */
+
 declare(strict_types=1);
 
 use Symfony\Component\VarDumper\Caster\ReflectionCaster;
@@ -7,11 +11,12 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\VarDumper;
 
-/**
- * Below functions are for development debugging
- */
 if ( ! function_exists( 'devd' ) ) {
+	/**
+	 * @throws \Exception
+	 */
 	function devd( ...$vars ) {
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 50 );
 
 		// We want to put the file name and the 7 steps trace to know where
@@ -21,12 +26,15 @@ if ( ! function_exists( 'devd' ) ) {
 			dump( $dev_trace );
 		}
 
-		echo '=== start of dump === ' . $dev_trace[0]['file'] . ':' . $dev_trace[0]['line'] . ': ' . "\n";
+		echo '=== start of dump === ' . esc_html( $dev_trace[0]['file'] ) . ':' . esc_html( $dev_trace[0]['line'] ) . ': ' . "\n";
 		dump( ...$vars );
 	}
 }
 
 if ( ! function_exists( 'devdd' ) ) {
+	/**
+	 * @throws \Exception
+	 */
 	function devdd( ...$vars ): void {
 		devd( ...$vars );
 		die( ' end of devdd ' );
@@ -35,6 +43,7 @@ if ( ! function_exists( 'devdd' ) ) {
 
 if ( ! function_exists( 'dev_error_log' ) ) {
 	function dev_error_log( ...$vars ): void {
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT, 1 );
 
 		$log_message = '';
@@ -45,13 +54,13 @@ if ( ! function_exists( 'dev_error_log' ) ) {
 				$type = 'NULL';
 			} else {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
-
-				$dump_content = is_object( $var ) ? json_encode( $var, JSON_PRETTY_PRINT, 7 ) : var_export( $var, true );
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+				$dump_content = is_object( $var ) ? wp_json_encode( $var, JSON_PRETTY_PRINT, 7 ) : var_export( $var, true );
 			}
 			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
 		}
 		$log_message .= "\n======= Dev logging ends here\n\n\n\n";
-		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		error_log( $log_message );
 	}
 }
@@ -62,11 +71,12 @@ if ( ! function_exists( 'dev_logger' ) ) {
 		$cloner->addCasters( ReflectionCaster::UNSET_CLOSURE_FILE_INFO );
 		$dumper = new CliDumper();
 
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT, 1 );
 
 		VarDumper::setHandler(
-			function ( $var ) use ( $cloner, $dumper ) {
-				return $dumper->dump( $cloner->cloneVar( $var ), true );
+			function ( $variable ) use ( $cloner, $dumper ) {
+				return $dumper->dump( $cloner->cloneVar( $variable ), true );
 			}
 		);
 
@@ -93,6 +103,9 @@ if ( ! function_exists( 'dev_log' ) ) {
 }
 
 if ( ! function_exists( 'dev_dump_log' ) ) {
+	/**
+	 * @throws \Exception
+	 */
 	function dev_dump_log( ...$vars ): void {
 		devd( ...$vars );
 		dev_error_log( ...$vars );
