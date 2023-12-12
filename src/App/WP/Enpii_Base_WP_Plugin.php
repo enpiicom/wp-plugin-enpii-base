@@ -254,7 +254,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function register_telescope_tinker($providers) {
-		return Add_Telescope_Tinker_Query::dispatchSync($providers);
+		return Add_Telescope_Tinker_Query::execute_now($providers);
 	}
 
 	/**

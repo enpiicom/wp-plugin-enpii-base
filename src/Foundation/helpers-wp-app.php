@@ -634,14 +634,14 @@ if ( ! function_exists( 'wp_app_precognitive' ) ) {
 	 */
 	function wp_app_precognitive( $callable = null ) {
 		// phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesce_equalFound
-		$callable ??= function () {
+		$callable = $callable ? $callable : function () {
 			//
 		};
 
 		$payload = $callable(
 			function ( $default, $precognition = null ) {
 				$response = wp_app_request()->isPrecognitive()
-				? ( $precognition ?? $default )
+				? ( isset($precognition) ? $precognition : $default )
 				: $default;
 
 				wp_app_abort( Router::toResponse( request(), value( $response ) ) );

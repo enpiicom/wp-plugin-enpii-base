@@ -33,10 +33,10 @@ class WP_Application extends Application {
 	 * Config array needed for the initialization process
 	 * @var array
 	 */
-	protected static array $config;
+	protected static $config;
 
-	protected string $wp_app_slug = 'wp-app';
-	protected string $wp_api_slug = 'wp-api';
+	protected $wp_app_slug = 'wp-app';
+	protected $wp_api_slug = 'wp-api';
 
 	/**
      * We don't want to have this class publicly initialized
