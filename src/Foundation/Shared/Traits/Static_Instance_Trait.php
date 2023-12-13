@@ -12,7 +12,16 @@ use InvalidArgumentException;
 trait Static_Instance_Trait {
 	protected static $instance = null;
 
-	public static function instance() {
+	/**
+	 * Initialize the singleton instance then return it or the existing one
+	 * @param mixed $args
+	 * @return static
+	 */
+	public static function instance(...$args) {
+		if (empty(static::$instance)) {
+			static::$instance = new static(...$args);
+		}
+
 		return static::$instance;
 	}
 
@@ -20,7 +29,7 @@ trait Static_Instance_Trait {
 		if (empty(static::$instance)) {
 			static::$instance = $init_object;
 		} else {
-			throw new InvalidArgumentException(__('Instact not empty'));
+			throw new InvalidArgumentException(__('Instance not empty'));
 		}
 	}
 }
