@@ -646,7 +646,7 @@ if ( ! function_exists( 'wp_app_precognitive' ) ) {
 		$payload = $callable_value(
 			function ( $default_value, $precognition = null ) {
 				$response = wp_app_request()->isPrecognitive()
-					? ( isset($precognition) ? $precognition : $default_value )
+					? ( isset( $precognition ) ? $precognition : $default_value )
 					: $default_value;
 
 				wp_app_abort( Router::toResponse( request(), value( $response ) ) );

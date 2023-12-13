@@ -26,8 +26,8 @@ class Write_Queue_Work_Script_Job extends Base_Job {
 		$queue_work_url = esc_js( wp_app_route_wp_url( 'wp-app-queue-work' ) . '/' );
 
 		// We want to have an interval that works every 2 mins (120 000 miliseconds)
-		//	To perform the queue execution because we set timeout
-		//	for the queue-work endpoint to 60 seconds
+		//  To perform the queue execution because we set timeout
+		//  for the queue-work endpoint to 60 seconds
 		$script = <<<SCRIPT
 		<script type="text/javascript">
 			var enpii_base_queue_work_url = '$queue_work_url';
@@ -49,6 +49,10 @@ class Write_Queue_Work_Script_Job extends Base_Job {
 			}, 12000);
 		</script>
 SCRIPT;
+
+		// We suppress phpcs rule here because we escape the variable already
+		//  the rest of the script are static text
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $script;
 	}
 }

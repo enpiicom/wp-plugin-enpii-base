@@ -15,9 +15,9 @@ trait Static_Instance_Trait {
 	 * @param mixed $args
 	 * @return static
 	 */
-	public static function instance(...$args) {
-		if (empty(static::$instance)) {
-			static::$instance = new static(...$args);
+	public static function instance( ...$args ) {
+		if ( empty( static::$instance ) ) {
+			static::$instance = new static( ...$args );
 		}
 
 		return static::$instance;

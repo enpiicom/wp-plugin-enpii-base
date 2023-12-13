@@ -12,18 +12,17 @@ use Enpii_Base\Foundation\Shared\Base_Job;
 class Register_Base_WP_App_Routes_Job extends Base_Job {
 	use Dispatchable_Trait;
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle(): void
-    {
+	/**
+	 * Execute the job.
+	 *
+	 * @return void
+	 */
+	public function handle(): void {
 		// For Frontend
 		Route::get( '/', [ Main_Controller::class, 'index' ] );
 		Route::get( '/post', [ Main_Controller::class, 'post' ] );
 		Route::get( '/page', [ Main_Controller::class, 'page' ] );
-		Route::post( 'queue-work', [ Main_Controller::class, 'queue_work' ] )->name('wp-app-queue-work');
+		Route::post( 'queue-work', [ Main_Controller::class, 'queue_work' ] )->name( 'wp-app-queue-work' );
 
 		// For Admin
 		Route::group(
@@ -43,7 +42,7 @@ class Register_Base_WP_App_Routes_Job extends Base_Job {
 						],
 					],
 					function () {
-						Route::get( 'setup', [ Admin_Main_Controller::class, 'setup' ] )->name('wp-app-admin-setup');
+						Route::get( 'setup', [ Admin_Main_Controller::class, 'setup' ] )->name( 'wp-app-admin-setup' );
 					}
 				);
 			}
@@ -53,7 +52,8 @@ class Register_Base_WP_App_Routes_Job extends Base_Job {
 		Route::group(
 			[
 				'prefix' => '/api',
-			], function () {
+			],
+			function () {
 				Route::get( '/', [ Api_Main_Controller::class, 'home' ] );
 				Route::get( '/info', [ Api_Main_Controller::class, 'info' ] );
 			}

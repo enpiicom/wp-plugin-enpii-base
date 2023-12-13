@@ -10,14 +10,13 @@ use Enpii_Base\Foundation\Shared\Base_Job;
 class Register_Base_WP_Api_Routes_Job extends Base_Job {
 	use Dispatchable_Trait;
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle(): void
-    {
-        // For API
+	/**
+	 * Execute the job.
+	 *
+	 * @return void
+	 */
+	public function handle(): void {
+		// For API
 		Route::get( '/', [ Main_Controller::class, 'home' ] );
 		Route::get( 'info', [ Main_Controller::class, 'info' ] );
 
@@ -33,5 +32,5 @@ class Register_Base_WP_Api_Routes_Job extends Base_Job {
 				Route::get( '/', [ Main_Controller::class, 'info' ] );
 			}
 		);
-    }
+	}
 }

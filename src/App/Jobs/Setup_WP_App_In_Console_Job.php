@@ -66,16 +66,19 @@ class Setup_WP_App_In_Console_Job extends Base_Job {
 			]
 		);
 
-		$console_command->comment('Doing Migrations...');
-        $console_command->call('migrate', [
-			'--no-interaction' => true,
-			'--quiet' => true,
-		]);
+		$console_command->comment( 'Doing Migrations...' );
+		$console_command->call(
+			'migrate',
+			[
+				'--no-interaction' => true,
+				'--quiet' => true,
+			]
+		);
 
 		// We need to cleanup the migrations file in fake base path database folder
-		//	for security reason
-		$console_command->comment('Cleanup migrations rule');
-		$filesystem = new Filesystem;
-		$filesystem->cleanDirectory(wp_app()->databasePath('migrations'));
+		//  for security reason
+		$console_command->comment( 'Cleanup migrations rule' );
+		$filesystem = new Filesystem();
+		$filesystem->cleanDirectory( wp_app()->databasePath( 'migrations' ) );
 	}
 }
