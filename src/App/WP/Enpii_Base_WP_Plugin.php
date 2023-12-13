@@ -235,10 +235,6 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		// We want to have blade to compile the php file as well
 		$view->addExtension( 'php', 'blade' );
 
-		/** @var \Illuminate\View\View $wp_app_view */
-		// phpcs:ignore Squiz.PHP.CommentedOutCode.Found
-		// $wp_app_view = wp_app_view(basename($template, '.php'))
-
 		// We catch exception if view is not rendered correctly
 		//  exception InvalidArgumentException for view file not found in FileViewFinder
 		try {
@@ -246,7 +242,11 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $tmp;
 			$template = false;
-		} catch ( InvalidArgumentException | Exception $e ) {
+
+		// We simply want to do nothing on the InvalidArgumentException
+		// phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+		} catch ( InvalidArgumentException $invalid_argument_exception ) {
+		} catch ( Exception $e ) {
 			throw $e;
 		}
 
