@@ -42,9 +42,32 @@ both are configurable.
 ### Adding more Laravel features to the plugin
 - Use Session flash messages to display messages on WordPress application.
 - We want to have the Laravel queue to WordPress and use database connection as the queue connection.
+- We can add a http endpoint then use this code
+```
+Artisan::call('queue:work', [
+	'connection' => 'database',
+	'--queue' => 'high,default,low',
+	'--tries' => 3,
+	'--quiet' => true,
+	'--stop-when-empty' => true,
+	'--timeout' => 60,
+	'--memory' => 256,
+]);
+```
+to perform the queue execution with the timeout set to 60 seconds.
+- Then we need to write a js script to have ajax request to that http endpoint to perform the queue execution when someone access the website.
+
+### Notes
+#### Migrations
+- We need to put migrations rules to a src folders then user the command `vendor:publish` (remember to assign the assets tags for migrations rules) to publish migrations to fake base path. If we use the command to create rules, new rules will be created with current date therefore it would affect the migration rule time and cause the confusion.
+- For Laravel 7, we need to specify the migration class name clearly, and we need to use CamelCase naming to match Laravel convention e.g. 'CreateActivityLogs' (not using `return new class extends Migration` like Laravel 8+)
+
+### Current Blockers
 
 Currently, we are able to make the queue work using
 ```
 wp enpii-base artisan queue:work database --queue=high,default,low
 ```
 but Telescope cannot watch the Jobs and we need to have the queue work on web access as well. Probaly, we may send an ajax request on each `wp-admin` web request to trigger the queue work.
+
+We try to trigger the queue work on webaccess

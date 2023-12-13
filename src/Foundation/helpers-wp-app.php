@@ -803,6 +803,20 @@ if ( ! function_exists( 'wp_app_route' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wp_app_route_wp_url' ) ) {
+	/**
+	 * Generate the URL of a full WordPress URL with domain name to a named route.
+	 *
+	 * @param  array|string  $name
+	 * @param  mixed  $parameters
+	 * @param  bool  $absolute
+	 * @return string
+	 */
+	function wp_app_route_wp_url( $name, $parameters = [] ) {
+		return rtrim( home_url(), '/' ) . wp_app_route( $name, $parameters, false );
+	}
+}
+
 if ( ! function_exists( 'wp_app_secure_asset' ) ) {
 	/**
 	 * Generate an asset path for the application.

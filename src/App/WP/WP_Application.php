@@ -88,7 +88,7 @@ class WP_Application extends Application {
     public function runningInConsole()
     {
 		if ($this->isRunningInConsole === null) {
-			if (strpos(wp_app_request()->getPathInfo(), 'wp-admin/admin/setup') !== false && wp_app_request()->get('force_app_running_in_console')) {
+			if (strpos(wp_app_request()->getPathInfo(), 'wp-admin/admin') !== false && wp_app_request()->get('force_app_running_in_console')) {
 				$this->isRunningInConsole = true;
 			}
 		}

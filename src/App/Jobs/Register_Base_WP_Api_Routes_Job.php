@@ -18,23 +18,21 @@ class Register_Base_WP_Api_Routes_Job extends Base_Job
      */
     public function handle(): void
     {
-        if (wp_app()->is_debug_mode()) {
-			// For API
-			Route::get( '/', [ Main_Controller::class, 'home' ] );
-			Route::get( 'info', [ Main_Controller::class, 'info' ] );
+        // For API
+		Route::get( '/', [ Main_Controller::class, 'home' ] );
+		Route::get( 'info', [ Main_Controller::class, 'info' ] );
 
-			// For API with session validation
-			Route::group(
-				[
-					'prefix' => '/wp-admin',
-					'middleware' => [
-						'wp_user_session_validation',
-					],
+		// For API with session validation
+		Route::group(
+			[
+				'prefix' => '/wp-admin',
+				'middleware' => [
+					'wp_user_session_validation',
 				],
-				function () {
-					Route::get( '/', [ Main_Controller::class, 'info' ] );
-				}
-			);
-		}
+			],
+			function () {
+				Route::get( '/', [ Main_Controller::class, 'info' ] );
+			}
+		);
     }
 }

@@ -11,6 +11,7 @@ use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes_Job;
 use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes_Job;
 use Enpii_Base\App\Jobs\Register_Main_Service_Providers_Job;
 use Enpii_Base\App\Jobs\Show_Admin_Notice_From_Flash_Messages_Job;
+use Enpii_Base\App\Jobs\Write_Queue_Work_Script_Job;
 use Enpii_Base\App\Jobs\Write_Setup_Client_Script_Job;
 use Enpii_Base\App\Queries\Add_Telescope_Tinker_Query;
 use Enpii_Base\App\Support\App_Const;
@@ -81,7 +82,9 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			add_filter( 'template_include', [ $this, 'use_blade_to_compile_template' ], 99999);
 		}
 
-		add_action( 'admin_print_footer_scripts', [ $this, 'write_setup_client_script' ] );
+		add_action( 'admin_print_footer_scripts', [ $this, 'write_setup_wp_app_client_script' ] );
+		add_action( 'admin_print_footer_scripts', [ $this, 'write_queue_work_client_script' ] );
+		add_action( 'wp_footer', [ $this, 'write_queue_work_client_script' ] );
 
 		add_action( 'admin_head', [ $this, 'handle_admin_head' ] );
 	}
@@ -105,8 +108,12 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		Init_WP_App_Bootstrap_Job::dispatchSync();
 	}
 
-	public function write_setup_client_script(): void {
+	public function write_setup_wp_app_client_script(): void {
 		Write_Setup_Client_Script_Job::dispatchSync();
+	}
+
+	public function write_queue_work_client_script(): void {
+		Write_Queue_Work_Script_Job::dispatchSync();
 	}
 
 	/**
