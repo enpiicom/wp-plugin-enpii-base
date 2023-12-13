@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Foundation\Shared\Traits;
 
-use InvalidArgumentException;
-
 /**
  * This trait allow the class to have a singleton static object
  */

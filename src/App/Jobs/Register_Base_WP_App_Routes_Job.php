@@ -9,9 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Enpii_Base\Foundation\Bus\Dispatchable_Trait;
 use Enpii_Base\Foundation\Shared\Base_Job;
 
-class Register_Base_WP_App_Routes_Job extends Base_Job
-{
-    use Dispatchable_Trait;
+class Register_Base_WP_App_Routes_Job extends Base_Job {
+	use Dispatchable_Trait;
 
     /**
      * Execute the job.
