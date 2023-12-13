@@ -243,7 +243,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		//  exception InvalidArgumentException for view file not found in FileViewFinder
 		try {
 			$tmp = wp_app_view( basename( $template, '.php' ) );
-			echo esc_html( $tmp );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $tmp;
 			$template = false;
 		} catch ( InvalidArgumentException | Exception $e ) {
 			throw $e;
