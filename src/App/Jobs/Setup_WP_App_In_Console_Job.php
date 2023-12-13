@@ -54,7 +54,11 @@ class Setup_WP_App_In_Console_Job extends Base_Job {
 			'--force' => true,
 		]);
 
-		$console_command->comment('Publishing Telescope Assets...');
+		$console_command->comment('Creating queue tables...');
+        $console_command->call('queue:table');
+        $console_command->call('queue:failed-table');
+
+		$console_command->comment('Doiing Migrations...');
         $console_command->call('migrate', [
 		]);
 	}

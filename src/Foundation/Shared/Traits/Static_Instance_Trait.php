@@ -24,12 +24,4 @@ trait Static_Instance_Trait {
 
 		return static::$instance;
 	}
-
-	public static function init_instance($init_object): void {
-		if (empty(static::$instance)) {
-			static::$instance = $init_object;
-		} else {
-			throw new InvalidArgumentException(__('Instance not empty'));
-		}
-	}
 }
