@@ -222,7 +222,7 @@ class WP_Application extends Application {
 	 * @param int $accepted_args
 	 * @return void
 	 */
-	public function register_routes( $callback, $priority = 10, $accepted_args = 1 ): void {
+	public function register_wp_app_routes( $callback, $priority = 10, $accepted_args = 1 ): void {
 		add_action( App_Const::ACTION_WP_APP_REGISTER_ROUTES, $callback, $priority, $accepted_args );
 	}
 
@@ -233,7 +233,7 @@ class WP_Application extends Application {
 	 * @param int $accepted_args
 	 * @return void
 	 */
-	public function register_api_routes( $callback, $priority = 10, $accepted_args = 1 ): void {
+	public function register_wp_api_routes( $callback, $priority = 10, $accepted_args = 1 ): void {
 		add_action( App_Const::ACTION_WP_API_REGISTER_ROUTES, $callback, $priority, $accepted_args );
 	}
 
