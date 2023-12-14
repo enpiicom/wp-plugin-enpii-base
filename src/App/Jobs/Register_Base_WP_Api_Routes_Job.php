@@ -18,6 +18,7 @@ class Register_Base_WP_Api_Routes_Job extends Base_Job {
 	public function handle(): void {
 		// For API
 		Route::get( '/', [ Main_Controller::class, 'home' ] );
+		Route::post( 'queue-work', [ Main_Controller::class, 'queue_work' ] )->name( 'wp-api-queue-work' );
 
 		// For API with session validation
 		Route::group(

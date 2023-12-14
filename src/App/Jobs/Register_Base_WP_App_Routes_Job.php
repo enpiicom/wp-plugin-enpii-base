@@ -22,7 +22,6 @@ class Register_Base_WP_App_Routes_Job extends Base_Job {
 		Route::get( '/', [ Main_Controller::class, 'index' ] );
 		Route::get( '/post', [ Main_Controller::class, 'post' ] );
 		Route::get( '/page', [ Main_Controller::class, 'page' ] );
-		Route::post( 'queue-work', [ Main_Controller::class, 'queue_work' ] )->name( 'wp-app-queue-work' );
 
 		// For Admin
 		Route::group(
