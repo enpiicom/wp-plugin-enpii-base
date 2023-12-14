@@ -18,7 +18,6 @@ class Register_Base_WP_Api_Routes_Job extends Base_Job {
 	public function handle(): void {
 		// For API
 		Route::get( '/', [ Main_Controller::class, 'home' ] );
-		Route::get( 'info', [ Main_Controller::class, 'info' ] );
 
 		// For API with session validation
 		Route::group(
@@ -29,7 +28,7 @@ class Register_Base_WP_Api_Routes_Job extends Base_Job {
 				],
 			],
 			function () {
-				Route::get( '/', [ Main_Controller::class, 'info' ] );
+				Route::get( '/', [ Main_Controller::class, 'wp_admin' ] );
 			}
 		);
 	}

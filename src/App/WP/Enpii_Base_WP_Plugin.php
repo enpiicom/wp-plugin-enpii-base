@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP;
 
+use Enpii_Base\App\Jobs\Conclude_WP_App_Request_Job;
 use Enpii_Base\App\Jobs\Init_WP_App_Bootstrap_Job;
 use Enpii_Base\App\Jobs\Process_WP_Api_Request_Job;
 use Enpii_Base\App\Jobs\Process_WP_App_Request_Job;
@@ -16,7 +17,6 @@ use Enpii_Base\App\Jobs\Write_Setup_Client_Script_Job;
 use Enpii_Base\App\Queries\Add_Telescope_Tinker_Query;
 use Enpii_Base\App\Support\App_Const;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Http\Response;
 use Enpii_Base\Foundation\WP\WP_Plugin;
 use Exception;
 use InvalidArgumentException;
@@ -108,7 +108,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function bootstrap_wp_app(): void {
-		Init_WP_App_Bootstrap_Job::dispatchSync();
+		Init_WP_App_Bootstrap_Job::execute_now();
 	}
 
 	public function write_setup_wp_app_client_script(): void {
@@ -243,7 +243,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			echo $tmp;
 			$template = false;
 
-		// We simply want to do nothing on the InvalidArgumentException
+			// We simply want to do nothing on the InvalidArgumentException
 		// phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 		} catch ( InvalidArgumentException $invalid_argument_exception ) {
 		} catch ( Exception $e ) {
@@ -254,17 +254,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function wp_app_complete_execution(): void {
-		// We only want to run this
-		do_action( App_Const::ACTION_WP_APP_COMPLETE_EXECUTION );
-
-		if ( \function_exists( 'fastcgi_finish_request' ) ) {
-			fastcgi_finish_request();
-		} elseif ( \function_exists( 'litespeed_finish_request' ) ) {
-			litespeed_finish_request();
-		} elseif ( ! \in_array( \PHP_SAPI, [ 'cli', 'phpdbg' ], true ) ) {
-			Response::closeOutputBuffers( 0, true );
-			flush();
-		}
+		Conclude_WP_App_Request_Job::execute_now();
 	}
 
 	public function register_telescope_tinker( $providers ) {
@@ -290,7 +280,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			// We want to cancel all headers set by WP
 			add_filter(
 				'wp_headers',
-				function () {
+				function ( $headers ) {
+					dev_error_log( $headers );
 					return [];
 				},
 				999999
@@ -325,8 +316,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 		if ( wp_app()->is_wp_api_mode() ) {
 			add_filter( 'wp_using_themes', [ $this, 'skip_use_wp_theme' ], 9999, 0 );
-			add_action( 'wp', [ $this, 'wp_api_process_request' ], 9999, 1 );
-			add_action( 'shutdown', [ $this, 'wp_app_complete_execution' ], 9999, 0 );
+			add_action( 'wp_loaded', [ $this, 'wp_api_process_request' ], 9999, 1 );
 		}
 	}
 
