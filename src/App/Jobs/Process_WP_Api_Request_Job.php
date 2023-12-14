@@ -4,10 +4,10 @@ namespace Enpii_Base\App\Jobs;
 
 use Enpii_Base\Foundation\Bus\Dispatchable_Trait;
 use Enpii_Base\Foundation\Shared\Base_Job;
+use Enpii_Base\Foundation\Support\Executable_Trait;
 
 class Process_WP_Api_Request_Job extends Base_Job {
-
-	use Dispatchable_Trait;
+	use Executable_Trait;
 
 	/**
 	 * Execute the job.

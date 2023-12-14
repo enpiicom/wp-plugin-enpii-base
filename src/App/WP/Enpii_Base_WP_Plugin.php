@@ -119,23 +119,12 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		Write_Queue_Work_Script_Job::dispatchSync();
 	}
 
-	/**
-	 * We want to register main Service Providers for the wp_app()
-	 * You can remove this handler to replace with the Service Providers you want
-	 * @return void
-	 * @throws BindingResolutionException
-	 * @throws InvalidArgumentException
-	 */
-	public function register_main_service_providers(): void {
-		Register_Main_Service_Providers_Job::dispatchSync();
-	}
-
 	public function register_base_wp_app_routes(): void {
-		Register_Base_WP_App_Routes_Job::dispatchSync();
+		Register_Base_WP_App_Routes_Job::execute_now();
 	}
 
 	public function register_base_wp_api_routes(): void {
-		Register_Base_WP_Api_Routes_Job::dispatchSync();
+		Register_Base_WP_Api_Routes_Job::execute_now();
 	}
 
 	public function register_wp_cli_commands(): void {
@@ -199,11 +188,11 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function wp_app_render_content( $wp ): void {
-		Process_WP_App_Request_Job::dispatchSync();
+		Process_WP_App_Request_Job::execute_now();
 	}
 
 	public function wp_api_process_request( $wp ): void {
-		Process_WP_Api_Request_Job::dispatchSync();
+		Process_WP_Api_Request_Job::execute_now();
 	}
 
 	/**
@@ -281,7 +270,6 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			add_filter(
 				'wp_headers',
 				function ( $headers ) {
-					dev_error_log( $headers );
 					return [];
 				},
 				999999
