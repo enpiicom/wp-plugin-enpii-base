@@ -72,12 +72,12 @@
     "phpunit": [
       "./vendor/bin/phpunit"
     ],
-    "codecept": [
+    "codecept-run": [
       "./vendor/bin/codecept run"
     ],
     "test": [
       "@phpcs",
-      "@phpunit"
+      "@codecept-run unit"
     ]
   }
 }
