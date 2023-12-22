@@ -125,9 +125,9 @@ class Passport_Service_Provider extends PassportServiceProvider {
 			|
 			*/
 
-			'private_key' => env( 'WP_APP_PASSPORT_PRIVATE_KEY', get_option( 'wp_app_passport_private_key' ) ),
+			'private_key' => get_option( 'wp_app_passport_private_key' ),
 
-			'public_key' => env( 'WP_APP_PASSPORT_PUBLIC_KEY', get_option( 'wp_app_passport_public_key' ) ),
+			'public_key' => get_option( 'wp_app_passport_public_key' ),
 
 			/*
 			|--------------------------------------------------------------------------
@@ -154,8 +154,8 @@ class Passport_Service_Provider extends PassportServiceProvider {
 			*/
 
 			'personal_access_client' => [
-				'id' => env( 'WP_APP_PASSPORT_PERSONAL_ACCESS_CLIENT_ID', get_option( 'wp_app_personal_access_client_id' ) ),
-				'secret' => env( 'WP_APP_PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET', get_option( 'wp_app_personal_access_client_secret' ) ),
+				'id' => get_option( 'wp_app_personal_access_client_id' ),
+				'secret' => get_option( 'wp_app_personal_access_client_secret' ),
 			],
 		];
 	}

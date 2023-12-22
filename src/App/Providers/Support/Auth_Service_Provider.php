@@ -19,6 +19,10 @@ class Auth_Service_Provider extends AuthServiceProvider {
 	 * Register any authentication / authorization services.
 	 */
 	public function boot(): void {
+		if ( method_exists( Passport::class, 'routes' ) ) {
+			Passport::routes();
+		}
+
 		Passport::tokensExpireIn( now()->addDays( 15 ) );
 		Passport::refreshTokensExpireIn( now()->addDays( 30 ) );
 		Passport::personalAccessTokensExpireIn( now()->addDays( 180 ) );
