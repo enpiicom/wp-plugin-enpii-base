@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enpii_Base\App\Providers;
 
 use Enpii_Base\App\Auth\Auth_Manager;
+use Enpii_Base\App\Models\User;
 use Enpii_Base\App\Support\App_Const;
 use Illuminate\Auth\AuthServiceProvider;
 
@@ -105,15 +106,15 @@ class Auth_Service_Provider extends AuthServiceProvider {
 
 			'providers' => [
 				// phpcs:ignore Squiz.PHP.CommentedOutCode.Found
-				// 'users' => [
-				//  'driver' => 'eloquent',
-				//  'model' => App\Models\User::class,
-				// ],
-				// phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 				'users' => [
-					'driver' => 'database',
-					'table' => 'users',
+					'driver' => 'eloquent',
+					'model' => User::class,
 				],
+				// phpcs:ignore Squiz.PHP.CommentedOutCode.Found
+				// 'users' => [
+				//  'driver' => 'database',
+				//  'table' => 'users',
+				// ],
 			],
 
 			/*

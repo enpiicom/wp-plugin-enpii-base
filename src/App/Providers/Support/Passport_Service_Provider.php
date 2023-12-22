@@ -5,13 +5,8 @@ declare(strict_types=1);
 namespace Enpii_Base\App\Providers\Support;
 
 use Enpii_Base\App\Support\App_Const;
-use Illuminate\Config\Repository as Config;
-use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\ClientRepository;
-use Laravel\Passport\Http\Controllers\AuthorizationController;
-use Laravel\Passport\Passport;
 use Laravel\Passport\PassportServiceProvider;
 use phpseclib\Crypt\RSA as LegacyRSA;
 use phpseclib3\Crypt\RSA;
@@ -31,6 +26,20 @@ class Passport_Service_Provider extends PassportServiceProvider {
 
 	public function boot() {
 		$passport_config = wp_app_config( 'passport' );
+		$passport_config = $this->refine_private_public_keys( $passport_config );
+		$passport_config = $this->refine_personal_access_client( $passport_config );
+
+		// Re-adjust passport config
+		wp_app_config(
+			[
+				'passport' => $passport_config,
+			]
+		);
+
+		parent::boot();
+	}
+
+	protected function refine_private_public_keys( $passport_config ): array {
 		if ( empty( $passport_config['public_key'] || $passport_config['private_key'] ) ) {
 			$length = 4096;
 			if ( class_exists( LegacyRSA::class ) ) {
@@ -51,6 +60,10 @@ class Passport_Service_Provider extends PassportServiceProvider {
 			add_option( 'wp_app_passport_private_key', $private_key );
 		}
 
+		return $passport_config;
+	}
+
+	protected function refine_personal_access_client( $passport_config ): array {
 		if ( empty( $passport_config['personal_access_client']['id'] ) ||
 			empty( $passport_config['personal_access_client']['secret'] )
 		) {
@@ -69,13 +82,7 @@ class Passport_Service_Provider extends PassportServiceProvider {
 			add_option( 'wp_app_personal_access_client_secret', $personal_access_client_secret );
 		}
 
-		wp_app_config(
-			[
-				'passport' => $passport_config,
-			]
-		);
-
-		parent::boot();
+		return $passport_config;
 	}
 
 	protected function fetch_config(): void {
