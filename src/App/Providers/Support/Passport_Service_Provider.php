@@ -6,8 +6,10 @@ namespace Enpii_Base\App\Providers\Support;
 
 use Enpii_Base\App\Support\App_Const;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\PassportServiceProvider;
+use Laravel\Passport\PersonalAccessClient;
 use phpseclib\Crypt\RSA as LegacyRSA;
 use phpseclib3\Crypt\RSA;
 
@@ -65,7 +67,8 @@ class Passport_Service_Provider extends PassportServiceProvider {
 
 	protected function refine_personal_access_client( $passport_config ): array {
 		if ( empty( $passport_config['personal_access_client']['id'] ) ||
-			empty( $passport_config['personal_access_client']['secret'] )
+			empty( $passport_config['personal_access_client']['secret'] ) ||
+			( Schema::hasTable( 'oauth_personal_access_clients' ) && empty( PersonalAccessClient::find( $passport_config['personal_access_client']['id'] ) ) )
 		) {
 			$clients = new ClientRepository();
 			$client = $clients->createPersonalAccessClient(
