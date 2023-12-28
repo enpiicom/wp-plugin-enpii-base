@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP;
 
+use Enpii_Base\App\Http\Response;
 use Enpii_Base\App\Jobs\Conclude_WP_App_Request_Job;
 use Enpii_Base\App\Jobs\Init_WP_App_Bootstrap_Job;
 use Enpii_Base\App\Jobs\Perform_Queue_Work_Job;
@@ -22,6 +23,7 @@ use Enpii_Base\App\Support\App_Const;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Enpii_Base\Foundation\WP\WP_Plugin;
 use Exception;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use InvalidArgumentException;
@@ -94,6 +96,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		/** WP App hooks */
 		// We want to initialize wp_app bootstrap after plugins loaded
 		add_action( App_Const::ACTION_WP_APP_BOOTSTRAP, [ $this, 'bootstrap_wp_app' ], 5 );
+		add_action( App_Const::ACTION_WP_APP_INIT, [ $this, 'start_wp_app_session' ], 5 );
 
 		add_action( App_Const::ACTION_WP_APP_REGISTER_ROUTES, [ $this, 'register_base_wp_app_routes' ] );
 		add_action( App_Const::ACTION_WP_API_REGISTER_ROUTES, [ $this, 'register_base_wp_api_routes' ] );
@@ -112,6 +115,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		add_action( 'wp_footer', [ $this, 'write_queue_work_client_script' ] );
 
 		add_action( 'admin_head', [ $this, 'handle_admin_head' ] );
+		add_action( 'show_user_profile', [ $this, 'add_client_app_fields' ] );
+		add_action( 'edit_user_profile', [ $this, 'add_client_app_fields' ] );
 
 		if ( ! wp_app()->is_wp_app_mode() && ! wp_app()->is_wp_api_mode() ) {
 			// We need to have wp_app() terminated before shutting down WP
@@ -283,8 +288,47 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		Show_Admin_Notice_From_Flash_Messages_Job::execute_now();
 	}
 
+	/**
+	 * Actions to be performed on Queue Work polling Ajax
+	 * @return void
+	 * @throws BindingResolutionException
+	 */
 	public function queue_work() {
 		Perform_Queue_Work_Job::dispatchSync();
+	}
+
+	/**
+	 * Generate HTML fields for profile page
+	 * @return void
+	 */
+	public function add_client_app_fields( $user ) {
+		// We ignore the escape rule becase we handle that in the view file
+		// @codingStandardsIgnoreStart WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $this->view(
+			'admin/users/client-app-fields',
+			[
+				'user' => $user,
+				'wp_plugin' => $this,
+			]
+		);
+		// @codingStandardsIgnoreEnd
+	}
+
+	/**
+	 * We want to start the WP App session if it's not in WP APP or WP API mode
+	 * @return void
+	 */
+	public function start_wp_app_session() {
+		if ( ! wp_app()->is_wp_api_mode() || ! wp_app()->is_wp_api_mode() ) {
+			/** @var StartSession $start_session */
+			$start_session = wp_app( StartSession::class );
+			$start_session->handle(
+				wp_app_request(),
+				function () {
+					return new Response();
+				}
+			);
+		}
 	}
 
 	/**
