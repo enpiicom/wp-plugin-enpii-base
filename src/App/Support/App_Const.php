@@ -7,6 +7,7 @@ namespace Enpii_Base\App\Support;
 class App_Const {
 	const ACTION_WP_APP_BROADCAST_CHANNELS = 'enpii_base_wp_app_broadcast_channels';
 	const ACTION_WP_APP_REGISTERED = 'enpii_base_wp_app_registered';
+	const ACTION_WP_APP_BOOTED = 'enpii_base_wp_app_booted';
 	const ACTION_WP_APP_BOOTSTRAP = 'enpii_base_wp_app_bootstrap';
 	const ACTION_WP_APP_REGISTER_ROUTES = 'enpii_base_wp_app_register_routes';
 	const ACTION_WP_API_REGISTER_ROUTES = 'enpii_base_wp_api_register_routes';

@@ -56,9 +56,6 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function boot() {
-		// We trigger the action when wp_app is registered
-		do_action( App_Const::ACTION_WP_APP_REGISTERED );
-
 		if ( $this->app->runningInConsole() ) {
 			// Register migrations rules
 			$this->publishes(

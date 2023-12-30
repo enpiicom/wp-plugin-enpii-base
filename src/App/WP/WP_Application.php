@@ -120,7 +120,21 @@ class WP_Application extends Application {
 		$providers->splice( 1, 0, [ $this->make( PackageManifest::class )->providers() ] );
 
 		( new ProviderRepository( $this, new Filesystem(), $this->getCachedServicesPath() ) )
-					->load( $providers->collapse()->toArray() );
+			->load( $providers->collapse()->toArray() );
+
+		// We trigger the action when wp_app (with providers) is registered
+		do_action( App_Const::ACTION_WP_APP_REGISTERED );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+    public function boot()
+    {
+		parent::boot();
+
+		// We trigger the action when wp_app (with providers) are booted
+		do_action( App_Const::ACTION_WP_APP_BOOTED );
 	}
 
 	/**
