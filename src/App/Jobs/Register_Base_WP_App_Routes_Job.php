@@ -33,7 +33,7 @@ class Register_Base_WP_App_Routes_Job extends Base_Job {
 			[
 				'prefix' => '/wp-admin',
 				'middleware' => [
-					'wp_user_session_validation',
+					'auth',
 				],
 			],
 			function () {
