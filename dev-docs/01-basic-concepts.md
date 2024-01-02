@@ -20,4 +20,7 @@ Enpii Base plugin will split WordPress into 3 modes:
 2. Enpii Base is loaded as a MU plugin (this should be the choice), normal plugin or a dependency of plugins or themes.
 3. When Enpii Base plugin loaded, the WP_Application instance would be initialized and the Enpii_Base_WP_Plugin would be initialized next to work as the service provider for WP_Application.
 4. At Enpii_Base_WP_Plugin, we created several hooks for WP App based on the WP Hooks:
-   1. `enpii_base_wp_app_registered` is the action happens when WP App and all service providers registerd
+   1. The const `ENPII_BASE_SETUP_HOOK_NAME` defines the moment when we setup the WP App.
+   2. `enpii_base_wp_app_loaded` is the event when the WP App is loaded, we should use this event to register WP Plugins, WP Themes.
+   3. `enpii_base_wp_app_registered` is the action happens when the WP App and all service providers registered
+   4. `enpii_base_wp_app_booted` is the action happens when the WP App and all service providers are booted
