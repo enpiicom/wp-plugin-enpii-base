@@ -10,10 +10,12 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Mix;
 use Enpii_Base\Foundation\WP\WP_Plugin_Interface;
 use Enpii_Base\Foundation\WP\WP_Theme_Interface;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest;
 use Illuminate\Foundation\ProviderRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
@@ -90,7 +92,7 @@ class WP_Application extends Application {
 
 				do_action( App_Const::ACTION_WP_APP_LOADED );
 			},
-			-100 
+			-100
 		);
 	}
 
@@ -174,7 +176,7 @@ class WP_Application extends Application {
 			->load( $providers->collapse()->toArray() );
 
 		// We trigger the action when wp_app (with providers) is registered
-		do_action( App_Const::ACTION_WP_APP_REGISTERED );
+		do_action( App_Const::ACTION_WP_APP_REGISTERED, $this );
 	}
 
 	/**
@@ -416,7 +418,17 @@ class WP_Application extends Application {
 	}
 
 	public function set_request( Request $request ) {
-		return $this->instance( 'request', $request );
+		$this->instance( 'request', $request );
+	}
+
+	public function set_response( Response $response ) {
+		$this->bind(
+			ResponseFactory::class,
+			// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
+			function ( $app ) use ( $response ) {
+				return $response;
+			}
+		);
 	}
 
 	/**
