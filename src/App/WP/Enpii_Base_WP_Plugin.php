@@ -49,6 +49,12 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 				],
 				[ 'enpii-base-assets', 'laravel-assets' ]
 			);
+			$this->publishes(
+				[
+					$this->get_base_path() . '/public-assets/src/vendor' => wp_app_public_path( 'vendor' ),
+				],
+				[ 'enpii-base-assets', 'laravel-assets' ]
+			);
 		}
 
 		parent::boot();
@@ -87,7 +93,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			function () {
 				Bootstrap_WP_App_Job::execute_now();
 			},
-			5 
+			5
 		);
 		add_action( App_Const::ACTION_WP_APP_INIT, [ $this, 'build_wp_app_response_via_middleware' ], 5 );
 		add_action( App_Const::ACTION_WP_APP_INIT, [ $this, 'sync_wp_user_to_wp_app_user' ] );
@@ -130,15 +136,6 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			add_action( 'show_user_profile', [ $this, 'add_client_app_fields' ] );
 			add_action( 'edit_user_profile', [ $this, 'add_client_app_fields' ] );
 		}
-
-		add_filter(
-			'wp_headers',
-			function ( $headers ) {
-				$headers['X-Test'] = 'A test header';
-
-				return $headers;
-			}
-		);
 
 		if ( ! wp_app()->is_wp_app_mode() && ! wp_app()->is_wp_api_mode() ) {
 			// We want to merge the WP and WP App headers and send at once
@@ -386,7 +383,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			function () {
 				do_action( App_Const::ACTION_WP_APP_BOOTSTRAP );
 			},
-			1000 
+			1000
 		);
 
 		// For `enpii_base_wp_app_init`
@@ -397,7 +394,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			function () {
 				do_action( App_Const::ACTION_WP_APP_INIT );
 			},
-			999999 
+			999999
 		);
 
 		if ( ! wp_app()->is_wp_app_mode() && ! wp_app()->is_wp_api_mode() ) {

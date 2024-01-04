@@ -8,6 +8,7 @@ use Enpii_Base\App\Support\App_Const;
 use Illuminate\Support\ServiceProvider;
 use Enpii_Base\Foundation\Shared\Traits\Config_Trait;
 use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use InvalidArgumentException;
 
 /**
@@ -35,6 +36,16 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 		return wp_app( static::class );
 	}
 
+	/**
+	 * Initialize a WP Plugin and attach it to WP Application container
+	 * @param string $slug
+	 * @param string $base_path
+	 * @param string $base_url
+	 * @return WP_Plugin_Interface
+	 * @throws BindingResolutionException
+	 * @throws InvalidArgumentException
+	 * @throws Exception
+	 */
 	public static function init_with_wp_app( string $slug, string $base_path, string $base_url ): WP_Plugin_Interface {
 		if ( wp_app()->has( static::class ) ) {
 			return wp_app( static::class );
