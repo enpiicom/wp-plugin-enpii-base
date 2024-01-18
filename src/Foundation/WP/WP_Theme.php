@@ -81,6 +81,10 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 		$this->manipulate_hooks();
 	}
 
+	public function boot() {
+		$this->prepare_views_paths( $this->get_theme_slug() );
+	}
+
 	public function get_theme_slug(): string {
 		return $this->theme_slug;
 	}
@@ -99,6 +103,14 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 
 	public function get_parent_base_url(): string {
 		return $this->parent_base_url;
+	}
+
+	public function get_views_path(): string {
+		return $this->get_base_path() . DIR_SEP . 'resources' . DIR_SEP . 'views';
+	}
+
+	public function view( $view, $data = [], $merge_data = [] ) {
+		return wp_app_view( $this->get_theme_slug() . '::' . $view, $data, $merge_data );
 	}
 
 	/**
