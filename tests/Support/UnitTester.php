@@ -16,9 +16,9 @@ namespace Enpii_Base\Tests\Support;
  *
  * @SuppressWarnings(PHPMD)
 */
-class Unit_Tester extends \Codeception\Actor {
+class UnitTester extends \Codeception\Actor {
 
-	use _generated\Unit_TesterActions;
+	use _generated\UnitTesterActions;
 
 	/**
 	 * Define custom actions here

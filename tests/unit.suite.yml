@@ -1,16 +1,15 @@
-actor: Unit_Tester
+actor: UnitTester
 modules:
   enabled:
     - Asserts
     - Enpii_Base\Tests\Support\Helpers\Unit
 coverage:
+  remote: false
   enabled: true
   include:
     - src/*
-  exclude:
-    - src/Foundation/Shared/Interfaces/*
-    - src/Foundation/Shared/Traits/*
-  format: html
-  lower_limit: 50
-  upper_limit: 90
+  lower_limit: 30
+  upper_limit: 80
   processUncoveredFiles: false
+  show_only_summary: false
+  show_uncovered: false
