@@ -30,31 +30,29 @@ if ( ! function_exists( 'enpii_base_wp_app_prepare_folders' ) ) {
 		}
 
 		$file_system = new \Illuminate\Filesystem\Filesystem();
-		$file_system->ensureDirectoryExists( $wp_app_base_path, $chmod );
 
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'config', $chmod );
-
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'database', $chmod );
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'database' . DIR_SEP . 'migrations', $chmod );
-
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'bootstrap', $chmod );
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'bootstrap' . DIR_SEP . 'cache', $chmod );
-
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'lang', $chmod );
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'resources', $chmod );
-
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage', $chmod );
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'logs', $chmod );
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework', $chmod );
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'views', $chmod );
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'cache', $chmod );
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'cache' . DIR_SEP . 'data', $chmod );
-		$file_system->ensureDirectoryExists( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'sessions', $chmod );
-
-		$file_system->chmod( $wp_app_base_path . DIR_SEP . 'bootstrap' . DIR_SEP . 'cache', $chmod );
-		$file_system->chmod( $wp_app_base_path . DIR_SEP . 'storage', $chmod );
-		$file_system->chmod( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework', $chmod );
-		$file_system->chmod( $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'logs', $chmod );
+		$filepaths = [
+			$wp_app_base_path,
+			$wp_app_base_path . DIR_SEP . 'config',
+			$wp_app_base_path . DIR_SEP . 'database',
+			$wp_app_base_path . DIR_SEP . 'database' . DIR_SEP . 'migrations',
+			$wp_app_base_path . DIR_SEP . 'bootstrap',
+			$wp_app_base_path . DIR_SEP . 'bootstrap' . DIR_SEP . 'cache',
+			$wp_app_base_path . DIR_SEP . 'lang',
+			$wp_app_base_path . DIR_SEP . 'resources',
+			$wp_app_base_path . DIR_SEP . 'storage',
+			$wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'logs',
+			$wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework',
+			$wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'views',
+			$wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'cache',
+			$wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'cache' . DIR_SEP . 'data',
+			$wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'sessions',
+		];
+		foreach ( $filepaths as $filepath ) {
+			$file_system->ensureDirectoryExists( $filepath, $chmod );
+			// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
+			@chmod( $filepath, $chmod );
+		}
 	}
 }
 
