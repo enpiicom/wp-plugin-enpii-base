@@ -20,13 +20,7 @@
     }
   ],
   "require": {
-    "php": "^7.3|^8.0.0",
-    "spatie/laravel-html": "^3.3",
-    "doctrine/dbal": "^3.0",
-    "laravel/framework": "^10.0.0",
-    "laravel/tinker": "^2.8",
-    "mcaskill/composer-exclude-files": "^3.0.0",
-    "symfony/var-dumper": "^5.4.29|^6.2.0"
+    "php": "^7.3|^8.0.0"
   },
   "require-dev": {
     "10up/wp_mock": "^1.0.0",
