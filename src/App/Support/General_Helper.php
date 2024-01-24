@@ -6,7 +6,7 @@ namespace Enpii_Base\App\Support;
 
 class General_Helper {
 	public static function get_current_url(): string {
-		if ( empty( $_SERVER['SERVER_NAME'] ) ) {
+		if ( empty( $_SERVER['SERVER_NAME'] ) && empty( $_SERVER['HTTP_HOST'] )) {
 			return '';
 		}
 
@@ -20,6 +20,12 @@ class General_Helper {
 
 		$current_url = $http_protocol;
 		$current_url .= '://';
+
+		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
+			$current_url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+			return $current_url;
+		}
 
 		if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] != '80' ) {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
