@@ -16,6 +16,8 @@ docker-compose.local.yml
 /vendor
 /vendor-*
 /node_modules
+.phpunit.cache
+
 
 # zip files
 *.zip

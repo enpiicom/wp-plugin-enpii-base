@@ -5,7 +5,8 @@
 	<file>resources/views/</file>
 	<file>wp-app-config/</file>
 	<file>src/</file>
-	<file>tests/</file>
+	<file>tests/Support</file>
+	<file>tests/unit</file>
 
 	<!-- Exclude Composer vendor directory. -->
 	<exclude-pattern>*/.git/*</exclude-pattern>
