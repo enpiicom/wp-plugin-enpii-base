@@ -1,5 +1,5 @@
 <?php
-$enpii_base_existed = defined( 'ENPII_BASE_PLUGIN_SLUG' );
+$enpii_base_existed = defined( 'ENPII_BASE_PLUGIN_VERSION' );
 
 // General fixed constants
 defined( 'DIR_SEP' ) || define( 'DIR_SEP', DIRECTORY_SEPARATOR );
