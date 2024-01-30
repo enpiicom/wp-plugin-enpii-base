@@ -90,7 +90,7 @@ if ( ! function_exists( 'enpii_base_prepare' ) ) {
 
 if ( ! function_exists( 'enpii_base_maybe_redirect_to_setup_app' ) ) {
 	/**
-	 * Check the mandatory prerequisites for the WP App
+	 * Check the flag in the options to redirect to setup page if needed
 	 * @return bool
 	 */
 	function enpii_base_maybe_redirect_to_setup_app(): void {
