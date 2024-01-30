@@ -100,6 +100,7 @@ class Telescope_Service_Provider extends TelescopeServiceProvider {
 
 			'middleware' => [
 				'web',
+				'authenticate_is_wp_user_admin',
 			],
 
 			/*
