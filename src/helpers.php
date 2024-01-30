@@ -88,6 +88,20 @@ if ( ! function_exists( 'enpii_base_prepare' ) ) {
 	}
 }
 
+if ( ! function_exists( 'enpii_base_maybe_redirect_to_setup_app' ) ) {
+	/**
+	 * Check the mandatory prerequisites for the WP App
+	 * @return bool
+	 */
+	function enpii_base_maybe_redirect_to_setup_app(): void {
+		$version_in_opton = get_option( Enpii_Base_Helper::VERSION_OPTION_FIELD );
+
+		if ( ( empty( $version_in_opton ) ) ) {
+			Enpii_Base_Helper::redirect_to_setup_url();
+		}
+	}
+}
+
 if ( ! function_exists( 'enpii_base_wp_app_check' ) ) {
 	/**
 	 * Check the mandatory prerequisites for the WP App
