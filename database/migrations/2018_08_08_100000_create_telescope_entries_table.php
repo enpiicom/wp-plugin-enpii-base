@@ -10,7 +10,7 @@ class CreateTelescopeEntriesTable extends Migration {
 	 * Get the migration connection name.
 	 */
 	public function getConnection(): string {
-		return config( 'telescope.storage.database.connection' );
+		return config( 'telescope.storage.database.connection' ) ? config( 'telescope.storage.database.connection' ) : config( 'database.default' );
 	}
 
 	/**

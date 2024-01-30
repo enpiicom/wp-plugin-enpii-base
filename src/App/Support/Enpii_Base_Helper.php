@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Support;
 
-class General_Helper {
+class Enpii_Base_Helper {
+	const VERSION_OPTION_FIELD = 'enpii_base_version';
+	const TEXT_DOMAIN = 'enpii';
+
 	public static function get_current_url(): string {
 		if ( empty( $_SERVER['SERVER_NAME'] ) && empty( $_SERVER['HTTP_HOST'] ) ) {
 			return '';
@@ -34,5 +37,30 @@ class General_Helper {
 		}
 
 		return $current_url;
+	}
+
+	public static function get_setup_app_uri(): string {
+		return 'wp-app/wp-admin/admin/setup-app?force_app_running_in_console=1';
+	}
+
+	public static function at_setup_app_url(): bool {
+		$current_url = static::get_current_url();
+		$redirect_uri = static::get_setup_app_uri();
+
+		return ( strpos( $current_url, $redirect_uri ) !== false );
+	}
+
+	public static function redirect_to_setup_url(): void {
+		$redirect_uri = static::get_setup_app_uri();
+		if ( ! static::at_setup_app_url() ) {
+			$redirect_url = add_query_arg(
+				[
+					'return_url' => urlencode( static::get_current_url() ),
+				],
+				site_url( $redirect_uri )
+			);
+			header( 'Location: ' . $redirect_url );
+			exit( 0 );
+		}
 	}
 }

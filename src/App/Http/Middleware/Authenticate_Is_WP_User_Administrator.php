@@ -9,8 +9,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class WP_User_Session_Validation {
-
+class Authenticate_Is_WP_User_Administrator {
 	/**
 	 * Perform if there's a logged in user in the current session
 	 * @param Illuminate\Http\Request $request
@@ -19,8 +18,8 @@ class WP_User_Session_Validation {
 	 * @throws BindingResolutionException
 	 */
 	public function handle( Request $request, Closure $next ): Response {
-		$wp_user = wp_get_current_user();
-		if ( empty( $wp_user->ID ) ) {
+		// phpcs:ignore WordPress.WP.Capabilities.RoleFound
+		if ( ! current_user_can( 'administrator' ) ) {
 			wp_app_abort( 403, 'Access Denied' );
 		}
 
