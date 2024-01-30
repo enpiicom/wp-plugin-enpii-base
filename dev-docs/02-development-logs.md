@@ -69,6 +69,9 @@ to perform the queue execution with the timeout set to 60 seconds.
 - We need to put migrations rules to a src folders then user the command `vendor:publish` (remember to assign the assets tags for migrations rules) to publish migrations to fake base path. If we use the command to create rules, new rules will be created with current date therefore it would affect the migration rule time and cause the confusion.
 - For Laravel 7, we need to specify the migration class name clearly, and we need to use CamelCase naming to match Laravel convention e.g. 'CreateActivityLogs' (not using `return new class extends Migration` like Laravel 8+)
 
+#### Setup App
+- To ensure all migrations rules are executed and assets are publised, we need to set a flag in the option table, if the flag is not matching the current situation (exists or version not up-to-date), we need to redirect to the setup app page `wp-app/wp-admin/admin/setup-app?force_app_running_in_console=1&return_url=` to perform all the needed things for setup app.
+
 ### Blockers and solutions
 - We tried to use Job to put to Laravel queue but Telescope cannot record the Job. After several days, we found out that, on normal WP request, we didn't use the `$kernel->terminate()`, and Telescope used the event `terminating` of app() to send all entries to the DB, therefore, Telescope didn't log the entries for Jobs. We need to apply the `$kernel->terminate()` to the shutdown action.
 - Laravel 7 has many difference than Laravel 10 so we decided to switch to Laravel 8 and support PHP 7.3+

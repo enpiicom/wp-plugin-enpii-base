@@ -13,6 +13,7 @@ if (defined( 'WP_CONTENT_DIR' )) {
 		return;
 	}
 
+	// We want to redirect to setup app before the WP App init
 	add_action( ENPII_BASE_SETUP_HOOK_NAME, 'enpii_base_maybe_redirect_to_setup_app', -200 );
 
 	add_action( \Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED, function() {
