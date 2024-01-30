@@ -12,6 +12,7 @@ class CreateFailedJobsTable extends Migration {
 	 * @return void
 	 */
 	public function up() {
+		Schema::dropIfExists( 'failed_jobs' );
 		Schema::create(
 			'failed_jobs',
 			function ( Blueprint $table ) {
