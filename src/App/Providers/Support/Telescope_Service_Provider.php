@@ -120,6 +120,7 @@ class Telescope_Service_Provider extends TelescopeServiceProvider {
 
 			'ignore_paths' => [
 				'nova-api*',
+				'*wp-admin/admin/setup-app*',
 			],
 
 			'ignore_commands' => [
@@ -215,7 +216,7 @@ class Telescope_Service_Provider extends TelescopeServiceProvider {
 
 		// We want to skip the watchers for setup app url
 		if ( Enpii_Base_Helper::at_setup_app_url() ) {
-			unset( $config['watchers'] );
+			$config['enabled'] = false;
 		}
 
 		return $config;

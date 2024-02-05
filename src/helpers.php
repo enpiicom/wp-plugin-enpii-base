@@ -29,8 +29,8 @@ if ( ! function_exists( 'enpii_base_wp_app_prepare_folders' ) ) {
 		if ( empty( $wp_app_base_path ) ) {
 			$wp_app_base_path = enpii_base_wp_app_get_base_path();
 		}
-		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
-		chmod( dirname( $wp_app_base_path ), $chmod );
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
+		@chmod( dirname( $wp_app_base_path ), $chmod );
 
 		$file_system = new \Illuminate\Filesystem\Filesystem();
 
