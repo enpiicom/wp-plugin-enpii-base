@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Jobs;
 
-use Enpii_Base\Foundation\Shared\Base_Job;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use PHPUnit\Framework\ExpectationFailedException;
 use Exception;
 
-class Write_Web_Worker_Script_Job extends Base_Job {
+class Write_Web_Worker_Script {
 	use Executable_Trait;
 
 	/**

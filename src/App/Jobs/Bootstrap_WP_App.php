@@ -2,10 +2,9 @@
 
 namespace Enpii_Base\App\Jobs;
 
-use Enpii_Base\Foundation\Shared\Base_Job;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 
-class Bootstrap_WP_App_Job extends Base_Job {
+class Bootstrap_WP_App {
 	use Executable_Trait;
 
 	/**

@@ -5,11 +5,10 @@ namespace Enpii_Base\App\Jobs;
 use Enpii_Base\App\Http\Controllers\Admin\Main_Controller as Admin_Main_Controller;
 use Enpii_Base\App\Http\Controllers\Api\Main_Controller as Api_Main_Controller;
 use Enpii_Base\App\Http\Controllers\Main_Controller;
-use Enpii_Base\Foundation\Shared\Base_Job;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Illuminate\Support\Facades\Route;
 
-class Register_Base_WP_App_Routes_Job extends Base_Job {
+class Register_Base_WP_App_Routes {
 	use Executable_Trait;
 
 	/**
