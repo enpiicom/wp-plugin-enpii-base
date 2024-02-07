@@ -17,21 +17,6 @@ class Bootstrap_WP_App {
 		$wp_app = wp_app();
 		$wp_app['env'] = wp_app_config( 'app.env' );
 
-		$wp_app->singleton(
-			\Illuminate\Contracts\Http\Kernel::class,
-			\Enpii_Base\App\Http\Kernel::class
-		);
-
-		$wp_app->singleton(
-			\Illuminate\Contracts\Console\Kernel::class,
-			\Enpii_Base\App\Console\Kernel::class
-		);
-
-		$wp_app->singleton(
-			\Illuminate\Contracts\Debug\ExceptionHandler::class,
-			\Enpii_Base\App\Exceptions\Handler::class
-		);
-
 		// As we may not use Contracts\Kernel::handle(), we need to call bootstrap method
 		//  to iinitialize all boostrappers
 		/** @var \Enpii_Base\App\Http\Kernel $http_kernel */

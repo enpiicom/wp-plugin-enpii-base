@@ -43,7 +43,7 @@ class Enpii_Base_Helper {
 		return 'wp-app/wp-admin/admin/setup-app?force_app_running_in_console=1';
 	}
 
-	public static function get_wp_login_url( $return_url = '', $force_reauth = false): string {
+	public static function get_wp_login_url( $return_url = '', $force_reauth = false ): string {
 		return wp_login_url( $return_url, $force_reauth );
 	}
 
