@@ -2,13 +2,11 @@
 
 namespace Enpii_Base\App\Jobs\WP_CLI;
 
-use Enpii_Base\Foundation\Shared\Base_Job;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Enpii_Base\Foundation\Support\Executable_Trait;
 use WP_CLI;
 
-class Prepare_WP_App_Folders_Job extends Base_Job {
-
-	use Dispatchable;
+class Prepare_WP_App_Folders {
+	use Executable_Trait;
 
 	/**
 	 * Execute the job.

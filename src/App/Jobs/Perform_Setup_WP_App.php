@@ -2,12 +2,11 @@
 
 namespace Enpii_Base\App\Jobs;
 
-use Enpii_Base\Foundation\Shared\Base_Job;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Enpii_Base\Foundation\Support\Executable_Trait;
 use Illuminate\Support\Facades\Artisan;
 
-class Perform_Setup_WP_App_Job extends Base_Job {
-	use Dispatchable;
+class Perform_Setup_WP_App {
+	use Executable_Trait;
 
 	public function handle() {
 		enpii_base_wp_app_prepare_folders();
@@ -19,7 +18,7 @@ class Perform_Setup_WP_App_Job extends Base_Job {
 
 		if ( wp_app_config( 'app.debug' ) ) {
 			$output = Artisan::output();
-			echo( nl2br( esc_html( $output ) ) );
+			echo( esc_html( $output ) );
 		}
 	}
 }

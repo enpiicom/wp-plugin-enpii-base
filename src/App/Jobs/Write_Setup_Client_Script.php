@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Jobs;
 
-use Enpii_Base\Foundation\Shared\Base_Job;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use PHPUnit\Framework\ExpectationFailedException;
 use Exception;
 
-class Write_Setup_Client_Script_Job extends Base_Job {
+class Write_Setup_Client_Script {
 	use Executable_Trait;
 
 	/**

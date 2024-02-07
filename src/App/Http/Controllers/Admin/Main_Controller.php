@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enpii_Base\App\Http\Controllers\Admin;
 
 use Enpii_Base\App\Http\Request;
+use Enpii_Base\App\Jobs\Mark_Setup_WP_App_Done;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\App\WP\Enpii_Base_WP_Plugin;
@@ -37,8 +38,6 @@ class Main_Controller extends Base_Controller {
 		}
 
 		if ( empty( $e ) ) {
-			update_option( Enpii_Base_Helper::VERSION_OPTION_FIELD, ENPII_BASE_PLUGIN_VERSION, false );
-
 			$return_url = $request->get( 'return_url', get_admin_url() );
 
 			$message .= 'Complete Setup. Redirecting back to the Previous URL...' . "\n";

@@ -63,7 +63,7 @@ if ( ! function_exists( 'dev_error_log' ) ) {
 
 		foreach ( $vars as $index => $var ) {
 			$dump_content = null;
-			if ( $var === false ) {
+			if ( $var === null ) {
 				$type = 'NULL';
 			} else {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
