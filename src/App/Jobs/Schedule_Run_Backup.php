@@ -3,11 +3,10 @@
 namespace Enpii_Base\App\Jobs;
 
 use Enpii_Base\App\Support\Traits\Queue_Trait;
-use Enpii_Base\Foundation\Shared\Base_Job;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Illuminate\Console\Scheduling\Schedule;
 
-class Schedule_Run_Backup_Job extends Base_Job {
+class Schedule_Run_Backup {
 	use Executable_Trait;
 	use Queue_Trait;
 

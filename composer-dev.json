@@ -6,7 +6,6 @@
     "spatie/laravel-html": "^3.3",
     "doctrine/dbal": "^3.0",
     "laravel/framework": "^8.0.0|^9.0.0|^10.0.0",
-    "laravel/telescope": "^3.5.1|^4.17",
     "laravel/tinker": "^2.8",
     "mcaskill/composer-exclude-files": "^3.0.0",
     "symfony/var-dumper": "^5.4.29|^6.2.0"

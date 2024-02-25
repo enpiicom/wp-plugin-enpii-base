@@ -2,10 +2,9 @@
 
 namespace Enpii_Base\App\Jobs;
 
-use Enpii_Base\Foundation\Shared\Base_Job;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 
-class Process_WP_Api_Request_Job extends Base_Job {
+class Process_WP_App_Request {
 	use Executable_Trait;
 
 	/**
@@ -17,12 +16,14 @@ class Process_WP_Api_Request_Job extends Base_Job {
 		/** @var \Enpii_Base\App\Http\Kernel $kernel */
 		$kernel = wp_app()->make( \Illuminate\Contracts\Http\Kernel::class );
 
-		// We don't want to re-capture the request because we did that on WP_App_Bootstrap
 		/** @var \Enpii_Base\App\Http\Request $request */
 		$request = wp_app_request();
 		$response = $kernel->handle( $request );
 		$response->send();
 
 		$kernel->terminate( $request, $response );
+
+		// We want to end up the execution here to conclude the request
+		exit( 0 );
 	}
 }
