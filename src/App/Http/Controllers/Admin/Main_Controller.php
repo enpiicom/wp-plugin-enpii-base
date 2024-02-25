@@ -50,7 +50,7 @@ class Main_Controller extends Base_Controller {
 		}
 
 		return Enpii_Base_WP_Plugin::wp_app_instance()->view(
-			'main/setup-app',
+			'wp-admin/main/setup-app',
 			[
 				'message' => nl2br( $message ),
 				'return_url' => $return_url,
