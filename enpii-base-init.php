@@ -6,7 +6,7 @@
 if (defined( 'WP_CONTENT_DIR' )) {
 	add_action( 'cli_init', 'enpii_base_prepare' );
 
-	if (! enpii_base_wp_app_check() ) {
+	if ( ! enpii_base_wp_app_check() ) {
 		// We do nothing but still keep the plugin enabled
 		return;
 	}
