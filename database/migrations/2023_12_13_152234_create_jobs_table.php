@@ -15,8 +15,7 @@ class CreateJobsTable extends Migration {
 			Schema::create(
 				'wp_app_jobs',
 				function ( Blueprint $table ) {
-					$table->charset = defined( 'DB_CHARSET' ) && DB_CHARSET ? 'DB_CHARSET' : 'utf8mb4';
-					$table->collation = defined( 'DB_COLLATE' ) && DB_COLLATE ? 'DB_COLLATE' : 'utf8mb4_unicode_ci';
+					$table->charset = defined( 'DB_CHARSET' ) && DB_CHARSET ? DB_CHARSET : 'utf8mb4';
 
 					$table->bigIncrements( 'id' );
 					$table->uuid( 'uuid' )->nullable();
