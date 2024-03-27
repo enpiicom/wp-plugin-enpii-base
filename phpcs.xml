@@ -7,6 +7,11 @@
 	<file>src/</file>
 	<file>tests/Support</file>
 	<file>tests/unit</file>
+	<file>./enpii-base.php</file>
+	<file>./enpii-base-init.php</file>
+	<file>./enpii-base-bootstrap.php</file>
+
+	<include-pattern>./*.php</include-pattern>
 
 	<!-- Exclude Composer vendor directory. -->
 	<exclude-pattern>*/.git/*</exclude-pattern>
@@ -54,6 +59,9 @@
 
 	<!-- Suppress no code rule. -->
 	<rule ref="Internal.NoCodeFound">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.PHP.CommentedOutCode.Found">
 		<severity>0</severity>
 	</rule>
 
