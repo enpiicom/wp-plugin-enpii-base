@@ -1,7 +1,9 @@
 # Enpii Base plugin
-We understand the pains it brings to the developers so we create this plugin to allow to use [Laravel framework](https://laravel.com/)
+We understand the pains it brings to WordPress developers so we create this plugin to allow to use [Laravel framework](https://laravel.com/).
 
-This plugin would bring all the features of Laravel framework to WordPress development: Container concepts, Service Providers, ORMs, Queue system, Routing system ... (everything that works with Laravel will work with WordPress with Enpii Base plugin)
+This plugin would bring all the features of Laravel framework to WordPress development: Container concepts, Service Providers, ORMs, Queue system, Routing system ... (everything that works with Laravel will work with WordPress with Enpii Base plugin).
+
+So from now on, you can use Laravel concepts to work with WordPress developments consistently. This Enpii Base plugin would help WordPress developers to create easy-maintainable code exactly the same way Laravel does.
 
 Imagine, you can do this for the iconic template file `index.php` (using Blade template syntax)
 ```html
@@ -37,7 +39,12 @@ Docs are here:
 3. [Development Guides](dev-docs/03-development-guides.md)
 
 ## License
-
 The Enpii Base plugin is open-sourced software licensed under the [MIT license](LICENSE.md).
 
-[Trac Nguyen](mailto:npbtrac@yahoo.com) since
+## Credits
+- Author [Trac Nguyen](mailto:npbtrac@yahoo.com)
+- [WordPress Team](https://wordpress.org/) and [WordPress VIP](https://wpvip.com/)
+- Laravel team [Laravel framework](https://laravel.com/)
+- [PHPCS team](https://github.com/squizlabs/PHP_CodeSniffer)
+- [Codeception](https://github.com/Codeception/Codeception)
+- [PHPUnit](https://phpunit.de/)
