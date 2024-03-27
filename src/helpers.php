@@ -111,7 +111,7 @@ if ( ! function_exists( 'enpii_base_wp_app_check' ) ) {
 	 * @return bool
 	 */
 	function enpii_base_wp_app_check(): bool {
-		if ( !isset($GLOBALS['wp_app_setup_errors']) ) {
+		if ( ! isset( $GLOBALS['wp_app_setup_errors'] ) ) {
 			$GLOBALS['wp_app_setup_errors'] = [];
 		}
 		$wp_app_base_path = enpii_base_wp_app_get_base_path();
@@ -125,9 +125,9 @@ if ( ! function_exists( 'enpii_base_wp_app_check' ) ) {
 					__( 'Folder <strong>%s</strong> must be writable, please make it 0777.', Enpii_Base_Helper::TEXT_DOMAIN ),
 					dirname( $wp_app_base_path )
 				);
-				if ( ! isset( $GLOBALS['wp_app_setup_errors'][ $error_message ]) ) {
+				if ( ! isset( $GLOBALS['wp_app_setup_errors'][ $error_message ] ) ) {
 					$GLOBALS['wp_app_setup_errors'][ $error_message ] = false;
-				};
+				}
 			}
 		}
 
@@ -137,24 +137,24 @@ if ( ! function_exists( 'enpii_base_wp_app_check' ) ) {
 				__( 'The setup has not been done correctly. Please go to this URL <a href="%1$s">%1$s</a> to complete the setup', Enpii_Base_Helper::TEXT_DOMAIN ),
 				Enpii_Base_Helper::get_admin_setup_app_uri( true )
 			);
-			if ( ! isset( $GLOBALS['wp_app_setup_errors'][ $error_message ]) ) {
+			if ( ! isset( $GLOBALS['wp_app_setup_errors'][ $error_message ] ) ) {
 				$GLOBALS['wp_app_setup_errors'][ $error_message ] = false;
-			};
+			}
 		}
 
-		if ( ! empty($GLOBALS['wp_app_setup_errors']) ) {
+		if ( ! empty( $GLOBALS['wp_app_setup_errors'] ) ) {
 			add_action(
 				'admin_notices',
 				function () {
 					$error_content = '';
 					foreach ( (array) $GLOBALS['wp_app_setup_errors'] as $error_message => $displayed ) {
 						if ( ! $displayed && $error_message ) {
-							$error_content .= '<p>'.$error_message.'</p>';
+							$error_content .= '<p>' . $error_message . '</p>';
 							$GLOBALS['wp_app_setup_errors'][ $error_message ] = true;
 						}
 					}
-					if ($error_content) {
-						echo '<div class="notice notice-error">'.wp_kses_post($error_content).'</div>';
+					if ( $error_content ) {
+						echo '<div class="notice notice-error">' . wp_kses_post( $error_content ) . '</div>';
 					}
 				}
 			);

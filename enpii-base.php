@@ -10,7 +10,7 @@
  */
 
 // We want to split all the bootstrapping code to a separate file
-// 	for putting into composer autoload and
-// 	for easier including on other section e.g. unit test
+//  for putting into composer autoload and
+//  for easier including on other section e.g. unit test
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'enpii-base-bootstrap.php';
 require __DIR__ . DIRECTORY_SEPARATOR . 'enpii-base-init.php';

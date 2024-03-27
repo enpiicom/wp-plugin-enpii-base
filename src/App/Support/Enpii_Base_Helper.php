@@ -105,8 +105,8 @@ class Enpii_Base_Helper {
 	}
 
 	public static function get_base_url_path(): string {
-		$site_url_parts = parse_url( site_url() );
+		$site_url_parts = wp_parse_url( site_url() );
 
-		return empty($site_url_parts['path']) ? '' : $site_url_parts['path'];
+		return empty( $site_url_parts['path'] ) ? '' : $site_url_parts['path'];
 	}
 }

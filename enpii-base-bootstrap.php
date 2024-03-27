@@ -14,18 +14,23 @@ defined( 'ENPII_BASE_PLUGIN_SLUG' ) || define( 'ENPII_BASE_PLUGIN_SLUG', 'enpii-
 // The prefix for wp_app request
 defined( 'ENPII_BASE_WP_APP_PREFIX' ) || define(
 	'ENPII_BASE_WP_APP_PREFIX',
-	!empty( getenv( 'ENPII_BASE_WP_APP_PREFIX' ) ) ? getenv( 'ENPII_BASE_WP_APP_PREFIX' ) : 'wp-app'
+	! empty( getenv( 'ENPII_BASE_WP_APP_PREFIX' ) ) ? getenv( 'ENPII_BASE_WP_APP_PREFIX' ) : 'wp-app'
 );
 
 // The prefix for wp_api request
 defined( 'ENPII_BASE_WP_API_PREFIX' ) || define(
 	'ENPII_BASE_WP_API_PREFIX',
-	!empty( getenv( 'ENPII_BASE_WP_API_PREFIX' ) ) ? getenv( 'ENPII_BASE_WP_API_PREFIX' ) : 'wp-api'
+	! empty( getenv( 'ENPII_BASE_WP_API_PREFIX' ) ) ? getenv( 'ENPII_BASE_WP_API_PREFIX' ) : 'wp-api'
+);
+
+defined( 'ENPII_BASE_FORCE_LEGACY' ) || define(
+	'ENPII_BASE_FORCE_LEGACY',
+	! empty( getenv( 'ENPII_BASE_FORCE_LEGACY' ) ) ? ! ! getenv( 'ENPII_BASE_FORCE_LEGACY' ) : true
 );
 
 defined( 'ENPII_BASE_SETUP_HOOK_NAME' ) || define(
 	'ENPII_BASE_SETUP_HOOK_NAME',
-	!empty( getenv( 'ENPII_BASE_SETUP_HOOK_NAME' ) ) ? : 'plugins_loaded'
+	! empty( getenv( 'ENPII_BASE_SETUP_HOOK_NAME' ) ) ? getenv( 'ENPII_BASE_SETUP_HOOK_NAME' ) : 'plugins_loaded'
 );
 
 require_once __DIR__ . DIR_SEP . 'src' . DIR_SEP . 'helpers.php';
@@ -39,6 +44,6 @@ if ( version_compare( phpversion(), '8.1.0', '<' ) ) {
 	$autoload_file = __DIR__ . DIR_SEP . 'vendor' . DIR_SEP . 'autoload.php';
 }
 
-if (file_exists($autoload_file) && !$enpii_base_existed) {
+if ( file_exists( $autoload_file ) && ! $enpii_base_existed ) {
 	require_once $autoload_file;
 }

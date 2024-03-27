@@ -7,7 +7,6 @@ namespace Enpii_Base\App\Http\Controllers;
 use Enpii_Base\App\Http\Request;
 use Enpii_Base\App\Jobs\Mark_Setup_WP_App_Done;
 use Enpii_Base\App\Support\App_Const;
-use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\App\WP\Enpii_Base_WP_Plugin;
 use Enpii_Base\Foundation\Http\Base_Controller;
 use Exception;
@@ -40,7 +39,7 @@ class Main_Controller extends Base_Controller {
 		} catch ( Exception $e ) {
 		}
 
-		if ( empty( $e ) && 1 === 0 ) {
+		if ( empty( $e ) ) {
 			// If no exception thrown earlier, we can consider the setup script is done
 			Mark_Setup_WP_App_Done::execute_now();
 		} else {
@@ -53,7 +52,7 @@ class Main_Controller extends Base_Controller {
 		// Then return to the previous URL
 		$return_url = $request->get( 'return_url', home_url() );
 
-		header('Location: '. $return_url);
+		header( 'Location: ' . $return_url );
 		exit( 0 );
 	}
 }
