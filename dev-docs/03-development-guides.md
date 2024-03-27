@@ -82,11 +82,11 @@ We must run the composer and codecept run test using PHP 8.0 (considering `php81
 
 If you don't have PHP 8.1 locally, you can use the docker:
 ```
-docker pull serversideup/php:8.1-cli
+docker pull npbtrac/php81_cli
 ```
 and whenever you want to rin something, you can do something like this:
 ```
-docker run --rm --interactive --tty -v $PWD:/var/www/html serversideup/php:8.1-cli ./vendor/bin/codecept build
+docker run --rm --interactive --tty -v $PWD:/var/www/html npbtrac/php81_cli ./vendor/bin/codecept build
 ```
 - Set up
 ```

@@ -89,21 +89,6 @@ class Enpii_Base_Helper {
 		}
 	}
 
-	// Todo: To be removed
-	public static function redirect_to_admin_setup_url(): void {
-		$redirect_uri = static::get_admin_setup_app_uri();
-		if ( ! static::at_admin_setup_app_url() && ! static::at_wp_login_url() ) {
-			$redirect_url = add_query_arg(
-				[
-					'return_url' => urlencode( static::get_current_url() ),
-				],
-				site_url( $redirect_uri )
-			);
-			header( 'Location: ' . $redirect_url );
-			exit( 0 );
-		}
-	}
-
 	public static function get_base_url_path(): string {
 		$site_url_parts = wp_parse_url( site_url() );
 
