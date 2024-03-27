@@ -26,15 +26,10 @@ class Main_Controller extends Base_Controller {
 	 * @throws \Exception
 	 */
 	public function setup_app( Request $request ) {
-		$message = '';
 		try {
 			ob_start();
 			do_action( App_Const::ACTION_WP_APP_SETUP_APP );
-			$message = ob_get_clean();
-			$message .= "\n";
-			if ( ! wp_app_config( 'app.debug' ) ) {
-				$message = '';
-			}
+			ob_end_flush();
 		// phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 		} catch ( Exception $e ) {
 		}
