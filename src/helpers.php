@@ -191,11 +191,11 @@ if ( ! function_exists( 'enpii_base_wp_app_setup_failed' ) ) {
 
 if ( ! function_exists( 'enpii_base_wp_app_get_timezone' ) ) {
 	/**
-	 * Get the correct timezone value for WP App
+	 * Get the correct timezone value for WP App (from WordPress and map to the date_default_timezone_set ids)
 	 * @return string
 	 */
 	function enpii_base_wp_app_get_timezone(): string {
-		$current_offset = get_option( 'gmt_offset' );
+		$current_offset = (int) get_option( 'gmt_offset' );
 		$timezone_string = get_option( 'timezone_string' );
 
 		// Remove old Etc mappings. Fallback to gmt_offset.
@@ -203,13 +203,15 @@ if ( ! function_exists( 'enpii_base_wp_app_get_timezone' ) ) {
 			$timezone_string = '';
 		}
 
-		if ( empty( $timezone_string ) ) { // Create a UTC+- zone if no timezone string exists.
+		// Create Etc/GMT time zone id that match date_default_timezone_set function
+		//	https://www.php.net/manual/en/timezones.others.php
+		if ( empty( $timezone_string ) ) {
 			if ( 0 == $current_offset ) {
-				$timezone_string = 'UTC';
+				$timezone_string = 'Etc/GMT';
 			} elseif ( $current_offset < 0 ) {
-				$timezone_string = 'UTC' . $current_offset;
+				$timezone_string = 'Etc/GMT+' . abs( $current_offset );
 			} else {
-				$timezone_string = 'UTC+' . $current_offset;
+				$timezone_string = 'Etc/GMT-' . abs( $current_offset );
 			}
 		}
 
