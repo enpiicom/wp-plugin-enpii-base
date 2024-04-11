@@ -12,7 +12,7 @@ return [
 	|
 	*/
 
-	'name' => defined( 'WP_APP_NAME' ) ? WP_APP_NAME : 'Enpii Base Web App',
+	'name' => defined( 'WP_APP_NAME' ) ? WP_APP_NAME : 'EnpiiBase Web App',
 
 	/**
 	|--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ return [
 
 	'url' => defined( 'WP_SITEURL' ) ? WP_SITEURL : site_url(),
 
-	'asset_url' => env( 'ASSET_URL', '/wp-content/uploads/wp-app/public' ),
+	'asset_url' => enpii_base_wp_app_get_asset_url(),
 
 	/**
 	|--------------------------------------------------------------------------
@@ -66,7 +66,7 @@ return [
 	|
 	*/
 
-	'timezone' => wp_timezone()->getName() ? wp_timezone()->getName() : ( defined( 'WP_APP_TIMEZONE' ) ? WP_APP_TIMEZONE : 'UTC' ),
+	'timezone' => enpii_base_wp_app_get_timezone(),
 
 	/**
 	|--------------------------------------------------------------------------
