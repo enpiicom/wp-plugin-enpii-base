@@ -199,14 +199,14 @@ if ( ! function_exists( 'enpii_base_wp_app_get_timezone' ) ) {
 		$timezone_string = get_option( 'timezone_string' );
 
 		// Remove old Etc mappings. Fallback to gmt_offset.
-		if ( false !== strpos( $timezone_string, 'Etc/GMT' ) ) {
+		if ( strpos( $timezone_string, 'Etc/GMT' ) !== false ) {
 			$timezone_string = '';
 		}
 
 		// Create Etc/GMT time zone id that match date_default_timezone_set function
-		//	https://www.php.net/manual/en/timezones.others.php
+		//  https://www.php.net/manual/en/timezones.others.php
 		if ( empty( $timezone_string ) ) {
-			if ( 0 == $current_offset ) {
+			if ( (int) $current_offset === 0 ) {
 				$timezone_string = 'Etc/GMT';
 			} elseif ( $current_offset < 0 ) {
 				$timezone_string = 'Etc/GMT+' . abs( $current_offset );
@@ -215,10 +215,23 @@ if ( ! function_exists( 'enpii_base_wp_app_get_timezone' ) ) {
 			}
 		}
 
-		if ( function_exists('wp_timezone') ) {
-			return false !== strpos( wp_timezone()->getName(), '/' ) ? wp_timezone()->getName() : $timezone_string;
+		if ( function_exists( 'wp_timezone' ) ) {
+			return strpos( wp_timezone()->getName(), '/' ) !== false ? wp_timezone()->getName() : $timezone_string;
 		}
 
 		return defined( 'WP_APP_TIMEZONE' ) ? WP_APP_TIMEZONE : $timezone_string;
+	}
+}
+
+if ( ! function_exists( 'enpii_base__' ) ) {
+	function enpii_base__( $untranslated_text ): string {
+		return __( $untranslated_text, 'enpii-base' );
+	}
+}
+
+if ( ! function_exists( 'enpii_base_x' ) ) {
+	function enpii_base_x( $untranslated_text, $context ): string {
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralContext, WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralDomain
+		return _x( $untranslated_text, $context, 'enpii-base' );
 	}
 }

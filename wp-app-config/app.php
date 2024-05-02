@@ -38,7 +38,7 @@ return [
 	|
 	*/
 
-	'debug' => defined( 'WP_DEBUG' ) ? WP_DEBUG : false,
+	'debug' => defined( 'WP_DEBUG' ) ? (bool) WP_DEBUG : false,
 
 	/**
 	|--------------------------------------------------------------------------

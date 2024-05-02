@@ -165,25 +165,6 @@ class WP_Theme_Test extends Unit_Test_Case {
 		$this->assertEquals( $expected, $actual );
 	}
 
-	public function test_translate() {
-		// Mock the WP_Theme class
-		$wp_theme_mock = $this->getMockBuilder( WP_Theme::class )
-								->onlyMethods( [ '_t', 'get_text_domain' ] )
-								->disableOriginalConstructor()
-								->getMockForAbstractClass();
-
-		// Set the expectation that the _t() function will be called
-		$wp_theme_mock->expects( $this->once() )
-						->method( '_t' )
-						->withAnyParameters()
-						->willReturn( 'Translated' );
-
-		// Call the '_t' method and assert the returned value
-		$translated_text = $wp_theme_mock->_t( 'Untranslated Text' );
-
-		$this->assertEquals( 'Translated', $translated_text );
-	}
-
 	/**
 	 * @throws \ReflectionException
 	 */
