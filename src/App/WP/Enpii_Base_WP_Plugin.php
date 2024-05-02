@@ -64,7 +64,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function get_name(): string {
-		return 'EnpiiBase';
+		return 'Enpii Base';
 	}
 
 	public function get_version(): string {
@@ -114,6 +114,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		add_filter( App_Const::FILTER_WP_APP_MAIN_SERVICE_PROVIDERS, [ $this, 'register_more_providers' ] );
 
 		/** Other hooks */
+		add_action( 'plugins_loaded', [ $this, 'load_textdomain' ], 100 );
 		if ( $this->is_blade_for_template_available() ) {
 			add_filter( 'template_include', [ $this, 'use_blade_to_compile_template' ], 99999 );
 		}
@@ -339,6 +340,11 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 	public function logout_wp_app_user( $user_id ) {
 		Logout_WP_App_User::execute_now();
+	}
+
+	public function load_textdomain() {
+		$locale = determine_locale();
+    	load_textdomain( 'enpii', $this->get_base_path() . '/languages/enpii-' . $locale . '.mo' );
 	}
 
 	/**

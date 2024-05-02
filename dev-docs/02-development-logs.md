@@ -1,9 +1,9 @@
-## EnpiiBase Development Logs
+## Enpii Base Development Logs
 We record our milestones here for people to get to know more.
 
 ### Earlier Stage
 - We see WordPress development is a pain for people who need to do the maintenance job because WordPress doesn't require any development constrains.
-- Then, we created a base plugin that we want it would be assist the development works robust and maintainable. We call it EnpiiBase plugin.
+- Then, we created a base plugin that we want it would be assist the development works robust and maintainable. We call it Enpii Base plugin.
 - First, we want to use Yii2 framework. We included the Yii2 Framework but weeks later, we saw that few people were familiar with Yii2 so we decided to use Laravel.
 - We decided to go with Laravel after seeing big communities in the ecosystem. We want to bring as many Laravel's features as possible to WordPress development.
 - Because WordPress is a long-live ecosystem so we need to deal with legacy PHP. We decided to use Laravel 7 (for PHP 7.2.5 - 8.0) and Laravel 10 (for PHP 8.1+). We also want the plugin to be able to work as a Must Use plugin, a normal plugin and a dependency package so our scenarios are:
@@ -20,7 +20,7 @@ With all of these vast requirements, all of our problems started.
 - This time, we decided to use 2 Laravel version, Laravel 7 (for PHP ^7.2.5 - ~8.0.0) and Laravel 10 (for PHP 8.1+), we created 2 composer files for that.
 
 ### Gradually build the plugin
-- When included Laravel to WordPress, we bumped into the first issues. Laravel used the filesystem to read the configs because it has the fixed base path but in WordPress, we would not know how the EnpiiBase plugin works, so we cannot use a fixed base path and therefore, we can not use files to store the configs. The solution was creating a fake base path (mainly for generated files) and use array to store configs in memory (we tweaked the `config` instance of the app).
+- When included Laravel to WordPress, we bumped into the first issues. Laravel used the filesystem to read the configs because it has the fixed base path but in WordPress, we would not know how the Enpii Base plugin works, so we cannot use a fixed base path and therefore, we can not use files to store the configs. The solution was creating a fake base path (mainly for generated files) and use array to store configs in memory (we tweaked the `config` instance of the app).
 - Laravel uses the `Container` instance for the app(). We create a class called `WP_Application` on top of that and we use the `wp_app()` helper function instead of app() from default Laravel. This will use the `WP_Application::$instance` for the wp_app().
 - We tweak the WP_Application to load base Service Providers of Laravel and allow other plugins to hook into the loading of main Service Providers (the `providers` value of `config.app`). We log the array config to each provider when we register the provider to avoid a huge array for all the configs.
 - We approach DDD (Domain Driven Development) structure to enhance the readability but we combine it with the Laravel structure so you can call that Lara-domain Driven Development (LaraDD)
@@ -35,8 +35,8 @@ both are configurable.
 - Allow to use the artful Laravel `php artisan <command> <options>` with the usage of wp-cli `wp enpii-base artisan <command> <options>`
 - Adding Telescope and Tinker to the wp_app to provides the wonderful debug tools from Laravel.
 - We use the event plugin activation to fire an ajax request on the `wp-admin` to setup everything we need to use wp_app, from copying the assets, running the migrations, creating needed folders ...
-- We found a way to make EnpiiBase load only once even when there's a EnpiiBase plugin activated and many other plugins, themes use EnpiiBase as a composer package. We need to keep a very good compability when we update the plugin EnpiiBase later.
-- Ideally, we want the WordPress setup to have EnpiiBase as a Must Use plugin (mu plugin) then other plugins and themes use classes, tools from it.
+- We found a way to make Enpii Base load only once even when there's a Enpii Base plugin activated and many other plugins, themes use Enpii Base as a composer package. We need to keep a very good compability when we update the plugin Enpii Base later.
+- Ideally, we want the WordPress setup to have Enpii Base as a Must Use plugin (mu plugin) then other plugins and themes use classes, tools from it.
 - We use phpcs rules from WordPress VIP team and use the WordPress code style and naming convention (snake_eyes).
 
 ### Adding more Laravel features to the plugin
