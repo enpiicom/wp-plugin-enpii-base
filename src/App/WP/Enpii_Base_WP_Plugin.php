@@ -20,6 +20,7 @@ use Enpii_Base\App\Jobs\Write_Setup_Client_Script;
 use Enpii_Base\App\Jobs\Write_Web_Worker_Script;
 use Enpii_Base\App\Queries\Add_More_Providers;
 use Enpii_Base\App\Support\App_Const;
+use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
 use Enpii_Base\Foundation\WP\WP_Plugin;
 use Exception;
 use Illuminate\Console\Scheduling\Schedule;
@@ -35,6 +36,8 @@ use WP_User;
  * @package Enpii_Base\App\WP
  */
 final class Enpii_Base_WP_Plugin extends WP_Plugin {
+	use Enpii_Base_Trans_Trait;
+
 	public function boot() {
 		if ( $this->app->runningInConsole() ) {
 			// Register migrations rules
@@ -69,10 +72,6 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 	public function get_version(): string {
 		return ENPII_BASE_PLUGIN_VERSION;
-	}
-
-	public function get_text_domain(): string {
-		return 'enpii';
 	}
 
 	/**

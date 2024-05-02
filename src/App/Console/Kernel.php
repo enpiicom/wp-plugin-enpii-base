@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Console;
 
-use Enpii\Appeara_Alpha\App\WP\Appeara_Alpha_WP_Theme;
 use Enpii_Base\App\Console\Commands\WP_App_Setup_Command;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
+use Enpii_Base\App\WP\Enpii_Base_WP_Plugin;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Artisan;
@@ -56,15 +56,15 @@ class Kernel extends ConsoleKernel {
 	 * @return void
 	 */
 	protected function commands() {
-		$theme = Appeara_Alpha_WP_Theme::wp_app_instance();
+		$enpii_base_plugin = Enpii_Base_WP_Plugin::wp_app_instance();
 		Artisan::command(
 			'wp-app:hello',
-			function () use ( $theme ) {
+			function () use ( $enpii_base_plugin ) {
 				/** @var \Illuminate\Foundation\Console\ClosureCommand $this */
 				$start_time = microtime( true );
 				for ( $i = 0; $i < 500000; $i++ ) {
-					$message = $theme->__( 'Hello from Enpii Base wp_app()' );
-					// $message = __( 'Hello from Enpii Base wp_app()', 'enpii' );
+					$message = $enpii_base_plugin->__( 'Hello from Enpii Base wp_app()' );
+					// $message = __( 'Hello from Enpii Base wp_app()' );
 				}
 				$end_time = microtime( true );
 				$this->comment( $message );

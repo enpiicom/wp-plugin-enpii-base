@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Enpii_Base\App\Support;
 
 class Enpii_Base_Helper {
-	const TEXT_DOMAIN = 'enpii';
-
 	public static function get_current_url(): string {
 		if ( empty( $_SERVER['SERVER_NAME'] ) && empty( $_SERVER['HTTP_HOST'] ) ) {
 			return '';
