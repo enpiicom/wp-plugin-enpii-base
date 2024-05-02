@@ -110,7 +110,7 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 	 * @throws \Exception
 	 */
 	// phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
-	public function _t( $untranslated_text ): string {
+	public function __( $untranslated_text ): string {
 		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralDomain
 		return __( $untranslated_text, $this->get_text_domain() );
 	}
@@ -217,7 +217,7 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 		Session::push(
 			'info',
 			sprintf(
-				$this->_t( 'Theme <strong>%s</strong> activated' ),
+				enpii_base__( 'Theme <strong>%s</strong> activated' ),
 				$this->get_name()
 			)
 		);
@@ -234,7 +234,7 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 			Session::push(
 				'caution',
 				sprintf(
-					$this->_t( 'This theme needs <strong>%s</strong> to work properly.' ),
+					enpii_base__( 'This theme needs <strong>%s</strong> to work properly.' ),
 					'Plugin ACF Pro'
 				)
 			);
@@ -252,7 +252,7 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 			Session::push(
 				'caution',
 				sprintf(
-					$this->_t( 'This theme needs <strong>%s</strong> to work properly.' ),
+					enpii_base__( 'This theme needs <strong>%s</strong> to work properly.' ),
 					'Plugin Enpii Html Components'
 				)
 			);

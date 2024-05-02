@@ -206,28 +206,6 @@ class WP_Plugin_Test extends Unit_Test_Case {
 	}
 
 	/**
-	 * @throws \Exception
-	 */
-	public function test_translate() {
-		// Mock the WP_Plugin class
-		$wp_plugin_mock = $this->getMockBuilder( WP_Plugin::class )
-								->onlyMethods( [ '_t', 'get_text_domain' ] )
-								->disableOriginalConstructor()
-								->getMockForAbstractClass();
-
-		// Set the expectation that the _t() function will be called
-		$wp_plugin_mock->expects( $this->once() )
-						->method( '_t' )
-						->withAnyParameters()
-						->willReturn( 'Translated' );
-
-		// Call the '_t' method and assert the returned value
-		$translated_text = $wp_plugin_mock->_t( 'Untranslated Text' );
-
-		$this->assertEquals( 'Translated', $translated_text );
-	}
-
-	/**
 	 * @throws \ReflectionException
 	 */
 	public function test_validate_needed_properties(): void {

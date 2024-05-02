@@ -25,7 +25,7 @@ defined( 'ENPII_BASE_WP_API_PREFIX' ) || define(
 
 defined( 'ENPII_BASE_FORCE_LEGACY' ) || define(
 	'ENPII_BASE_FORCE_LEGACY',
-	! empty( getenv( 'ENPII_BASE_FORCE_LEGACY' ) ) ? ! ! getenv( 'ENPII_BASE_FORCE_LEGACY' ) : true
+	! empty( getenv( 'ENPII_BASE_FORCE_LEGACY' ) ) ? (bool) getenv( 'ENPII_BASE_FORCE_LEGACY' ) : true
 );
 
 defined( 'ENPII_BASE_SETUP_HOOK_NAME' ) || define(

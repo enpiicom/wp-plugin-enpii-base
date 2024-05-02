@@ -104,35 +104,6 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	}
 
 	/**
-	 * Translate a text using the plugin's text domain
-	 *
-	 * @param string $untranslated_text Text to be translated
-	 *
-	 * @return string Translated text
-	 * @throws \Exception
-	 */
-	// phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
-	public function _t( $untranslated_text ): string {
-		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralDomain
-		return __( $untranslated_text, $this->get_text_domain() );
-	}
-
-	/**
-	 * Translate a text using the plugin's text domain
-	 *
-	 * @param string $untranslated_text Text to be translated
-	 * @param string $context for the translation
-	 *
-	 * @return string Translated text
-	 * @throws \Exception
-	 */
-	// phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
-	public function _x( $untranslated_text, $context ): string {
-		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralContext, WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralDomain
-		return _x( $untranslated_text, $context, $this->get_text_domain() );
-	}
-
-	/**
 	 * We want to init all needed properties with this method
 	 *
 	 * @param string $slug
@@ -244,7 +215,7 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	protected function setup_activated_info() {
 		$info_messages = (array) Session::get( 'info' );
 		$info_messages[] = sprintf(
-			$this->_t( 'Plugin <strong>%s</strong> activated' ),
+			enpii_base__( 'Plugin <strong>%s</strong> activated' ),
 			$this->get_name()
 		);
 		Session::put( 'info', $info_messages );
@@ -260,7 +231,7 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 		$caution_messages = (array) Session::get( 'caution' );
 		if ( ! class_exists( 'acf_pro' ) ) {
 			$caution_messages[] = sprintf(
-				$this->_t( 'This theme needs <strong>%s</strong> to work properly.' ),
+				enpii_base__( 'This theme needs <strong>%s</strong> to work properly.' ),
 				'Plugin ACF Pro'
 			);
 		}
