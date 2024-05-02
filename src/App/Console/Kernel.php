@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel {
 	use Enpii_Base_Trans_Trait;
+
 	/**
 	 * The bootstrap classes for the application.
 	 *  As we are loading configurations from memory (array) with WP_Application
@@ -58,7 +59,7 @@ class Kernel extends ConsoleKernel {
 		$theme = Appeara_Alpha_WP_Theme::wp_app_instance();
 		Artisan::command(
 			'wp-app:hello',
-			function () use ($theme) {
+			function () use ( $theme ) {
 				/** @var \Illuminate\Foundation\Console\ClosureCommand $this */
 				$start_time = microtime( true );
 				for ( $i = 0; $i < 500000; $i++ ) {
