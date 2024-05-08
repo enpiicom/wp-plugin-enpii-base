@@ -170,7 +170,7 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 			throw new InvalidArgumentException(
 				sprintf(
 					// translators: %1$s, %2$s are replaced by a string
-					__( 'Property %1$s must be set for %2$s.', 'enpii' ) . ' ' . __( 'Value must contain only alphanumeric characters _ -', 'enpii' ),
+					esc_textarea( __( 'Property %1$s must be set for %2$s.', 'enpii' ) . ' ' . __( 'Value must contain only alphanumeric characters _ -', 'enpii' ) ),
 					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					'plugin_slug',
 					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped

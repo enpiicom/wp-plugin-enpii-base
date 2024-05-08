@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP;
 
+use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
 use Enpii_Base\App\Jobs\Bootstrap_WP_App;
 use Enpii_Base\App\Jobs\Login_WP_App_User;
@@ -40,7 +41,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 	public function boot() {
 		if ( $this->app->runningInConsole() ) {
-			// Register migrations rules
+			// Publish migrations rules
 			$this->publishes(
 				[
 					$this->get_base_path() . '/database/migrations' => database_path( 'migrations' ),
@@ -48,7 +49,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 				[ 'enpii-base-migrations', 'laravel-migrations' ]
 			);
 
-			// Register assets
+			// Publish assets
 			$this->publishes(
 				[
 					$this->get_base_path() . '/public-assets/dist' => wp_app_public_path( 'plugins/' . $this->get_plugin_slug() ),
@@ -60,6 +61,21 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 					$this->get_base_path() . '/public-assets/src/vendor' => wp_app_public_path( 'vendor' ),
 				],
 				[ 'enpii-base-assets', 'laravel-assets' ]
+			);
+
+			// Publish stubs
+			$this->publishes(
+				[
+					$this->get_base_path() . '/resources' => wp_app_resource_path( 'plugins/' . $this->get_plugin_slug() ),
+				],
+				[ 'enpii-base-assets', 'laravel-assets' ]
+			);
+
+			// Register Commands
+			$this->commands(
+				[
+					WP_App_Make_PHPUnit_Command::class,
+				]
 			);
 		}
 
