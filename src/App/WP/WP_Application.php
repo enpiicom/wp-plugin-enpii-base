@@ -106,7 +106,7 @@ class WP_Application extends Application {
 	 */
 	public function resourcePath( $path = '' ): string {
 		// Todo: refactor this using constant
-		return dirname( dirname( dirname( __DIR__ ) ) ) . DIRECTORY_SEPARATOR . 'resources' . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
+		return $this->basePath() . DIRECTORY_SEPARATOR . 'resources' . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
 	}
 
 	/**
@@ -130,8 +130,8 @@ class WP_Application extends Application {
 	public function runningInConsole(): ?bool {
 		if ( $this->isRunningInConsole === null ) {
 			if (
-				strpos( wp_app_request()->getPathInfo(), '/admin' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ||
-				strpos( wp_app_request()->getPathInfo(), '/web-worker' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ||
+				( strpos( wp_app_request()->getPathInfo(), '/admin' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( wp_app_request()->getPathInfo(), '/web-worker' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
 				Enpii_Base_Helper::at_setup_app_url()
 			) {
 				$this->isRunningInConsole = true;
