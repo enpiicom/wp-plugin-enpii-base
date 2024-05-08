@@ -18,7 +18,7 @@ class Main_Controller extends Base_Controller {
 
 		return wp_app_response()->json(
 			[
-				'message' => 'Welcome to EnpiiBase WP App API',
+				'message' => 'Welcome to Enpii Base WP App API',
 				'data' => $data,
 			]
 		);

@@ -106,7 +106,7 @@ class WP_Application extends Application {
 	 */
 	public function resourcePath( $path = '' ): string {
 		// Todo: refactor this using constant
-		return dirname( dirname( dirname( __DIR__ ) ) ) . DIRECTORY_SEPARATOR . 'resources' . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
+		return $this->basePath() . DIRECTORY_SEPARATOR . 'resources' . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
 	}
 
 	/**

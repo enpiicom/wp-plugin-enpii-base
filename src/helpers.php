@@ -134,8 +134,8 @@ if ( ! function_exists( 'enpii_base_wp_app_check' ) ) {
 			// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_is_writable
 			if ( ! is_writable( dirname( $wp_app_base_path ) ) ) {
 				$error_message = sprintf(
-					// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain, WordPress.WP.I18n.MissingTranslatorsComment
-					__( 'Folder <strong>%s</strong> must be writable, please make it 0777.', Enpii_Base_Helper::TEXT_DOMAIN ),
+					// translators: %s is replaced by a string, pathname
+					__( 'Folder <strong>%s</strong> must be writable, please make it 0777.', 'enpii' ),
 					dirname( $wp_app_base_path )
 				);
 				if ( ! isset( $GLOBALS['wp_app_setup_errors'][ $error_message ] ) ) {
@@ -146,8 +146,8 @@ if ( ! function_exists( 'enpii_base_wp_app_check' ) ) {
 
 		if ( enpii_base_wp_app_setup_failed() && ! Enpii_Base_Helper::at_setup_app_url() && ! Enpii_Base_Helper::at_admin_setup_app_url() ) {
 			$error_message = sprintf(
-				// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain, WordPress.WP.I18n.MissingTranslatorsComment
-				__( 'The setup has not been done correctly. Please go to this URL <a href="%1$s">%1$s</a> to complete the setup', Enpii_Base_Helper::TEXT_DOMAIN ),
+				// translators: %1$s is replaced by a string, url
+				__( 'The setup has not been done correctly. Please go to this URL <a href="%1$s">%1$s</a> to complete the setup', 'enpii' ),
 				Enpii_Base_Helper::get_admin_setup_app_uri( true )
 			);
 			if ( ! isset( $GLOBALS['wp_app_setup_errors'][ $error_message ] ) ) {
@@ -220,18 +220,5 @@ if ( ! function_exists( 'enpii_base_wp_app_get_timezone' ) ) {
 		}
 
 		return defined( 'WP_APP_TIMEZONE' ) ? WP_APP_TIMEZONE : $timezone_string;
-	}
-}
-
-if ( ! function_exists( 'enpii_base__' ) ) {
-	function enpii_base__( $untranslated_text ): string {
-		return __( $untranslated_text, 'enpii-base' );
-	}
-}
-
-if ( ! function_exists( 'enpii_base_x' ) ) {
-	function enpii_base_x( $untranslated_text, $context ): string {
-		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralContext, WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralDomain
-		return _x( $untranslated_text, $context, 'enpii-base' );
 	}
 }
