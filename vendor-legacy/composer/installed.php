@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'enpii/enpii-base',
-        'pretty_version' => 'dev-develop',
-        'version' => 'dev-develop',
-        'reference' => '0930db89396d05764f72fe33182aff26a333243f',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '62d5eff19499d1ebfb38f62c2c8f2fdd9503d4e5',
         'type' => 'wordpress-muplugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -101,9 +101,9 @@
             'dev_requirement' => false,
         ),
         'enpii/enpii-base' => array(
-            'pretty_version' => 'dev-develop',
-            'version' => 'dev-develop',
-            'reference' => '0930db89396d05764f72fe33182aff26a333243f',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '62d5eff19499d1ebfb38f62c2c8f2fdd9503d4e5',
             'type' => 'wordpress-muplugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
