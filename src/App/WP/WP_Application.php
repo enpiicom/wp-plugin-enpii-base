@@ -355,6 +355,9 @@ class WP_Application extends Application {
 			\Enpii_Base\App\Providers\Log_Service_Provider::class,
 			\Enpii_Base\App\Providers\Routing_Service_Provider::class,
 			\Enpii_Base\App\Providers\Bus_Service_Provider::class,
+
+			// We put the DB Service Provider here as it's the base one with WP
+			\Enpii_Base\App\Providers\Database_Service_Provider::class,
 		];
 
 		foreach ( $providers as $provider_classname ) {

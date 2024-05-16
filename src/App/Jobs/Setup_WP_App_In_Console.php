@@ -63,6 +63,6 @@ class Setup_WP_App_In_Console {
 		//  for security reason
 		$console_command->comment( 'Cleanup migrations rule' );
 		$filesystem = new Filesystem();
-		$filesystem->cleanDirectory( wp_app()->databasePath( 'migrations' ) );
+		// $filesystem->cleanDirectory( wp_app()->databasePath( 'migrations' ) );
 	}
 }
