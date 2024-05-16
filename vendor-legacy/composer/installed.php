@@ -3,7 +3,7 @@
         'name' => 'enpii/enpii-base',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '62d5eff19499d1ebfb38f62c2c8f2fdd9503d4e5',
+        'reference' => '8b58b83ad191ec7b16a90edf39c54295b4a44307',
         'type' => 'wordpress-muplugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -103,7 +103,7 @@
         'enpii/enpii-base' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '62d5eff19499d1ebfb38f62c2c8f2fdd9503d4e5',
+            'reference' => '8b58b83ad191ec7b16a90edf39c54295b4a44307',
             'type' => 'wordpress-muplugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -124,7 +124,9 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 		add_action( App_Const::ACTION_WP_APP_SCHEDULE_RUN, [ $this, 'schedule_run_backup' ] );
 		add_action( App_Const::ACTION_WP_APP_WEB_WORKER, [ $this, 'web_worker' ] );
-		add_action( App_Const::ACTION_WP_APP_SETUP_APP, [ $this, 'setup_app' ] );
+
+		// We want to use the priority 100 to let this run at the end for running migration
+		add_action( App_Const::ACTION_WP_APP_SETUP_APP, [ $this, 'setup_app' ], 1000 );
 
 		add_filter( App_Const::FILTER_WP_APP_MAIN_SERVICE_PROVIDERS, [ $this, 'register_more_providers' ] );
 
@@ -165,6 +167,10 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 				);
 			}
 		}
+
+		// We use the filter `status_header` to get the status code
+		//  to store to the wp_app() instance
+		add_filter( 'status_header', [ $this, 'store_status_header' ], 999999, 4 );
 
 		/** WP CLI */
 		add_action( 'cli_init', [ $this, 'register_wp_cli_commands' ] );
@@ -336,6 +342,18 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			$wp_app_response->header( $wp_header_key, $wp_header_value );
 		}
 
+		// We need to check response status code from WP
+		if ( is_404() ) {
+			$code = 404;
+		}
+		! isset( $code ) || $wp_app_response->setStatusCode( $code );
+
+		// We need to check status code sent by `status_header()` to override the status code
+		if ( wp_app()->has( 'status_header' ) ) {
+			$status_header = wp_app( 'status_header' );
+			! isset( $status_header['code'] ) || $wp_app_response->setStatusCode( $status_header['code'] );
+		}
+
 		$wp_app_response->sendHeaders();
 	}
 
@@ -363,6 +381,29 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	/**
+	 * We want to store status code when using `status_header()` to `wp_app()` instance
+	 * @param mixed $status_header
+	 * @param mixed $code
+	 * @param mixed $description
+	 * @param mixed $protocol
+	 * @return mixed
+	 * @throws BindingResolutionException
+	 */
+	public function store_status_header( $status_header, $code, $description, $protocol ) {
+		wp_app()->instance(
+			'status_header',
+			[
+				'status_header' => $status_header,
+				'code' => $code,
+				'description' => $description,
+				'protocol' => $protocol,
+			]
+		);
+
+		return $status_header;
+	}
+
+	/**
 	 * We want to terminate the wp_app on shutdown event
 	 * @return void
 	 * @throws BindingResolutionException
@@ -375,7 +416,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	/**
-	 * All hooks created by this plugin should be enrolled here
+	 * Prevent some default behaviors from WP
 	 * @return void
 	 */
 	private function prevent_defaults(): void {
