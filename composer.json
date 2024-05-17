@@ -10,33 +10,34 @@
     {
       "name": "Trac Nguyen",
       "email": "npbtrac@yahoo.com",
-      "homepage": "https://enpii.com/users/trac-nguyen",
+      "homepage": "https://enpii.com/members/trac-nguyen",
       "role": "Developer"
     },
     {
       "name": "Loi Le",
-      "homepage": "https://enpii.com/users/loi-le",
+      "homepage": "https://enpii.com/members/loi-le",
       "role": "Developer"
     }
   ],
   "require": {
-    "php": "^7.3|^8.0.0",
-    "spatie/laravel-html": "^3.3",
-    "doctrine/dbal": "^3.0",
+    "spatie/laravel-html": "~3.5.0",
     "laravel/framework": "^8.0.0|^9.0.0|^10.0.0",
-    "laravel/tinker": "^2.8",
-    "mcaskill/composer-exclude-files": "^3.0.0",
-    "symfony/var-dumper": "^5.4.29|^6.2.0"
+    "laravel/tinker": "~2.9.0",
+    "symfony/var-dumper": "~5.4.29|~6.4.7",
+    "mcaskill/composer-exclude-files": "~3.0.0",
+    "php": "^7.3|^8.0"
   },
   "require-dev": {
-    "10up/wp_mock": "^1.0.0",
-    "automattic/vipwpcs": "^3.0.0",
-    "symfony/console": "^5.4.0|^6.0.0",
-    "codeception/codeception": "^5.0.0",
-    "codeception/module-asserts": "^3.0",
-    "codeception/module-phpbrowser": "^3.0",
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
-    "phpcompatibility/php-compatibility": "^9.3.5"
+    "automattic/vipwpcs": "~3.0.1",
+    "phpcompatibility/php-compatibility": "~9.3.5",
+    "dealerdirect/phpcodesniffer-composer-installer": "~1.0.0",
+    "phpunit/phpunit": "~9.6",
+    "mockery/mockery": "~1.6",
+    "brain/monkey": "~2.6.0",
+    "10up/wp_mock": "~1.0.0",
+    "codeception/codeception": "~5.1.0",
+    "codeception/module-asserts": "~3.0.0",
+    "codeception/module-phpbrowser": "~3.0.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -77,9 +78,9 @@
     },
     "platform-check": false,
     "allow-plugins": {
-      "composer/installers": true,
       "mcaskill/composer-exclude-files": true,
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "composer/installers": true
     },
     "vendor-dir": "./vendor",
     "sort-packages": true

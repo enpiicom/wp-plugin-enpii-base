@@ -11,6 +11,7 @@
     "symfony/var-dumper": "^5.4.29|^6.2.0"
   },
   "require-dev": {
+    "composer/installers": "~2.2.0",
     "10up/wp_mock": "^1.0.0",
     "automattic/vipwpcs": "^3.0.0",
     "codeception/codeception": "^5.0.0",

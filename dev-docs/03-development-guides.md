@@ -31,20 +31,33 @@ We need to include all vendors to the repo then remove all `require` things in t
 ```
 rm -rf vendor vendor-legacy public-assets src wp-app-config database resources
 ```
+
 - Copy all needed files from master to this branch
 ```
 git checkout master -- database public-assets resources src wp-app-config .editorconfig composer-legacy.json composer-legacy.lock composer.json composer.lock enpii-base-bootstrap.php enpii-base-init.php enpii-base.php
 ```
+
 - Install and add vendors
 ```
 composer81 install --no-dev
+```
+and
+```
 COMPOSER=composer-legacy.json composer73 install --no-dev
 ```
+
 - Prepare assets
 ```
-npm install
-npm run build
+yarn install
+yarn build
 ```
+
+- Re-add assets and vendors
+```
+git add --force public-assets vendor vendor-legacy
+```
+
+- Remember to remove all packages in `composer.json` for not pulling them again when another project use this package on with `wp-release`
 - Then add all files to the repo, commit and push
 
 ### Codestyling (PHPCS)
@@ -52,14 +65,17 @@ npm run build
 ```
 php81 ./vendor/bin/phpcbf
 ```
+
 - Fix possible phpcs issues on a specified folder
 ```
 php81 ./vendor/bin/phpcbf <path/to/the/folder>
 ```
+
 - Find all the phpcs issues
 ```
 php81 ./vendor/bin/phpcs
 ```
+
 - Suppress one or multible phpcs rules for the next below line
 ```
 // phpcs:ignore <rule1>(, <rule2>...)
@@ -68,6 +84,7 @@ or at same line
 ```
 $foo = "bar"; // phpcs:ignore
 ```
+
 - Disable phpcs for a block of code
 ```
 // phpcs:disable
@@ -88,6 +105,7 @@ and whenever you want to rin something, you can do something like this:
 ```
 docker run --rm --interactive --tty -v $PWD:/var/www/html npbtrac/php81_cli ./vendor/bin/codecept build
 ```
+
 - Set up
 ```
 php81 ./vendor/bin/codecept build
