@@ -91,32 +91,26 @@ docker pull npbtrac/php81_cli
 ```
 and whenever you want to rin something, you can do something like this:
 ```
-docker run --rm --interactive --tty -v $PWD:/var/www/html npbtrac/php81_cli ./vendor/bin/codecept build
+docker run --rm --interactive --tty -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit
 ```
 
-- Set up
+- Running `phpunit`
 ```
-php81 ./vendor/bin/codecept build
+php81 ./vendor/bin/phpunit
 ```
-- Run Unit Test with Codeception on a specific file (for development purposes)
+- Run Unit Test on a specific file (for development purposes)
 ```
-php81 ./vendor/bin/codecept run -vvv unit tests/unit/App/Support/Enpii_Base_Helper_Test.php
+php81 ./vendor/bin/phpunit --debug --verbose tests/Unit/Helpers_Test.php
 ```
-- Run Unit Test with PhpUnit on a specific file (for development purposes)
-```
-php81 ./vendor/bin/phpunit --verbose tests/unit/App/Support/Enpii_Base_Helper_Test.php
-```
-- Run Unit Test with Codeception (for the whole unit suite)
-```
-php81 ./vendor/bin/codecept run unit
-```
+- Create a Unit Test file
+You can copy `tests/Unit/Sample_Test.php` file to your desired test file
 
 #### Using Coverage report
-- Run Unit Test with Codeception (with coverage report)
-```
-XDEBUG_MODE=coverage php81 ./vendor/bin/codecept run --coverage --coverage-xml --coverage-html unit
-```
 - Run Unit Test with PhpUnit (with coverage report)
 ```
-XDEBUG_MODE=coverage php81 ./vendor/bin/phpunit --coverage-text -vvv tests/unit
+XDEBUG_MODE=coverage php81 ./vendor/bin/phpunit --coverage-text
+```
+or
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit --coverage-text
 ```
