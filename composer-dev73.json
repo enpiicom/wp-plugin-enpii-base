@@ -2,27 +2,40 @@
   "name": "enpii/enpii-base",
   "type": "wordpress-muplugin",
   "require": {
-    "php": "^7.3|^8.0.0",
-    "spatie/laravel-html": "^3.3",
-    "doctrine/dbal": "^3.0",
-    "laravel/framework": "^8.0.0|^9.0.0|^10.0.0",
+    "composer/installers": "~1.12.0",
+    "laravel/framework": "~8.83.0",
+    "spatie/laravel-html": "~2.30.0",
     "laravel/tinker": "^2.8",
-    "mcaskill/composer-exclude-files": "^3.0.0",
-    "symfony/var-dumper": "^5.4.29|^6.2.0"
+    "doctrine/dbal": "~3.3.8",
+    "mcaskill/composer-exclude-files": "~3.0.0",
+    "php": "^7.3|^8.0"
   },
   "require-dev": {
-    "composer/installers": "~2.2.0",
-    "10up/wp_mock": "^1.0.0",
-    "automattic/vipwpcs": "^3.0.0",
-    "codeception/codeception": "^5.0.0",
-    "codeception/module-asserts": "^3.0.0",
-    "codeception/module-phpbrowser": "^3.0.0",
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
-    "phpcompatibility/php-compatibility": "^9.3.5"
+    "johnpbloch/wordpress-core": "~5.4.0",
+    "wp-plugin/woocommerce": "*",
+    "wpackagist-plugin/query-monitor": "^3.15",
+    "wpackagist-plugin/woocommerce-product-price-based-on-countries": "^3.0.0",
+    "wpackagist-theme/storefront": "^4.0",
+    "wpackagist-theme/twentytwenty": "^2.0",
+    "automattic/vipwpcs": "~3.0.0",
+    "phpcompatibility/php-compatibility": "~9.3.5",
+    "dealerdirect/phpcodesniffer-composer-installer": "~1.0.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "wp-plugin/woocommerce",
+        "version": "4.1.0",
+        "type": "wordpress-plugin",
+        "dist": {
+          "type": "zip",
+          "url": "https://downloads.wordpress.org/plugin/woocommerce.4.1.0.zip"
+        }
+      }
+    },
     {
       "type": "composer",
       "url": "https://wpackagist.org",
@@ -47,16 +60,14 @@
     "files": [
     ],
     "psr-4": {
-      "Enpii_Base\\Tests\\": "tests",
-      "Enpii_Base\\Tests\\Unit\\": "tests/unit"
+      "Enpii_Base\\Tests\\": "tests"
     }
   },
   "config": {
     "allow-plugins": {
       "composer/installers": true,
-      "johnpbloch/wordpress-core-installer": true,
-      "mcaskill/composer-exclude-files": true,
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "mcaskill/composer-exclude-files": true
     },
     "vendor-dir": "./vendor",
     "sort-packages": true
@@ -66,6 +77,9 @@
       "laravel/framework/src/Illuminate/Foundation/helpers.php"
     ],
     "installer-paths": {
+      "dev-docker/wordpress/wp-content/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
       "dev-docker/wordpress/wp-content/themes/{$name}/": [
         "type:wordpress-theme"
       ],
@@ -101,16 +115,6 @@
     ],
     "phpcs": [
       "./vendor/bin/phpcs"
-    ],
-    "phpunit": [
-      "./vendor/bin/phpunit"
-    ],
-    "codecept": [
-      "./vendor/bin/codecept run"
-    ],
-    "test": [
-      "@phpcs",
-      "@phpunit"
     ]
   }
 }

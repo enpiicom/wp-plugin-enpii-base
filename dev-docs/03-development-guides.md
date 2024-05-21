@@ -5,18 +5,18 @@ XDEBUG=off composer81 install
 ```
 or if you don't have PHP 8.1 locally, you can do
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app npbtrac/php81_cli  composer install
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php81_cli composer install
 ```
 you can do `update` if you want to update new dependencies.
 
 This would have Development tools like `phpcs`, `phpcbf` and `tests` available
-- With legacy PHP versions (^7.3.0 | ~8.0.0) and Laravel (10)
+- With legacy PHP versions (^7.3.0 | ~8.0.0) and Laravel (8)
 ```
-XDEBUG=off composer73 install --no-dev
+XDEBUG=off COMPOSER=composer-legacy.json composer73 install --no-dev
 ```
 or if you don't have PHP 7.3 locally, you can do
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app npbtrac/php73_cli  composer install
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -e COMPOSER=composer-legacy.json -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php73_cli composer install
 ```
 
 If you face errors when running in legacy PHP version, you can skip the dev dependencies
