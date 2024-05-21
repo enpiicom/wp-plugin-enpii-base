@@ -12,7 +12,7 @@ rm -rf vendor vendor-legacy public-assets src wp-app-config database resources
 
 - Copy all needed files from master to this branch
 ```
-git checkout master -- database public-assets resources src wp-app-config .editorconfig composer-legacy.json composer-legacy.lock composer.json composer.lock enpii-base-bootstrap.php enpii-base-init.php enpii-base.php package* tsconfig.js
+git checkout master -- database public-assets resources src wp-app-config .editorconfig composer-legacy.json composer-legacy.lock composer.json composer.lock enpii-base-bootstrap.php enpii-base-init.php enpii-base.php package* yarn* *.js
 ```
 
 - Install and add vendors
@@ -30,15 +30,14 @@ yarn install
 yarn build
 ```
 
-- Remove un
+- Remove unused stuffs
 ```
-yarn install
-yarn build
+rm -rf docker-compose*
 ```
 
 - Re-add assets and vendors
 ```
-git add --force public-assets vendor vendor-legacy
+git add --force public-assets/dist vendor vendor-legacy
 ```
 
 - Remember to remove all packages in `composer.json` for not pulling them again when another project use this package on with `wp-release`
