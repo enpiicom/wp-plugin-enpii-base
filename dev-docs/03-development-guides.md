@@ -1,3 +1,5 @@
+## Development guides
+
 ### Install Composer dependencies
 - With new PHP versions (>=8.1) and Laravel (10)
 ```
@@ -23,42 +25,28 @@ If you face errors when running in legacy PHP version, you can skip the dev depe
 ```
 XDEBUG=off composer81 install -no-dev
 ```
+and you can check [Troubleshooting docs](05-troubleshooting.md) for more details
 
-### Prepare the `wp-release`
-We need to include all vendors to the repo then remove all `require` things in the composer.json file for skipping dependencies when this package being required.
-- Switch to `wp-release` branch
-- Delete all vendors
+### Development using PHP 8.1
+There's a Docker environment for WordPress instance running on PHP 8.1. You need to have Docker installed then you can do the following:
+- Install needed dependencies (using **composer**)
 ```
-rm -rf vendor vendor-legacy public-assets src wp-app-config database resources
+XDEBUG=off COMPOSER=composer-dev81.json composer install
 ```
+or if you don't have PHP 8.1 locally, you can do
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -e COMPOSER=composer-dev81.json -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php81_cli composer install
+```
+This command will set up a WordPress instance in `dev-docker/wordpress` folder and load this **Enpii Base** plugin as a Must Use plugin in `dev-docker/wordpress/wp-content/mu-plugins/enpii-base`
 
-- Copy all needed files from master to this branch
+- You can **up**
 ```
-git checkout master -- database public-assets resources src wp-app-config .editorconfig composer-legacy.json composer-legacy.lock composer.json composer.lock enpii-base-bootstrap.php enpii-base-init.php enpii-base.php
+docker-compose up -d
 ```
-
-- Install and add vendors
+then list the containers to see working port to use that in your browsers
 ```
-composer81 install --no-dev
+docker-compose ps
 ```
-and
-```
-COMPOSER=composer-legacy.json composer73 install --no-dev
-```
-
-- Prepare assets
-```
-yarn install
-yarn build
-```
-
-- Re-add assets and vendors
-```
-git add --force public-assets vendor vendor-legacy
-```
-
-- Remember to remove all packages in `composer.json` for not pulling them again when another project use this package on with `wp-release`
-- Then add all files to the repo, commit and push
 
 ### Codestyling (PHPCS)
 - Fix all possible phpcs issues
