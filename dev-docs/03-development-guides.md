@@ -114,3 +114,28 @@ or
 ```
 docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit --coverage-text
 ```
+
+### Development using PHP 7.3
+- Install needed packages
+```
+COMPOSER=composer-dev73.json composer73 update
+```
+or if you don't have PHP 7.3 locally, you can do
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -e COMPOSER=composer-dev73.json -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php73_cli composer install
+```
+
+- Start the Docker containers
+```
+docker compose -f docker-compose73.yml up -d
+```
+then check the containers
+```
+docker compose -f docker-compose73.yml ps
+```
+by default, it should work here http://127.0.0.1:10173/
+
+- Once you complete the setup, you can check if Enpii Base plugin works here
+```
+docker compose -f docker-compose73.yml exec --user=webuser wordpress73 wp enpii-base info
+```
