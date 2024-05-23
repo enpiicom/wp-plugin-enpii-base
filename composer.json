@@ -2,8 +2,8 @@
   "name": "enpii/enpii-base",
   "type": "wordpress-muplugin",
   "description": "The base plugin to have powerful Laravel development on WordPress",
-  "version": "v0.6.3",
-  "time": "2024-05-16 15:14:04",
+  "version": "v0.7.0",
+  "time": "2024-05-23 20:14:04",
   "homepage": "https://enpii.com/wp-plugin-enpii-base",
   "license": "MIT",
   "authors": [
@@ -20,9 +20,10 @@
     }
   ],
   "require": {
-    "spatie/laravel-html": "~3.5.0",
-    "laravel/framework": "^8.0.0|^9.0.0|^10.0.0",
+    "laravel/framework": "~8.83.0",
+    "spatie/laravel-html": "~2.30.0",
     "laravel/tinker": "~2.9.0",
+    "doctrine/dbal": "~3.3.8",
     "mcaskill/composer-exclude-files": "~3.0.0",
     "php": "^7.3|^8.0"
   },

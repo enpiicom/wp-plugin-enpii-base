@@ -41,13 +41,13 @@ class Enpii_Base_Helper {
 	public static function get_setup_app_uri( $full_url = false ): string {
 		$uri = 'wp-app/setup-app?force_app_running_in_console=1';
 
-		return $full_url ? home_url() . '/' . $uri : $uri;
+		return $full_url ? trim( site_url(), '/') . '/' . $uri : $uri;
 	}
 
 	public static function get_admin_setup_app_uri( $full_url = false ): string {
 		$uri = 'wp-app/admin/setup-app?force_app_running_in_console=1';
 
-		return $full_url ? home_url() . '/' . $uri : $uri;
+		return $full_url ? trim( site_url(), '/') . '/' . $uri : $uri;
 	}
 
 	public static function get_wp_login_url( $return_url = '', $force_reauth = false ): string {

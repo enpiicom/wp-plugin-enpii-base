@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('wp_app_sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->text('payload');
-            $table->integer('last_activity')->index();
-			$table->text('activities')->nullable();
-        });
+		if ( ! Schema::hasTable( 'wp_app_sessions' ) ) {
+			Schema::create('wp_app_sessions', function (Blueprint $table) {
+				$table->string('id')->primary();
+				$table->foreignId('user_id')->nullable()->index();
+				$table->string('ip_address', 45)->nullable();
+				$table->text('user_agent')->nullable();
+				$table->text('payload');
+				$table->integer('last_activity')->index();
+				$table->text('activities')->nullable();
+			});
+		}
     }
 
     /**
