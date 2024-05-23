@@ -1,10 +1,10 @@
 services:
-  wordpress81:
+  wordpress73:
     build:
       context: .
-      dockerfile: ./dev-docker/Dockerfile81
+      dockerfile: ./dev-docker/Dockerfile73
     ports:
-      - ${HTTP_EXPOSING_PORT_PREFIX}81:80
+      - ${HTTP_EXPOSING_PORT_PREFIX}73:80
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: always
@@ -18,13 +18,13 @@ services:
     env_file:
       - ./.env
     environment:
-      - ENPII_BASE_FORCE_LEGACY=0
+      - ENPII_BASE_FORCE_LEGACY=1
       - DB_CONNECTION
       - DB_PORT
       - DB_DATABASE
       - DB_USERNAME
       - DB_PASSWORD
-      - DB_TABLE_PREFIX=npb81_
+      - DB_TABLE_PREFIX=npb73_
       - DB_HOST
       - DB_USER
       - DB_NAME

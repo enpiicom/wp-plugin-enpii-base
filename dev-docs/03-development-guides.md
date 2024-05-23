@@ -1,3 +1,5 @@
+## Development guides
+
 ### Install Composer dependencies
 - With new PHP versions (>=8.1) and Laravel (10)
 ```
@@ -5,61 +7,63 @@ XDEBUG=off composer81 install
 ```
 or if you don't have PHP 8.1 locally, you can do
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app npbtrac/php81_cli  composer install
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php81_cli composer install
 ```
 you can do `update` if you want to update new dependencies.
 
 This would have Development tools like `phpcs`, `phpcbf` and `tests` available
-- With legacy PHP versions (^7.3.0 | ~8.0.0) and Laravel (10)
+- With legacy PHP versions (^7.3.0 | ~8.0.0) and Laravel (8)
 ```
-XDEBUG=off composer73 install --no-dev
+XDEBUG=off COMPOSER=composer-legacy.json composer73 install --no-dev
 ```
 or if you don't have PHP 7.3 locally, you can do
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app npbtrac/php73_cli  composer install
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -e COMPOSER=composer-legacy.json -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php73_cli composer install
 ```
 
 If you face errors when running in legacy PHP version, you can skip the dev dependencies
 ```
 XDEBUG=off composer81 install -no-dev
 ```
+and you can check [Troubleshooting docs](05-troubleshooting.md) for more details
 
-### Prepare the `wp-release`
-We need to include all vendors to the repo then remove all `require` things in the composer.json file for skipping dependencies when this package being required.
-- Switch to `wp-release` branch
-- Delete all vendors
+### Development using PHP 8.1
+There's a Docker environment for WordPress instance running on PHP 8.1. You need to have Docker installed then you can do the following:
+- Install needed dependencies (using **composer**)
 ```
-rm -rf vendor vendor-legacy public-assets src wp-app-config database resources
+XDEBUG=off COMPOSER=composer-dev81.json composer install
 ```
-- Copy all needed files from master to this branch
+or if you don't have PHP 8.1 locally, you can do
 ```
-git checkout master -- database public-assets resources src wp-app-config .editorconfig composer-legacy.json composer-legacy.lock composer.json composer.lock enpii-base-bootstrap.php enpii-base-init.php enpii-base.php
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -e COMPOSER=composer-dev81.json -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php81_cli composer install
 ```
-- Install and add vendors
+This command will set up a WordPress instance in `dev-docker/wordpress` folder and load this **Enpii Base** plugin as a Must Use plugin in `dev-docker/wordpress/wp-content/mu-plugins/enpii-base`
+
+- You can **up**
 ```
-composer81 install --no-dev
-COMPOSER=composer-legacy.json composer73 install --no-dev
+docker-compose up -d
 ```
-- Prepare assets
+then list the containers to see working port to use that in your browsers
 ```
-npm install
-npm run build
+docker-compose ps
 ```
-- Then add all files to the repo, commit and push
 
 ### Codestyling (PHPCS)
 - Fix all possible phpcs issues
 ```
 php81 ./vendor/bin/phpcbf
 ```
+
 - Fix possible phpcs issues on a specified folder
 ```
 php81 ./vendor/bin/phpcbf <path/to/the/folder>
 ```
+
 - Find all the phpcs issues
 ```
 php81 ./vendor/bin/phpcs
 ```
+
 - Suppress one or multible phpcs rules for the next below line
 ```
 // phpcs:ignore <rule1>(, <rule2>...)
@@ -68,6 +72,7 @@ or at same line
 ```
 $foo = "bar"; // phpcs:ignore
 ```
+
 - Disable phpcs for a block of code
 ```
 // phpcs:disable
@@ -86,31 +91,51 @@ docker pull npbtrac/php81_cli
 ```
 and whenever you want to rin something, you can do something like this:
 ```
-docker run --rm --interactive --tty -v $PWD:/var/www/html npbtrac/php81_cli ./vendor/bin/codecept build
-```
-- Set up
-```
-php81 ./vendor/bin/codecept build
-```
-- Run Unit Test with Codeception on a specific file (for development purposes)
-```
-php81 ./vendor/bin/codecept run -vvv unit tests/unit/App/Support/Enpii_Base_Helper_Test.php
-```
-- Run Unit Test with PhpUnit on a specific file (for development purposes)
-```
-php81 ./vendor/bin/phpunit --verbose tests/unit/App/Support/Enpii_Base_Helper_Test.php
-```
-- Run Unit Test with Codeception (for the whole unit suite)
-```
-php81 ./vendor/bin/codecept run unit
+docker run --rm --interactive --tty -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit
 ```
 
+- Running `phpunit`
+```
+php81 ./vendor/bin/phpunit
+```
+- Run Unit Test on a specific file (for development purposes)
+```
+php81 ./vendor/bin/phpunit --debug --verbose tests/Unit/Helpers_Test.php
+```
+- Create a Unit Test file
+You can copy `tests/Unit/Sample_Test.php` file to your desired test file
+
 #### Using Coverage report
-- Run Unit Test with Codeception (with coverage report)
-```
-XDEBUG_MODE=coverage php81 ./vendor/bin/codecept run --coverage --coverage-xml --coverage-html unit
-```
 - Run Unit Test with PhpUnit (with coverage report)
 ```
-XDEBUG_MODE=coverage php81 ./vendor/bin/phpunit --coverage-text -vvv tests/unit
+XDEBUG_MODE=coverage php81 ./vendor/bin/phpunit --coverage-text
+```
+or
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit --coverage-text
+```
+
+### Development using PHP 7.3
+- Install needed packages
+```
+COMPOSER=composer-dev73.json composer73 update
+```
+or if you don't have PHP 7.3 locally, you can do
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -e COMPOSER=composer-dev73.json -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php73_cli composer install
+```
+
+- Start the Docker containers
+```
+docker compose -f docker-compose73.yml up -d
+```
+then check the containers
+```
+docker compose -f docker-compose73.yml ps
+```
+by default, it should work here http://127.0.0.1:10173/
+
+- Once you complete the setup, you can check if Enpii Base plugin works here
+```
+docker compose -f docker-compose73.yml exec --user=webuser wordpress73 wp enpii-base info
 ```

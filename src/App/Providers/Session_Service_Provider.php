@@ -10,6 +10,11 @@ use Illuminate\Support\Str;
 
 class Session_Service_Provider extends SessionServiceProvider {
 	public function register() {
+		// If running in WP_CLI, we need to skip the session
+		if ( class_exists( 'WP_CLI' ) && wp_app()->runningInConsole() ) {
+			return;
+		}
+
 		$this->fetch_config();
 
 		parent::register();
@@ -43,7 +48,7 @@ class Session_Service_Provider extends SessionServiceProvider {
 			|
 			*/
 
-			'driver' => env( 'WP_APP_SESSION_DRIVER', 'file' ),
+			'driver' => \Enpii_Base\App\Support\Enpii_Base_Helper::is_setup_app_completed() ? env( 'WP_APP_SESSION_DRIVER', 'database' ) : 'file',
 
 			/*
 			|--------------------------------------------------------------------------

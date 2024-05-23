@@ -5,7 +5,7 @@ $enpii_base_existed = defined( 'ENPII_BASE_PLUGIN_VERSION' );
 defined( 'DIR_SEP' ) || define( 'DIR_SEP', DIRECTORY_SEPARATOR );
 
 // Update these constants whenever you bump the version
-defined( 'ENPII_BASE_PLUGIN_VERSION' ) || define( 'ENPII_BASE_PLUGIN_VERSION', '0.6.2' );
+defined( 'ENPII_BASE_PLUGIN_VERSION' ) || define( 'ENPII_BASE_PLUGIN_VERSION', '0.6.3' );
 
 // We set the slug for the plugin here.
 // This slug will be used to identify the plugin instance from the WP_Applucation container
@@ -25,7 +25,7 @@ defined( 'ENPII_BASE_WP_API_PREFIX' ) || define(
 
 defined( 'ENPII_BASE_FORCE_LEGACY' ) || define(
 	'ENPII_BASE_FORCE_LEGACY',
-	! empty( getenv( 'ENPII_BASE_FORCE_LEGACY' ) ) ? (bool) getenv( 'ENPII_BASE_FORCE_LEGACY' ) : true
+	getenv( 'ENPII_BASE_FORCE_LEGACY' ) !== false && ( strtolower( getenv( 'ENPII_BASE_FORCE_LEGACY' ) ) === 'no' || strtolower( getenv( 'ENPII_BASE_FORCE_LEGACY' ) ) === 'off' || strtolower( getenv( 'ENPII_BASE_FORCE_LEGACY' ) ) === 'false' || strtolower( getenv( 'ENPII_BASE_FORCE_LEGACY' ) ) === '0' ) ? false : true
 );
 
 defined( 'ENPII_BASE_SETUP_HOOK_NAME' ) || define(
