@@ -75,7 +75,7 @@ $foo = 'bar';
 ```
 
 ### Running Unit Test
-We must run the composer and codecept run test using PHP 8.0 (considering `php80` is the alias to your PHP 8.0 executable file)
+We must run the composer and codecept run test using PHP 8.0 (considering `php80` is the alias to your PHP 8.0 executable file). We use PHPUnit 9 to be able to use `mockery/mockery`, `phpspec/prophecy`
 
 If you don't have PHP 8.0 locally, you can use the docker:
 ```
