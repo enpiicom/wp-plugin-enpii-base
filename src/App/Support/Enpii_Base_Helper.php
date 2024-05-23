@@ -111,12 +111,16 @@ class Enpii_Base_Helper {
 		return trim( substr( $site_url, $reverse_pos * ( -1 ) ), '/' );
 	}
 
-	public static function is_setup_app_completed() {
+	public static function get_version_option() {
 		if ( empty( static::$version_option ) ) {
 			static::$version_option = (string) get_option( App_Const::OPTION_VERSION, '0.0.0' );
 		}
 
-		// We have migration for session with db from '0.6.3'
-		return version_compare( static::$version_option, '0.6.3', '>=' );
+		return static::$version_option;
+	}
+
+	public static function is_setup_app_completed() {
+		// We have migration for session with db from '0.7.0'
+		return version_compare( static::get_version_option(), '0.7.0', '>=' );
 	}
 }

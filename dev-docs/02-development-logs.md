@@ -11,6 +11,7 @@ We record our milestones here for people to get to know more.
   - Works as the MU plugin, normal plugin and a composer package.
 With all of these vast requirements, all of our problems started.
   - Can use all possible features of Laravel.
+  - Since 23 May 2024, we decided to use Laravel 8 only and only support PHP `^7.3|^8.0`
 
 ### Started to write the code
 - First, we think using dependencies for Laravel, we may face the conflicts with other plugins that use the same namespace but differ in version. Therefore we try to include the dependencies to the plugin repo itself and use https://github.com/coenjacobs/mozart to replace the namesapce.

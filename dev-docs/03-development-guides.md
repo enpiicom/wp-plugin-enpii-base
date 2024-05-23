@@ -1,29 +1,21 @@
 ## Development guides
 
 ### Install Composer dependencies
-- With new PHP versions (>=8.1) and Laravel (10)
+- Use PHP 8.0 to install dependencies (composer80 = 'php80 composer')
 ```
-XDEBUG=off composer81 install
+XDEBUG=off composer80 install
 ```
-or if you don't have PHP 8.1 locally, you can do
+or if you don't have PHP 8.0 locally, you can do
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php81_cli composer install
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php80_cli composer install
 ```
 you can do `update` if you want to update new dependencies.
 
 This would have Development tools like `phpcs`, `phpcbf` and `tests` available
-- With legacy PHP versions (^7.3.0 | ~8.0.0) and Laravel (8)
-```
-XDEBUG=off COMPOSER=composer-legacy.json composer73 install --no-dev
-```
-or if you don't have PHP 7.3 locally, you can do
-```
-docker run --rm --interactive --tty -e XDEBUG_MODE=off -e COMPOSER=composer-legacy.json -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php73_cli composer install
-```
 
-If you face errors when running in legacy PHP version, you can skip the dev dependencies
+If you face errors when running in legacy PHP versions, you can skip the dev dependencies
 ```
-XDEBUG=off composer81 install -no-dev
+XDEBUG=off composer80 install -no-dev
 ```
 and you can check [Troubleshooting docs](05-troubleshooting.md) for more details
 
@@ -83,24 +75,24 @@ $foo = 'bar';
 ```
 
 ### Running Unit Test
-We must run the composer and codecept run test using PHP 8.0 (considering `php81` is the alias to your PHP 8.1 executable file)
+We must run the composer and codecept run test using PHP 8.0 (considering `php80` is the alias to your PHP 8.0 executable file)
 
-If you don't have PHP 8.1 locally, you can use the docker:
+If you don't have PHP 8.0 locally, you can use the docker:
 ```
-docker pull npbtrac/php81_cli
+docker pull npbtrac/php80_cli
 ```
 and whenever you want to rin something, you can do something like this:
 ```
-docker run --rm --interactive --tty -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit
+docker run --rm --interactive --tty -v $PWD:/app npbtrac/php80_cli ./vendor/bin/phpunit
 ```
 
 - Running `phpunit`
 ```
-php81 ./vendor/bin/phpunit
+php80 ./vendor/bin/phpunit
 ```
 - Run Unit Test on a specific file (for development purposes)
 ```
-php81 ./vendor/bin/phpunit --debug --verbose tests/Unit/Helpers_Test.php
+php80 ./vendor/bin/phpunit --debug --verbose tests/Unit/Helpers_Test.php
 ```
 - Create a Unit Test file
 You can copy `tests/Unit/Sample_Test.php` file to your desired test file
@@ -108,11 +100,11 @@ You can copy `tests/Unit/Sample_Test.php` file to your desired test file
 #### Using Coverage report
 - Run Unit Test with PhpUnit (with coverage report)
 ```
-XDEBUG_MODE=coverage php81 ./vendor/bin/phpunit --coverage-text
+XDEBUG_MODE=coverage php80 ./vendor/bin/phpunit --coverage-text
 ```
 or
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit --coverage-text
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php80_cli ./vendor/bin/phpunit --coverage-text
 ```
 
 ### Development using PHP 7.3
