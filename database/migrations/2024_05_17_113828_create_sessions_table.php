@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
+		Schema::dropIfExists('wp_app_sessions');
 		if ( ! Schema::hasTable( 'wp_app_sessions' ) ) {
 			Schema::create('wp_app_sessions', function (Blueprint $table) {
 				$table->string('id')->primary();

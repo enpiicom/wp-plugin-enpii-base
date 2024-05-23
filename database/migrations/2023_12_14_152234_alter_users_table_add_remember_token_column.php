@@ -11,7 +11,7 @@ class AlterUsersTableAddRememberTokenColumn extends Migration {
 	 * @return void
 	 */
 	public function up() {
-		if ( ! Schema::hasTable( 'users' ) ) {
+		if ( Schema::hasTable( 'users' ) && Schema::hasColumn('users', 'user_registered') ) {
 			Schema::table(
 				'users',
 				function ( Blueprint $table ) {
