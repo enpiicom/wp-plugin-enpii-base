@@ -9,10 +9,10 @@
 	</div>
 @endsection
 
-<!-- @if( ! empty($return_url) )
+@if( ! empty($return_url) )
 <script type="text/javascript">
 	window.setTimeout(function(){
 		window.location.href = '{!! esc_attr($return_url) !!}';
 	}, 500);
 </script>
-@endif -->
+@endif
