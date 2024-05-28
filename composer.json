@@ -28,6 +28,11 @@
     "mcaskill/composer-exclude-files": "~3.0.0",
     "php": "^7.3|^8.0"
   },
+  "require-dev": {
+    "automattic/vipwpcs": "~3.0.0",
+    "phpcompatibility/php-compatibility": "~9.3.5",
+    "dealerdirect/phpcodesniffer-composer-installer": "~1.0.0"
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "repositories": [
