@@ -2,10 +2,11 @@
   "name": "enpii/enpii-base",
   "type": "wordpress-muplugin",
   "require": {
-    "composer/installers": "~2.2.0",
-    "spatie/laravel-html": "~3.5.0",
-    "laravel/framework": "^8.0.0|^9.0.0|^10.0.0",
+    "laravel/framework": "~8.83.0",
+    "spatie/laravel-html": "~2.30.0",
     "laravel/tinker": "~2.9.0",
+    "doctrine/dbal": "~3.3.8",
+    "symfony/var-dumper": "~5.4.39",
     "mcaskill/composer-exclude-files": "~3.0.0",
     "php": "^7.3|^8.0"
   },

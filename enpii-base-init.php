@@ -3,10 +3,12 @@
 //  When we use the composer to load the plugin, this file may be loaded
 //  with the composer autoload before the WP loaded
 
+use Enpii_Base\App\Support\Enpii_Base_Helper;
+
 if ( defined( 'WP_CONTENT_DIR' ) ) {
 	add_action( 'cli_init', 'enpii_base_prepare' );
 
-	if ( ! enpii_base_wp_app_check() ) {
+	if ( ! Enpii_Base_Helper::perform_wp_app_check() ) {
 		// We do nothing but still keep the plugin enabled
 		return;
 	}
