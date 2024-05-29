@@ -52,14 +52,22 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
         $_SERVER['SERVER_NAME'] = 'localhost';
         $_SERVER['SERVER_PORT'] = '8080';
 		$_SERVER['REQUEST_URI'] = '/page';
-        $expected_url = '//localhost:8080/page';
 
 		WP_Mock::userFunction('sanitize_text_field')
 			->times(3)
             ->withAnyArgs()
 			->andReturnValues(['localhost', '8080', '/page']);
 
-        $this->assertEquals($expected_url, Enpii_Base_Helper::get_current_url());
+		$this->assertEquals('//localhost:8080/page', Enpii_Base_Helper::get_current_url());
+
+		$_SERVER['SERVER_PORT'] = null;
+
+		WP_Mock::userFunction('sanitize_text_field')
+			->times(2)
+            ->withAnyArgs()
+			->andReturnValues(['localhost', '/page']);
+
+		$this->assertEquals('//localhost/page', Enpii_Base_Helper::get_current_url());
     }
 
     public function test_get_current_url_with_https(): void {

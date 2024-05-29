@@ -44,7 +44,7 @@ then list the containers to see working port to use that in your browsers
 docker-compose ps
 ```
 
-### Codestyling (PHPCS)
+## Codestyling (PHPCS)
 - Fix all possible phpcs issues
 ```
 php81 ./vendor/bin/phpcbf
@@ -82,40 +82,54 @@ $foo = 'bar';
 // phpcs:enable
 ```
 
-### Running Unit Test
-We must run the composer and codecept run test using PHP 8.0 (considering `php80` is the alias to your PHP 8.0 executable file). We use PHPUnit 9 to be able to use `mockery/mockery`, `phpspec/prophecy`
+## Running Unit Test
+We must run the composer and codecept run test using PHP 8.1 (considering `php81` is the alias to your PHP 8.1 executable file). We use PHPUnit 9 to be able to use `mockery/mockery`, `phpspec/prophecy`
 
-If you don't have PHP 8.0 locally, you can use the docker:
+If you don't have PHP 8.1 locally, you can use the docker:
 ```
-docker pull npbtrac/php80_cli
+docker pull npbtrac/php81_cli
 ```
 and whenever you want to rin something, you can do something like this:
 ```
-docker run --rm --interactive --tty -v $PWD:/app npbtrac/php80_cli ./vendor/bin/phpunit
+docker run --rm --interactive --tty -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit
 ```
 
 - Running `phpunit`
 ```
-php80 ./vendor/bin/phpunit
+php81 ./vendor/bin/phpunit
 ```
 - Run Unit Test on a specific file (for development purposes)
 ```
-php80 ./vendor/bin/phpunit --debug --verbose tests/Unit/Helpers_Test.php
+php81 ./vendor/bin/phpunit --debug --verbose tests/Unit/Helpers_Test.php
 ```
 - Create a Unit Test file
 You can copy `tests/Unit/Sample_Test.php` file to your desired test file
 
-#### Using Coverage report
+### Using Coverage report
 - Run Unit Test with PhpUnit (with coverage report)
 ```
-XDEBUG_MODE=coverage php80 ./vendor/bin/phpunit --coverage-text
+XDEBUG_MODE=coverage php81 ./vendor/bin/phpunit --coverage-text
 ```
 or
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php80_cli ./vendor/bin/phpunit --coverage-text
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit --coverage-text
 ```
 
-### Development using PHP 7.3
+- Run Unit Test with code coverage report on a single file
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli php  -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text --no-configuration --colors --bootstrap=tests/bootstrap-unit.php --debug --verbose ./tests/Unit --whitelist=<path/to/file/to-be-reported>
+```
+e.g
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli php  -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text --no-configuration --colors --bootstrap=tests/bootstrap-unit.php --debug --verbose ./tests/Unit --whitelist=src/App/Support/Enpii_Base_Helper.php
+```
+
+- You can have the html report working by adding `--coverage-html ./tests/_output` to specify the folder to output the report (the HTML report would give you details about the coverage)
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli php  -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text --no-configuration --colors --bootstrap=tests/bootstrap-unit.php --debug --verbose --coverage-html ./tests/_output ./tests/Unit --whitelist=<path/to/file/to-be-reported>
+```
+
+## Development using PHP 7.3
 - Install needed packages
 ```
 COMPOSER=composer-dev73.json composer73 update
