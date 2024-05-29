@@ -1,17 +1,21 @@
-## Development guides
+# Development guides
+- Composer packages are used but because we are having conflicts with other WordPress plugins so we have specific setup to the composer.
+- In `composer.json` we put main packages that are required for the Enpii Base. And we put dev packages that are used for the CodeStyle checking and fixing only. They are not using new dependencies that would not cause the conflicts in WordPress ecosystem when we perform the development.
+- In `composer-dev81.json`, we put extra packages to be able to build up a complete WordPress instance. It contains CodeStyle tools and testing tools (PHPUnit, Codeception)
+- `composer-dev73.json` is simply a setup for running in PHP 7.3 to test the Enpii Base manually.
 
-### Install Composer dependencies
-- Use PHP 8.0 to install dependencies (composer80 = 'php80 composer')
+## Install Composer dependencies
+- Use PHP 7.3 to install dependencies (composer73 = 'php73 composer')
 ```
-XDEBUG=off composer80 install
+XDEBUG=off composer73 install
 ```
-or if you don't have PHP 8.0 locally, you can do
+or if you don't have PHP 7.3 locally, you can do
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php80_cli composer install
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php73_cli composer install
 ```
 you can do `update` if you want to update new dependencies.
 
-This would have Development tools like `phpcs`, `phpcbf` and `tests` available
+This would have Development tools like `phpcs`, `phpcbf`
 
 If you face errors when running in legacy PHP versions, you can skip the dev dependencies
 ```
@@ -19,7 +23,7 @@ XDEBUG=off composer80 install -no-dev
 ```
 and you can check [Troubleshooting docs](05-troubleshooting.md) for more details
 
-### Development using PHP 8.1
+## Development using PHP 8.1
 There's a Docker environment for WordPress instance running on PHP 8.1. You need to have Docker installed then you can do the following:
 - Install needed dependencies (using **composer**)
 ```
@@ -44,6 +48,10 @@ docker-compose ps
 - Fix all possible phpcs issues
 ```
 php81 ./vendor/bin/phpcbf
+```
+or using docker if you don't have PHP 8.1 locally
+```
+docker run --rm --interactive --tty -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpcbf
 ```
 
 - Fix possible phpcs issues on a specified folder
