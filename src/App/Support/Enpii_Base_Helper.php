@@ -21,8 +21,8 @@ class Enpii_Base_Helper {
 			$http_protocol = isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 		}
 
-		$current_url = $http_protocol;
-		$current_url .= '://';
+		$current_url = $http_protocol ?? '';
+		$current_url .= $current_url ? '://' : '//';
 
 		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
 			$current_url .= sanitize_text_field( $_SERVER['HTTP_HOST'] ) . ( isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( $_SERVER['REQUEST_URI'] ) : '' );
