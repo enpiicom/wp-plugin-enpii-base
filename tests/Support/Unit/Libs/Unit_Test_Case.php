@@ -14,9 +14,6 @@ class Unit_Test_Case extends \PHPUnit\Framework\TestCase {
 	protected $wp_app_base_path;
 
 	protected function setUp(): void {
-		// Bootstrap WP_Mock to initialize built-in features
-		WP_Mock::setUsePatchwork( true );
-		WP_Mock::bootstrap();
     }
 
     protected function tearDown(): void {

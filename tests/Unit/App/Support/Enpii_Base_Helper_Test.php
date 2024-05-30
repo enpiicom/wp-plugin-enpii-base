@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Enpii_Base\Tests\Unit;
+namespace Enpii_Base\Tests\Unit\App\Support;
 
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;

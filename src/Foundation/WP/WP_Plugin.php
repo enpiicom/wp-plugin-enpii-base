@@ -55,7 +55,7 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 		$plugin = new static( wp_app() );
 		$plugin->init_with_needed_params( $slug, $base_path, $base_url );
 
-		// Attch the
+		// Attach the plugin to WP Application instance
 		$plugin->attach_to_wp_app();
 
 		// We want to handle the hooks first
