@@ -1,33 +1,29 @@
-## Development guides
+# Development guides
+- Composer packages are used but because we are having conflicts with other WordPress plugins so we have specific setup to the composer.
+- In `composer.json` we put main packages that are required for the Enpii Base. And we put dev packages that are used for the CodeStyle checking and fixing only. They are not using new dependencies that would not cause the conflicts in WordPress ecosystem when we perform the development.
+- In `composer-dev81.json`, we put extra packages to be able to build up a complete WordPress instance. It contains CodeStyle tools and testing tools (PHPUnit, Codeception)
+- `composer-dev73.json` is simply a setup for running in PHP 7.3 to test the Enpii Base manually.
 
-### Install Composer dependencies
-- With new PHP versions (>=8.1) and Laravel (10)
+## Install Composer dependencies
+- Use PHP 7.3 to install dependencies (composer73 = 'php73 composer')
 ```
-XDEBUG=off composer81 install
-```
-or if you don't have PHP 8.1 locally, you can do
-```
-docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php81_cli composer install
-```
-you can do `update` if you want to update new dependencies.
-
-This would have Development tools like `phpcs`, `phpcbf` and `tests` available
-- With legacy PHP versions (^7.3.0 | ~8.0.0) and Laravel (8)
-```
-XDEBUG=off COMPOSER=composer-legacy.json composer73 install --no-dev
+XDEBUG=off composer73 install
 ```
 or if you don't have PHP 7.3 locally, you can do
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=off -e COMPOSER=composer-legacy.json -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php73_cli composer install
+docker run --rm --interactive --tty -e XDEBUG_MODE=off -v $PWD:/app -v ~/.composer:/root/.composer npbtrac/php73_cli composer install
 ```
+you can do `update` if you want to update new dependencies.
 
-If you face errors when running in legacy PHP version, you can skip the dev dependencies
+This would have Development tools like `phpcs`, `phpcbf`
+
+If you face errors when running in legacy PHP versions, you can skip the dev dependencies
 ```
-XDEBUG=off composer81 install -no-dev
+XDEBUG=off composer80 install -no-dev
 ```
 and you can check [Troubleshooting docs](05-troubleshooting.md) for more details
 
-### Development using PHP 8.1
+## Development using PHP 8.1
 There's a Docker environment for WordPress instance running on PHP 8.1. You need to have Docker installed then you can do the following:
 - Install needed dependencies (using **composer**)
 ```
@@ -48,10 +44,14 @@ then list the containers to see working port to use that in your browsers
 docker-compose ps
 ```
 
-### Codestyling (PHPCS)
+## Codestyling (PHPCS)
 - Fix all possible phpcs issues
 ```
 php81 ./vendor/bin/phpcbf
+```
+or using docker if you don't have PHP 8.1 locally
+```
+docker run --rm --interactive --tty -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpcbf
 ```
 
 - Fix possible phpcs issues on a specified folder
@@ -82,8 +82,8 @@ $foo = 'bar';
 // phpcs:enable
 ```
 
-### Running Unit Test
-We must run the composer and codecept run test using PHP 8.0 (considering `php81` is the alias to your PHP 8.1 executable file)
+## Running Unit Test
+We must run the composer and codecept run test using PHP 8.1 (considering `php81` is the alias to your PHP 8.1 executable file). We use PHPUnit 9 to be able to use `mockery/mockery`, `phpspec/prophecy`
 
 If you don't have PHP 8.1 locally, you can use the docker:
 ```
@@ -105,7 +105,7 @@ php81 ./vendor/bin/phpunit --debug --verbose tests/Unit/Helpers_Test.php
 - Create a Unit Test file
 You can copy `tests/Unit/Sample_Test.php` file to your desired test file
 
-#### Using Coverage report
+### Using Coverage report
 - Run Unit Test with PhpUnit (with coverage report)
 ```
 XDEBUG_MODE=coverage php81 ./vendor/bin/phpunit --coverage-text
@@ -115,7 +115,21 @@ or
 docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli ./vendor/bin/phpunit --coverage-text
 ```
 
-### Development using PHP 7.3
+- Run Unit Test with code coverage report on a single file
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli php  -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text --no-configuration --colors --bootstrap=tests/bootstrap-unit.php --debug --verbose ./tests/Unit --whitelist=<path/to/file/to-be-reported>
+```
+e.g
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli php  -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text --no-configuration --colors --bootstrap=tests/bootstrap-unit.php --debug --verbose ./tests/Unit --whitelist=src/App/Support/Enpii_Base_Helper.php
+```
+
+- You can have the html report working by adding `--coverage-html ./tests/_output` to specify the folder to output the report (the HTML report would give you details about the coverage)
+```
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli php  -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text --no-configuration --colors --bootstrap=tests/bootstrap-unit.php --debug --verbose --coverage-html ./tests/_output ./tests/Unit --whitelist=<path/to/file/to-be-reported>
+```
+
+## Development using PHP 7.3
 - Install needed packages
 ```
 COMPOSER=composer-dev73.json composer73 update

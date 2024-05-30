@@ -18,7 +18,6 @@ services:
     env_file:
       - ./.env
     environment:
-      - ENPII_BASE_FORCE_LEGACY=1
       - DB_CONNECTION
       - DB_PORT
       - DB_DATABASE

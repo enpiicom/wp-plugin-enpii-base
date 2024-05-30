@@ -2,8 +2,8 @@
   "name": "enpii/enpii-base",
   "type": "wordpress-muplugin",
   "description": "The base plugin to have powerful Laravel development on WordPress",
-  "version": "v0.6.3",
-  "time": "2024-05-16 15:14:04",
+  "version": "v0.7.0",
+  "time": "2024-05-23 20:14:04",
   "homepage": "https://enpii.com/wp-plugin-enpii-base",
   "license": "MIT",
   "authors": [
@@ -20,23 +20,18 @@
     }
   ],
   "require": {
-    "spatie/laravel-html": "~3.5.0",
-    "laravel/framework": "^8.0.0|^9.0.0|^10.0.0",
+    "laravel/framework": "~8.83.0",
+    "spatie/laravel-html": "~2.30.0",
     "laravel/tinker": "~2.9.0",
+    "doctrine/dbal": "~3.3.8",
+    "symfony/var-dumper": "~5.4.39",
     "mcaskill/composer-exclude-files": "~3.0.0",
     "php": "^7.3|^8.0"
   },
   "require-dev": {
     "automattic/vipwpcs": "~3.0.0",
     "phpcompatibility/php-compatibility": "~9.3.5",
-    "dealerdirect/phpcodesniffer-composer-installer": "~1.0.0",
-    "phpunit/phpunit": "~9.6",
-    "mockery/mockery": "~1.6",
-    "brain/monkey": "~2.6.0",
-    "10up/wp_mock": "~1.0.0",
-    "codeception/codeception": "~5.0.0",
-    "codeception/module-asserts": "~3.0",
-    "codeception/module-phpbrowser": "~3.0"
+    "dealerdirect/phpcodesniffer-composer-installer": "~1.0.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -72,12 +67,13 @@
   },
   "config": {
     "platform": {
-      "php": "8.1.0"
+      "php": "7.3.0"
     },
     "platform-check": false,
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "mcaskill/composer-exclude-files": true
+      "mcaskill/composer-exclude-files": true,
+      "composer/installers": true
     },
     "vendor-dir": "./vendor",
     "sort-packages": true

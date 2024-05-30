@@ -6,11 +6,16 @@ namespace Enpii_Base\App\Http\Controllers;
 
 use Enpii_Base\App\Http\Request;
 use Enpii_Base\App\Jobs\Mark_Setup_WP_App_Done;
+use Enpii_Base\App\Jobs\Mark_Setup_WP_App_Failed;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\WP\Enpii_Base_WP_Plugin;
 use Enpii_Base\Foundation\Http\Base_Controller;
 use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use WP_Query;
 
 class Main_Controller extends Base_Controller {
 	public function index() {
@@ -24,6 +29,29 @@ class Main_Controller extends Base_Controller {
 			[
 				'message' => empty( Auth::user() ) ? 'Hello guest, welcome to WP App home screen' : sprintf( 'Logged-in user is here, username %s, user ID %s', Auth::user()->ID, Auth::user()->user_login ),
 			]
+		);
+	}
+
+	/**
+	 * Display the content for the WP Homepage
+	 * @return View|Factory
+	 * @throws Exception
+	 * @throws BindingResolutionException
+	 */
+	public function home() {
+		if ( ! wp_app_config( 'app.debug' ) ) {
+			header( 'Location: ' . home_url() );
+			exit( 0 );
+		}
+
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		$GLOBALS['wp_query'] = new WP_Query(
+			[
+				'post_type' => 'post',
+			]
+		);
+		return Enpii_Base_WP_Plugin::wp_app_instance()->view(
+			'main/home',
 		);
 	}
 
@@ -43,13 +71,10 @@ class Main_Controller extends Base_Controller {
 			// If no exception thrown earlier, we can consider the setup script is done
 			Mark_Setup_WP_App_Done::execute_now();
 		} else {
-			// We need to flag issue to the db
-			update_option( App_Const::OPTION_SETUP_INFO, 'failed', false );
-
-			do_action( App_Const::ACTION_WP_APP_MARK_SETUP_APP_FAILED );
+			Mark_Setup_WP_App_Failed::execute_now( $e->getMessage() );
 		}
 
-		// Then return to the previous URL
+		/** Then return to the previous URL  */
 		$return_url = $request->get( 'return_url', home_url() );
 
 		header( 'Location: ' . $return_url );

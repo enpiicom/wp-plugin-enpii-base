@@ -11,13 +11,15 @@ We record our milestones here for people to get to know more.
   - Works as the MU plugin, normal plugin and a composer package.
 With all of these vast requirements, all of our problems started.
   - Can use all possible features of Laravel.
+  - Since 23 May 2024, we decided to use Laravel 8 only and only support PHP `^7.3|^8.0`
 
 ### Started to write the code
 - First, we think using dependencies for Laravel, we may face the conflicts with other plugins that use the same namespace but differ in version. Therefore we try to include the dependencies to the plugin repo itself and use https://github.com/coenjacobs/mozart to replace the namesapce.
   - We have to manually change the namespace everywhere to make everything works. That's a crazy task because the amount of files are huge.
 - As we want to support PHP 7.2.5+, we decide to go with Laravel 7. But we soon found out that, Laravel 7 doesn't work well with PHP8.1 so we have to tweak the Laravel 7 to work with PHP 8.1+. That's another crazy task because of the huge amount of files.
 - Then after several weeks, we saw that many Laravel package that didn't work well when we change the Laravel namespace (e.g. Telescope, Tinker) and we thought, we need to keep all the packages works so ... we decided to use the default namespace of Laravel. We revert all the changes for replacing namespace. Crazy thing!
-- This time, we decided to use 2 Laravel version, Laravel 7 (for PHP ^7.2.5 - ~8.0.0) and Laravel 10 (for PHP 8.1+), we created 2 composer files for that.
+- This time, we decided to use 2 Laravel versions, Laravel 7 (for PHP ^7.2.5 - ~8.0.0) and Laravel 10 (for PHP 8.1+), we created 2 composer files for that.
+- After testing on several sites, we find it complicated to make Laravel 10 working with WordPress ecosystem. So since 23 May 2024, we decide to use 1 single version of Laravel 8 and PHP 8.0 should be used for development. That's ... awesome!
 
 ### Gradually build the plugin
 - When included Laravel to WordPress, we bumped into the first issues. Laravel used the filesystem to read the configs because it has the fixed base path but in WordPress, we would not know how the Enpii Base plugin works, so we cannot use a fixed base path and therefore, we can not use files to store the configs. The solution was creating a fake base path (mainly for generated files) and use array to store configs in memory (we tweaked the `config` instance of the app).

@@ -17,14 +17,16 @@ class Register_Base_WP_App_Routes {
 	 * @return void
 	 */
 	public function handle(): void {
+		// We need to add the trailing slash to the 'uri' to match the WP rewrite rule
 		// For Frontend
 		Route::get( '/', [ Main_Controller::class, 'index' ] );
+		Route::get( 'home', [ Main_Controller::class, 'home' ] );
 		Route::get( 'setup-app', [ Main_Controller::class, 'setup_app' ] )->name( 'setup-app' );
 
 		// For Logged in User and redirect to login if not logged in
 		Route::group(
 			[
-				'prefix' => '/wp-admin',
+				'prefix' => '/dashboard',
 				'middleware' => [
 					'auth',
 				],
@@ -39,7 +41,7 @@ class Register_Base_WP_App_Routes {
 			[
 				'prefix' => '/admin',
 				'middleware' => [
-					'authenticate_is_wp_user_admin',
+					'wp_user_can_and:administrator',
 				],
 			],
 			function () {

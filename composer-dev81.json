@@ -2,10 +2,11 @@
   "name": "enpii/enpii-base",
   "type": "wordpress-muplugin",
   "require": {
-    "composer/installers": "~2.2.0",
-    "spatie/laravel-html": "~3.5.0",
-    "laravel/framework": "^8.0.0|^9.0.0|^10.0.0",
+    "laravel/framework": "~8.83.0",
+    "spatie/laravel-html": "~2.30.0",
     "laravel/tinker": "~2.9.0",
+    "doctrine/dbal": "~3.3.8",
+    "symfony/var-dumper": "~5.4.39",
     "mcaskill/composer-exclude-files": "~3.0.0",
     "php": "^7.3|^8.0"
   },
@@ -21,6 +22,7 @@
     "dealerdirect/phpcodesniffer-composer-installer": "~1.0.0",
     "phpunit/phpunit": "~9.6",
     "mockery/mockery": "~1.6",
+    "phpspec/prophecy": "~1.19.0",
     "brain/monkey": "~2.6.0",
     "10up/wp_mock": "~1.0.0",
     "codeception/codeception": "~5.0.0",

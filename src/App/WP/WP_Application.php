@@ -121,9 +121,10 @@ class WP_Application extends Application {
 	/**
 	 * @inheritDoc
 	 */
-	public function runningInConsole(): ?bool {
+	public function runningInConsole() {
 		if ( $this->isRunningInConsole === null ) {
 			if (
+				( strpos( wp_app_request()->getPathInfo(), '/setup-app' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
 				( strpos( wp_app_request()->getPathInfo(), '/admin' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
 				( strpos( wp_app_request()->getPathInfo(), '/web-worker' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
 				Enpii_Base_Helper::at_setup_app_url()
@@ -247,11 +248,11 @@ class WP_Application extends Application {
 		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
 		$base_url_path = Enpii_Base_Helper::get_base_url_path();
 
-		return ( strpos( $uri, $base_url_path . '/' . $wp_app_prefix . '/' ) === 0 || $uri === '/' . $wp_app_prefix );
+		return ( strpos( $uri, $base_url_path . '/' . $wp_app_prefix . '/' ) === 0 || $uri === '/' . $wp_app_prefix || $uri === '/' . $wp_app_prefix . '/' );
 	}
 
 	/**
-	 * For checking if the request uri is for 'wp-app'
+	 * For checking if the request uri is for 'wp-api'
 	 *
 	 * @return bool
 	 * @throws \Exception
@@ -261,37 +262,15 @@ class WP_Application extends Application {
 		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
 		$base_url_path = Enpii_Base_Helper::get_base_url_path();
 
-		return ( strpos( $uri, $base_url_path . '/' . $wp_api_prefix . '/' ) === 0 || $uri === '/' . $wp_api_prefix );
-	}
-
-	/**
-	 * For checking if the request uri is for 'wp-app'
-	 *
-	 * @return bool
-	 * @throws \Exception
-	 */
-	public function is_wp_site_mode(): bool {
-		$wp_site_prefix = 'site';
-		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
-
-		return ( strpos( $uri, '/' . $wp_site_prefix . '/' ) === 0 || $uri === '/' . $wp_site_prefix );
+		return ( strpos( $uri, $base_url_path . '/' . $wp_api_prefix . '/' ) === 0 || $uri === '/' . $wp_api_prefix || $uri === '/' . $wp_api_prefix . '/' );
 	}
 
 	public function get_laravel_major_version(): int {
 		return (int) enpii_base_get_major_version( Application::VERSION );
 	}
 
-	public function get_composer_folder_name(): string {
-		// We only want to have these Watches on Laravel 8+
-		if ( version_compare( '9.0.0', Application::VERSION, '>' ) ) {
-			return 'vendor-legacy';
-		}
-
-		return 'vendor';
-	}
-
 	public function get_composer_path(): string {
-		return defined( 'COMPOSER_VENDOR_DIR' ) ? COMPOSER_VENDOR_DIR : dirname( $this->resourcePath() ) . DIR_SEP . $this->get_composer_folder_name();
+		return defined( 'COMPOSER_VENDOR_DIR' ) ? COMPOSER_VENDOR_DIR : dirname( $this->resourcePath() ) . DIR_SEP . 'vendor';
 	}
 
 	public function set_wp_headers( $headers ) {
