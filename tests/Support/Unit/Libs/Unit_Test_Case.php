@@ -5,6 +5,7 @@ namespace Enpii_Base\Tests\Support\Unit\Libs;
 use Enpii_Base\App\WP\WP_Application;
 use Enpii_Base\Tests\Support\Helpers\Test_Utils_Trait;
 use Mockery;
+use WP_Mock;
 
 class Unit_Test_Case extends \PHPUnit\Framework\TestCase {
 	use Test_Utils_Trait;
@@ -13,6 +14,9 @@ class Unit_Test_Case extends \PHPUnit\Framework\TestCase {
 	protected $wp_app_base_path;
 
 	protected function setUp(): void {
+		// Bootstrap WP_Mock to initialize built-in features
+		WP_Mock::setUsePatchwork( true );
+		WP_Mock::bootstrap();
     }
 
     protected function tearDown(): void {
