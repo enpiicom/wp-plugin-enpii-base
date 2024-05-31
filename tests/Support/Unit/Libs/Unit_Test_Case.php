@@ -14,11 +14,11 @@ class Unit_Test_Case extends \PHPUnit\Framework\TestCase {
 	protected $wp_app_base_path;
 
 	protected function setUp(): void {
-    }
+	}
 
-    protected function tearDown(): void {
-        Mockery::close();
-    }
+	protected function tearDown(): void {
+		Mockery::close();
+	}
 
 	protected function setup_wp_app() {
 		$this->wp_app_base_path = codecept_root_dir();

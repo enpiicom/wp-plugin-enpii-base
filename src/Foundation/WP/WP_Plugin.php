@@ -103,6 +103,11 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 		return plugin_basename( $this->get_base_path() . DIR_SEP . $this->get_plugin_slug() . '.php' );
 	}
 
+	public function register_this_to_wp_app( $wp_app ) {
+		/** @var \Enpii_Base\App\WP\WP_Application $wp_app */
+		$wp_app->register( $this );
+	}
+
 	/**
 	 * We want to init all needed properties with this method
 	 *
@@ -138,13 +143,9 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 		wp_app()->alias( static::class, 'plugin-' . $this->get_plugin_slug() );
 
 		// We want to register the WP_Plugin after all needed Service Providers
-		$plugin = $this;
 		add_action(
 			App_Const::ACTION_WP_APP_REGISTERED,
-			function ( $wp_app ) use ( $plugin ) {
-				/** @var \Enpii_Base\App\WP\WP_Application $wp_app */
-				$wp_app->register( $plugin );
-			}
+			[ $this, 'register_this_to_wp_app' ]
 		);
 	}
 
