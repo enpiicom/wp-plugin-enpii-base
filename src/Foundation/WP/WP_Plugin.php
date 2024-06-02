@@ -187,8 +187,9 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	// phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.namespaceFound
 	protected function prepare_views_paths( $namespace ): void {
 		// We only want to search for the namespace folder in the theme `resources/views/_plugins/$namespace if it exists
+		$theme_path = get_stylesheet_directory();
 		$theme_namespace_folder = realpath(
-			get_stylesheet_directory() . DIR_SEP . 'resources' . DIR_SEP . 'views'
+			$theme_path . DIR_SEP . 'resources' . DIR_SEP . 'views'
 			. DIR_SEP . '_plugins' . DIR_SEP . $namespace
 		);
 		! $theme_namespace_folder || $this->loadViewsFrom(
@@ -196,10 +197,11 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 			$namespace
 		);
 
-		if ( get_template_directory() !== get_stylesheet_directory() ) {
+		$parent_theme_path = get_template_directory();
+		if ( $parent_theme_path !== $theme_path ) {
 			// We only want to search for the namespace folder in parent theme `resources/views/_plugins/$namespace if it exists
 			$parent_theme_namespace_folder = realpath(
-				get_stylesheet_directory() . DIR_SEP . 'resources' . DIR_SEP . 'views'
+				$parent_theme_path . DIR_SEP . 'resources' . DIR_SEP . 'views'
 				. DIR_SEP . '_plugins' . DIR_SEP . $namespace
 			);
 			! $parent_theme_namespace_folder || $this->loadViewsFrom(
@@ -210,42 +212,9 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 
 		// The folder for the plugin view namespace is `<plugin-path>/resources/views
 		$plugin_namespace_folder = $this->get_base_path() . DIR_SEP . 'resources' . DIR_SEP . 'views';
-		! $plugin_namespace_folder || $this->loadViewsFrom(
+		$this->loadViewsFrom(
 			$plugin_namespace_folder,
 			$namespace
 		);
-	}
-
-	/**
-	 * We want give info that this plugin is activated
-	 * @return void
-	 * @throws Exception
-	 */
-	protected function setup_activated_info() {
-		$info_messages = (array) Session::get( 'info' );
-		$info_messages[] = sprintf(
-			// translators: %s is replace by a string, plugin name.
-			__( 'Plugin <strong>%s</strong> activated', 'enpii' ),
-			$this->get_name()
-		);
-		Session::put( 'info', $info_messages );
-	}
-
-	/**
-	 * We want to check if ACF Pro plugin is loaded,
-	 *  if not, flash a caution (warning)
-	 * @return void
-	 * @throws Exception
-	 */
-	protected function check_acf_pro_plugin() {
-		$caution_messages = (array) Session::get( 'caution' );
-		if ( ! class_exists( 'acf_pro' ) ) {
-			$caution_messages[] = sprintf(
-				// translators: %s is replace by a string, plugin, theme or package name(s)
-				__( 'This theme needs <strong>%s</strong> to work properly.', 'enpii' ),
-				'Plugin ACF Pro'
-			);
-		}
-		Session::put( 'caution', $caution_messages );
 	}
 }
