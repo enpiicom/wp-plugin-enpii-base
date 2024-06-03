@@ -5,7 +5,7 @@ We use PHPUnit to perform the Unit Tests. We still use PHPUnit 9 because of seve
 ## Run Unit Test
 - Run PHPUnit with Code coverage report (HTML)
 ```
-php -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --verbose --coverage-html ./tests/_output
+php -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --verbose --coverage-html ./tests/_output/coverage-full
 ```
 or using docker (without PHP8.1 locally)
 ```

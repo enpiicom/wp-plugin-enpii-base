@@ -11,6 +11,22 @@ suites:
       enabled:
         - Asserts
         - Enpii_Base\Tests\Support\Helpers\Unit
+    coverage:
+      remote: false
+      enabled: true
+      include:
+        - ./src/*
+      exclude:
+        - ./src/helpers.php
+        - ./src/Foundation/helpers-overrides.php
+        - ./src/Foundation/helpers-wp-app.php
+        - ./src/Foundation/Support/helpers-utils.php
+      format: html
+      lower_limit: 30
+      upper_limit: 80
+      processUncoveredFiles: true
+      show_only_summary: false
+      show_uncovered: true
 paths:
   tests  : tests          # where the tests stored
   data   : tests/_data    # directory for fixture data
