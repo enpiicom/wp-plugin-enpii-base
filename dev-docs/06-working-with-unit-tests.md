@@ -9,7 +9,7 @@ php -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit -
 ```
 or using docker (without PHP8.1 locally)
 ```
-docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli php  -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --verbose --coverage-html ./tests/_output
+docker run --rm --interactive --tty -e XDEBUG_MODE=coverage -v $PWD:/app npbtrac/php81_cli php  -d xdebug.max_nesting_level=512 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-html ./tests/_output
 ```
 
 - Run PHPUnit on one single file, with method patern to test and perform the coverage check for the file to check
