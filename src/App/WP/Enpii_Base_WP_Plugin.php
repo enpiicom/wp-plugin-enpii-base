@@ -98,15 +98,17 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		//  it can't be removed
 		add_action(
 			App_Const::ACTION_WP_APP_BOOTSTRAP,
-			function () {
-				Bootstrap_WP_App::execute_now();
-			},
+			[ $this, 'bootstrap_wp_app' ],
 			5
 		);
 
 		// If running in WP_CLI, we need to skip this
 		if ( ! class_exists( 'WP_CLI' ) ) {
-			add_action( App_Const::ACTION_WP_APP_INIT, [ $this, 'build_wp_app_response_via_middleware' ], 5 );
+			add_action(
+				App_Const::ACTION_WP_APP_INIT,
+				[ $this, 'build_wp_app_response_via_middleware' ],
+				5
+			);
 			add_action( App_Const::ACTION_WP_APP_INIT, [ $this, 'sync_wp_user_to_wp_app_user' ] );
 		}
 
