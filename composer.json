@@ -54,6 +54,7 @@
       "enpii-base-init.php"
     ],
     "psr-4": {
+      "Carbon\\Traits\\Creator\\": "src/Foundation/Support/Carbon/Traits/Creator.php",
       "Enpii_Base\\Deps\\": "src-deps",
       "Enpii_Base\\": "src"
     }
@@ -84,6 +85,12 @@
     ]
   },
   "scripts": {
+    "post-install-cmd": [
+      "@php -r \"copy('src-override/nesbot/carbon/src/Carbon/Traits/Creator.php', 'vendor/nesbot/carbon/src/Carbon/Traits/Creator.php');\""
+    ],
+    "post-update-cmd": [
+      "@php -r \"copy('src-override/nesbot/carbon/src/Carbon/Traits/Creator.php', 'vendor/nesbot/carbon/src/Carbon/Traits/Creator.php');\""
+    ],
     "phpcs": [
       "./vendor/bin/phpcs"
     ],

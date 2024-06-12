@@ -222,15 +222,21 @@ class Enpii_Base_Helper {
 	}
 
 	public static function use_enpii_base_error_handler() {
-		$use_error_handler = defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) && (bool) ENPII_BASE_USE_ERROR_HANDLER ? true : false;
+		$use_error_handler = defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) ? (bool) ENPII_BASE_USE_ERROR_HANDLER : ( getenv( 'ENPII_BASE_USE_ERROR_HANDLER' ) !== false ? (bool) getenv( 'ENPII_BASE_USE_ERROR_HANDLER' ) : false );
 
 		return apply_filters( 'enpii_base_use_error_handler', $use_error_handler );
 	}
 
 	public static function use_blade_for_wp_template() {
-		$blade_for_template = defined( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) && (bool) ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE ? true : false;
+		$blade_for_template = defined( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) ? (bool) ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE : ( getenv( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) !== false ? (bool) getenv( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) : false );
 
 		return apply_filters( 'enpii_base_use_blade_for_wp_template', $blade_for_template );
+	}
+
+	public static function disable_web_worker() {
+		$disable_web_worker = defined( 'ENPII_BASE_DISABLE_WEB_WORKER' ) ? (bool) ENPII_BASE_DISABLE_WEB_WORKER : ( getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) !== false ? (bool) getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) : false );
+
+		return apply_filters( 'enpii_base_disable_web_worker', $disable_web_worker );
 	}
 
 	public static function get_wp_app_base_path() {
@@ -290,6 +296,7 @@ class Enpii_Base_Helper {
 		);
 	}
 
+	// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 	public static function wp_cli_prepare( $args, $assoc_args ): void {
 		static::prepare_wp_app_folders();
 	}
