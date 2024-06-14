@@ -16,14 +16,14 @@ class Perform_Web_Worker {
 			return;
 		}
 
-		// We want to try a job 2 times after marking it failed
+		// We want to try a job 1 time
 		//  and we only want to retry a job 7 minutes after
 		Artisan::call(
 			'queue:work',
 			[
 				'connection' => $this->get_site_database_queue_connection(),
 				'--queue' => $this->get_site_default_queue(),
-				'--tries' => 2,
+				'--tries' => 1,
 				'--backoff' => $this->get_queue_backoff(),
 				'--quiet' => true,
 				'--stop-when-empty' => true,
