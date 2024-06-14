@@ -2,6 +2,7 @@
 
 namespace Enpii_Base\App\Jobs;
 
+use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 
 class Init_WP_App_Kernels {

@@ -19,6 +19,12 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+		<exclude>
+            <file>./src/helpers.php</file>
+            <file>./src/Foundation/helpers-overrides.php</file>
+            <file>./src/Foundation/helpers-wp-app.php</file>
+            <file>./src/Foundation/Support/helpers-utils.php</file>
+        </exclude>
     </coverage>
 
     <php>

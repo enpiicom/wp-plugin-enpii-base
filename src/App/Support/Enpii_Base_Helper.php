@@ -7,6 +7,7 @@ namespace Enpii_Base\App\Support;
 class Enpii_Base_Helper {
 	public static $version_option;
 	public static $setup_info;
+	public static $wp_app_check = null;
 
 	public static function get_current_url(): string {
 		if ( empty( $_SERVER['SERVER_NAME'] ) && empty( $_SERVER['HTTP_HOST'] ) ) {
@@ -101,12 +102,12 @@ class Enpii_Base_Helper {
 		$network_site_url = network_site_url();
 
 		if ( $site_url === $network_site_url ) {
-			return false;
+			return null;
 		}
 
 		$reverse_pos = strpos( strrev( $site_url ), strrev( $network_site_url ) );
 		if ( $reverse_pos === false ) {
-			return false;
+			return null;
 		}
 
 		return trim( substr( $site_url, $reverse_pos * ( -1 ) ), '/' );
@@ -142,42 +143,161 @@ class Enpii_Base_Helper {
 	 *  If the setup process failed, we should return false and raise the notice in the Admin
 	 */
 	public static function perform_wp_app_check(): bool {
-		if ( ! isset( $GLOBALS['wp_app_setup_errors'] ) ) {
-			$GLOBALS['wp_app_setup_errors'] = [];
+		// We only want to perform the checking once
+		if ( static::$wp_app_check !== null ) {
+			return (bool) static::$wp_app_check;
+		}
+
+		if ( ! extension_loaded( 'pdo_mysql' ) ) {
+			$error_message = sprintf(
+				// translators: %1$s is replaced by a string, extension name
+				__( 'Error with PHP extention %1$s. Please enable PHP extension %1$s via your hosting Control Panel or contact your hosting Admin for that.', 'enpii' ),
+				'PDO MySQL'
+			);
+			static::add_wp_app_setup_errors( $error_message );
+		}
+
+		if ( empty( static::get_wp_app_setup_errors() ) && static::is_setup_app_completed() ) {
+			static::$wp_app_check = apply_filters( App_Const::FILTER_WP_APP_CHECK, true );
+
+			return static::$wp_app_check;
 		}
 
 		// We only want to check if it's not in the setup url
-		if ( static::is_setup_app_failed() && ! static::at_setup_app_url() && ! static::at_admin_setup_app_url() ) {
+		if ( ! static::at_setup_app_url() && ! static::at_admin_setup_app_url() && static::is_setup_app_failed() ) {
 			$error_message = sprintf(
 				// translators: %1$s is replaced by a string, url
 				__( 'The setup has not been done correctly. Please go to this URL <a href="%1$s">%1$s</a> to complete the setup', 'enpii' ),
 				static::get_admin_setup_app_uri( true )
 			);
-			if ( ! isset( $GLOBALS['wp_app_setup_errors'][ $error_message ] ) ) {
-				$GLOBALS['wp_app_setup_errors'][ $error_message ] = false;
-			}
+			static::add_wp_app_setup_errors( $error_message );
 		}
 
 		if ( ! empty( $GLOBALS['wp_app_setup_errors'] ) ) {
-			add_action(
-				'admin_notices',
-				function () {
-					$error_content = '';
-					foreach ( (array) $GLOBALS['wp_app_setup_errors'] as $error_message => $displayed ) {
-						if ( ! $displayed && $error_message ) {
-							$error_content .= '<p>' . $error_message . '</p>';
-							$GLOBALS['wp_app_setup_errors'][ $error_message ] = true;
-						}
-					}
-					if ( $error_content ) {
-						echo '<div class="notice notice-error">' . wp_kses_post( $error_content ) . '</div>';
-					}
-				}
-			);
+			static::put_messages_to_wp_admin_notice( $GLOBALS['wp_app_setup_errors'] );
+			static::$wp_app_check = apply_filters( App_Const::FILTER_WP_APP_CHECK, false );
 
-			return apply_filters( App_Const::FILTER_WP_APP_CHECK, false );
+			return static::$wp_app_check;
 		}
 
+		static::$wp_app_check = apply_filters( App_Const::FILTER_WP_APP_CHECK, true );
+
 		return apply_filters( App_Const::FILTER_WP_APP_CHECK, true );
+	}
+
+	public static function put_messages_to_wp_admin_notice( array &$error_messages ): void {
+		add_action(
+			'admin_notices',
+			function () use ( $error_messages ) {
+				$error_content = '';
+				foreach ( $error_messages as $error_message => $displayed ) {
+					if ( ! $displayed && $error_message ) {
+						$error_content .= '<p>' . $error_message . '</p>';
+						$error_messages[ $error_message ] = true;
+					}
+				}
+				if ( $error_content ) {
+					echo '<div class="notice notice-error">' . wp_kses_post( $error_content ) . '</div>';
+				}
+			}
+		);
+	}
+
+	public static function is_console_mode() {
+		return ( (string) php_sapi_name() === 'cli' || (string) php_sapi_name() === 'phpdbg' || (string) php_sapi_name() === 'cli-server' );
+	}
+
+	public static function add_wp_app_setup_errors( $error_message ) {
+		if ( ! isset( $GLOBALS['wp_app_setup_errors'] ) ) {
+			$GLOBALS['wp_app_setup_errors'] = [];
+		}
+
+		if ( ! isset( $GLOBALS['wp_app_setup_errors'][ $error_message ] ) ) {
+			$GLOBALS['wp_app_setup_errors'][ $error_message ] = false;
+		}
+	}
+
+	public static function get_wp_app_setup_errors() {
+		return isset( $GLOBALS['wp_app_setup_errors'] ) ? (array) $GLOBALS['wp_app_setup_errors'] : [];
+	}
+
+	public static function use_enpii_base_error_handler() {
+		$use_error_handler = defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) ? (bool) ENPII_BASE_USE_ERROR_HANDLER : ( getenv( 'ENPII_BASE_USE_ERROR_HANDLER' ) !== false ? (bool) getenv( 'ENPII_BASE_USE_ERROR_HANDLER' ) : false );
+
+		return apply_filters( 'enpii_base_use_error_handler', $use_error_handler );
+	}
+
+	public static function use_blade_for_wp_template() {
+		$blade_for_template = defined( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) ? (bool) ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE : ( getenv( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) !== false ? (bool) getenv( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) : false );
+
+		return apply_filters( 'enpii_base_use_blade_for_wp_template', $blade_for_template );
+	}
+
+	public static function disable_web_worker() {
+		$disable_web_worker = defined( 'ENPII_BASE_DISABLE_WEB_WORKER' ) ? (bool) ENPII_BASE_DISABLE_WEB_WORKER : ( getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) !== false ? (bool) getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) : false );
+
+		return apply_filters( 'enpii_base_disable_web_worker', $disable_web_worker );
+	}
+
+	public static function get_wp_app_base_path() {
+		if ( defined( 'ENPII_BASE_WP_APP_BASE_PATH' ) && ENPII_BASE_WP_APP_BASE_PATH ) {
+			return ENPII_BASE_WP_APP_BASE_PATH;
+		} else {
+			return WP_CONTENT_DIR . DIR_SEP . 'uploads' . DIR_SEP . 'wp-app';
+		}
+	}
+
+	public static function get_wp_app_base_folders_paths( string $wp_app_base_path ) {
+		return [
+			'base_path' => $wp_app_base_path,
+			'config_path' => $wp_app_base_path . DIR_SEP . 'config',
+			'database_path' => $wp_app_base_path . DIR_SEP . 'database',
+			'database_migrations_path' => $wp_app_base_path . DIR_SEP . 'database' . DIR_SEP . 'migrations',
+			'bootstrap_path' => $wp_app_base_path . DIR_SEP . 'bootstrap',
+			'bootstrap_cache_path' => $wp_app_base_path . DIR_SEP . 'bootstrap' . DIR_SEP . 'cache',
+			'lang_path' => $wp_app_base_path . DIR_SEP . 'lang',
+			'resources_path' => $wp_app_base_path . DIR_SEP . 'resources',
+			'storage_path' => $wp_app_base_path . DIR_SEP . 'storage',
+			'storage_logs_path' => $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'logs',
+			'storage_framework_path' => $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework',
+			'storage_framework_views_path' => $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'views',
+			'storage_framework_cache_path' => $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'cache',
+			'storage_framework_cache_data_path' => $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'cache' . DIR_SEP . 'data',
+			'storage_framework_sessions_path' => $wp_app_base_path . DIR_SEP . 'storage' . DIR_SEP . 'framework' . DIR_SEP . 'sessions',
+		];
+	}
+
+	/**
+	 *
+	 * @param string $wp_app_base_path
+	 * @param int $chmod We may want to use `0755` if running this function in console
+	 * @return void
+	 */
+	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
+		if ( empty( $wp_app_base_path ) ) {
+			$wp_app_base_path = static::get_wp_app_base_path();
+		}
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
+		@chmod( dirname( $wp_app_base_path ), $chmod );
+
+		$file_system = new \Illuminate\Filesystem\Filesystem();
+
+		foreach ( static::get_wp_app_base_folders_paths( $wp_app_base_path ) as $filepath ) {
+			$file_system->ensureDirectoryExists( $filepath, $chmod );
+			// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
+			@chmod( $filepath, $chmod );
+		}
+	}
+
+	public static function wp_cli_init(): void {
+		\WP_CLI::add_command(
+			'enpii-base prepare',
+			[ self::class, 'wp_cli_prepare' ]
+		);
+	}
+
+	// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+	public static function wp_cli_prepare( $args, $assoc_args ): void {
+		static::prepare_wp_app_folders();
 	}
 }
