@@ -353,7 +353,7 @@ class Enpii_Base_Helper {
 	 * @param false $full_url
 	 * @return string
 	 */
-    public static function enpii_base_wp_app_get_asset_url( $full_url = false ) : string {
+    public static function enpii_base_wp_app_get_asset_url( $full_url = false ): string {
         if ( defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) && ENPII_BASE_WP_APP_ASSET_URL ) {
             return ENPII_BASE_WP_APP_ASSET_URL;
         }
