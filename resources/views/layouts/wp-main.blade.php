@@ -7,7 +7,7 @@ do_action( 'get_header' );
 	<meta name="viewport"
 			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
-	<title><?php echo \Enpii_Base\App\Support\Enpii_Base_Helper::enpii_base_wp_app_web_page_title() ?></title>
+	<title>{{ enpii_base_wp_app_web_page_title() }}</title>
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 	<?php wp_head(); ?>
 </head>
