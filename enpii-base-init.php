@@ -16,7 +16,8 @@ if ( defined( 'WP_CONTENT_DIR' ) ) {
 		add_action(
 			ENPII_BASE_SETUP_HOOK_NAME,
 			[ Enpii_Base_Helper::class, 'enpii_base_maybe_redirect_to_setup_app' ],
-			-200 );
+			-200
+		);
 	} elseif ( ! empty( $_SERVER['argv'] ) && array_intersect( (array) $_SERVER['argv'], [ 'enpii-base', 'prepare' ] ) ) {
 		// Prepare WP app folders if specific CLI commands are present
 		Enpii_Base_Helper::prepare_wp_app_folders();
