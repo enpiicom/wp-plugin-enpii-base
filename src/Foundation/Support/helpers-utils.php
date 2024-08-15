@@ -25,7 +25,7 @@ if ( ! function_exists( 'devd' ) ) {
 		echo ( ! empty( $dev_trace[1] ) ) ? $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . ': ' . "\n" : '';
 		// We want to put the file name and the 7 steps trace to know where
 		//  where the dump is produced
-		if ( ! enpii_base_is_console_mode() && defined( 'DEV_LOG_TRACE' ) ) {
+		if ( ! Enpii_Base_Helper::enpii_base_is_console_mode() && defined( 'DEV_LOG_TRACE' ) ) {
 			echo 'Traceback: ';
 			dump( $dev_trace );
 		}
