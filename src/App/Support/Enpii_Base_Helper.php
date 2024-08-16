@@ -186,21 +186,9 @@ class Enpii_Base_Helper {
 	}
 
 	public static function put_messages_to_wp_admin_notice( array &$error_messages ): void {
-		add_action(
-			'admin_notices',
-			function () use ( $error_messages ) {
-				$error_content = '';
-				foreach ( $error_messages as $error_message => $displayed ) {
-					if ( ! $displayed && $error_message ) {
-						$error_content .= '<p>' . $error_message . '</p>';
-						$error_messages[ $error_message ] = true;
-					}
-				}
-				if ( $error_content ) {
-					echo '<div class="notice notice-error">' . wp_kses_post( $error_content ) . '</div>';
-				}
-			}
-		);
+		add_action('admin_notices', function () use ($error_messages) {
+			Enpii_Base_Hook_Handlers::print_admin_notice_messages($error_messages);
+		});
 	}
 
 	public static function is_console_mode() {
