@@ -295,7 +295,7 @@ class Enpii_Base_Helper {
 	/**
 	 * Check the flag in the options to redirect to setup page if needed
 	 */
-	public static function enpii_base_maybe_redirect_to_setup_app(): void {
+	public static function maybe_redirect_to_setup_app(): void {
 		if ( ! static::is_setup_app_completed() ) {
 			static::prepare_wp_app_folders();
 
@@ -310,7 +310,7 @@ class Enpii_Base_Helper {
 	 * Get the correct timezone value for WP App (from WordPress and map to the date_default_timezone_set ids)
 	 * @return string
 	 */
-	public static function enpii_base_wp_app_get_timezone(): string {
+	public static function wp_app_get_timezone(): string {
 		$current_offset = (int) get_option( 'gmt_offset' );
 		$timezone_string = get_option( 'timezone_string' );
 
@@ -344,7 +344,7 @@ class Enpii_Base_Helper {
 	 * @param false $full_url
 	 * @return string
 	 */
-	public static function enpii_base_wp_app_get_asset_url( $full_url = false ): string {
+	public static function wp_app_get_asset_url( $full_url = false ): string {
 		if ( defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) && ENPII_BASE_WP_APP_ASSET_URL ) {
 			return ENPII_BASE_WP_APP_ASSET_URL;
 		}
@@ -361,7 +361,7 @@ class Enpii_Base_Helper {
 	 * @param $version
 	 * @return int
 	 */
-	public static function enpii_base_get_major_version( $version ): int {
+	public static function get_major_version( $version ): int {
 		$parts = explode( '.', $version );
 		return (int) filter_var( $parts[0], FILTER_SANITIZE_NUMBER_INT );
 	}
@@ -371,7 +371,7 @@ class Enpii_Base_Helper {
 	 *
 	 * @return mixed|void|null
 	 */
-	public static function enpii_base_wp_app_web_page_title() {
+	public static function wp_app_web_page_title() {
 		$title = empty( wp_title( '', false ) )
 			? get_bloginfo( 'name' ) . ' | ' . ( get_bloginfo( 'description' ) ? get_bloginfo( 'description' ) : 'WP App' )
 			: wp_title( '', false );

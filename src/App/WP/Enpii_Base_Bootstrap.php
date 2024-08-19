@@ -47,7 +47,7 @@ class Enpii_Base_Bootstrap {
 	protected static function register_setup_app_redirect() {
 		add_action(
 			ENPII_BASE_SETUP_HOOK_NAME,
-			[ Enpii_Base_Helper::class, 'enpii_base_maybe_redirect_to_setup_app' ],
+			[ Enpii_Base_Helper::class, 'maybe_redirect_to_setup_app' ],
 			-200
 		);
 	}

@@ -55,7 +55,7 @@ return [
 
 	'url' => defined( 'WP_SITEURL' ) ? WP_SITEURL : site_url(),
 
-	'asset_url' => Enpii_Base_Helper::enpii_base_wp_app_get_asset_url(),
+	'asset_url' => Enpii_Base_Helper::wp_app_get_asset_url(),
 
 	/**
 	|--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ return [
 	|
 	*/
 
-	'timezone' => Enpii_Base_Helper::enpii_base_wp_app_get_timezone(),
+	'timezone' => Enpii_Base_Helper::wp_app_get_timezone(),
 
 	/**
 	|--------------------------------------------------------------------------
