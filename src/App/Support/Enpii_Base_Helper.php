@@ -186,9 +186,12 @@ class Enpii_Base_Helper {
 	}
 
 	public static function put_messages_to_wp_admin_notice( array &$error_messages ): void {
-		add_action('admin_notices', function () use ($error_messages) {
-			Enpii_Base_Hook_Handlers::print_admin_notice_messages($error_messages);
-		});
+		add_action(
+			'admin_notices',
+			function () use ( $error_messages ) {
+				Enpii_Base_Hook_Handlers::print_admin_notice_messages( $error_messages );
+			}
+		);
 	}
 
 	public static function is_console_mode() {
@@ -383,5 +386,9 @@ class Enpii_Base_Helper {
 			: wp_title( '', false );
 
 		return apply_filters( App_Const::FILTER_WP_APP_WEB_PAGE_TITLE, $title );
+	}
+
+	public static function is_wp_content_loaded() {
+		return (bool) defined( 'WP_CONTENT_DIR' );
 	}
 }
