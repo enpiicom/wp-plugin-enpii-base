@@ -354,16 +354,7 @@ class Enpii_Base_Helper {
 
 		return $full_url ? trim( get_site_url(), '/' ) . $slug_to_public_asset : $slug_to_public_asset;
 	}
-
-	/**
-	 * Check whether the script is running in the console.
-	 *
-	 * @return bool
-	 */
-	public static function enpii_base_is_console_mode(): bool {
-		return ( \PHP_SAPI === 'cli' || \PHP_SAPI === 'phpdbg' );
-	}
-
+	
 	/**
 	 * Extract and return the major version number from the version string.
 	 *
