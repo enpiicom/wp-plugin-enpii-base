@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Enpii_Base\App\WP;
+namespace Enpii_Base\App\Support;
 
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 
