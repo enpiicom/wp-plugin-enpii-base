@@ -512,6 +512,9 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertFalse( $result['Error 2'] );
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_get_wp_app_base_path_returns_defined_constant_value() {
 		// Define the constant
 		define( 'ENPII_BASE_WP_APP_BASE_PATH', '/custom/path/to/wp-app' );
@@ -745,6 +748,87 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 		// Assert that the title is correctly constructed
 		$this->assertEquals( 'My Blog | WP App', $result );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_get_asset_url_defined_constant_full_url() {
+		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
+			define( 'ENPII_BASE_WP_APP_ASSET_URL', 'http://example.com' );
+		}
+
+		// Call the method with full_url = false
+		$result = Enpii_Base_Helper_Test_Tmp::wp_app_get_asset_url( true );
+
+		// Assert that the method returns the correct slug path
+		$this->assertEquals( ENPII_BASE_WP_APP_ASSET_URL, $result );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_get_asset_url_without_defined_constant_full_url_false() {
+		// Ensure the constant ENPII_BASE_WP_APP_ASSET_URL is not defined
+		if ( defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
+			$this->markTestSkipped( 'ENPII_BASE_WP_APP_ASSET_URL is already defined and cannot be undefined in this environment.' );
+		}
+
+		// Define the ABSPATH constant
+		if ( ! defined( 'ABSPATH' ) ) {
+			define( 'ABSPATH', '/var/www' );
+		}
+
+		// Mock the get_site_url function
+		WP_Mock::userFunction(
+			'get_site_url',
+			[
+				'return' => 'https://example.com',
+			]
+		);
+
+		// Call the method with full_url = false
+		$result = Enpii_Base_Helper_Test_Tmp::wp_app_get_asset_url( true );
+
+		// Assert that the method returns the correct slug path
+		$this->assertEquals( 'https://example.com//app/vendor/10up/wp_mock/php/WP_Mock/API/dummy-files/uploads/wp-app/public', $result );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_is_wp_content_loaded_when_constant_defined() {
+		// Ensure the constant WP_CONTENT_DIR is defined
+		if ( ! defined( 'WP_CONTENT_DIR' ) ) {
+			define( 'WP_CONTENT_DIR', '/path/to/wp-content' );
+		}
+
+		// Mock the get_site_url function
+		WP_Mock::userFunction(
+			'get_site_url',
+			[
+				'return' => 'https://example.com',
+			]
+		);
+
+		// Call the method and check the result
+		$result = Enpii_Base_Helper::is_wp_content_loaded();
+
+		// Assert that the method returns true
+		$this->assertTrue( $result );
+	}
+
+	public function test_is_wp_content_loaded_when_constant_not_defined() {
+		// Ensure the constant WP_CONTENT_DIR is not defined
+		if ( defined( 'WP_CONTENT_DIR' ) ) {
+			$this->markTestSkipped( 'WP_CONTENT_DIR is already defined and cannot be undefined in this environment.' );
+		}
+
+		// Call the method and check the result
+		$result = Enpii_Base_Helper::is_wp_content_loaded();
+
+		// Assert that the method returns false
+		$this->assertFalse( $result );
 	}
 }
 
