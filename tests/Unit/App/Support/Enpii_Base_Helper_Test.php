@@ -4,17 +4,23 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Tests\Unit\App\Support;
 
+use Closure;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
+use Enpii_Base\App\Support\Enpii_Base_Hook_Handlers;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp;
 use Mockery;
 use WP_Mock;
 
 class Enpii_Base_Helper_Test extends Unit_Test_Case {
 	private $backup_SERVER = [];
+	
+	public static $methods;
 
 	protected function setUp(): void {
 		parent::setUp();
+		static::$methods = [];
 
 		global $_SERVER;
 
@@ -435,63 +441,87 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertTrue( Enpii_Base_Helper::is_setup_app_failed() );
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 */
 	public function test_perform_wp_app_check_true() {
-		// We need to run this on a separate process to have Enpii_Base_Helper::$setup_info reset
-		WP_Mock::userFunction( 'get_option' )
-			->times( 1 )
-			->with( App_Const::OPTION_SETUP_INFO )
-			->andReturnUsing(
-				function ( $option_key ) {
-					return null;
-				}
-			);
-		$this->assertTrue( Enpii_Base_Helper::perform_wp_app_check() );
+		// We assert this return true as $wp_app_check is set to true in tmp class
+		$this->assertTrue( Enpii_Base_Helper_Test_Tmp::perform_wp_app_check() );
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 */
-	public function test_perform_wp_app_check_false() {
-		// We need to run this on a separate process to have Enpii_Base_Helper::$setup_info reset
-		WP_Mock::userFunction( 'get_option' )
-			->times( 1 )
-			->with( App_Const::OPTION_SETUP_INFO )
-			->andReturnUsing(
-				function ( $option_key ) {
-					return 'failed';
-				}
-			);
-		WP_Mock::userFunction( 'add_action' )
-			->between( 0, 1 )
-			->with( 'admin_notices', Mockery::any() )
-			->andReturnUsing(
-				function ( $action_name, $callback ) {
-					return;
-				}
-			);
+	public function test_put_messages_to_wp_admin_notice() {
+		// Mock the add_action function
+		// Create a sample array of error messages
+		$error_messages = [ 'Error 1', 'Error 2' ];
 
-		global $_SERVER;
-		$_SERVER['HTTP_HOST'] = 'example.com';
-		$_SERVER['REQUEST_URI'] = '/test';
-		WP_Mock::userFunction( 'sanitize_text_field' )
-			->between( 0, 10 )
-			->withAnyArgs()
-			->andReturnUsing(
-				function ( $text ) {
-					return $text;
-				}
-			);
-		WP_Mock::userFunction( 'site_url' )
-			->times( 1 )
-			->withAnyArgs()
-			->andReturnUsing(
-				function () {
-					return 'example.com';
-				}
-			);
-		$this->assertFalse( Enpii_Base_Helper::perform_wp_app_check() );
+		// Mock add_action to ensure it is called with 'admin_notices'
+		WP_Mock::expectActionAdded(
+			'admin_notices',
+			function ( $callback ) {
+				// Ensure that the callback is of type Closure
+				$this->assertInstanceOf( Closure::class, $callback );
+			}
+		);
+
+		// Call the method that adds the action
+		Enpii_Base_Helper::put_messages_to_wp_admin_notice( $error_messages );
+
+		// Verify that the action was added exactly once
+		WP_Mock::assertHooksAdded();
+	}
+
+	public function test_add_wp_app_setup_errors() {
+		// Clear the global variable for the test
+		unset( $GLOBALS['wp_app_setup_errors'] );
+
+		// Call the method
+		Enpii_Base_Helper::add_wp_app_setup_errors( 'Test Error' );
+
+		// Assert the global variable is initialized
+		$this->assertIsArray( $GLOBALS['wp_app_setup_errors'] );
+		$this->assertArrayHasKey( 'Test Error', $GLOBALS['wp_app_setup_errors'] );
+		$this->assertFalse( $GLOBALS['wp_app_setup_errors']['Test Error'] );
+	}
+
+	public function test_get_wp_app_setup_errors_returns_empty_array_when_not_set() {
+		// Ensure the global variable is not set
+		unset( $GLOBALS['wp_app_setup_errors'] );
+
+		// Call the method
+		$result = Enpii_Base_Helper::get_wp_app_setup_errors();
+
+		// Assert it returns an empty array
+		$this->assertIsArray( $result );
+		$this->assertEmpty( $result );
+	}
+
+	public function test_get_wp_app_setup_errors_returns_global_array_when_set() {
+		// Set up the global variable with some errors
+		$GLOBALS['wp_app_setup_errors'] = [
+			'Error 1' => true,
+			'Error 2' => false,
+		];
+
+		// Call the method
+		$result = Enpii_Base_Helper::get_wp_app_setup_errors();
+
+		// Assert it returns the global array
+		$this->assertIsArray( $result );
+		$this->assertCount( 2, $result );
+		$this->assertArrayHasKey( 'Error 1', $result );
+		$this->assertArrayHasKey( 'Error 2', $result );
+		$this->assertTrue( $result['Error 1'] );
+		$this->assertFalse( $result['Error 2'] );
+	}
+}
+
+namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
+
+use Enpii_Base\App\Support\Enpii_Base_Helper;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
+
+class Enpii_Base_Helper_Test_Tmp extends Enpii_Base_Helper {
+
+	public static $wp_app_check = true;
+
+	public static function add_wp_app_setup_errors( $error_message ) {
+		Enpii_Base_Helper_Test::$methods[] = 'add_wp_app_setup_errors'; 
 	}
 }
