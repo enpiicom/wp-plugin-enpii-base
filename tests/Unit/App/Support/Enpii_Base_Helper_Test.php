@@ -7,9 +7,9 @@ namespace Enpii_Base\Tests\Unit\App\Support;
 use Closure;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
-use Enpii_Base\App\Support\Enpii_Base_Hook_Handlers;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed;
 use Mockery;
 use WP_Mock;
 
@@ -569,6 +569,183 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// The method doesn't return anything, so we assert that the mock expectations were met
 		$this->assertTrue( true );
 	}
+
+	public function test_maybe_redirect_to_setup_app_when_setup_completed() {
+		// Execute the method
+		Enpii_Base_Helper_Test_Tmp::maybe_redirect_to_setup_app();
+		$this->assertTrue( true );
+	}
+
+	public function test_maybe_redirect_to_setup_app_when_setup_not_completed() {
+		// Execute the method
+		Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed::maybe_redirect_to_setup_app();
+		$this->assertTrue( in_array( 'prepare_wp_app_folders', static::$methods ) );
+		$this->assertTrue( in_array( 'redirect_to_setup_url', static::$methods ) );
+	}
+
+	public function test_wp_cli_prepare() {
+		// Execute the method
+		Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed::wp_cli_prepare( [], [] );
+		$this->assertTrue( in_array( 'prepare_wp_app_folders', static::$methods ) );
+	}
+
+	public function test_get_major_version_with_valid_version() {
+		$version = '1.2.3';
+		$expected_major_version = 1;
+
+		$result = Enpii_Base_Helper::get_major_version( $version );
+
+		$this->assertEquals( $expected_major_version, $result );
+	}
+
+	public function test_get_major_version_with_major_only_version() {
+		$version = '2';
+		$expected_major_version = 2;
+
+		$result = Enpii_Base_Helper::get_major_version( $version );
+
+		$this->assertEquals( $expected_major_version, $result );
+	}
+
+	public function test_get_major_version_with_extra_characters() {
+		$version = 'v3.4.5-beta';
+		$expected_major_version = 3;
+
+		$result = Enpii_Base_Helper::get_major_version( $version );
+
+		$this->assertEquals( $expected_major_version, $result );
+	}
+
+	public function test_get_major_version_with_non_numeric_major_version() {
+		$version = 'v4.x.y';
+		$expected_major_version = 4;
+
+		$result = Enpii_Base_Helper::get_major_version( $version );
+
+		$this->assertEquals( $expected_major_version, $result );
+	}
+
+	public function test_get_major_version_with_empty_version_string() {
+		$version = '';
+		$expected_major_version = 0;
+
+		$result = Enpii_Base_Helper::get_major_version( $version );
+
+		$this->assertEquals( $expected_major_version, $result );
+	}
+
+	public function test_get_major_version_with_no_major_version() {
+		$version = '.2.3';
+		$expected_major_version = 0;
+
+		$result = Enpii_Base_Helper::get_major_version( $version );
+
+		$this->assertEquals( $expected_major_version, $result );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_web_page_title_with_wp_title() {
+		// Mock wp_title to return a title
+		WP_Mock::userFunction(
+			'wp_title',
+			[
+				'args'   => [ '', false ],
+				'return' => 'Test Page Title',
+			]
+		);
+
+		// Call the method
+		$result = Enpii_Base_Helper::wp_app_web_page_title();
+
+		// Assert that the title is correctly returned
+		$this->assertEquals( 'Test Page Title', $result );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_web_page_title_with_empty_wp_title() {
+		// Mock wp_title to return an empty string
+		WP_Mock::userFunction(
+			'wp_title',
+			[
+				'args'   => [ '', false ],
+				'return' => '',
+			]
+		);
+
+		// Mock get_bloginfo to return the site name and description
+		WP_Mock::userFunction(
+			'get_bloginfo',
+			[
+				'args'   => 'name',
+				'return' => 'My Blog',
+			]
+		);
+
+		WP_Mock::userFunction(
+			'get_bloginfo',
+			[
+				'args'   => 'description',
+				'return' => 'Just another WordPress site',
+			]
+		);
+
+		// Mock apply_filters to return the expected title
+		WP_Mock::onFilter( App_Const::FILTER_WP_APP_WEB_PAGE_TITLE )
+			->with( 'My Blog | Just another WordPress site' )
+			->reply( 'My Blog | Just another WordPress site' );
+
+		// Call the method
+		$result = Enpii_Base_Helper::wp_app_web_page_title();
+
+		// Assert that the title is correctly constructed
+		$this->assertEquals( 'My Blog | Just another WordPress site', $result );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_web_page_title_with_empty_wp_title_and_description() {
+		// Mock wp_title to return an empty string
+		WP_Mock::userFunction(
+			'wp_title',
+			[
+				'args'   => [ '', false ],
+				'return' => '',
+			]
+		);
+
+		// Mock get_bloginfo to return the site name and an empty description
+		WP_Mock::userFunction(
+			'get_bloginfo',
+			[
+				'args'   => 'name',
+				'return' => 'My Blog',
+			]
+		);
+
+		WP_Mock::userFunction(
+			'get_bloginfo',
+			[
+				'args'   => 'description',
+				'return' => '',
+			]
+		);
+
+		// Mock apply_filters to return the expected title
+		WP_Mock::onFilter( App_Const::FILTER_WP_APP_WEB_PAGE_TITLE )
+			->with( 'My Blog | WP App' )
+			->reply( 'My Blog | WP App' );
+
+		// Call the method
+		$result = Enpii_Base_Helper::wp_app_web_page_title();
+
+		// Assert that the title is correctly constructed
+		$this->assertEquals( 'My Blog | WP App', $result );
+	}
 }
 
 namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
@@ -582,5 +759,27 @@ class Enpii_Base_Helper_Test_Tmp extends Enpii_Base_Helper {
 
 	public static function add_wp_app_setup_errors( $error_message ) {
 		Enpii_Base_Helper_Test::$methods[] = 'add_wp_app_setup_errors'; 
+	}
+
+	public static function is_setup_app_completed() {
+		return true;
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed extends Enpii_Base_Helper {
+	public static function is_setup_app_completed() {
+		return false;
+	}
+
+	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
+		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders'; 
+	}
+
+	public static function is_setup_app_failed() {
+		return false;
+	}
+
+	public static function redirect_to_setup_url(): void {
+		Enpii_Base_Helper_Test::$methods[] = 'redirect_to_setup_url'; 
 	}
 }
