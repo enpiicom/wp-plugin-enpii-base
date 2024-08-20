@@ -33,6 +33,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$_SERVER = $this->backup_SERVER;
 
 		parent::tearDown();
+		Mockery::close();
 	}
 
 	public function test_get_current_url(): void {
@@ -509,6 +510,64 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertArrayHasKey( 'Error 2', $result );
 		$this->assertTrue( $result['Error 1'] );
 		$this->assertFalse( $result['Error 2'] );
+	}
+
+	public function test_get_wp_app_base_path_returns_defined_constant_value() {
+		// Define the constant
+		define( 'ENPII_BASE_WP_APP_BASE_PATH', '/custom/path/to/wp-app' );
+
+		// Call the method
+		$result = Enpii_Base_Helper::get_wp_app_base_path();
+
+		// Assert the result matches the defined constant value
+		$this->assertEquals( '/custom/path/to/wp-app', $result );
+	}
+
+	public function test_get_wp_app_base_folders_paths() {
+		// Define the base path and directory separator for the test
+		$wp_app_base_path = '/var/www/wp-app';
+		$dir_sep = '/'; // Typically '/' on Unix-based systems
+
+		// Call the method
+		$result = Enpii_Base_Helper::get_wp_app_base_folders_paths( $wp_app_base_path );
+
+		// Expected paths array
+		$expected = [
+			'base_path' => $wp_app_base_path,
+			'config_path' => $wp_app_base_path . $dir_sep . 'config',
+			'database_path' => $wp_app_base_path . $dir_sep . 'database',
+			'database_migrations_path' => $wp_app_base_path . $dir_sep . 'database' . $dir_sep . 'migrations',
+			'bootstrap_path' => $wp_app_base_path . $dir_sep . 'bootstrap',
+			'bootstrap_cache_path' => $wp_app_base_path . $dir_sep . 'bootstrap' . $dir_sep . 'cache',
+			'lang_path' => $wp_app_base_path . $dir_sep . 'lang',
+			'resources_path' => $wp_app_base_path . $dir_sep . 'resources',
+			'storage_path' => $wp_app_base_path . $dir_sep . 'storage',
+			'storage_logs_path' => $wp_app_base_path . $dir_sep . 'storage' . $dir_sep . 'logs',
+			'storage_framework_path' => $wp_app_base_path . $dir_sep . 'storage' . $dir_sep . 'framework',
+			'storage_framework_views_path' => $wp_app_base_path . $dir_sep . 'storage' . $dir_sep . 'framework' . $dir_sep . 'views',
+			'storage_framework_cache_path' => $wp_app_base_path . $dir_sep . 'storage' . $dir_sep . 'framework' . $dir_sep . 'cache',
+			'storage_framework_cache_data_path' => $wp_app_base_path . $dir_sep . 'storage' . $dir_sep . 'framework' . $dir_sep . 'cache' . $dir_sep . 'data',
+			'storage_framework_sessions_path' => $wp_app_base_path . $dir_sep . 'storage' . $dir_sep . 'framework' . $dir_sep . 'sessions',
+		];
+
+		// Assert that the result matches the expected paths
+		$this->assertEquals( $expected, $result );
+	}
+
+	public function test_wp_cli_init() {
+		// Mock the WP_CLI class
+		$mocked_wp_cli = Mockery::mock( 'alias:\WP_CLI' );
+		
+		// Expect that the add_command method will be called once with the expected parameters
+		$mocked_wp_cli->shouldReceive( 'add_command' )
+			->once()
+			->with( 'enpii-base prepare', [ Enpii_Base_Helper::class, 'wp_cli_prepare' ] );
+
+		// Call the method
+		Enpii_Base_Helper::wp_cli_init();
+
+		// The method doesn't return anything, so we assert that the mock expectations were met
+		$this->assertTrue( true );
 	}
 }
 
