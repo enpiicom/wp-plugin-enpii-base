@@ -265,7 +265,7 @@ class WP_Application extends Application {
 	}
 
 	public function get_laravel_major_version(): int {
-		return (int) enpii_base_get_major_version( Application::VERSION );
+		return (int) Enpii_Base_Helper::get_major_version( Application::VERSION );
 	}
 
 	public function get_composer_path(): string {
