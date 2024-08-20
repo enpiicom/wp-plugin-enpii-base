@@ -34,20 +34,20 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 
 	public function test_initialize_in_console_mode_is_enpii_base_prepare_command_true() {
 		// Arrange
-		$helperMock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
+		$helper_mock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
 
 		// Mock the is_wp_content_loaded method to return true
-		$helperMock->shouldReceive( 'is_wp_content_loaded' )
+		$helper_mock->shouldReceive( 'is_wp_content_loaded' )
 					->once()
 					->andReturn( true );
 
 		// Mock the is_console_mode method to return false
-		$helperMock->shouldReceive( 'is_console_mode' )
+		$helper_mock->shouldReceive( 'is_console_mode' )
 					->once()
 					->andReturn( true );
 
 		// Mock the prepare_wp_app_folders method to return false
-		$helperMock->shouldReceive( 'prepare_wp_app_folders' )
+		$helper_mock->shouldReceive( 'prepare_wp_app_folders' )
 					->once()
 					->andReturn( null );
 
@@ -60,20 +60,20 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 
 	public function test_initialize_not_in_console_mode_perform_wp_app_check_true() {
 		// Arrange
-		$helperMock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
+		$helper_mock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
 
 		// Mock the is_wp_content_loaded method to return true
-		$helperMock->shouldReceive( 'is_wp_content_loaded' )
+		$helper_mock->shouldReceive( 'is_wp_content_loaded' )
 					->once()
 					->andReturn( true );
 
 		// Mock the is_console_mode method to return false
-		$helperMock->shouldReceive( 'is_console_mode' )
+		$helper_mock->shouldReceive( 'is_console_mode' )
 					->once()
 					->andReturn( false );
 
 		// Mock the perform_wp_app_check method to return true
-		$helperMock->shouldReceive( 'perform_wp_app_check' )
+		$helper_mock->shouldReceive( 'perform_wp_app_check' )
 					->once()
 					->andReturn( true );
 
@@ -87,20 +87,20 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 
 	public function test_initialize_not_in_console_mode_perform_wp_app_check_false() {
 		// Arrange
-		$helperMock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
+		$helper_mock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
 
 		// Mock the is_wp_content_loaded method to return true
-		$helperMock->shouldReceive( 'is_wp_content_loaded' )
+		$helper_mock->shouldReceive( 'is_wp_content_loaded' )
 					->once()
 					->andReturn( true );
 
 		// Mock the is_console_mode method to return false
-		$helperMock->shouldReceive( 'is_console_mode' )
+		$helper_mock->shouldReceive( 'is_console_mode' )
 					->once()
 					->andReturn( false );
 
 		// Mock the perform_wp_app_check method to return false
-		$helperMock->shouldReceive( 'perform_wp_app_check' )
+		$helper_mock->shouldReceive( 'perform_wp_app_check' )
 					->once()
 					->andReturn( false );
 
@@ -177,6 +177,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		// Assert: WP_Mock automatically asserts that add_action was called with the correct parameters
 		WP_Mock::assertHooksAdded();
 	}
+
 	public function test_register_wp_app_loaded_action() {
 		// Arrange: Expect the add_action function to be called with the specific parameters
 		WP_Mock::expectActionAdded(
@@ -203,8 +204,8 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 			);
 
 		// Mock the method that should be called within the static method
-		$pluginMock = Mockery::mock( 'alias:' . \Enpii_Base\App\WP\Enpii_Base_WP_Plugin::class );
-		$pluginMock->shouldReceive( 'init_with_wp_app' )
+		$plugin_mock = Mockery::mock( 'alias:' . \Enpii_Base\App\WP\Enpii_Base_WP_Plugin::class );
+		$plugin_mock->shouldReceive( 'init_with_wp_app' )
 					->once()
 					->with(
 						ENPII_BASE_PLUGIN_SLUG,
