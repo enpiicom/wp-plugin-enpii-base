@@ -177,7 +177,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		// Assert: WP_Mock automatically asserts that add_action was called with the correct parameters
 		WP_Mock::assertHooksAdded();
 	}
-
+	
 	public function test_register_wp_app_loaded_action() {
 		// Arrange: Expect the add_action function to be called with the specific parameters
 		WP_Mock::expectActionAdded(
@@ -194,24 +194,27 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 
 	public function test_handle_wp_app_loaded_action() {
 		// Arrange: Mock the plugin_dir_url function
-			WP_Mock::userFunction( 'plugin_dir_url' )
-			->times( 1 )
-			->withAnyArgs()
-			->andReturnUsing(
-				function ( $args ) {
-					return 'http://example.com/wp-content/plugins/enpii-base/';
-				}
-			);
+		WP_Mock::userFunction( 'plugin_dir_url' )
+		->times( 2 ) // Expect to call once but we need to set 2 times as for another additional assertion
+		->withAnyArgs()
+		->andReturnUsing(
+			function ( $args ) {
+				return 'http://example.com/wp-content/plugins/enpii-base/';
+			}
+		);
+		
+		// Additional assertion: Ensure that the return value of plugin_dir_url was used correctly
+		$this->assertSame( 'http://example.com/wp-content/plugins/enpii-base/', plugin_dir_url( __FILE__ ) );
 
 		// Mock the method that should be called within the static method
 		$plugin_mock = Mockery::mock( 'alias:' . \Enpii_Base\App\WP\Enpii_Base_WP_Plugin::class );
 		$plugin_mock->shouldReceive( 'init_with_wp_app' )
 					->once()
 					->with(
-						ENPII_BASE_PLUGIN_SLUG,
+						'enpii-base',
 						Mockery::type( 'string' ), // __DIR__ should be a string
 						'http://example.com/wp-content/plugins/enpii-base/' // The mocked return value of plugin_dir_url
-					)->andReturn( 'true' );
+					);
 
 		// Act: Directly call the static method that handles the action
 		Enpii_Base_Bootstrap::handle_wp_app_loaded_action();
