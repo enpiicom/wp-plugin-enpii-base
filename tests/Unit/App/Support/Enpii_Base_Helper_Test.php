@@ -9,6 +9,10 @@ use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli_Server;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Phpdbg;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed;
 use Mockery;
 use WP_Mock;
@@ -830,6 +834,49 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert that the method returns false
 		$this->assertFalse( $result );
 	}
+
+	public function test_is_console_mode_true_cli() {
+		// Call the is_console_mode method statically
+		$result = Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli::is_console_mode();
+
+		// Assert that it returns true
+		$this->assertTrue( $result );
+	}
+
+	public function test_is_console_mode_true_phpdbg() {
+		// Call the is_console_mode method statically
+		$result = Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Phpdbg::is_console_mode();
+
+		// Assert that it returns true
+		$this->assertTrue( $result );
+	}
+
+	public function test_is_console_mode_true_cli_server() {
+		// Call the is_console_mode method statically
+		$result = Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli_Server::is_console_mode();
+
+		// Assert that it returns true
+		$this->assertTrue( $result );
+	}
+
+	public function test_is_console_mode_false() {
+		// Call the is_console_mode method statically
+		$result = Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache::is_console_mode();
+
+		// Assert that it returns true
+		$this->assertFalse( $result );
+	}
+
+	public function test_get_php_sapi_name() {
+		// Get the expected SAPI name directly using php_sapi_name
+		$expected_sapi_name = php_sapi_name();
+
+		// Call the method
+		$result = Enpii_Base_Helper::get_php_sapi_name();
+
+		// Assert that the method returns the correct SAPI name
+		$this->assertEquals( $expected_sapi_name, $result );
+	}
 }
 
 namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
@@ -865,5 +912,29 @@ class Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed extends Enpii_Base_Help
 
 	public static function redirect_to_setup_url(): void {
 		Enpii_Base_Helper_Test::$methods[] = 'redirect_to_setup_url'; 
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli extends Enpii_Base_Helper {
+	public static function get_php_sapi_name(): string {
+		return 'cli';
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Phpdbg extends Enpii_Base_Helper {
+	public static function get_php_sapi_name(): string {
+		return 'phpdbg';
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli_Server extends Enpii_Base_Helper {
+	public static function get_php_sapi_name(): string {
+		return 'cli-server';
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache extends Enpii_Base_Helper {
+	public static function get_php_sapi_name(): string {
+		return 'apache2handler';
 	}
 }

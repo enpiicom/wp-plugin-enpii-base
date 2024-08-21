@@ -195,7 +195,7 @@ class Enpii_Base_Helper {
 	}
 
 	public static function is_console_mode() {
-		return ( (string) php_sapi_name() === 'cli' || (string) php_sapi_name() === 'phpdbg' || (string) php_sapi_name() === 'cli-server' );
+		return ( (string) static::get_php_sapi_name() === 'cli' || (string) static::get_php_sapi_name() === 'phpdbg' || (string) static::get_php_sapi_name() === 'cli-server' );
 	}
 
 	public static function add_wp_app_setup_errors( $error_message ) {
@@ -381,5 +381,9 @@ class Enpii_Base_Helper {
 
 	public static function is_wp_content_loaded() {
 		return (bool) defined( 'WP_CONTENT_DIR' );
+	}
+
+	public static function get_php_sapi_name(): string {
+		return php_sapi_name();
 	}
 }
