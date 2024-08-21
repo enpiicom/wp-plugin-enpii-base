@@ -848,6 +848,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert that it returns true
 		$this->assertTrue( $result );
 	}
+
 	public function test_get_use_error_handler_setting_returns_true_when_constant_defined() {
 		// Define the constant if not already defined
 		if ( ! defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) ) {
@@ -886,6 +887,19 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert that it returns true
 		$this->assertTrue( $result );
 	}
+
+	public function test_disable_web_worker() {
+		// Mock the apply_filters function to ensure it processes the value
+		WP_Mock::onFilter( 'enpii_base_disable_web_worker' )
+		->with( true )
+		->reply( true );
+
+		// Call the method
+		$result = Enpii_Base_Helper_Test_Tmp_True::disable_web_worker();
+
+		// Assert that it returns true
+		$this->assertTrue( $result );
+	}
 }
 
 namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
@@ -910,6 +924,10 @@ class Enpii_Base_Helper_Test_Tmp_True extends Enpii_Base_Helper {
 	}
 
 	public static function get_blade_for_wp_template_setting(): bool {
+		return true;
+	}
+
+	public static function get_disable_web_worker_status(): bool {
 		return true;
 	}
 }

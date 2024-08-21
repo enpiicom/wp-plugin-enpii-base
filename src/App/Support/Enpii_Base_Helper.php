@@ -240,10 +240,17 @@ class Enpii_Base_Helper {
 		return $env_value !== false ? (bool) $env_value : false;
 	}
 
-	public static function disable_web_worker() {
-		$disable_web_worker = defined( 'ENPII_BASE_DISABLE_WEB_WORKER' ) ? (bool) ENPII_BASE_DISABLE_WEB_WORKER : ( getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) !== false ? (bool) getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) : false );
-
+	public static function disable_web_worker(): bool {
+		$disable_web_worker = static::get_disable_web_worker_status();
 		return apply_filters( 'enpii_base_disable_web_worker', $disable_web_worker );
+	}
+
+	public static function get_disable_web_worker_status(): bool {
+		return defined( 'ENPII_BASE_DISABLE_WEB_WORKER' ) 
+			? (bool) ENPII_BASE_DISABLE_WEB_WORKER 
+			: ( getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) !== false 
+				? (bool) getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) 
+				: false );
 	}
 
 	public static function get_wp_app_base_path() {
