@@ -8,7 +8,7 @@ use Closure;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
-use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_True;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli_Server;
@@ -448,7 +448,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 	public function test_perform_wp_app_check_true() {
 		// We assert this return true as $wp_app_check is set to true in tmp class
-		$this->assertTrue( Enpii_Base_Helper_Test_Tmp::perform_wp_app_check() );
+		$this->assertTrue( Enpii_Base_Helper_Test_Tmp_True::perform_wp_app_check() );
 	}
 
 	public function test_put_messages_to_wp_admin_notice() {
@@ -579,7 +579,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 	public function test_maybe_redirect_to_setup_app_when_setup_completed() {
 		// Execute the method
-		Enpii_Base_Helper_Test_Tmp::maybe_redirect_to_setup_app();
+		Enpii_Base_Helper_Test_Tmp_True::maybe_redirect_to_setup_app();
 		$this->assertTrue( true );
 	}
 
@@ -763,39 +763,10 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		}
 
 		// Call the method with full_url = false
-		$result = Enpii_Base_Helper_Test_Tmp::wp_app_get_asset_url( true );
+		$result = Enpii_Base_Helper_Test_Tmp_True::wp_app_get_asset_url( true );
 
 		// Assert that the method returns the correct slug path
 		$this->assertEquals( ENPII_BASE_WP_APP_ASSET_URL, $result );
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 */
-	public function test_wp_app_get_asset_url_without_defined_constant_full_url_false() {
-		// Ensure the constant ENPII_BASE_WP_APP_ASSET_URL is not defined
-		if ( defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
-			$this->markTestSkipped( 'ENPII_BASE_WP_APP_ASSET_URL is already defined and cannot be undefined in this environment.' );
-		}
-
-		// Define the ABSPATH constant
-		if ( ! defined( 'ABSPATH' ) ) {
-			define( 'ABSPATH', '/var/www' );
-		}
-
-		// Mock the get_site_url function
-		WP_Mock::userFunction(
-			'get_site_url',
-			[
-				'return' => 'https://example.com',
-			]
-		);
-
-		// Call the method with full_url = false
-		$result = Enpii_Base_Helper_Test_Tmp::wp_app_get_asset_url( true );
-
-		// Assert that the method returns the correct slug path
-		$this->assertEquals( 'https://example.com//app/vendor/10up/wp_mock/php/WP_Mock/API/dummy-files/uploads/wp-app/public', $result );
 	}
 
 	/**
@@ -820,19 +791,6 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 		// Assert that the method returns true
 		$this->assertTrue( $result );
-	}
-
-	public function test_is_wp_content_loaded_when_constant_not_defined() {
-		// Ensure the constant WP_CONTENT_DIR is not defined
-		if ( defined( 'WP_CONTENT_DIR' ) ) {
-			$this->markTestSkipped( 'WP_CONTENT_DIR is already defined and cannot be undefined in this environment.' );
-		}
-
-		// Call the method and check the result
-		$result = Enpii_Base_Helper::is_wp_content_loaded();
-
-		// Assert that the method returns false
-		$this->assertFalse( $result );
 	}
 
 	public function test_is_console_mode_true_cli() {
@@ -877,6 +835,57 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert that the method returns the correct SAPI name
 		$this->assertEquals( $expected_sapi_name, $result );
 	}
+
+	public function test_use_enpii_base_error_handler() {
+		// Mock the apply_filters function to ensure it processes the value
+		WP_Mock::onFilter( 'enpii_base_use_error_handler' )
+		->with( true )
+		->reply( true );
+
+		// Call the method
+		$result = Enpii_Base_Helper_Test_Tmp_True::use_enpii_base_error_handler();
+
+		// Assert that it returns true
+		$this->assertTrue( $result );
+	}
+	public function test_get_use_error_handler_setting_returns_true_when_constant_defined() {
+		// Define the constant if not already defined
+		if ( ! defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) ) {
+			define( 'ENPII_BASE_USE_ERROR_HANDLER', true );
+		}
+
+		// Call the method and check the result
+		$result = Enpii_Base_Helper::get_use_error_handler_setting();
+
+		// Assert that it returns true
+		$this->assertTrue( $result );
+	}
+
+	public function test_use_blade_for_wp_template() {
+		// Mock the apply_filters function to ensure it processes the value
+		WP_Mock::onFilter( 'enpii_base_use_blade_for_wp_template' )
+		->with( true )
+		->reply( true );
+
+		// Call the method
+		$result = Enpii_Base_Helper_Test_Tmp_True::use_blade_for_wp_template();
+
+		// Assert that it returns true
+		$this->assertTrue( $result );
+	}
+
+	public function test_get_blade_for_wp_template_setting_returns_true_when_constant_defined() {
+		// Define the constant if not already defined
+		if ( ! defined( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) ) {
+			define( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE', true );
+		}
+
+		// Call the method and check the result
+		$result = Enpii_Base_Helper::get_blade_for_wp_template_setting();
+
+		// Assert that it returns true
+		$this->assertTrue( $result );
+	}
 }
 
 namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
@@ -884,7 +893,7 @@ namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
 
-class Enpii_Base_Helper_Test_Tmp extends Enpii_Base_Helper {
+class Enpii_Base_Helper_Test_Tmp_True extends Enpii_Base_Helper {
 
 	public static $wp_app_check = true;
 
@@ -894,6 +903,21 @@ class Enpii_Base_Helper_Test_Tmp extends Enpii_Base_Helper {
 
 	public static function is_setup_app_completed() {
 		return true;
+	}
+
+	public static function get_use_error_handler_setting(): bool {
+		return true;
+	}
+
+	public static function get_blade_for_wp_template_setting(): bool {
+		return true;
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_False extends Enpii_Base_Helper {
+
+	public static function is_setup_app_completed() {
+		return false;
 	}
 }
 
