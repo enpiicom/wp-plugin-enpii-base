@@ -13,7 +13,9 @@ use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_T
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli_Server;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Phpdbg;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Mockery;
 use WP_Mock;
 
@@ -900,6 +902,54 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert that it returns true
 		$this->assertTrue( $result );
 	}
+
+	public function test_get_disable_web_worker_status_when_constant_defined() {
+		// Define the constant if not already defined
+		if ( ! defined( 'ENPII_BASE_DISABLE_WEB_WORKER' ) ) {
+			define( 'ENPII_BASE_DISABLE_WEB_WORKER', true );
+		}
+
+		// Act
+		$result = Enpii_Base_Helper::get_disable_web_worker_status();
+
+		// Assert
+		$this->assertTrue( $result );
+	}
+
+	public function test_prepare_wp_app_folders_empty_wp_app_base_path() {
+		// Arrange
+		$chmod = 0777;
+		$mock_base_path = '/path/to/wp-app';
+		$mock_folders = [
+			'/path/to/wp-app/folder1',
+			'/path/to/wp-app/folder2',
+			'/path/to/wp-app/folder3',
+		];
+
+		// Mock the static methods in Enpii_Base_Helper
+		$helper_mock = Mockery::mock( 'alias:Enpii_Base\App\Support\Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App' );
+		$helper_mock->shouldReceive( 'get_wp_app_base_path' )
+			->andReturn( $mock_base_path );
+
+		$helper_mock->shouldReceive( 'get_wp_app_base_folders_paths' )
+			->with( $mock_base_path )
+			->andReturn( $mock_folders );
+
+		// Mock the Filesystem class
+		$file_system_mock = Mockery::mock( 'overload:' . Filesystem::class );
+		$file_system_mock->shouldReceive( 'ensureDirectoryExists' )
+			->withArgs(
+				function ( $path, $mode ) use ( $mock_folders, $chmod ) {
+					return in_array( $path, $mock_folders ) && $mode === $chmod;
+				}
+			)
+			->times( count( $mock_folders ) );
+
+		// Act
+		Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App::prepare_wp_app_folders();
+
+		$this->assertTrue( true );
+	}
 }
 
 namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
@@ -929,6 +979,10 @@ class Enpii_Base_Helper_Test_Tmp_True extends Enpii_Base_Helper {
 
 	public static function get_disable_web_worker_status(): bool {
 		return true;
+	}
+
+	public static function get_wp_app_base_path() {
+		return 'wp-app/test';
 	}
 }
 
@@ -979,4 +1033,7 @@ class Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache extends Enpii_Base_Helpe
 	public static function get_php_sapi_name(): string {
 		return 'apache2handler';
 	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App extends Enpii_Base_Helper {
 }
