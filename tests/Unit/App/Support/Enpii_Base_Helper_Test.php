@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enpii_Base\Tests\Unit\App\Support;
 
 use Closure;
+use DateTimeZone;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
@@ -949,6 +950,185 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App::prepare_wp_app_folders();
 
 		$this->assertTrue( true );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_get_timezone_with_timezone_string() {
+		// Arrange
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'gmt_offset' ],
+				'return' => 2,
+			]
+		);
+
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'timezone_string' ],
+				'return' => 'Europe/London',
+			]
+		);
+
+		WP_Mock::userFunction(
+			'wp_timezone',
+			[
+				'return' => new DateTimeZone( 'Europe/London' ),
+			]
+		);
+
+		// Act
+		$result = Enpii_Base_Helper::wp_app_get_timezone();
+
+		// Assert
+		$this->assertEquals( 'Europe/London', $result );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_get_timezone_with_etc_gmt_offset() {
+		// Arrange
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'gmt_offset' ],
+				'return' => -5,
+			]
+		);
+
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'timezone_string' ],
+				'return' => '',
+			]
+		);
+
+		// Act
+		$result = Enpii_Base_Helper::wp_app_get_timezone();
+
+		// Assert
+		$this->assertEquals( 'Etc/GMT+5', $result );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_get_timezone_removes_old_etc_gmt_mapping() {
+		// Arrange
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'gmt_offset' ],
+				'return' => -5,
+			]
+		);
+
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'timezone_string' ],
+				'return' => 'Etc/GMT-5',
+			]
+		);
+
+		// Act
+		$result = Enpii_Base_Helper::wp_app_get_timezone();
+
+		// Assert
+		$this->assertEquals( 'Etc/GMT+5', $result ); // Should fallback to gmt_offset and return 'Etc/GMT+5'
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_get_timezone_with_default_gmt() {
+		// Arrange
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'gmt_offset' ],
+				'return' => 0,
+			]
+		);
+
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'timezone_string' ],
+				'return' => '',
+			]
+		);
+
+		// Act
+		$result = Enpii_Base_Helper::wp_app_get_timezone();
+
+		// Assert
+		$this->assertEquals( 'Etc/GMT', $result );
+	}
+	
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_get_timezone_with_positive_gmt_offset() {
+		// Arrange
+		$gmt_offset = 3;
+
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'gmt_offset' ],
+				'return' => $gmt_offset,
+			]
+		);
+
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'timezone_string' ],
+				'return' => '',
+			]
+		);
+
+		// Act
+		$result = Enpii_Base_Helper::wp_app_get_timezone();
+
+		// Assert
+		$this->assertEquals( 'Etc/GMT-3', $result );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function test_wp_app_get_timezone_with_wp_app_timezone_defined() {
+		// Arrange
+		define( 'WP_APP_TIMEZONE', 'America/New_York' );
+
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'gmt_offset' ],
+				'return' => -5,
+			]
+		);
+
+		WP_Mock::userFunction(
+			'get_option',
+			[
+				'args' => [ 'timezone_string' ],
+				'return' => '',
+			]
+		);
+
+		// Act
+		$result = Enpii_Base_Helper::wp_app_get_timezone();
+
+		// Assert
+		$this->assertEquals( 'America/New_York', $result );
 	}
 }
 
