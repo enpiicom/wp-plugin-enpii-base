@@ -9,13 +9,17 @@ use DateTimeZone;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_False;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_True;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli_Server;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Phpdbg;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Setup_App_Completed_No_Error;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Setup_App_Url;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Mockery;
 use WP_Mock;
@@ -1130,7 +1134,54 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert
 		$this->assertEquals( 'America/New_York', $result );
 	}
+
+	public function test_perform_wp_app_check_pdo_mysql_extension_not_loaded() {
+		WP_Mock::userFunction( 'get_option' )
+		->times( 1 )
+		->withAnyArgs()
+		->andReturn( true );
+
+		// Act
+		Enpii_Base_Helper_Test_Tmp_False::perform_wp_app_check();
+
+		// Assert
+		$this->assertTrue( in_array( 'perform_wp_app_check_add_wp_app_setup_errors', static::$methods ) );
+	}
+
+	public function test_perform_wp_app_is_setup_app_completed_no_error() {
+		// Act
+		$result = Enpii_Base_Helper_Test_Tmp_Setup_App_Completed_No_Error::perform_wp_app_check();
+
+		// Assert
+		$this->assertTrue( $result );
+		$this->assertEquals( true, Enpii_Base_Helper_Test_Tmp_Setup_App_Completed_No_Error::$wp_app_check );
+	}
+
+	public function test_perform_wp_app_at_setup_app_url() {
+		// Act
+		Enpii_Base_Helper_Test_Tmp_Setup_App_Url::perform_wp_app_check();
+
+		// Assert
+		$this->assertTrue( in_array( 'perform_wp_app_check_add_wp_app_setup_errors_setup_app_url', static::$methods ) );
+	}
+
+	public function test_perform_wp_app_return_true() {
+		$GLOBALS['wp_app_setup_errors'] = [];
+
+		WP_Mock::onFilter( App_Const::FILTER_WP_APP_CHECK )
+			->with( true )
+			->reply( true );
+
+		// Act
+		$result = Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True::perform_wp_app_check();
+
+		// Assert
+		$this->assertTrue( $result );
+		$this->assertTrue( Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True::$wp_app_check );
+	}
 }
+
+
 
 namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
 
@@ -1167,9 +1218,18 @@ class Enpii_Base_Helper_Test_Tmp_True extends Enpii_Base_Helper {
 }
 
 class Enpii_Base_Helper_Test_Tmp_False extends Enpii_Base_Helper {
+	public static $wp_app_check = null;
 
 	public static function is_setup_app_completed() {
 		return false;
+	}
+
+	public static function is_pdo_mysql_loaded(): bool {
+		return false;
+	}
+
+	public static function add_wp_app_setup_errors( $error_message ) {
+		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors'; 
 	}
 }
 
@@ -1216,4 +1276,63 @@ class Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache extends Enpii_Base_Helpe
 }
 
 class Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App extends Enpii_Base_Helper {
+}
+
+class Enpii_Base_Helper_Test_Tmp_Setup_App_Completed_No_Error extends Enpii_Base_Helper {
+	public static $wp_app_check = null;
+
+	public static function is_pdo_mysql_loaded(): bool {
+		return true;
+	}
+
+	public static function get_wp_app_setup_errors(): array {
+		return [];
+	}
+
+	public static function is_setup_app_completed(): bool {
+		return true;
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Setup_App_Url extends Enpii_Base_Helper {
+	public static $wp_app_check = null;
+
+	public static function is_pdo_mysql_loaded(): bool {
+		return true;
+	}
+
+	public static function is_setup_app_completed(): bool {
+		return false;
+	}
+
+	public static function at_setup_app_url(): bool {
+		return false;
+	}
+
+	public static function at_admin_setup_app_url(): bool {
+		return false;
+	}
+
+	public static function is_setup_app_failed(): bool {
+		return true;
+	}
+
+	public static function add_wp_app_setup_errors( $error_message ) {
+		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors_setup_app_url'; 
+	}
+}
+class Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True extends Enpii_Base_Helper { 
+	public static $wp_app_check = null;
+
+	public static function is_pdo_mysql_loaded(): bool {
+		return true;
+	}
+
+	public static function at_setup_app_url(): bool {
+		return true;
+	}
+
+	public static function is_setup_app_completed(): bool {
+		return false;
+	}
 }

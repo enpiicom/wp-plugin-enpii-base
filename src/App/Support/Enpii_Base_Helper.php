@@ -148,7 +148,7 @@ class Enpii_Base_Helper {
 			return (bool) static::$wp_app_check;
 		}
 
-		if ( ! extension_loaded( 'pdo_mysql' ) ) {
+		if ( ! static::is_pdo_mysql_loaded() ) {
 			$error_message = sprintf(
 				// translators: %1$s is replaced by a string, extension name
 				__( 'Error with PHP extention %1$s. Please enable PHP extension %1$s via your hosting Control Panel or contact your hosting Admin for that.', 'enpii' ),
@@ -408,5 +408,9 @@ class Enpii_Base_Helper {
 
 	public static function get_php_sapi_name(): string {
 		return php_sapi_name();
+	}
+
+	public static function is_pdo_mysql_loaded(): bool {
+		return extension_loaded( 'pdo_mysql' );
 	}
 }
