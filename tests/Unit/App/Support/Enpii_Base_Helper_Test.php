@@ -1179,6 +1179,14 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertTrue( $result );
 		$this->assertTrue( Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True::$wp_app_check );
 	}
+
+	public function test_is_pdo_mysql_loaded() {
+		if ( extension_loaded( 'pdo_mysql' ) ) {
+			$this->assertTrue( Enpii_Base_Helper::is_pdo_mysql_loaded() );
+		} else {
+			$this->assertFalse( Enpii_Base_Helper::is_pdo_mysql_loaded() );
+		}
+	}
 }
 
 
