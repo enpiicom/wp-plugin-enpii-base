@@ -856,6 +856,18 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertTrue( $result );
 	}
 
+	public function test_get_use_error_handler_setting_returns_true_when_constant_not_defined() {
+		// Define the constant if not already defined
+		if ( ! defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) ) {
+			$result = Enpii_Base_Helper::get_use_error_handler_setting();
+			if ( getenv( 'ENPII_BASE_USE_ERROR_HANDLER' ) !== false ) {
+				$this->assertEquals( getenv( 'ENPII_BASE_USE_ERROR_HANDLER' ), $result );
+			} else {
+				$this->assertFalse( $result );
+			}
+		}   
+	}
+
 	public function test_get_use_error_handler_setting_returns_true_when_constant_defined() {
 		// Define the constant if not already defined
 		if ( ! defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) ) {
