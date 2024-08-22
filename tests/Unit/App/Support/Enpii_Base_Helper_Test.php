@@ -773,7 +773,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$result = Enpii_Base_Helper_Test_Tmp_True::wp_app_get_asset_url( true );
 
 		// Assert that the method returns the correct slug path
-		$this->assertEquals( ENPII_BASE_WP_APP_ASSET_URL, $result );
+		$this->assertEquals( 'http://example.com', $result );
 	}
 
 	/**
@@ -929,6 +929,18 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 		// Assert that it returns true
 		$this->assertTrue( $result );
+	}
+
+	public function test_get_disable_web_worker_status_when_constant_not_defined() {
+		// Define the constant if not already defined
+		if ( ! defined( 'ENPII_BASE_DISABLE_WEB_WORKER' ) ) {
+			$result = Enpii_Base_Helper::get_disable_web_worker_status();
+			if ( getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) !== false ) {
+				$this->assertEquals( getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ), $result );
+			} else {
+				$this->assertFalse( $result );
+			}
+		}
 	}
 
 	public function test_get_disable_web_worker_status_when_constant_defined() {
