@@ -882,6 +882,17 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertTrue( $result );
 	}
 
+	public function test_get_blade_for_wp_template_setting_returns_true_when_constant_not_defined() {
+		if ( ! defined( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) ) {
+			$result = Enpii_Base_Helper::get_blade_for_wp_template_setting();
+			if ( getenv( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) !== false ) {
+				$this->assertEquals( getenv( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ), $result );
+			} else {
+				$this->assertFalse( $result );
+			}
+		}
+	}
+
 	public function test_get_blade_for_wp_template_setting_returns_true_when_constant_defined() {
 		// Define the constant if not already defined
 		if ( ! defined( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) ) {
