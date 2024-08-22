@@ -10,6 +10,7 @@ use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_False;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Get_Base_Path;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_True;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli;
@@ -760,10 +761,36 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert that the title is correctly constructed
 		$this->assertEquals( 'My Blog | WP App', $result );
 	}
+	public function test_wp_app_get_asset_url_not_defined_constant_without_full_url() {
+		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
+			$expected_slug = '/wp-content/themes/my-theme/public';
+
+			$this->assertEquals( $expected_slug, Enpii_Base_Helper_Test_Tmp_Get_Base_Path::wp_app_get_asset_url( false ) );
+		}
+	}
 
 	/**
 	 * @runInSeparateProcess
 	 */
+	public function test_wp_app_get_asset_url_not_defined_constant_with_full_url() {
+		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
+
+					// Mock the get_site_url function
+			WP_Mock::userFunction(
+				'get_site_url',
+				[
+					'return' => 'https://example.com',
+				]
+			);
+
+
+			$expected_url = 'https://example.com/wp-content/themes/my-theme/public';
+
+
+			$this->assertEquals( $expected_url, Enpii_Base_Helper_Test_Tmp_Get_Base_Path::wp_app_get_asset_url( true ) );
+		}
+	}
+
 	public function test_wp_app_get_asset_url_defined_constant_full_url() {
 		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
 			define( 'ENPII_BASE_WP_APP_ASSET_URL', 'http://example.com' );
@@ -1257,6 +1284,12 @@ class Enpii_Base_Helper_Test_Tmp_True extends Enpii_Base_Helper {
 
 	public static function get_wp_app_base_path() {
 		return 'wp-app/test';
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Get_Base_Path extends Enpii_Base_Helper {
+	public static function get_wp_app_base_path() {
+		return 'wp-content/themes/my-theme';
 	}
 }
 
