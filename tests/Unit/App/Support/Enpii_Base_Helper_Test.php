@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Tests\Unit\App\Support;
 
-use Closure;
 use DateTimeZone;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
-use Enpii_Base\App\Support\Enpii_Base_Hook_Handlers;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_False;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Get_Base_Path;
@@ -469,6 +467,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		WP_Mock::expectActionAdded(
 			'admin_notices',
 			function ( $callback ) {
+				// Ensure that the callback is of type Closure
 				return true;
 			}
 		);
@@ -1252,7 +1251,6 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 }
 
 
-
 namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
 
 use Enpii_Base\App\Support\Enpii_Base_Helper;
@@ -1397,6 +1395,7 @@ class Enpii_Base_Helper_Test_Tmp_Setup_App_Url extends Enpii_Base_Helper {
 		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors_setup_app_url'; 
 	}
 }
+
 class Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True extends Enpii_Base_Helper { 
 	public static $wp_app_check = null;
 
