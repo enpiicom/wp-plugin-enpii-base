@@ -1,24 +1,49 @@
 ## Overview
-The `Enpii_Base_Bootstrap` class is responsible for the initialization and setup of the Enpii Base framework within a WordPress environment. It includes methods to handle both CLI and web mode operations, ensuring the proper setup of WordPress application hooks, redirections, and actions.
 
-### Description:
-The `initialize` method serves as the entry point for setting up the Enpii Base framework. It is triggered early in the `enpii-base-init.php` file. This method checks whether the WordPress content directory is loaded and then performs the necessary setup actions based on the environment, handling both CLI and web modes appropriately.
+The `Enpii_Base_Bootstrap` class is designed to initialize and set up the Enpii Base framework within a WordPress environment. It includes methods to manage both CLI and web mode operations, ensuring the proper configuration of WordPress application hooks, redirects, and actions.
 
-### Function Flow:
-1. **Check if WordPress Content Directory is Loaded:**
-   - Uses `Enpii_Base_Helper::is_wp_content_loaded()` to verify if the WordPress content directory is loaded.
-   - If not loaded, the method terminates early.
+### Initialization of the WP App
 
-2. **Handle Command-Line Interface (CLI) Mode:**
-   - Checks if the environment is running in CLI mode with `Enpii_Base_Helper::is_console_mode()`.
-   - Registers the CLI initialization action via `static::register_cli_init_action()` to bind it to the `cli_init` hook. This method is only relevant when the application is running in CLI mode, using `Enpii_Base_Helper::wp_cli_init()` as the callback function.
-   - Checks the `$_SERVER['argv']`, if the `'enpii-base prepare'` command is detected using `static::is_enpii_base_prepare_command()`, it prepares the WP App folders with `Enpii_Base_Helper::prepare_wp_app_folders()` and exits early.
+The main goal of the initialization process is to prepare the necessary folder structure and manage database setup or migration tasks for the plugin. The `initialize` method is the entry point for this process, triggered early in the `enpii-base-init.php` file. It checks whether the WordPress content directory is loaded and then performs the appropriate setup actions based on whether the environment is in CLI or web mode.
 
-3. **Web Mode Setup:**
-   - If not in CLI mode, use `Enpii_Base_Helper::perform_wp_app_check()` method to verify whether the necessary extensions and WordPress application setup steps are correct. If the check fails, it exits early.
-   - Registers a redirect action that is triggered during the application setup process using `static::register_setup_app_redirect()`. This method ensures that users are redirected to the appropriate setup page. This adds an action to the `ENPII_BASE_SETUP_HOOK_NAME` hook, using `Enpii_Base_Helper::maybe_redirect_to_setup_app()` as the callback function. The priority of this action is set to `-200`.
-   - Registers hooks necessary for the proper setup of the WP App via `static::register_wp_app_setup_hooks()`. This method ensures that the WP App instance is loaded during the setup process, it adds an action to the `ENPII_BASE_SETUP_HOOK_NAME` hook, using `\Enpii_Base\App\WP\WP_Application::load_instance()` as the callback function. The priority of this action is set to `-100`
-   - Signals that the WP App has fully loaded by registering the `register_wp_app_loaded_action()`. This method is called after all necessary setup actions are completed, it adds an action to the `\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED` hook, using `static::handle_wp_app_loaded_action()` as the callback function, which initializes the Enpii Base WordPress plugin with the necessary configurations by calling `\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app()` with the plugin slug, directory, and URL parameters.
+#### 1. Command-Line Interface (CLI) Mode Setup
+
+In CLI mode, the setup process is managed through two specific command-line instructions:
+
+```bash
+wp enpii-base prepare       # Set up the correct folder structure
+wp enpii-base wp-app:setup  # Run migrations and copy necessary assets
+```
+- `enpii-base prepare`: Prepares and sets up the required folder structure for the plugin.
+- `enpii-base wp-app:setup`: Runs the necessary migrations and copies the required assets to their appropriate locations.
+
+If the environment is running in CLI mode, the `Enpii_Base_Helper::is_console_mode()` method confirms it. The CLI initialization action is then registered via `static::register_cli_init_action()`, binding it to the cli_init hook with `Enpii_Base_Helper::wp_cli_init()` as the callback.
+
+#### 2. Web Mode Setup
+
+If the environment is not in CLI mode, the `Enpii_Base_Helper::perform_wp_app_check()` method is used to verify that the necessary extensions and WordPress application setup steps are in place. If the check fails, the process exits early.
+
+In web mode, the plugin performs the following tasks:
+
+- **Prepare the necessary folder structure**: The Enpii Base plugin requires a Laravel-style folder structure to function correctly.
+- **Redirect to the general setup page**: The plugin redirects the request to the general setup page if certain conditions are met, as this phase requires special permissions.
+- **Fallback to the Admin setup page**: If the setup cannot be completed on the general setup page, the plugin redirects the request to the Admin setup page. This page requires Admin access and provides more detailed error messages.
+
+Steps to be executed in sequence:
+
+1. **Register Redirect Action**:
+   - The setup process begins by registering a redirect action using `static::register_setup_app_redirect()`. This method ensures that users are redirected to the appropriate setup page.
+   - This action is added to the `ENPII_BASE_SETUP_HOOK_NAME` hook, with `Enpii_Base_Helper::maybe_redirect_to_setup_app()` as the callback function. The priority of this action is set to `-200`.
+
+2. **Register WP App Setup Hooks**:
+   - Next, the necessary hooks for the proper setup of the WP App are registered via `static::register_wp_app_setup_hooks()`.
+   - This method ensures that the WP App instance is loaded during the setup process by adding an action to the `ENPII_BASE_SETUP_HOOK_NAME` hook, using `\Enpii_Base\App\WP\WP_Application::load_instance()` as the callback function. The priority of this action is set to `-100`.
+
+3. **Signal WP App Fully Loaded**:
+   - Finally, the method `register_wp_app_loaded_action()` is called to signal that the WP App has fully loaded after all necessary setup actions are completed.
+   - An action is added to the `\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED` hook, with `static::handle_wp_app_loaded_action()` as the callback function. This function initializes the Enpii Base WordPress plugin by calling `\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app()` with the plugin slug, directory, and URL parameters.
+
 
 ## Summary
-The `Enpii_Base_Bootstrap` class provides essential methods to initialize and configure the Enpii Base framework within a WordPress environment. It handles different setups for CLI and web modes, ensuring that the application is correctly configured and ready to be used.
+
+The `Enpii_Base_Bootstrap` class provides essential methods to initialize and configure the Enpii Base framework within a WordPress environment. It manages different setups for CLI and web modes, ensuring that the application is correctly configured and ready for use.
