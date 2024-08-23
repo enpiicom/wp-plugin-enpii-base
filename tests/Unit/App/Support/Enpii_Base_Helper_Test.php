@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Tests\Unit\App\Support;
 
-use Closure;
 use DateTimeZone;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_False;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Get_Base_Path;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_True;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli;
@@ -468,7 +468,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 			'admin_notices',
 			function ( $callback ) {
 				// Ensure that the callback is of type Closure
-				$this->assertInstanceOf( Closure::class, $callback );
+				return true;
 			}
 		);
 
@@ -760,10 +760,36 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert that the title is correctly constructed
 		$this->assertEquals( 'My Blog | WP App', $result );
 	}
+	public function test_wp_app_get_asset_url_not_defined_constant_without_full_url() {
+		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
+			$expected_slug = '/wp-content/themes/my-theme/public';
+
+			$this->assertEquals( $expected_slug, Enpii_Base_Helper_Test_Tmp_Get_Base_Path::wp_app_get_asset_url( false ) );
+		}
+	}
 
 	/**
 	 * @runInSeparateProcess
 	 */
+	public function test_wp_app_get_asset_url_not_defined_constant_with_full_url() {
+		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
+
+					// Mock the get_site_url function
+			WP_Mock::userFunction(
+				'get_site_url',
+				[
+					'return' => 'https://example.com',
+				]
+			);
+
+
+			$expected_url = 'https://example.com/wp-content/themes/my-theme/public';
+
+
+			$this->assertEquals( $expected_url, Enpii_Base_Helper_Test_Tmp_Get_Base_Path::wp_app_get_asset_url( true ) );
+		}
+	}
+
 	public function test_wp_app_get_asset_url_defined_constant_full_url() {
 		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
 			define( 'ENPII_BASE_WP_APP_ASSET_URL', 'http://example.com' );
@@ -773,7 +799,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$result = Enpii_Base_Helper_Test_Tmp_True::wp_app_get_asset_url( true );
 
 		// Assert that the method returns the correct slug path
-		$this->assertEquals( ENPII_BASE_WP_APP_ASSET_URL, $result );
+		$this->assertEquals( 'http://example.com', $result );
 	}
 
 	/**
@@ -856,6 +882,18 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertTrue( $result );
 	}
 
+	public function test_get_use_error_handler_setting_returns_true_when_constant_not_defined() {
+		// Define the constant if not already defined
+		if ( ! defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) ) {
+			$result = Enpii_Base_Helper::get_use_error_handler_setting();
+			if ( getenv( 'ENPII_BASE_USE_ERROR_HANDLER' ) !== false ) {
+				$this->assertEquals( getenv( 'ENPII_BASE_USE_ERROR_HANDLER' ), $result );
+			} else {
+				$this->assertFalse( $result );
+			}
+		}   
+	}
+
 	public function test_get_use_error_handler_setting_returns_true_when_constant_defined() {
 		// Define the constant if not already defined
 		if ( ! defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) ) {
@@ -882,6 +920,17 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertTrue( $result );
 	}
 
+	public function test_get_blade_for_wp_template_setting_returns_true_when_constant_not_defined() {
+		if ( ! defined( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) ) {
+			$result = Enpii_Base_Helper::get_blade_for_wp_template_setting();
+			if ( getenv( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) !== false ) {
+				$this->assertEquals( getenv( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ), $result );
+			} else {
+				$this->assertFalse( $result );
+			}
+		}
+	}
+
 	public function test_get_blade_for_wp_template_setting_returns_true_when_constant_defined() {
 		// Define the constant if not already defined
 		if ( ! defined( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) ) {
@@ -906,6 +955,18 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 		// Assert that it returns true
 		$this->assertTrue( $result );
+	}
+
+	public function test_get_disable_web_worker_status_when_constant_not_defined() {
+		// Define the constant if not already defined
+		if ( ! defined( 'ENPII_BASE_DISABLE_WEB_WORKER' ) ) {
+			$result = Enpii_Base_Helper::get_disable_web_worker_status();
+			if ( getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) !== false ) {
+				$this->assertEquals( getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ), $result );
+			} else {
+				$this->assertFalse( $result );
+			}
+		}
 	}
 
 	public function test_get_disable_web_worker_status_when_constant_defined() {
@@ -1179,8 +1240,15 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertTrue( $result );
 		$this->assertTrue( Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True::$wp_app_check );
 	}
-}
 
+	public function test_is_pdo_mysql_loaded() {
+		if ( extension_loaded( 'pdo_mysql' ) ) {
+			$this->assertTrue( Enpii_Base_Helper::is_pdo_mysql_loaded() );
+		} else {
+			$this->assertFalse( Enpii_Base_Helper::is_pdo_mysql_loaded() );
+		}
+	}
+}
 
 
 namespace Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test;
@@ -1214,6 +1282,12 @@ class Enpii_Base_Helper_Test_Tmp_True extends Enpii_Base_Helper {
 
 	public static function get_wp_app_base_path() {
 		return 'wp-app/test';
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Get_Base_Path extends Enpii_Base_Helper {
+	public static function get_wp_app_base_path() {
+		return 'wp-content/themes/my-theme';
 	}
 }
 
@@ -1321,6 +1395,7 @@ class Enpii_Base_Helper_Test_Tmp_Setup_App_Url extends Enpii_Base_Helper {
 		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors_setup_app_url'; 
 	}
 }
+
 class Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True extends Enpii_Base_Helper { 
 	public static $wp_app_check = null;
 

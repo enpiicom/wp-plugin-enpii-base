@@ -214,6 +214,7 @@ class Enpii_Base_Helper {
 
 	public static function use_enpii_base_error_handler(): bool {
 		$use_error_handler = static::get_use_error_handler_setting();
+
 		return apply_filters( 'enpii_base_use_error_handler', $use_error_handler );
 	}
 
@@ -221,13 +222,14 @@ class Enpii_Base_Helper {
 		if ( defined( 'ENPII_BASE_USE_ERROR_HANDLER' ) ) {
 			return (bool) ENPII_BASE_USE_ERROR_HANDLER;
 		}
-
 		$env_value = getenv( 'ENPII_BASE_USE_ERROR_HANDLER' );
+
 		return $env_value !== false ? (bool) $env_value : false;
 	}
 
 	public static function use_blade_for_wp_template(): bool {
 		$blade_for_template = static::get_blade_for_wp_template_setting();
+
 		return apply_filters( 'enpii_base_use_blade_for_wp_template', $blade_for_template );
 	}
 
@@ -235,8 +237,8 @@ class Enpii_Base_Helper {
 		if ( defined( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' ) ) {
 			return (bool) ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE;
 		}
-
 		$env_value = getenv( 'ENPII_BASE_USE_BLADE_FOR_WP_TEMPLATE' );
+
 		return $env_value !== false ? (bool) $env_value : false;
 	}
 
@@ -246,11 +248,12 @@ class Enpii_Base_Helper {
 	}
 
 	public static function get_disable_web_worker_status(): bool {
-		return defined( 'ENPII_BASE_DISABLE_WEB_WORKER' ) 
-			? (bool) ENPII_BASE_DISABLE_WEB_WORKER 
-			: ( getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) !== false 
-				? (bool) getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' ) 
-				: false );
+		if ( defined( 'ENPII_BASE_DISABLE_WEB_WORKER' ) ) {
+			return (bool) ENPII_BASE_DISABLE_WEB_WORKER;
+		}
+		$env_value = getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' );
+		
+		return $env_value !== false ? (bool) $env_value : false;
 	}
 
 	public static function get_wp_app_base_path() {
@@ -372,7 +375,7 @@ class Enpii_Base_Helper {
 			return ENPII_BASE_WP_APP_ASSET_URL;
 		}
 
-		$slug_to_wp_app = str_replace( ABSPATH, '', self::get_wp_app_base_path() );
+		$slug_to_wp_app = str_replace( ABSPATH, '', static::get_wp_app_base_path() );
 		$slug_to_public_asset = '/' . $slug_to_wp_app . '/public';
 
 		return $full_url ? trim( get_site_url(), '/' ) . $slug_to_public_asset : $slug_to_public_asset;
@@ -386,6 +389,7 @@ class Enpii_Base_Helper {
 	 */
 	public static function get_major_version( $version ): int {
 		$parts = explode( '.', $version );
+		
 		return (int) filter_var( $parts[0], FILTER_SANITIZE_NUMBER_INT );
 	}
 
@@ -411,6 +415,6 @@ class Enpii_Base_Helper {
 	}
 
 	public static function is_pdo_mysql_loaded(): bool {
-		return extension_loaded( 'pdo_mysql' );
+		return (bool) extension_loaded( 'pdo_mysql' );
 	}
 }
