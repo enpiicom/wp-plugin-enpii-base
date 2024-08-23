@@ -24,7 +24,7 @@ If the environment is running in CLI mode, the `Enpii_Base_Helper::is_console_mo
 In web mode, the plugin performs the following tasks:
 
 - **Prepare the necessary folder structure**: The Enpii Base plugin requires a flexible folder structure, including the cache and storage directories located within the `wp-content/uploads/wp-app/` folder.
-- **Redirect to the general setup page**: The plugin redirects the request to the general setup page when specific conditions are met, as this phase requires special permissions. During this process, it retrieves the `enpii_base_setup_info` option from the database and verifies the accuracy of the setup information. Upon successful completion of the setup, the plugin updates the `enpii_base_version` option in the database with the current plugin version.
+- **Redirect to the general setup page**: The plugin redirects the request to the general setup page when specific conditions are met, as this phase requires special permissions. After completing the setup, the plugin updates the `enpii_base_version` option in the database with the current plugin version. If the database is not updated with the current plugin's version, the setup is considered to have failed.
 - **Fallback to the Admin setup page**: If the setup cannot be completed on the general setup page, the plugin redirects the request to the Admin setup page. This page requires Admin access and provides more detailed error messages.
 
 Steps to be executed in sequence:
