@@ -21,8 +21,6 @@ If the environment is running in CLI mode, the `Enpii_Base_Helper::is_console_mo
 
 #### 2. Web Mode Setup
 
-If the environment is not in CLI mode, the `Enpii_Base_Helper::perform_wp_app_check()` method is used to verify that the necessary extensions and WordPress application setup steps are in place. If the check fails, the process exits early.
-
 In web mode, the plugin performs the following tasks:
 
 - **Prepare the necessary folder structure**: The Enpii Base plugin requires a Laravel-style folder structure to function correctly.
@@ -31,15 +29,18 @@ In web mode, the plugin performs the following tasks:
 
 Steps to be executed in sequence:
 
-1. **Register Redirect Action**:
+1. **Perform WP App Check**:
+   - If the environment is not in CLI mode, the `Enpii_Base_Helper::perform_wp_app_check()` method is used to verify that the necessary extensions and WordPress application setup steps are in place. If the check fails, the process exits early.
+
+2. **Register Redirect Action**:
    - The setup process begins by registering a redirect action using `static::register_setup_app_redirect()`. This method ensures that users are redirected to the appropriate setup page.
    - This action is added to the `ENPII_BASE_SETUP_HOOK_NAME` hook, with `Enpii_Base_Helper::maybe_redirect_to_setup_app()` as the callback function. The priority of this action is set to `-200`.
 
-2. **Register WP App Setup Hooks**:
+3. **Register WP App Setup Hooks**:
    - Next, the necessary hooks for the proper setup of the WP App are registered via `static::register_wp_app_setup_hooks()`.
    - This method ensures that the WP App instance is loaded during the setup process by adding an action to the `ENPII_BASE_SETUP_HOOK_NAME` hook, using `\Enpii_Base\App\WP\WP_Application::load_instance()` as the callback function. The priority of this action is set to `-100`.
 
-3. **Signal WP App Fully Loaded**:
+4. **Signal WP App Fully Loaded**:
    - Finally, the method `register_wp_app_loaded_action()` is called to signal that the WP App has fully loaded after all necessary setup actions are completed.
    - An action is added to the `\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED` hook, with `static::handle_wp_app_loaded_action()` as the callback function. This function initializes the Enpii Base WordPress plugin by calling `\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app()` with the plugin slug, directory, and URL parameters.
 
