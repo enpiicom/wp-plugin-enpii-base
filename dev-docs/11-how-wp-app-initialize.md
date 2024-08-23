@@ -1,10 +1,10 @@
 ## Overview
 The `Enpii_Base_Bootstrap` class is responsible for the initialization and setup of the Enpii Base framework within a WordPress environment. It includes methods to handle both CLI and web mode operations, ensuring the proper setup of WordPress application hooks, redirections, and actions.
 
-#### Description:
+### Description:
 The `initialize` method serves as the entry point for setting up the Enpii Base framework. It is triggered early in the `enpii-base-init.php` file. This method checks whether the WordPress content directory is loaded and then performs the necessary setup actions based on the environment, handling both CLI and web modes appropriately.
 
-#### Function Flow:
+### Function Flow:
 1. **Check if WordPress Content Directory is Loaded:**
    - Uses `Enpii_Base_Helper::is_wp_content_loaded()` to verify if the WordPress content directory is loaded.
    - If not loaded, the method terminates early.
