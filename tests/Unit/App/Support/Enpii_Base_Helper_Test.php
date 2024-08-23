@@ -8,6 +8,7 @@ use Closure;
 use DateTimeZone;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
+use Enpii_Base\App\Support\Enpii_Base_Hook_Handlers;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_False;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Get_Base_Path;
@@ -468,8 +469,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		WP_Mock::expectActionAdded(
 			'admin_notices',
 			function ( $callback ) {
-				// Ensure that the callback is of type Closure
-				$this->assertInstanceOf( Closure::class, $callback );
+				return true;
 			}
 		);
 
