@@ -1,12 +1,10 @@
-## Overview
+## Initialization of the WP App
 
 The `Enpii_Base_Bootstrap` class is designed to initialize and set up the Enpii Base framework within a WordPress environment. It includes methods to manage both CLI and web mode operations, ensuring the proper configuration of WordPress application hooks, redirects, and actions.
 
-### Initialization of the WP App
-
 The main goal of the initialization process is to prepare the necessary folder structure and manage database setup or migration tasks for the plugin. The `initialize` method is the entry point for this process, triggered early in the `enpii-base-init.php` file. It checks whether the WordPress content directory is loaded and then performs the appropriate setup actions based on whether the environment is in CLI or web mode.
 
-#### 1. Command-Line Interface (CLI) Mode Setup
+### 1. Command-Line Interface (CLI) Mode Setup
 
 In CLI mode, the setup process is managed through two specific command-line instructions:
 
@@ -19,7 +17,7 @@ wp enpii-base wp-app:setup  # Run migrations and copy necessary assets
 
 If the environment is running in CLI mode, the `Enpii_Base_Helper::is_console_mode()` method confirms it. The CLI initialization action is then registered via `static::register_cli_init_action()`, binding it to the cli_init hook with `Enpii_Base_Helper::wp_cli_init()` as the callback.
 
-#### 2. Web Mode Setup
+### 2. Web Mode Setup
 
 In web mode, the plugin performs the following tasks:
 
