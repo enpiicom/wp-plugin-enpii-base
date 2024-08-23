@@ -4,6 +4,8 @@ The `Enpii_Base_Bootstrap` class is designed to initialize and set up the Enpii 
 
 The main goal of the initialization process is to prepare the necessary folder structure and manage database setup or migration tasks for the plugin. The `initialize` method is the entry point for this process, triggered early in the `enpii-base-init.php` file. It checks whether the WordPress content directory is loaded and then performs the appropriate setup actions based on whether the environment is in CLI or web mode.
 
+This will create a laravel application `wp_app()` (a DI container https://code.tutsplus.com/tutorials/digging-in-to-laravels-ioc-container--cms-22167) contains everything we need.
+
 ### 1. Command-Line Interface (CLI) Mode Setup
 
 In CLI mode, the setup process is managed through two specific command-line instructions:
