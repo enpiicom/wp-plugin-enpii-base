@@ -169,7 +169,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		);
 
 		// Act: Call the method to register the hook
-		Enpii_Base_Bootstrap::register_wp_app_setup_hooks();
+		Enpii_Base_Bootstrap::init_wp_app_instance();
 
 		// Assert: WP_Mock automatically asserts that add_action was called with the correct parameters
 		WP_Mock::assertHooksAdded();
@@ -183,7 +183,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		);
 
 		// Act: Call the method to register the hook
-		Enpii_Base_Bootstrap::register_wp_app_loaded_action();
+		Enpii_Base_Bootstrap::init_enpii_base_wp_plugin_instance();
 
 		// Assert: WP_Mock automatically asserts that add_action was called with the correct parameters
 		WP_Mock::assertHooksAdded();
@@ -233,11 +233,11 @@ class Enpii_Base_Bootstrap_Test_Tmp_Initialize extends Enpii_Base_Bootstrap {
 		Enpii_Base_Bootstrap_Test::$methods[] = 'register_setup_app_redirect'; 
 	}
 
-	public static function register_wp_app_setup_hooks() {
+	public static function init_wp_app_instance() {
 		Enpii_Base_Bootstrap_Test::$methods[] = 'register_wp_app_setup_hooks'; 
 	}
 
-	public static function register_wp_app_loaded_action() {
+	public static function init_enpii_base_wp_plugin_instance() {
 		Enpii_Base_Bootstrap_Test::$methods[] = 'register_wp_app_loaded_action'; 
 	}
 
