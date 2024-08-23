@@ -57,7 +57,6 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		$this->assertTrue( ! in_array( 'register_setup_app_redirect', static::$methods ) );
 	}
 
-
 	public function test_initialize_not_in_console_mode_perform_wp_app_check_true() {
 		// Arrange
 		$helper_mock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
@@ -112,7 +111,6 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		$this->assertTrue( ! in_array( 'register_wp_app_loaded_action', static::$methods ) );
 	}
 
-
 	public function test_register_cli_init_action() {
 		// Arrange: Mock the add_action function to check it's called with the right parameters
 		WP_Mock::expectActionAdded( 'cli_init', [ Enpii_Base_Helper::class, 'wp_cli_init' ] );
@@ -150,7 +148,6 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		// Assert
 		$this->assertTrue( $result );
 	}
-
 
 	public function test_is_enpii_base_prepare_command_false() {
 		// Arrange: Simulate command line arguments
