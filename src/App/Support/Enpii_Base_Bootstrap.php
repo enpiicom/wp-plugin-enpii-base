@@ -20,7 +20,7 @@ class Enpii_Base_Bootstrap {
 				// We want to redirect to setup app before the WP App init
 				static::register_setup_app_redirect();
 			} elseif ( static::is_enpii_base_prepare_command() ) {
-					Enpii_Base_Helper::prepare_wp_app_folders();
+				Enpii_Base_Helper::prepare_wp_app_folders();
 			}
 		
 			// We init wp_app() here
@@ -56,7 +56,7 @@ class Enpii_Base_Bootstrap {
 		);
 	}
 
-	public static function init_enpii_base_wp_plugin_instance( $plugin_url, $dirname ) {
+	public static function init_enpii_base_wp_plugin_instance( string $plugin_url, string $dirname ) {
 		add_action(
 			\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED,
 			function () use ( $plugin_url, $dirname ) {
@@ -65,7 +65,7 @@ class Enpii_Base_Bootstrap {
 		);
 	}
 
-	public static function handle_wp_app_loaded_action( $plugin_url, $dirname ): void {
+	public static function handle_wp_app_loaded_action( string $plugin_url, string $dirname ): void {
 		\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app(
 			ENPII_BASE_PLUGIN_SLUG,
 			$dirname,

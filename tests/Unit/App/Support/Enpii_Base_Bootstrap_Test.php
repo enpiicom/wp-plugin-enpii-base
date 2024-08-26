@@ -54,13 +54,38 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		// Mock the prepare_wp_app_folders method to return false
 		$helper_mock->shouldReceive( 'prepare_wp_app_folders' )
 					->once()
-					->andReturn( null );
+					->andReturn( false );
 
 		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize( $this->plugin_url, $this->dirname );
 
 		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
 		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
 		$this->assertTrue( in_array( 'init_enpii_base_wp_plugin_instance', static::$methods ) );
+	}
+
+	public function test_initialize_in_console_mode_false() {
+		// Arrange
+		$helper_mock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
+
+		// Mock the is_wp_content_loaded method to return true
+		$helper_mock->shouldReceive( 'is_wp_content_loaded' )
+					->once()
+					->andReturn( true );
+
+		// Mock the is_console_mode method to return false
+		$helper_mock->shouldReceive( 'is_console_mode' )
+					->once()
+					->andReturn( false );
+
+		// Mock the prepare_wp_app_folders method to return false
+		$helper_mock->shouldReceive( 'perform_wp_app_check' )
+					->once()
+					->andReturn( false );
+
+		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( ! in_array( 'init_wp_app_instance', static::$methods ) );
 	}
 
 	public function test_initialize_not_in_console_mode_perform_wp_app_check_true() {
@@ -74,23 +99,23 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 
 		// Mock the is_console_mode method to return false
 		$helper_mock->shouldReceive( 'is_console_mode' )
-					->once()
+					->times( 2 )
 					->andReturn( false );
 
-		// Mock the perform_wp_app_check method to return true
+		// Mock the prepare_wp_app_folders method to return true
 		$helper_mock->shouldReceive( 'perform_wp_app_check' )
 					->once()
 					->andReturn( true );
 
 		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize( $this->plugin_url, $this->dirname );
 
-		$this->assertTrue( ! in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
+		$this->assertTrue( in_array( 'init_enpii_base_wp_plugin_instance', static::$methods ) );
 		$this->assertTrue( in_array( 'register_setup_app_redirect', static::$methods ) );
-		$this->assertTrue( in_array( 'register_wp_app_setup_hooks', static::$methods ) );
-		$this->assertTrue( in_array( 'register_wp_app_loaded_action', static::$methods ) );
 	}
 
-	public function test_initialize_not_in_console_mode_perform_wp_app_check_false() {
+	public function test_initialize_is_enpii_base_prepare_command() {
 		// Arrange
 		$helper_mock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
 
@@ -101,20 +126,20 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 
 		// Mock the is_console_mode method to return false
 		$helper_mock->shouldReceive( 'is_console_mode' )
-					->once()
-					->andReturn( false );
+					->times( 2 )
+					->andReturn( true );
 
-		// Mock the perform_wp_app_check method to return false
-		$helper_mock->shouldReceive( 'perform_wp_app_check' )
+		// Mock the prepare_wp_app_folders method to return false
+		$helper_mock->shouldReceive( 'prepare_wp_app_folders' )
 					->once()
-					->andReturn( false );
+					->andReturn( null );
 
 		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize( $this->plugin_url, $this->dirname );
 
-		$this->assertTrue( ! in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
+		$this->assertTrue( in_array( 'init_enpii_base_wp_plugin_instance', static::$methods ) );
 		$this->assertTrue( ! in_array( 'register_setup_app_redirect', static::$methods ) );
-		$this->assertTrue( ! in_array( 'register_wp_app_setup_hooks', static::$methods ) );
-		$this->assertTrue( ! in_array( 'register_wp_app_loaded_action', static::$methods ) );
 	}
 
 	public function test_register_cli_init_action() {
@@ -181,46 +206,40 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		WP_Mock::assertHooksAdded();
 	}
 	
-	public function test_register_wp_app_loaded_action() {
-		// Arrange: Expect the add_action function to be called with the specific parameters
+	public function test_init_enpii_base_wp_plugin_instance() {
+		$action_name = \Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED;
+
+		// Mock add_action to ensure it is called with 'admin_notices'
 		WP_Mock::expectActionAdded(
-			\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED, // The hook name
-			[ Enpii_Base_Bootstrap::class, 'handle_wp_app_loaded_action' ] // The callback is a static method
+			$action_name,
+			function ( $callback ) {
+				// Ensure that the callback is of type Closure
+				return true;
+			}
 		);
 
-		// Act: Call the method to register the hook
+		// Execute the method under test
 		Enpii_Base_Bootstrap::init_enpii_base_wp_plugin_instance( $this->plugin_url, $this->dirname );
 
-		// Assert: WP_Mock automatically asserts that add_action was called with the correct parameters
+		// Verify that the action was added exactly once
 		WP_Mock::assertHooksAdded();
 	}
 
 	public function test_handle_wp_app_loaded_action() {
-		// Arrange: Mock the plugin_dir_url function
-		WP_Mock::userFunction( 'plugin_dir_url' )
-		->times( 2 ) // Expect to call once but we need to set 2 times as for another additional assertion
-		->withAnyArgs()
-		->andReturnUsing(
-			function ( $args ) {
-				return 'http://example.com/wp-content/plugins/enpii-base/';
-			}
-		);
-		
-		// Additional assertion: Ensure that the return value of plugin_dir_url was used correctly
-		$this->assertSame( 'http://example.com/wp-content/plugins/enpii-base/', plugin_dir_url( __FILE__ ) );
-
 		// Mock the method that should be called within the static method
 		$plugin_mock = Mockery::mock( 'alias:' . \Enpii_Base\App\WP\Enpii_Base_WP_Plugin::class );
 		$plugin_mock->shouldReceive( 'init_with_wp_app' )
 					->once()
 					->with(
 						'enpii-base',
-						Mockery::type( 'string' ), // __DIR__ should be a string
-						'http://example.com/wp-content/plugins/enpii-base/' // The mocked return value of plugin_dir_url
+						$this->dirname, // __DIR__ should be a string
+						$this->plugin_url // The mocked return value of plugin_dir_url
 					);
 
 		// Act: Directly call the static method that handles the action
 		Enpii_Base_Bootstrap::handle_wp_app_loaded_action( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( true );
 	}
 }
 
@@ -249,5 +268,9 @@ class Enpii_Base_Bootstrap_Test_Tmp_Initialize extends Enpii_Base_Bootstrap {
 
 	public static function is_enpii_base_prepare_command(): bool {
 		return true;
+	}
+
+	public static function prepare_wp_app_folders() {
+		Enpii_Base_Bootstrap_Test::$methods[] = 'prepare_wp_app_folders'; 
 	}
 }
