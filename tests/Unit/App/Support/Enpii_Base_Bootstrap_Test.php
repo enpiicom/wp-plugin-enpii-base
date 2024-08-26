@@ -11,12 +11,17 @@ use WP_Mock;
 
 class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 
+	public $plugin_url;
+	public $dirname;
 	public static $methods;
 	private $backup_SERVER = [];
 
 	public function setUp(): void {
 		parent::setUp();
 		static::$methods = [];
+
+		$this->plugin_url = 'http://example.com/wp-content/plugins/my-plugin/';
+		$this->dirname = '/var/www/html/wp-content/plugins/my-plugin';
 
 		global $_SERVER;
 
@@ -32,7 +37,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		Mockery::close();
 	}
 
-	public function test_initialize_in_console_mode_is_enpii_base_prepare_command_true() {
+	public function test_initialize_in_console_mode_true() {
 		// Arrange
 		$helper_mock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
 
@@ -43,7 +48,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 
 		// Mock the is_console_mode method to return false
 		$helper_mock->shouldReceive( 'is_console_mode' )
-					->once()
+					->times( 2 )
 					->andReturn( true );
 
 		// Mock the prepare_wp_app_folders method to return false
@@ -51,10 +56,11 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 					->once()
 					->andReturn( null );
 
-		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize();
+		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize( $this->plugin_url, $this->dirname );
 
 		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
-		$this->assertTrue( ! in_array( 'register_setup_app_redirect', static::$methods ) );
+		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
+		$this->assertTrue( in_array( 'init_enpii_base_wp_plugin_instance', static::$methods ) );
 	}
 
 	public function test_initialize_not_in_console_mode_perform_wp_app_check_true() {
@@ -76,7 +82,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 					->once()
 					->andReturn( true );
 
-		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize();
+		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize( $this->plugin_url, $this->dirname );
 
 		$this->assertTrue( ! in_array( 'register_cli_init_action', static::$methods ) );
 		$this->assertTrue( in_array( 'register_setup_app_redirect', static::$methods ) );
@@ -103,7 +109,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 					->once()
 					->andReturn( false );
 
-		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize();
+		Enpii_Base_Bootstrap_Test_Tmp_Initialize::initialize( $this->plugin_url, $this->dirname );
 
 		$this->assertTrue( ! in_array( 'register_cli_init_action', static::$methods ) );
 		$this->assertTrue( ! in_array( 'register_setup_app_redirect', static::$methods ) );
@@ -183,7 +189,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 		);
 
 		// Act: Call the method to register the hook
-		Enpii_Base_Bootstrap::init_enpii_base_wp_plugin_instance();
+		Enpii_Base_Bootstrap::init_enpii_base_wp_plugin_instance( $this->plugin_url, $this->dirname );
 
 		// Assert: WP_Mock automatically asserts that add_action was called with the correct parameters
 		WP_Mock::assertHooksAdded();
@@ -214,7 +220,7 @@ class Enpii_Base_Bootstrap_Test extends Unit_Test_Case {
 					);
 
 		// Act: Directly call the static method that handles the action
-		Enpii_Base_Bootstrap::handle_wp_app_loaded_action();
+		Enpii_Base_Bootstrap::handle_wp_app_loaded_action( $this->plugin_url, $this->dirname );
 	}
 }
 
@@ -234,11 +240,11 @@ class Enpii_Base_Bootstrap_Test_Tmp_Initialize extends Enpii_Base_Bootstrap {
 	}
 
 	public static function init_wp_app_instance() {
-		Enpii_Base_Bootstrap_Test::$methods[] = 'register_wp_app_setup_hooks'; 
+		Enpii_Base_Bootstrap_Test::$methods[] = 'init_wp_app_instance'; 
 	}
 
-	public static function init_enpii_base_wp_plugin_instance() {
-		Enpii_Base_Bootstrap_Test::$methods[] = 'register_wp_app_loaded_action'; 
+	public static function init_enpii_base_wp_plugin_instance( $plugin_url, $dirname ) {
+		Enpii_Base_Bootstrap_Test::$methods[] = 'init_enpii_base_wp_plugin_instance'; 
 	}
 
 	public static function is_enpii_base_prepare_command(): bool {

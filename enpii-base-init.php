@@ -4,6 +4,4 @@
 
 use Enpii_Base\App\Support\Enpii_Base_Bootstrap;
 
-$plugin_url = plugin_dir_url( __FILE__ );
-$dirname = __DIR__;
-Enpii_Base_Bootstrap::initialize( $plugin_url, $dirname );
+Enpii_Base_Bootstrap::initialize( plugin_dir_url( __FILE__ ), __DIR__ );

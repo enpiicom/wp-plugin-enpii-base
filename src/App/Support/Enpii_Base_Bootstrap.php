@@ -7,7 +7,7 @@ namespace Enpii_Base\App\Support;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 
 class Enpii_Base_Bootstrap {
-	public static function initialize( $plugin_url, $dirname ) {
+	public static function initialize( string $plugin_url, string $dirname ) {
 		if ( Enpii_Base_Helper::is_wp_content_loaded() ) {
 			static::register_cli_init_action();
 		
@@ -60,12 +60,16 @@ class Enpii_Base_Bootstrap {
 		add_action(
 			\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED,
 			function () use ( $plugin_url, $dirname ) {
-				\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app(
-					ENPII_BASE_PLUGIN_SLUG,
-					$dirname,
-					$plugin_url
-				);
+				static::handle_wp_app_loaded_action( $plugin_url, $dirname );
 			}
+		);
+	}
+
+	public static function handle_wp_app_loaded_action( $plugin_url, $dirname ): void {
+		\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app(
+			ENPII_BASE_PLUGIN_SLUG,
+			$dirname,
+			$plugin_url
 		);
 	}
 }
