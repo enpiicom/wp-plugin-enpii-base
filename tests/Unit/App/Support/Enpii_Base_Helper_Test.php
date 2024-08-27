@@ -761,6 +761,9 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertEquals( 'My Blog | WP App', $result );
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_wp_app_get_asset_url_not_defined_constant_without_full_url() {
 		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
 			$expected_slug = '/wp-content/themes/my-theme/public';
@@ -790,7 +793,6 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 			$this->assertEquals( $expected_url, Enpii_Base_Helper_Test_Tmp_Get_Base_Path::wp_app_get_asset_url( true ) );
 		}
 	}
-
 	public function test_wp_app_get_asset_url_defined_constant_full_url() {
 		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
 			define( 'ENPII_BASE_WP_APP_ASSET_URL', 'http://example.com' );
@@ -1020,7 +1022,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 	/**
 	 * @runInSeparateProcess
-	 */	
+	 */ 
 	public function test_wp_app_get_timezone_with_timezone_string() {
 		// Arrange
 		WP_Mock::userFunction(
@@ -1056,23 +1058,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function test_wp_app_get_timezone_with_etc_gmt_offset() 
-	public static function init_enpii_base_wp_plugin_instance( string $plugin_url, string $dirname ) {
-		add_action(
-			\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED,
-			function () use ( $plugin_url, $dirname ) {
-				static::handle_wp_app_loaded_action( $plugin_url, $dirname );
-			}
-		);
-	}
-
-	public static function handle_wp_app_loaded_action( string $plugin_url, string $dirname ): void {
-		\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app(
-			ENPII_BASE_PLUGIN_SLUG,
-			$dirname,
-			$plugin_url
-		);
-	}{
+	public function test_wp_app_get_timezone_with_etc_gmt_offset() {
 		// Arrange
 		WP_Mock::userFunction(
 			'get_option',
