@@ -10,29 +10,31 @@ class Enpii_Base_Helper {
 	public static $wp_app_check = null;
 
 	public static function initialize( string $plugin_url, string $dirname ) {
+		// Check if WordPress core is loaded, if not, exit the method.
 		if ( ! static::is_wp_core_loaded() ) {
 			return;
 		}
-	
+
+		// Register the CLI initialization action.
 		static::register_cli_init_action();
-	
+
+		// If not in console mode and the WP app check fails, exit the method.
+		if ( ! static::is_console_mode() && ! static::perform_wp_app_check() ) {
+			// We do nothing but still keep the plugin enabled
+			return;
+		}
+
+		// If not in console mode, register the setup app redirect before WP App init.
 		if ( ! static::is_console_mode() ) {
-			if ( ! static::perform_wp_app_check() ) {
-				// Keep the plugin enabled but do nothing
-				return;
-			}
-	
-			// Redirect to setup app before WP App initialization
 			static::register_setup_app_redirect();
 		} elseif ( static::is_enpii_base_prepare_command() ) {
-			// Prepare WP App folders in CLI mode
 			static::prepare_wp_app_folders();
 		}
-	
-		// Initialize WP App instance
+
+		// Register the WP App setup hooks.
 		static::init_wp_app_instance();
-	
-		// Initialize the Enpii Base plugin only when WP App is loaded correctly
+
+		// Register the action to signal that the WP App has fully loaded.
 		static::init_enpii_base_wp_plugin_instance( $plugin_url, $dirname );
 	}
 
@@ -221,11 +223,11 @@ class Enpii_Base_Helper {
 		);
 	}
 
-	public static function is_console_mode() {
+	public static function is_console_mode(): bool {
 		return ( (string) static::get_php_sapi_name() === 'cli' || (string) static::get_php_sapi_name() === 'phpdbg' || (string) static::get_php_sapi_name() === 'cli-server' );
 	}
 
-	public static function add_wp_app_setup_errors( $error_message ) {
+	public static function add_wp_app_setup_errors( $error_message ): void {
 		if ( ! isset( $GLOBALS['wp_app_setup_errors'] ) ) {
 			$GLOBALS['wp_app_setup_errors'] = [];
 		}
@@ -241,7 +243,7 @@ class Enpii_Base_Helper {
 
 	public static function use_enpii_base_error_handler(): bool {
 		$use_error_handler = static::get_use_error_handler_setting();
-		
+
 		return apply_filters( 'enpii_base_use_error_handler', $use_error_handler );
 	}
 
@@ -332,7 +334,7 @@ class Enpii_Base_Helper {
 			@chmod( $filepath, $chmod );
 		}
 	}
-
+	
 	public static function wp_cli_init(): void {
 		\WP_CLI::add_command(
 			'enpii-base prepare',
@@ -433,7 +435,7 @@ class Enpii_Base_Helper {
 		return apply_filters( App_Const::FILTER_WP_APP_WEB_PAGE_TITLE, $title );
 	}
 
-	public static function is_wp_core_loaded() {
+	public static function is_wp_core_loaded(): bool {
 		return (bool) defined( 'WP_CONTENT_DIR' );
 	}
 

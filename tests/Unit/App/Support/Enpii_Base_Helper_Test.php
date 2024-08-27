@@ -10,6 +10,11 @@ use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_False;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Get_Base_Path;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_False;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_True;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_Is_Enpii_Base_Prepare_Command;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_Is_Perform_WP_App_Check;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_Wp_Core_Loaded_False;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_True;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli;
@@ -52,6 +57,46 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 		parent::tearDown();
 		Mockery::close();
+	}
+
+	public function test_initialize_is_wp_core_loaded_false() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_Wp_Core_Loaded_False::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( ! in_array( 'init_wp_app_instance', static::$methods ) );
+	}
+
+	public function test_initialize_in_console_mode_false() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_False::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( in_array( 'register_setup_app_redirect', static::$methods ) );
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
+	}
+
+	public function test_initialize_in_console_mode_true() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_True::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
+		$this->assertTrue( in_array( 'init_enpii_base_wp_plugin_instance', static::$methods ) );
+	}
+
+	public function test_initialize_in_console_mode_true_is_enpii_base_prepare_command() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_Is_Enpii_Base_Prepare_Command::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'prepare_wp_app_folders', static::$methods ) );
+		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
+		$this->assertTrue( in_array( 'init_enpii_base_wp_plugin_instance', static::$methods ) );
+		$this->assertTrue( ! in_array( 'register_setup_app_redirect', static::$methods ) );
+	}
+
+	public function test_initialize_is_perform_wp_app_check() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_Is_Perform_WP_App_Check::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( ! in_array( 'register_setup_app_redirect', static::$methods ) );
+		$this->assertTrue( ! in_array( 'init_wp_app_instance', static::$methods ) );
 	}
 
 	public function test_get_current_url(): void {
@@ -800,6 +845,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 			$this->assertEquals( $expected_url, Enpii_Base_Helper_Test_Tmp_Get_Base_Path::wp_app_get_asset_url( true ) );
 		}
 	}
+
 	public function test_wp_app_get_asset_url_defined_constant_full_url() {
 		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
 			define( 'ENPII_BASE_WP_APP_ASSET_URL', 'http://example.com' );
@@ -1359,7 +1405,7 @@ class Enpii_Base_Helper_Test_Tmp_True extends Enpii_Base_Helper {
 
 	public static $wp_app_check = true;
 
-	public static function add_wp_app_setup_errors( $error_message ) {
+	public static function add_wp_app_setup_errors( $error_message ): void {
 		Enpii_Base_Helper_Test::$methods[] = 'add_wp_app_setup_errors'; 
 	}
 
@@ -1401,7 +1447,7 @@ class Enpii_Base_Helper_Test_Tmp_False extends Enpii_Base_Helper {
 		return false;
 	}
 
-	public static function add_wp_app_setup_errors( $error_message ) {
+	public static function add_wp_app_setup_errors( $error_message ): void {
 		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors'; 
 	}
 }
@@ -1490,7 +1536,7 @@ class Enpii_Base_Helper_Test_Tmp_Setup_App_Url extends Enpii_Base_Helper {
 		return true;
 	}
 
-	public static function add_wp_app_setup_errors( $error_message ) {
+	public static function add_wp_app_setup_errors( $error_message ): void {
 		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors_setup_app_url'; 
 	}
 }
@@ -1535,5 +1581,134 @@ class Enpii_Base_Helper_Test_Tmp_Initialize extends Enpii_Base_Helper {
 
 	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
 		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders'; 
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Initialize_Wp_Core_Loaded_False extends Enpii_Base_Helper {
+
+	public static function is_wp_core_loaded(): bool {
+		return false;
+	}
+
+	public static function init_wp_app_instance(): void {
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_True extends Enpii_Base_Helper {
+
+	public static function is_wp_core_loaded(): bool {
+		return true;
+	}
+
+	public static function is_console_mode(): bool {
+		return true;
+	}
+
+	public static function perform_wp_app_check(): bool {
+		return false;
+	}
+
+	public static function is_enpii_base_prepare_command( array $argv = null ): bool {
+		return false;
+	}
+
+	public static function register_cli_init_action() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+	}
+
+	public static function init_wp_app_instance() {
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+	}
+
+	public static function init_enpii_base_wp_plugin_instance( string $plugin_url, string $dirname ) {
+		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance'; 
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Initialize_Is_Enpii_Base_Prepare_Command extends Enpii_Base_Helper {
+
+	public static function is_wp_core_loaded(): bool {
+		return true;
+	}
+
+	public static function is_console_mode(): bool {
+		return true;
+	}
+
+	public static function perform_wp_app_check(): bool {
+		return false;
+	}
+
+	public static function is_enpii_base_prepare_command( array $argv = null ): bool {
+		return true;
+	}
+
+	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
+		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders'; 
+	}
+
+	public static function register_setup_app_redirect() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+	}
+
+	public static function register_cli_init_action() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+	}
+
+	public static function init_wp_app_instance() {
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+	}
+
+	public static function init_enpii_base_wp_plugin_instance( string $plugin_url, string $dirname ) {
+		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance'; 
+	}
+}
+class Enpii_Base_Helper_Test_Tmp_Initialize_Is_Perform_WP_App_Check extends Enpii_Base_Helper {
+
+	public static function is_wp_core_loaded(): bool {
+		return true;
+	}
+
+	public static function is_console_mode(): bool {
+		return false;
+	}
+
+	public static function perform_wp_app_check(): bool {
+		return false;
+	}
+
+	public static function register_cli_init_action() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+	}
+
+	public static function register_setup_app_redirect() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_False extends Enpii_Base_Helper {
+	public static function is_wp_core_loaded(): bool {
+		return true;
+	}
+
+	public static function is_console_mode(): bool {
+		return false;
+	}
+
+	public static function perform_wp_app_check(): bool {
+		return true;
+	}
+
+	public static function register_cli_init_action() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+	}
+
+	public static function register_setup_app_redirect() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+	}
+
+	public static function init_wp_app_instance() {
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
 	}
 }
