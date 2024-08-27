@@ -806,7 +806,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function test_is_wp_content_loaded_when_constant_defined() {
+	public function test_is_wp_core_loaded_when_constant_defined() {
 		// Ensure the constant WP_CONTENT_DIR is defined
 		if ( ! defined( 'WP_CONTENT_DIR' ) ) {
 			define( 'WP_CONTENT_DIR', '/path/to/wp-content' );
@@ -821,7 +821,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		);
 
 		// Call the method and check the result
-		$result = Enpii_Base_Helper::is_wp_content_loaded();
+		$result = Enpii_Base_Helper::is_wp_core_loaded();
 
 		// Assert that the method returns true
 		$this->assertTrue( $result );
