@@ -9,6 +9,35 @@ class Enpii_Base_Helper {
 	public static $setup_info;
 	public static $wp_app_check = null;
 
+	public static function initialize( string $plugin_url, string $dirname ) {
+		// Check if WordPress core is loaded, if not, exit the method.
+		if ( ! static::is_wp_core_loaded() ) {
+			return;
+		}
+
+		// Register the CLI initialization action.
+		static::register_cli_init_action();
+
+		// If not in console mode and the WP app check fails, exit the method.
+		if ( ! static::is_console_mode() && ! static::perform_wp_app_check() ) {
+			// We do nothing but still keep the plugin enabled
+			return;
+		}
+
+		// If not in console mode, register the setup app redirect before WP App init.
+		if ( ! static::is_console_mode() ) {
+			static::register_setup_app_redirect();
+		} elseif ( static::is_enpii_base_prepare_command() ) {
+			static::prepare_wp_app_folders();
+		}
+
+		// Register the WP App setup hooks.
+		static::init_wp_app_instance();
+
+		// Register the action to signal that the WP App has fully loaded.
+		static::init_enpii_base_wp_plugin_instance( $plugin_url, $dirname );
+	}
+
 	public static function get_current_url(): string {
 		if ( empty( $_SERVER['SERVER_NAME'] ) && empty( $_SERVER['HTTP_HOST'] ) ) {
 			return '';
@@ -194,11 +223,11 @@ class Enpii_Base_Helper {
 		);
 	}
 
-	public static function is_console_mode() {
+	public static function is_console_mode(): bool {
 		return ( (string) static::get_php_sapi_name() === 'cli' || (string) static::get_php_sapi_name() === 'phpdbg' || (string) static::get_php_sapi_name() === 'cli-server' );
 	}
 
-	public static function add_wp_app_setup_errors( $error_message ) {
+	public static function add_wp_app_setup_errors( $error_message ): void {
 		if ( ! isset( $GLOBALS['wp_app_setup_errors'] ) ) {
 			$GLOBALS['wp_app_setup_errors'] = [];
 		}
@@ -252,7 +281,7 @@ class Enpii_Base_Helper {
 			return (bool) ENPII_BASE_DISABLE_WEB_WORKER;
 		}
 		$env_value = getenv( 'ENPII_BASE_DISABLE_WEB_WORKER' );
-		
+
 		return $env_value !== false ? (bool) $env_value : false;
 	}
 
@@ -305,11 +334,11 @@ class Enpii_Base_Helper {
 			@chmod( $filepath, $chmod );
 		}
 	}
-
+	
 	public static function wp_cli_init(): void {
 		\WP_CLI::add_command(
 			'enpii-base prepare',
-			[ self::class, 'wp_cli_prepare' ]
+			[ static::class, 'wp_cli_prepare' ]
 		);
 	}
 
@@ -389,7 +418,7 @@ class Enpii_Base_Helper {
 	 */
 	public static function get_major_version( $version ): int {
 		$parts = explode( '.', $version );
-		
+
 		return (int) filter_var( $parts[0], FILTER_SANITIZE_NUMBER_INT );
 	}
 
@@ -406,7 +435,7 @@ class Enpii_Base_Helper {
 		return apply_filters( App_Const::FILTER_WP_APP_WEB_PAGE_TITLE, $title );
 	}
 
-	public static function is_wp_content_loaded() {
+	public static function is_wp_core_loaded(): bool {
 		return (bool) defined( 'WP_CONTENT_DIR' );
 	}
 
@@ -415,6 +444,52 @@ class Enpii_Base_Helper {
 	}
 
 	public static function is_pdo_mysql_loaded(): bool {
-		return (bool) extension_loaded( 'pdo_mysql' );
+		return extension_loaded( 'pdo_mysql' );
+	}
+
+	public static function register_cli_init_action() {
+		add_action( 'cli_init', [ static::class, 'wp_cli_init' ] );
+	}
+
+	public static function register_setup_app_redirect() {
+		add_action(
+			ENPII_BASE_SETUP_HOOK_NAME,
+			[ static::class, 'maybe_redirect_to_setup_app' ],
+			-200
+		);
+	}
+
+	public static function is_enpii_base_prepare_command( array $argv = null ): bool {
+		// Default to using $_SERVER['argv'] if not provided
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$argv = $argv ?? $_SERVER['argv'];
+
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		return ! empty( $argv ) && array_intersect( (array) $argv, [ 'enpii-base', 'prepare' ] );
+	}
+
+	public static function init_wp_app_instance() {
+		add_action(
+			ENPII_BASE_SETUP_HOOK_NAME,
+			[ \Enpii_Base\App\WP\WP_Application::class, 'load_instance' ],
+			-100
+		);
+	}
+
+	public static function init_enpii_base_wp_plugin_instance( string $plugin_url, string $dirname ) {
+		add_action(
+			\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED,
+			function () use ( $plugin_url, $dirname ) {
+				static::handle_wp_app_loaded_action( $plugin_url, $dirname );
+			}
+		);
+	}
+
+	public static function handle_wp_app_loaded_action( string $plugin_url, string $dirname ): void {
+		\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app(
+			ENPII_BASE_PLUGIN_SLUG,
+			$dirname,
+			$plugin_url
+		);
 	}
 }

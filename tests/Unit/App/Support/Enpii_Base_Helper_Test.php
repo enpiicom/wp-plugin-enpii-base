@@ -10,6 +10,11 @@ use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_False;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Get_Base_Path;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_False;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_True;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_Is_Enpii_Base_Prepare_Command;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_Is_Perform_WP_App_Check;
+use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Initialize_Wp_Core_Loaded_False;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_True;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Cli;
@@ -26,12 +31,19 @@ use WP_Mock;
 
 class Enpii_Base_Helper_Test extends Unit_Test_Case {
 	private $backup_SERVER = [];
-	
+
+	public $plugin_url;
+
+	public $dirname;
+
 	public static $methods;
 
 	protected function setUp(): void {
 		parent::setUp();
 		static::$methods = [];
+
+		$this->plugin_url = 'http://example.com/wp-content/plugins/my-plugin/';
+		$this->dirname = '/var/www/html/wp-content/plugins/my-plugin';
 
 		global $_SERVER;
 
@@ -45,6 +57,46 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 		parent::tearDown();
 		Mockery::close();
+	}
+
+	public function test_initialize_is_wp_core_loaded_false() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_Wp_Core_Loaded_False::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( ! in_array( 'init_wp_app_instance', static::$methods ) );
+	}
+
+	public function test_initialize_in_console_mode_false() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_False::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( in_array( 'register_setup_app_redirect', static::$methods ) );
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
+	}
+
+	public function test_initialize_in_console_mode_true() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_True::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
+		$this->assertTrue( in_array( 'init_enpii_base_wp_plugin_instance', static::$methods ) );
+	}
+
+	public function test_initialize_in_console_mode_true_is_enpii_base_prepare_command() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_Is_Enpii_Base_Prepare_Command::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( in_array( 'prepare_wp_app_folders', static::$methods ) );
+		$this->assertTrue( in_array( 'init_wp_app_instance', static::$methods ) );
+		$this->assertTrue( in_array( 'init_enpii_base_wp_plugin_instance', static::$methods ) );
+		$this->assertTrue( ! in_array( 'register_setup_app_redirect', static::$methods ) );
+	}
+
+	public function test_initialize_is_perform_wp_app_check() {
+		Enpii_Base_Helper_Test_Tmp_Initialize_Is_Perform_WP_App_Check::initialize( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( in_array( 'register_cli_init_action', static::$methods ) );
+		$this->assertTrue( ! in_array( 'register_setup_app_redirect', static::$methods ) );
+		$this->assertTrue( ! in_array( 'init_wp_app_instance', static::$methods ) );
 	}
 
 	public function test_get_current_url(): void {
@@ -760,6 +812,10 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert that the title is correctly constructed
 		$this->assertEquals( 'My Blog | WP App', $result );
 	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_wp_app_get_asset_url_not_defined_constant_without_full_url() {
 		if ( ! defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) ) {
 			$expected_slug = '/wp-content/themes/my-theme/public';
@@ -805,7 +861,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function test_is_wp_content_loaded_when_constant_defined() {
+	public function test_is_wp_core_loaded_when_constant_defined() {
 		// Ensure the constant WP_CONTENT_DIR is defined
 		if ( ! defined( 'WP_CONTENT_DIR' ) ) {
 			define( 'WP_CONTENT_DIR', '/path/to/wp-content' );
@@ -820,7 +876,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		);
 
 		// Call the method and check the result
-		$result = Enpii_Base_Helper::is_wp_content_loaded();
+		$result = Enpii_Base_Helper::is_wp_core_loaded();
 
 		// Assert that the method returns true
 		$this->assertTrue( $result );
@@ -1019,7 +1075,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 	/**
 	 * @runInSeparateProcess
-	 */
+	 */ 
 	public function test_wp_app_get_timezone_with_timezone_string() {
 		// Arrange
 		WP_Mock::userFunction(
@@ -1248,6 +1304,95 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 			$this->assertFalse( Enpii_Base_Helper::is_pdo_mysql_loaded() );
 		}
 	}
+
+	public function test_register_cli_init_action() {
+		// Arrange: Mock the add_action function to check it's called with the right parameters
+		WP_Mock::expectActionAdded( 'cli_init', [ Enpii_Base_Helper::class, 'wp_cli_init' ] );
+
+		// Act: Call the method we're testing
+		Enpii_Base_Helper::register_cli_init_action();
+
+		// Assert: WP_Mock automatically asserts that add_action was called with the correct parameters
+		WP_Mock::assertHooksAdded();
+	}
+
+	public function test_register_setup_app_redirect() {
+		// Arrange: Mock the add_action function to check it's called with the right parameters
+		WP_Mock::expectActionAdded(
+			ENPII_BASE_SETUP_HOOK_NAME, // The hook name
+			[ Enpii_Base_Helper::class, 'maybe_redirect_to_setup_app' ], // The callback
+			-200 // The priority
+		);
+
+		// Act: Call the method we're testing
+		Enpii_Base_Helper::register_setup_app_redirect();
+
+		// Assert: WP_Mock automatically asserts that add_action was called with the correct parameters
+		WP_Mock::assertHooksAdded();
+	}
+
+	public function test_is_enpii_base_prepare_command() {
+		global $_SERVER;
+		// Arrange: Simulate command line arguments
+		$_SERVER['argv'] = [ 'enpii-base', 'prepare' ];
+
+		// Act
+		$result = Enpii_Base_Helper::is_enpii_base_prepare_command( $_SERVER['argv'] );
+
+		// Assert
+		$this->assertTrue( $result );
+	}
+
+	public function test_init_wp_app_instance() {
+		// Arrange: Expect that add_action is called with specific parameters.
+		WP_Mock::expectActionAdded(
+			ENPII_BASE_SETUP_HOOK_NAME, // The hook name
+			[ \Enpii_Base\App\WP\WP_Application::class, 'load_instance' ], // The callback
+			-100 // The priority
+		);
+
+		// Act: Call the method to register the hook
+		Enpii_Base_Helper::init_wp_app_instance();
+
+		// Assert: WP_Mock automatically asserts that add_action was called with the correct parameters
+		WP_Mock::assertHooksAdded();
+	}
+
+	public function test_init_enpii_base_wp_plugin_instance() {
+		$action_name = App_Const::ACTION_WP_APP_LOADED;
+
+		// Mock add_action to ensure it is called with 'admin_notices'
+		WP_Mock::expectActionAdded(
+			$action_name,
+			function ( $callback ) {
+				// Ensure that the callback is of type Closure
+				return true;
+			}
+		);
+
+		// Execute the method under test
+		Enpii_Base_Helper::init_enpii_base_wp_plugin_instance( $this->plugin_url, $this->dirname );
+
+		// Verify that the action was added exactly once
+		WP_Mock::assertHooksAdded();
+	}
+
+	public function test_handle_wp_app_loaded_action() {
+		// Mock the method that should be called within the static method
+		$plugin_mock = Mockery::mock( 'alias:' . \Enpii_Base\App\WP\Enpii_Base_WP_Plugin::class );
+		$plugin_mock->shouldReceive( 'init_with_wp_app' )
+					->once()
+					->with(
+						'enpii-base',
+						$this->dirname, // __DIR__ should be a string
+						$this->plugin_url // The mocked return value of plugin_dir_url
+					);
+
+		// Act: Directly call the static method that handles the action
+		Enpii_Base_Helper::handle_wp_app_loaded_action( $this->plugin_url, $this->dirname );
+
+		$this->assertTrue( true );
+	}
 }
 
 
@@ -1260,7 +1405,7 @@ class Enpii_Base_Helper_Test_Tmp_True extends Enpii_Base_Helper {
 
 	public static $wp_app_check = true;
 
-	public static function add_wp_app_setup_errors( $error_message ) {
+	public static function add_wp_app_setup_errors( $error_message ): void {
 		Enpii_Base_Helper_Test::$methods[] = 'add_wp_app_setup_errors'; 
 	}
 
@@ -1302,7 +1447,7 @@ class Enpii_Base_Helper_Test_Tmp_False extends Enpii_Base_Helper {
 		return false;
 	}
 
-	public static function add_wp_app_setup_errors( $error_message ) {
+	public static function add_wp_app_setup_errors( $error_message ): void {
 		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors'; 
 	}
 }
@@ -1391,7 +1536,7 @@ class Enpii_Base_Helper_Test_Tmp_Setup_App_Url extends Enpii_Base_Helper {
 		return true;
 	}
 
-	public static function add_wp_app_setup_errors( $error_message ) {
+	public static function add_wp_app_setup_errors( $error_message ): void {
 		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors_setup_app_url'; 
 	}
 }
@@ -1409,5 +1554,161 @@ class Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True extends Enpii_Base_Helper {
 
 	public static function is_setup_app_completed(): bool {
 		return false;
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Initialize extends Enpii_Base_Helper {
+
+	public static function register_cli_init_action() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+	}
+
+	public static function register_setup_app_redirect() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+	}
+
+	public static function init_wp_app_instance() {
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+	}
+
+	public static function init_enpii_base_wp_plugin_instance( $plugin_url, $dirname ) {
+		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance'; 
+	}
+
+	public static function is_enpii_base_prepare_command( array $argv = null ): bool {
+		return true;
+	}
+
+	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
+		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders'; 
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Initialize_Wp_Core_Loaded_False extends Enpii_Base_Helper {
+
+	public static function is_wp_core_loaded(): bool {
+		return false;
+	}
+
+	public static function init_wp_app_instance(): void {
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_True extends Enpii_Base_Helper {
+
+	public static function is_wp_core_loaded(): bool {
+		return true;
+	}
+
+	public static function is_console_mode(): bool {
+		return true;
+	}
+
+	public static function perform_wp_app_check(): bool {
+		return false;
+	}
+
+	public static function is_enpii_base_prepare_command( array $argv = null ): bool {
+		return false;
+	}
+
+	public static function register_cli_init_action() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+	}
+
+	public static function init_wp_app_instance() {
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+	}
+
+	public static function init_enpii_base_wp_plugin_instance( string $plugin_url, string $dirname ) {
+		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance'; 
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Initialize_Is_Enpii_Base_Prepare_Command extends Enpii_Base_Helper {
+
+	public static function is_wp_core_loaded(): bool {
+		return true;
+	}
+
+	public static function is_console_mode(): bool {
+		return true;
+	}
+
+	public static function perform_wp_app_check(): bool {
+		return false;
+	}
+
+	public static function is_enpii_base_prepare_command( array $argv = null ): bool {
+		return true;
+	}
+
+	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
+		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders'; 
+	}
+
+	public static function register_setup_app_redirect() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+	}
+
+	public static function register_cli_init_action() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+	}
+
+	public static function init_wp_app_instance() {
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+	}
+
+	public static function init_enpii_base_wp_plugin_instance( string $plugin_url, string $dirname ) {
+		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance'; 
+	}
+}
+class Enpii_Base_Helper_Test_Tmp_Initialize_Is_Perform_WP_App_Check extends Enpii_Base_Helper {
+
+	public static function is_wp_core_loaded(): bool {
+		return true;
+	}
+
+	public static function is_console_mode(): bool {
+		return false;
+	}
+
+	public static function perform_wp_app_check(): bool {
+		return false;
+	}
+
+	public static function register_cli_init_action() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+	}
+
+	public static function register_setup_app_redirect() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+	}
+}
+
+class Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_False extends Enpii_Base_Helper {
+	public static function is_wp_core_loaded(): bool {
+		return true;
+	}
+
+	public static function is_console_mode(): bool {
+		return false;
+	}
+
+	public static function perform_wp_app_check(): bool {
+		return true;
+	}
+
+	public static function register_cli_init_action() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+	}
+
+	public static function register_setup_app_redirect() {
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+	}
+
+	public static function init_wp_app_instance() {
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
 	}
 }
