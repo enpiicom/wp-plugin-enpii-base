@@ -1,12 +1,12 @@
-## Initialization of the WP App
+# Initialization of the WP App
 
-The `Enpii_Base_Bootstrap` class is designed to initialize and set up the Enpii Base framework within a WordPress environment. It includes methods to manage both CLI and web mode operations, ensuring the proper configuration of WordPress application hooks, redirects, and actions.
+The `Enpii_Base_Helper` class is designed to initialize and configure the Enpii Base framework within a WordPress environment. It provides methods to manage both CLI and web mode operations, ensuring the correct setup of WordPress application hooks, redirects, and actions, while also offering various static helper methods to support the Enpii Base plugin.
 
 The main goal of the initialization process is to prepare the necessary folder structure and manage database setup or migration tasks for the plugin. The `initialize` method is the entry point for this process, triggered early in the `enpii-base-init.php` file. It checks whether the WordPress content directory is loaded and then performs the appropriate setup actions based on whether the environment is in CLI or web mode.
 
-This will create a laravel application `wp_app()` (a DI container https://code.tutsplus.com/tutorials/digging-in-to-laravels-ioc-container--cms-22167) contains everything we need.
+This process will create a Laravel application `wp_app()` (a [DI container](https://code.tutsplus.com/tutorials/digging-in-to-laravels-ioc-container--cms-22167)) containing everything needed.
 
-### 1. Command-Line Interface (CLI) Mode Setup
+## 1. Command-Line Interface (CLI) Mode Setup
 
 In CLI mode, the setup process is managed through two specific command-line instructions:
 
@@ -14,12 +14,13 @@ In CLI mode, the setup process is managed through two specific command-line inst
 wp enpii-base prepare       # Set up the correct folder structure
 wp enpii-base wp-app:setup  # Run migrations and copy necessary assets
 ```
+
 - `enpii-base prepare`: Prepares and sets up the required folder structure for the plugin.
 - `enpii-base wp-app:setup`: Runs the necessary migrations and copies the required assets to their appropriate locations.
 
-If the environment is running in CLI mode, the `Enpii_Base_Helper::is_console_mode()` method confirms it. The CLI initialization action is then registered via `static::register_cli_init_action()`, binding it to the cli_init hook with `Enpii_Base_Helper::wp_cli_init()` as the callback.
+If the environment is running in CLI mode, the `Enpii_Base_Helper::is_console_mode()` method confirms it. The CLI initialization action is then registered via `Enpii_Base_Helper::register_cli_init_action()`, binding it to the `cli_init` hook with `Enpii_Base_Helper::wp_cli_init()` as the callback.
 
-### 2. Web Mode Setup
+## 2. Web Mode Setup
 
 In web mode, the plugin performs the following tasks:
 
@@ -33,18 +34,17 @@ Steps to be executed in sequence:
    - If the environment is not in CLI mode, the `Enpii_Base_Helper::perform_wp_app_check()` method is used to verify that the necessary extensions and WordPress application setup steps are in place. If the check fails, the process exits early.
 
 2. **Register Redirect Action**:
-   - The setup process begins by registering a redirect action using `static::register_setup_app_redirect()`. This method ensures that users are redirected to the appropriate setup page.
+   - The setup process begins by registering a redirect action using `Enpii_Base_Helper::register_setup_app_redirect()`. This method ensures that users are redirected to the appropriate setup page.
    - This action is added to the `ENPII_BASE_SETUP_HOOK_NAME` hook, with `Enpii_Base_Helper::maybe_redirect_to_setup_app()` as the callback function. The priority of this action is set to `-200`.
 
 3. **Register WP App Setup Hooks**:
-   - Next, the necessary hooks for the proper setup of the WP App are registered via `static::register_wp_app_setup_hooks()`.
+   - Next, the necessary hooks for the proper setup of the WP App are registered via `Enpii_Base_Helper::register_wp_app_setup_hooks()`.
    - This method ensures that the WP App instance is loaded during the setup process by adding an action to the `ENPII_BASE_SETUP_HOOK_NAME` hook, using `\Enpii_Base\App\WP\WP_Application::load_instance()` as the callback function. The priority of this action is set to `-100`.
 
 4. **Signal WP App Fully Loaded**:
-   - Finally, the method `register_wp_app_loaded_action()` is called to signal that the WP App has fully loaded after all necessary setup actions are completed.
-   - An action is added to the `\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED` hook, with `static::handle_wp_app_loaded_action()` as the callback function. This function initializes the Enpii Base WordPress plugin by calling `\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app()` with the plugin slug, directory, and URL parameters.
-
+   - Finally, the method `Enpii_Base_Helper::register_wp_app_loaded_action()` is called to signal that the WP App has fully loaded after all necessary setup actions are completed.
+   - An action is added to the `\Enpii_Base\App\Support\App_Const::ACTION_WP_APP_LOADED` hook, with `Enpii_Base_Helper::handle_wp_app_loaded_action()` as the callback function. This function initializes the Enpii Base WordPress plugin by calling `\Enpii_Base\App\WP\Enpii_Base_WP_Plugin::init_with_wp_app()` with the plugin slug, directory, and URL parameters.
 
 ## Summary
 
-The `Enpii_Base_Bootstrap` class provides essential methods to initialize and configure the Enpii Base framework within a WordPress environment. It manages different setups for CLI and web modes, ensuring that the application is correctly configured and ready for use.
+The `Enpii_Base_Helper` class offers essential methods to initialize and configure the Enpii Base framework within a WordPress environment. It handles the setup for both CLI and web modes, ensuring proper configuration of WordPress application hooks, redirects, and actions. Additionally, it includes static helper methods that support the functionality of the Enpii Base plugin.
