@@ -14,7 +14,7 @@ class Hash_Service_Provider extends HashServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'hashing' => apply_filters(
 					App_Const::FILTER_WP_APP_HASHING_CONFIG,

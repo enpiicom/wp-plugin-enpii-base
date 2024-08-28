@@ -21,7 +21,7 @@ class Session_Service_Provider extends SessionServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'session' => apply_filters(
 					App_Const::FILTER_WP_APP_SESSION_CONFIG,

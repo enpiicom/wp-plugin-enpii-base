@@ -52,7 +52,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			// Publish assets
 			$this->publishes(
 				[
-					$this->get_base_path() . '/public-assets/dist' => wp_app_public_path( 'plugins/' . $this->get_plugin_slug() ),
+					$this->get_base_path() . '/public-assets/dist' => public_path( 'plugins/' . $this->get_plugin_slug() ),
 				],
 				[ 'enpii-base-assets', 'laravel-assets' ]
 			);
@@ -60,7 +60,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			// Publish stubs
 			$this->publishes(
 				[
-					$this->get_base_path() . '/resources' => wp_app_resource_path( 'plugins/' . $this->get_plugin_slug() ),
+					$this->get_base_path() . '/resources' => resource_path( 'plugins/' . $this->get_plugin_slug() ),
 				],
 				[ 'enpii-base-assets', 'laravel-assets' ]
 			);
@@ -209,7 +209,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	public function register_wp_cli_commands(): void {
 		WP_CLI::add_command(
 			'enpii-base info',
-			wp_app_resolve( \Enpii_Base\App\WP_CLI\Enpii_Base_Info_WP_CLI::class )
+			resolve( \Enpii_Base\App\WP_CLI\Enpii_Base_Info_WP_CLI::class )
 		);
 		WP_CLI::add_command(
 			'enpii-base artisan',
@@ -230,14 +230,14 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 */
 	public function use_blade_to_compile_template( $template ) {
 		/** @var \Illuminate\View\Factory $view */
-		$view = wp_app_view();
+		$view = view();
 		// We want to have blade to compile the php file as well
 		$view->addExtension( 'php', 'blade' );
 
 		// We catch exception if view is not rendered correctly
 		//  exception InvalidArgumentException for view file not found in FileViewFinder
 		try {
-			$tmp_view = wp_app_view( basename( $template, '.php' ) );
+			$tmp_view = view( basename( $template, '.php' ) );
 			/** @var \Illuminate\View\View $tmp_view */
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $tmp_view->render();
@@ -317,7 +317,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			unset( $middleware_group[ \Illuminate\Routing\Middleware\SubstituteBindings::class ] );
 			$middleware_group = array_flip( $middleware_group );
 
-			$wp_app_request = wp_app_request();
+			$wp_app_request = request();
 			/** @var Response $wp_app_response */
 			$wp_app_response = $kernel->send_request_through_middleware(
 				$wp_app_request,
@@ -343,7 +343,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		$wp_headers = app()->get_wp_headers();
 
 		/** @var Response $wp_app_response */
-		$wp_app_response = wp_app_response();
+		$wp_app_response = response();
 		foreach ( (array) $wp_headers as $wp_header_key => $wp_header_value ) {
 			$wp_app_response->header( $wp_header_key, $wp_header_value );
 		}
@@ -418,7 +418,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	public function perform_wp_app_termination() {
 		/** @var \Enpii_Base\App\Http\Kernel $kernel */
 		$kernel = app()->make( \Illuminate\Contracts\Http\Kernel::class );
-		$kernel->terminate( wp_app_request(), wp_app_response() );
+		$kernel->terminate( request(), response() );
 	}
 
 	/**

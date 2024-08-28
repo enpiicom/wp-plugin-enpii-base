@@ -17,7 +17,7 @@ class Process_WP_App_Request {
 		$kernel = app()->make( \Illuminate\Contracts\Http\Kernel::class );
 
 		/** @var \Enpii_Base\App\Http\Request $request */
-		$request = wp_app_request();
+		$request = request();
 		$response = $kernel->handle( $request );
 		$response->send();
 

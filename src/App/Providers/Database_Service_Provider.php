@@ -40,7 +40,7 @@ class Database_Service_Provider extends DatabaseServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'database' => apply_filters(
 					App_Const::FILTER_WP_APP_DATABASE_CONFIG,
