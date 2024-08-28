@@ -230,14 +230,14 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 */
 	public function use_blade_to_compile_template( $template ) {
 		/** @var \Illuminate\View\Factory $view */
-		$view = view();
+		$view = wp_app_view();
 		// We want to have blade to compile the php file as well
 		$view->addExtension( 'php', 'blade' );
 
 		// We catch exception if view is not rendered correctly
 		//  exception InvalidArgumentException for view file not found in FileViewFinder
 		try {
-			$tmp_view = view( basename( $template, '.php' ) );
+			$tmp_view = wp_app_view( basename( $template, '.php' ) );
 			/** @var \Illuminate\View\View $tmp_view */
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $tmp_view->render();

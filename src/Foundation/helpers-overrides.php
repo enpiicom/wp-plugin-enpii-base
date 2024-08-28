@@ -80,7 +80,7 @@ if ( ! function_exists( 'app' ) ) {
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
 	 */
 	function app( $app_abstract = null, array $parameters = [] ) {
-		return app( $app_abstract, $parameters );
+		return wp_app( $app_abstract, $parameters );
 	}
 }
 
@@ -789,9 +789,9 @@ if ( ! function_exists( 'view' ) ) {
 	 */
 	function view( $view = null, $data = [], $mergeData = [] ) {
 		if ( func_num_args() === 0 ) {
-			return view();
+			return wp_app_view();
 		}
 
-		return view( $view, $data, $mergeData );
+		return wp_app_view( $view, $data, $mergeData );
 	}
 }

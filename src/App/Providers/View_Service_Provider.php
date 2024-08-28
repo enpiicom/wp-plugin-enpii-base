@@ -17,7 +17,7 @@ class View_Service_Provider extends ViewServiceProvider {
 
 	public function boot() {
 		/** @var \Illuminate\View\Factory $view */
-		$view = view();
+		$view = wp_app_view();
 		$view->addExtension( 'php', 'blade' );
 	}
 
