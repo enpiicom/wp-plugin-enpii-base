@@ -19,7 +19,7 @@ use WP_Query;
 
 class Main_Controller extends Base_Controller {
 	public function index() {
-		if ( ! wp_app_config( 'app.debug' ) ) {
+		if ( ! config( 'app.debug' ) ) {
 			header( 'Location: ' . home_url() );
 			exit( 0 );
 		}
@@ -39,7 +39,7 @@ class Main_Controller extends Base_Controller {
 	 * @throws BindingResolutionException
 	 */
 	public function home() {
-		if ( ! wp_app_config( 'app.debug' ) ) {
+		if ( ! config( 'app.debug' ) ) {
 			header( 'Location: ' . home_url() );
 			exit( 0 );
 		}

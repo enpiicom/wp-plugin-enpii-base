@@ -40,7 +40,7 @@ class Engine implements EngineContract {
 			$template_name = $template_parts[0];
 		}
 
-		$view_paths = wp_app_config( 'view.paths' );
+		$view_paths = config( 'view.paths' );
 		if ( $namespace_slug ) {
 			$themes = [];
 			// phpcs:ignore Squiz.PHP.CommentedOutCode.Found

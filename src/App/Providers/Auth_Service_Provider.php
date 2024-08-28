@@ -37,7 +37,7 @@ class Auth_Service_Provider extends AuthServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'auth' => apply_filters(
 					App_Const::FILTER_WP_APP_AUTH_CONFIG,

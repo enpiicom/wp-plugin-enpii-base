@@ -22,7 +22,7 @@ class View_Service_Provider extends ViewServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'view' => apply_filters(
 					App_Const::FILTER_WP_APP_VIEW_CONFIG,

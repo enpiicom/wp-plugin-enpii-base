@@ -15,7 +15,7 @@ class Cache_Service_Provider extends CacheServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'cache' => apply_filters(
 					App_Const::FILTER_WP_APP_CACHE_CONFIG,

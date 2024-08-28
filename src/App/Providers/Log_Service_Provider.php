@@ -19,7 +19,7 @@ class Log_Service_Provider extends LogServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'logging' => apply_filters(
 					App_Const::FILTER_WP_APP_LOGGING_CONFIG,

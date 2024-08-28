@@ -23,7 +23,7 @@ class Tinker_Service_Provider extends TinkerServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'tinker' => apply_filters(
 					App_Const::FILTER_WP_APP_TINKER_CONFIG,
