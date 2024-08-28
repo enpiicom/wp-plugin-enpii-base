@@ -92,7 +92,7 @@ if ( ! function_exists( 'dev_logger' ) ) {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 0 );
 
-		$logger = wp_app_logger()->channel( 'single' );
+		$logger = logger()->channel( 'single' );
 
 		$log_message = '';
 		$log_message .= ! empty( $dev_trace[1] ) ? 'Debugging dev_error_log, url (' . Enpii_Base_Helper::get_current_url() . ") \n======= Dev logging start here \n" . $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . " \n" : '';

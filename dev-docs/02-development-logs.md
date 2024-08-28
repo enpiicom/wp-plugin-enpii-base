@@ -23,13 +23,13 @@ With all of these vast requirements, all of our problems started.
 
 ### Gradually build the plugin
 - When included Laravel to WordPress, we bumped into the first issues. Laravel used the filesystem to read the configs because it has the fixed base path but in WordPress, we would not know how the Enpii Base plugin works, so we cannot use a fixed base path and therefore, we can not use files to store the configs. The solution was creating a fake base path (mainly for generated files) and use array to store configs in memory (we tweaked the `config` instance of the app).
-- Laravel uses the `Container` instance for the app(). We create a class called `WP_Application` on top of that and we use the `wp_app()` helper function instead of app() from default Laravel. This will use the `WP_Application::$instance` for the wp_app().
+- Laravel uses the `Container` instance for the app(). We create a class called `WP_Application` on top of that and we use the `app()` helper function instead of app() from default Laravel. This will use the `WP_Application::$instance` for the app().
 - We tweak the WP_Application to load base Service Providers of Laravel and allow other plugins to hook into the loading of main Service Providers (the `providers` value of `config.app`). We log the array config to each provider when we register the provider to avoid a huge array for all the configs.
 - We approach DDD (Domain Driven Development) structure to enhance the readability but we combine it with the Laravel structure so you can call that Lara-domain Driven Development (LaraDD)
 - We try to split the implementations to Jobs and Queries (CQRS - Command and Query Responsibility Segregation approach) to enhance the readibility and reusability.
 - We created wrappers for all Laravel Service Providers to ensure that they would work with WordPress as well.
 - We created the `WpdbConnection` that inherited from `MysqlConnection` for the case we want to use WordPress `$wpdb` object to work with Laravel eloquents.
-- We load routes dynamically usine the filters from WordPress to allow plugins, themes can hook into the routes of the wp_app()
+- We load routes dynamically usine the filters from WordPress to allow plugins, themes can hook into the routes of the app()
 - We created 2 new endpoints for the wp_app:
   - domain.com/**wp-app** for normal web requests that need to have UI rendered
   - domain.com/**wp-api** for serving requests for API consuming.

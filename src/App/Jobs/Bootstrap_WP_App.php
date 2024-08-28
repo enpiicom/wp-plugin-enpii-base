@@ -17,7 +17,7 @@ class Bootstrap_WP_App {
 	 */
 	public function handle(): void {
 		/** @var \Enpii_Base\App\WP\WP_Application $wp_app  */
-		$wp_app = wp_app();
+		$wp_app = app();
 		$wp_app['env'] = wp_app_config( 'app.env' );
 		$config = wp_app_config();
 

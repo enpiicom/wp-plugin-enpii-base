@@ -148,7 +148,7 @@ class Kernel extends HttpKernel {
 
 		// We don't want to handle Exceptions if it is not in wp_app or wp_api mode
 		//  and if it's in Customize or we haven't set the flag to use the Exception Handler
-		if ( ! wp_app()->is_wp_app_mode() && ! wp_app()->is_wp_api_mode() ) {
+		if ( ! app()->is_wp_app_mode() && ! app()->is_wp_api_mode() ) {
 			$script_name = ! empty( $_SERVER['SCRIPT_NAME'] ) ? sanitize_text_field( $_SERVER['SCRIPT_NAME'] ) : '';
 			if ( ! Enpii_Base_Helper::use_enpii_base_error_handler() || strpos( $script_name, '/wp-admin/customize.php' ) !== false ) {
 				return $bootstrappers;

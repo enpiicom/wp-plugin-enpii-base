@@ -54,7 +54,7 @@ if ( ! function_exists( 'wp_app_abort' ) ) {
 			throw new HttpResponseException( $code->toResponse( wp_app_request() ) );
 		}
 
-		wp_app()->abort( $code, $message, $headers );
+		app()->abort( $code, $message, $headers );
 	}
 }
 
@@ -108,7 +108,7 @@ if ( ! function_exists( 'wp_app_action' ) ) {
 	 * @return string
 	 */
 	function wp_app_action( $name, $parameters = [], $absolute = true ) {
-		return wp_app( 'url' )->action( $name, $parameters, $absolute );
+		return app( 'url' )->action( $name, $parameters, $absolute );
 	}
 }
 
@@ -125,7 +125,7 @@ if ( ! function_exists( 'wp_app' ) ) {
 	 */
 	function wp_app( $abstract_alias = null, array $parameters = [] ) {
 		if ( ! WP_Application::isset() ) {
-			throw new Exception( 'The WP_Application instance is not loaded correctly. Please re-check whether the WP App is setup correctly and ensure the WP_Application::load_instance() called before this wp_app() method.' );
+			throw new Exception( 'The WP_Application instance is not loaded correctly. Please re-check whether the WP App is setup correctly and ensure the WP_Application::load_instance() called before this app() method.' );
 		}
 
 		if ( is_null( $abstract_alias ) ) {
@@ -144,7 +144,7 @@ if ( ! function_exists( 'wp_app_path' ) ) {
 	 * @return string
 	 */
 	function wp_app_path( $path = '' ) {
-		return wp_app()->path( $path );
+		return app()->path( $path );
 	}
 }
 
@@ -157,7 +157,7 @@ if ( ! function_exists( 'wp_app_asset' ) ) {
 	 * @return string
 	 */
 	function wp_app_asset( $path, $secure = null ) {
-		return wp_app( 'url' )->asset( $path, $secure );
+		return app( 'url' )->asset( $path, $secure );
 	}
 }
 
@@ -170,10 +170,10 @@ if ( ! function_exists( 'wp_app_auth' ) ) {
 	 */
 	function wp_app_auth( $guard = null ) {
 		if ( is_null( $guard ) ) {
-			return wp_app( AuthFactory::class );
+			return app( AuthFactory::class );
 		}
 
-		return wp_app( AuthFactory::class )->guard( $guard );
+		return app( AuthFactory::class )->guard( $guard );
 	}
 }
 
@@ -187,7 +187,7 @@ if ( ! function_exists( 'wp_app_back' ) ) {
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	function wp_app_back( $status = 302, $headers = [], $fallback = false ) {
-		return wp_app( 'redirect' )->back( $status, $headers, $fallback );
+		return app( 'redirect' )->back( $status, $headers, $fallback );
 	}
 }
 
@@ -199,7 +199,7 @@ if ( ! function_exists( 'wp_app_base_path' ) ) {
 	 * @return string
 	 */
 	function wp_app_base_path( $path = '' ) {
-		return wp_app()->basePath( $path );
+		return app()->basePath( $path );
 	}
 }
 
@@ -212,7 +212,7 @@ if ( ! function_exists( 'wp_app_bcrypt' ) ) {
 	 * @return string
 	 */
 	function wp_app_bcrypt( $value, $options = [] ) {
-		return wp_app( 'hash' )->driver( 'bcrypt' )->make( $value, $options );
+		return app( 'hash' )->driver( 'bcrypt' )->make( $value, $options );
 	}
 }
 
@@ -224,7 +224,7 @@ if ( ! function_exists( 'wp_app_broadcast' ) ) {
 	 * @return \Illuminate\Broadcasting\PendingBroadcast
 	 */
 	function wp_app_broadcast( $event = null ) {
-		return wp_app( BroadcastFactory::class )->event( $event );
+		return app( BroadcastFactory::class )->event( $event );
 	}
 }
 
@@ -243,11 +243,11 @@ if ( ! function_exists( 'wp_app_cache' ) ) {
 		$arguments = func_get_args();
 
 		if ( empty( $arguments ) ) {
-			return wp_app( 'cache' );
+			return app( 'cache' );
 		}
 
 		if ( is_string( $arguments[0] ) ) {
-			return wp_app( 'cache' )->get( ...$arguments );
+			return app( 'cache' )->get( ...$arguments );
 		}
 
 		if ( ! is_array( $arguments[0] ) ) {
@@ -256,7 +256,7 @@ if ( ! function_exists( 'wp_app_cache' ) ) {
 			);
 		}
 
-		return wp_app( 'cache' )->put( key( $arguments[0] ), reset( $arguments[0] ), $arguments[1] ?? null );
+		return app( 'cache' )->put( key( $arguments[0] ), reset( $arguments[0] ), $arguments[1] ?? null );
 	}
 }
 
@@ -285,14 +285,14 @@ if ( ! function_exists( 'wp_app_config' ) ) {
 	 */
 	function wp_app_config( $key = null, $default_value = null ) {
 		if ( is_null( $key ) ) {
-			return wp_app( 'config' );
+			return app( 'config' );
 		}
 
 		if ( is_array( $key ) ) {
-			return wp_app( 'config' )->set( $key );
+			return app( 'config' )->set( $key );
 		}
 
-		return wp_app( 'config' )->get( $key, $default_value );
+		return app( 'config' )->get( $key, $default_value );
 	}
 }
 
@@ -304,7 +304,7 @@ if ( ! function_exists( 'wp_app_config_path' ) ) {
 	 * @return string
 	 */
 	function wp_app_config_path( $path = '' ) {
-		return wp_app()->configPath( $path );
+		return app()->configPath( $path );
 	}
 }
 
@@ -324,7 +324,7 @@ if ( ! function_exists( 'wp_app_cookie' ) ) {
 	 * @return \Illuminate\Cookie\CookieJar|\Symfony\Component\HttpFoundation\Cookie
 	 */
 	function wp_app_cookie( $name = null, $value = null, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null ) {
-		$cookie = wp_app( CookieFactory::class );
+		$cookie = app( CookieFactory::class );
 
 		if ( is_null( $name ) ) {
 			return $cookie;
@@ -354,7 +354,7 @@ if ( ! function_exists( 'wp_app_csrf_token' ) ) {
 	 * @throws \RuntimeException
 	 */
 	function wp_app_csrf_token() {
-		$session = wp_app( 'session' );
+		$session = app( 'session' );
 
 		if ( isset( $session ) ) {
 			return $session->token();
@@ -372,7 +372,7 @@ if ( ! function_exists( 'wp_app_database_path' ) ) {
 	 * @return string
 	 */
 	function wp_app_database_path( $path = '' ) {
-		return wp_app()->databasePath( $path );
+		return app()->databasePath( $path );
 	}
 }
 
@@ -385,7 +385,7 @@ if ( ! function_exists( 'wp_app_decrypt' ) ) {
 	 * @return mixed
 	 */
 	function wp_app_decrypt( $value, $unserialize = true ) {
-		return wp_app( 'encrypter' )->decrypt( $value, $unserialize );
+		return app( 'encrypter' )->decrypt( $value, $unserialize );
 	}
 }
 
@@ -415,7 +415,7 @@ if ( ! function_exists( 'wp_app_dispatch_now' ) ) {
 	 */
 	function wp_app_dispatch_now( $job, $handler = null ) {
 		/** @var Dispatcher $dispatcher */
-		$dispatcher = wp_app( Dispatcher::class );
+		$dispatcher = app( Dispatcher::class );
 		return method_exists( $dispatcher, 'dispatchNow' ) ? $dispatcher->dispatchNow( $job, $handler ) : $dispatcher->dispatchSync( $job, $handler );
 	}
 }
@@ -430,7 +430,7 @@ if ( ! function_exists( 'wp_app_dispatch_sync' ) ) {
 	 */
 	function wp_app_dispatch_sync( $job, $handler = null ) {
 		/** @var Dispatcher $dispatcher */
-		$dispatcher = wp_app( Dispatcher::class );
+		$dispatcher = app( Dispatcher::class );
 		return method_exists( $dispatcher, 'dispatchSync' ) ? $dispatcher->dispatchSync( $job, $handler ) : $dispatcher->dispatchNow( $job, $handler );
 	}
 }
@@ -487,7 +487,7 @@ if ( ! function_exists( 'wp_app_encrypt' ) ) {
 	 * @return string
 	 */
 	function wp_app_encrypt( $value, $serialize = true ) {
-		return wp_app( 'encrypter' )->encrypt( $value, $serialize );
+		return app( 'encrypter' )->encrypt( $value, $serialize );
 	}
 }
 
@@ -501,7 +501,7 @@ if ( ! function_exists( 'wp_app_event' ) ) {
 	 * @return array|null
 	 */
 	function wp_app_event( ...$args ) {
-		return wp_app( 'events' )->dispatch( ...$args );
+		return app( 'events' )->dispatch( ...$args );
 	}
 }
 
@@ -516,7 +516,7 @@ if ( ! function_exists( 'wp_app_factory' ) ) {
 	 */
 	// phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.abstractFound
 	function wp_app_factory( $class_object, $amount = null ) {
-		$factory = wp_app( EloquentFactory::class );
+		$factory = app( EloquentFactory::class );
 
 		if ( isset( $amount ) && is_int( $amount ) ) {
 			return $factory->of( $class_object )->times( $amount );
@@ -535,7 +535,7 @@ if ( ! function_exists( 'wp_app_info' ) ) {
 	 * @return void
 	 */
 	function wp_app_info( $message, $context = [] ) {
-		wp_app( 'log' )->info( $message, $context );
+		app( 'log' )->info( $message, $context );
 	}
 }
 
@@ -549,10 +549,10 @@ if ( ! function_exists( 'wp_app_logger' ) ) {
 	 */
 	function wp_app_logger( $message = null, array $context = [] ) {
 		if ( is_null( $message ) ) {
-			return wp_app( 'log' );
+			return app( 'log' );
 		}
 
-		return wp_app( 'log' )->debug( $message, $context );
+		return app( 'log' )->debug( $message, $context );
 	}
 }
 
@@ -564,7 +564,7 @@ if ( ! function_exists( 'wp_app_logs' ) ) {
 	 * @return \Illuminate\Log\LogManager|\Psr\Log\LoggerInterface
 	 */
 	function wp_app_logs( $driver = null ) {
-		return $driver ? wp_app( 'log' )->driver( $driver ) : wp_app( 'log' );
+		return $driver ? app( 'log' )->driver( $driver ) : app( 'log' );
 	}
 }
 
@@ -592,7 +592,7 @@ if ( ! function_exists( 'wp_app_mix' ) ) {
 	 */
 	// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 	function wp_app_mix( $path, $manifestDirectory = '' ) {
-		return wp_app( Mix::class )( ...func_get_args() );
+		return app( Mix::class )( ...func_get_args() );
 	}
 }
 
@@ -618,7 +618,7 @@ if ( ! function_exists( 'wp_app_old' ) ) {
 	 * @return mixed
 	 */
 	function wp_app_old( $key = null, $default_value = null ) {
-		return wp_app( 'request' )->old( $key, $default_value );
+		return app( 'request' )->old( $key, $default_value );
 	}
 }
 
@@ -633,7 +633,7 @@ if ( ! function_exists( 'wp_app_policy' ) ) {
 	 * @throws \InvalidArgumentException
 	 */
 	function wp_app_policy( $class_object ) {
-		return wp_app( Gate::class )->getPolicyFor( $class_object );
+		return app( Gate::class )->getPolicyFor( $class_object );
 	}
 }
 
@@ -676,7 +676,7 @@ if ( ! function_exists( 'wp_app_public_path' ) ) {
 	 * @return string
 	 */
 	function wp_app_public_path( $path = '' ) {
-		return wp_app()->make( 'path.public' ) . ( $path ? DIRECTORY_SEPARATOR . ltrim( $path, DIRECTORY_SEPARATOR ) : $path );
+		return app()->make( 'path.public' ) . ( $path ? DIRECTORY_SEPARATOR . ltrim( $path, DIRECTORY_SEPARATOR ) : $path );
 	}
 }
 
@@ -692,10 +692,10 @@ if ( ! function_exists( 'wp_app_redirect' ) ) {
 	 */
 	function wp_app_redirect( $to = null, $status = 302, $headers = [], $secure = null ) {
 		if ( is_null( $to ) ) {
-			return wp_app( 'redirect' );
+			return app( 'redirect' );
 		}
 
-		return wp_app( 'redirect' )->to( $to, $status, $headers, $secure );
+		return app( 'redirect' )->to( $to, $status, $headers, $secure );
 	}
 }
 
@@ -707,7 +707,7 @@ if ( ! function_exists( 'wp_app_report' ) ) {
 	 * @return void
 	 */
 	function wp_app_report( Throwable $exception ) {
-		wp_app( ExceptionHandler::class )->report( $exception );
+		app( ExceptionHandler::class )->report( $exception );
 	}
 }
 
@@ -722,14 +722,14 @@ if ( ! function_exists( 'wp_app_request' ) ) {
 	 */
 	function wp_app_request( $key = null, $default_value = null ) {
 		if ( is_null( $key ) ) {
-			return wp_app( 'request' );
+			return app( 'request' );
 		}
 
 		if ( is_array( $key ) ) {
-			return wp_app( 'request' )->only( $key );
+			return app( 'request' )->only( $key );
 		}
 
-		$value = wp_app( 'request' )->__get( $key );
+		$value = app( 'request' )->__get( $key );
 
 		return is_null( $value ) ? value( $default_value ) : $value;
 	}
@@ -766,7 +766,7 @@ if ( ! function_exists( 'wp_app_resolve' ) ) {
 	 * @return mixed
 	 */
 	function wp_app_resolve( $name, array $parameters = [] ) {
-		return wp_app( $name, $parameters );
+		return app( $name, $parameters );
 	}
 }
 
@@ -778,7 +778,7 @@ if ( ! function_exists( 'wp_app_resource_path' ) ) {
 	 * @return string
 	 */
 	function wp_app_resource_path( $path = '' ) {
-		return wp_app()->resourcePath( $path );
+		return app()->resourcePath( $path );
 	}
 }
 
@@ -792,7 +792,7 @@ if ( ! function_exists( 'wp_app_response' ) ) {
 	 * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
 	 */
 	function wp_app_response( $content = '', $status = 200, array $headers = [] ) {
-		$factory = wp_app( ResponseFactory::class );
+		$factory = app( ResponseFactory::class );
 
 		if ( func_num_args() === 0 ) {
 			return $factory;
@@ -812,7 +812,7 @@ if ( ! function_exists( 'wp_app_route' ) ) {
 	 * @return string
 	 */
 	function wp_app_route( $name, $parameters = [], $absolute = true ) {
-		return wp_app( 'url' )->route( $name, $parameters, $absolute );
+		return app( 'url' )->route( $name, $parameters, $absolute );
 	}
 }
 
@@ -868,14 +868,14 @@ if ( ! function_exists( 'wp_app_session' ) ) {
 	 */
 	function wp_app_session( $key = null, $default_value = null ) {
 		if ( is_null( $key ) ) {
-			return wp_app( 'session' );
+			return app( 'session' );
 		}
 
 		if ( is_array( $key ) ) {
-			return wp_app( 'session' )->put( $key );
+			return app( 'session' )->put( $key );
 		}
 
-		return wp_app( 'session' )->get( $key, $default_value );
+		return app( 'session' )->get( $key, $default_value );
 	}
 }
 
@@ -887,7 +887,7 @@ if ( ! function_exists( 'wp_app_storage_path' ) ) {
 	 * @return string
 	 */
 	function wp_app_storage_path( $path = '' ) {
-		return wp_app( 'path.storage' ) . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
+		return app( 'path.storage' ) . ( $path ? DIRECTORY_SEPARATOR . $path : $path );
 	}
 }
 
@@ -914,10 +914,10 @@ if ( ! function_exists( 'wp_app_trans' ) ) {
 	 */
 	function wp_app_trans( $key = null, $replace = [], $locale = null ) {
 		if ( is_null( $key ) ) {
-			return wp_app( 'translator' );
+			return app( 'translator' );
 		}
 
-		return wp_app( 'translator' )->get( $key, $replace, $locale );
+		return app( 'translator' )->get( $key, $replace, $locale );
 	}
 }
 
@@ -932,7 +932,7 @@ if ( ! function_exists( 'wp_app_trans_choice' ) ) {
 	 * @return string
 	 */
 	function wp_app_trans_choice( $key, $number, array $replace = [], $locale = null ) {
-		return wp_app( 'translator' )->choice( $key, $number, $replace, $locale );
+		return app( 'translator' )->choice( $key, $number, $replace, $locale );
 	}
 }
 
@@ -947,10 +947,10 @@ if ( ! function_exists( 'wp_app_url' ) ) {
 	 */
 	function wp_app_url( $path = null, $parameters = [], $secure = null ) {
 		if ( is_null( $path ) ) {
-			return wp_app( UrlGenerator::class );
+			return app( UrlGenerator::class );
 		}
 
-		return wp_app( UrlGenerator::class )->to( $path, $parameters, $secure );
+		return app( UrlGenerator::class )->to( $path, $parameters, $secure );
 	}
 }
 
@@ -965,7 +965,7 @@ if ( ! function_exists( 'wp_app_validator' ) ) {
 	 * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Contracts\Validation\Factory
 	 */
 	function wp_app_validator( array $data = [], array $rules = [], array $messages = [], array $customAttributes = [] ) {
-		$factory = wp_app( ValidationFactory::class );
+		$factory = app( ValidationFactory::class );
 
 		if ( func_num_args() === 0 ) {
 			return $factory;
@@ -985,7 +985,7 @@ if ( ! function_exists( 'wp_app_view' ) ) {
 	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
 	 */
 	function wp_app_view( $view = null, $data = [], $mergeData = [] ) {
-		$factory = wp_app( ViewFactory::class );
+		$factory = app( ViewFactory::class );
 
 		if ( func_num_args() === 0 ) {
 			return $factory;
@@ -1000,6 +1000,6 @@ if ( ! function_exists( 'wp_app_html' ) ) {
 	 * @return \Spatie\Html\Html
 	 */
 	function wp_app_html() {
-		return wp_app( Html::class );
+		return app( Html::class );
 	}
 }

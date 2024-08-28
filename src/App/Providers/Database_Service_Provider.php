@@ -31,7 +31,7 @@ class Database_Service_Provider extends DatabaseServiceProvider {
 						$config['name'] = $name;
 
 						/** @var \Enpii_Base\Foundation\Database\Connectors\Connection_Factory $db_factory */
-						$db_factory = wp_app( 'db.factory' );
+						$db_factory = app( 'db.factory' );
 						return $db_factory->make( $config, $name );
 					}
 				);

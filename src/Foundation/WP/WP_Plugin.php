@@ -34,7 +34,7 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	 */
 	public static function wp_app_instance(): self {
 		// We return the wp_app instance of the successor's class
-		return wp_app( static::class );
+		return app( static::class );
 	}
 
 	/**
@@ -48,11 +48,11 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	 * @throws Exception
 	 */
 	public static function init_with_wp_app( string $slug, string $base_path, string $base_url ): WP_Plugin_Interface {
-		if ( wp_app()->has( static::class ) ) {
-			return wp_app( static::class );
+		if ( app()->has( static::class ) ) {
+			return app( static::class );
 		}
 
-		$plugin = new static( wp_app() );
+		$plugin = new static( app() );
 		$plugin->init_with_needed_params( $slug, $base_path, $base_url );
 
 		// Attach the plugin to WP Application instance
@@ -96,7 +96,7 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	}
 
 	public function view( $view, $data = [], $merge_data = [] ) {
-		return wp_app_view( $this->get_plugin_slug() . '::' . $view, $data, $merge_data );
+		return view( $this->get_plugin_slug() . '::' . $view, $data, $merge_data );
 	}
 
 	public function get_plugin_basename(): string {
@@ -139,8 +139,8 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	 * @throws Exception
 	 */
 	protected function attach_to_wp_app(): void {
-		wp_app()->instance( static::class, $this );
-		wp_app()->alias( static::class, 'plugin-' . $this->get_plugin_slug() );
+		app()->instance( static::class, $this );
+		app()->alias( static::class, 'plugin-' . $this->get_plugin_slug() );
 
 		// We want to register the WP_Plugin after all needed Service Providers
 		add_action(

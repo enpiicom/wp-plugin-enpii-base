@@ -48,7 +48,7 @@ class WP_Application extends Application {
 		}
 
 		/**
-		| Create a wp_app() instance to be used in the whole application
+		| Create a app() instance to be used in the whole application
 		*/
 		$wp_app_base_path = Enpii_Base_Helper::get_wp_app_base_path();
 		$config = apply_filters(

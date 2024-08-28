@@ -39,7 +39,7 @@ msgid "https://enpii.com/enpii-team/"
 msgstr ""
 
 #: src/App/Console/Kernel.php:65
-msgid "Hello from Enpii Base wp_app()"
+msgid "Hello from Enpii Base app()"
 msgstr ""
 
 #. translators: %s is replaced with "string" plugin name
