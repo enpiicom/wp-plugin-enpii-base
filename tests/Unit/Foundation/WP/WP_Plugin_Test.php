@@ -345,6 +345,51 @@ class WP_Plugin_Test extends Unit_Test_Case {
 		$this->assertEquals( '/path01' . DIR_SEP . 'resources' . DIR_SEP . 'views', $mock_wp_plugin->get_views_path() );
 	}
 
+	public function test_get_base_url() {
+		$base_url = 'https://example.com';
+		$mock_wp_plugin = $this->build_wp_plugin_mock(
+			[
+				'get_base_url',
+			]
+		);
+
+		// Expected method calls
+		$mock_wp_plugin->expects( $this->exactly( 1 ) )->method( 'get_base_url' )->willReturn( $base_url );
+
+		/** @var WP_Plugin_Tmp $mock_wp_plugin */
+		$this->assertEquals( $base_url, $mock_wp_plugin->get_base_url() );
+	}
+
+	public function test_get_base_path() {
+		$base_path = '/path01';
+		$mock_wp_plugin = $this->build_wp_plugin_mock(
+			[
+				'get_base_path',
+			]
+		);
+
+		// Expected method calls
+		$mock_wp_plugin->expects( $this->exactly( 1 ) )->method( 'get_base_path' )->willReturn( $base_path );
+
+		/** @var WP_Plugin_Tmp $mock_wp_plugin */
+		$this->assertEquals( $base_path, $mock_wp_plugin->get_base_path() );
+	}
+
+	public function test_get_plugin_slug() {
+		$plugin_slug = 'plugin-slug';
+		$mock_wp_plugin = $this->build_wp_plugin_mock(
+			[
+				'get_plugin_slug',
+			]
+		);
+
+		// Expected method calls
+		$mock_wp_plugin->expects( $this->exactly( 1 ) )->method( 'get_plugin_slug' )->willReturn( $plugin_slug );
+
+		/** @var WP_Plugin_Tmp $mock_wp_plugin */
+		$this->assertEquals( $plugin_slug, $mock_wp_plugin->get_plugin_slug() );
+	}
+
 	public function test_view() {
 		$mock_wp_plugin = $this->build_wp_plugin_mock(
 			[
