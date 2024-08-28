@@ -15,7 +15,7 @@ class Process_Artisan {
 	 */
 	public function handle(): void {
 		/** @var \Enpii_Base\App\Console\Kernel $kernel */
-		$kernel = wp_app()->make(
+		$kernel = app()->make(
 			\Illuminate\Contracts\Console\Kernel::class
 		);
 

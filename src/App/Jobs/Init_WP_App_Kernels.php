@@ -14,7 +14,7 @@ class Init_WP_App_Kernels {
 	 * @return void
 	 */
 	public function handle(): void {
-		$wp_app = wp_app();
+		$wp_app = app();
 		$wp_app['env'] = wp_app_config( 'app.env' );
 
 		$wp_app->singleton(

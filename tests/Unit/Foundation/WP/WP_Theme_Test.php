@@ -9,9 +9,7 @@ use Enpii_Base\Foundation\WP\WP_Theme;
 use Enpii_Base\Foundation\WP\WP_Theme_Interface;
 use Enpii_Base\Tests\Support\Helpers\Test_Utils_Trait;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
-use Illuminate\Filesystem\Filesystem;
 use InvalidArgumentException;
-use Mockery;
 use WP_Mock;
 
 class WP_Theme_Test extends Unit_Test_Case {
