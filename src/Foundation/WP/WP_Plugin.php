@@ -96,7 +96,7 @@ abstract class WP_Plugin extends ServiceProvider implements WP_Plugin_Interface 
 	}
 
 	public function view( $view, $data = [], $merge_data = [] ) {
-		return wp_app_view( $this->get_plugin_slug() . '::' . $view, $data, $merge_data );
+		return view( $this->get_plugin_slug() . '::' . $view, $data, $merge_data );
 	}
 
 	public function get_plugin_basename(): string {

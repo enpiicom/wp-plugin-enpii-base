@@ -492,4 +492,16 @@ class Enpii_Base_Helper {
 			$plugin_url
 		);
 	}
+
+	/**
+	* Generate the URL of a full WordPress URL with domain name to a named route.
+	*
+	* @param  array|string  $name
+	* @param  mixed  $parameters
+	* @param  bool  $absolute
+	* @return string
+	*/
+	public static function route_with_wp_url( $name, $parameters = [] ) {
+	   return rtrim( site_url(), '/' ) . route( $name, $parameters, false );
+   }
 }
