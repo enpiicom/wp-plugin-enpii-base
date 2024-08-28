@@ -45,6 +45,16 @@ class WP_Plugin_Test extends Unit_Test_Case {
 		);
 	}
 
+	public function test_wp_app_with_instance(): void {
+		$mock_wp_plugin = $this->mock_wp_plugin;
+		WP_Mock::userFunction( 'wp_app' )
+			->times( 1 )
+			->withAnyArgs()
+			->andReturn( $mock_wp_plugin );
+		$result = $mock_wp_plugin->wp_app_instance();
+		$this->assertEquals( $mock_wp_plugin, $result );
+	}
+
 	public function test_wp_app_instance(): void {
 		$mock_wp_plugin = $this->mock_wp_plugin;
 		WP_Mock::userFunction( 'wp_app' )
