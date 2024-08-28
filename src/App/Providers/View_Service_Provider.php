@@ -60,6 +60,6 @@ class View_Service_Provider extends ViewServiceProvider {
 	 * @throws BindingResolutionException
 	 */
 	protected function generate_view_compiled_path(): string {
-		return (string) realpath( wp_app_storage_path( 'framework/views' ) );
+		return (string) realpath( storage_path( 'framework/views' ) );
 	}
 }

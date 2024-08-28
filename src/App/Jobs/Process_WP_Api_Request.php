@@ -18,7 +18,7 @@ class Process_WP_Api_Request {
 
 		// We don't want to re-capture the request because we did that on WP_App_Bootstrap
 		/** @var \Enpii_Base\App\Http\Request $request */
-		$request = wp_app_request();
+		$request = request();
 		$response = $kernel->handle( $request );
 		$response->send();
 

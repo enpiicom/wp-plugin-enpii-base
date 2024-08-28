@@ -123,9 +123,9 @@ class WP_Application extends Application {
 	public function runningInConsole() {
 		if ( $this->isRunningInConsole === null ) {
 			if (
-				( strpos( wp_app_request()->getPathInfo(), '/setup-app' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
-				( strpos( wp_app_request()->getPathInfo(), '/admin' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
-				( strpos( wp_app_request()->getPathInfo(), '/web-worker' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( request()->getPathInfo(), '/setup-app' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( request()->getPathInfo(), '/admin' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( request()->getPathInfo(), '/web-worker' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
 				Enpii_Base_Helper::at_setup_app_url()
 			) {
 				$this->isRunningInConsole = true;

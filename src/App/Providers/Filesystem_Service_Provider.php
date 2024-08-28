@@ -96,7 +96,7 @@ class Filesystem_Service_Provider extends FilesystemServiceProvider {
 			*/
 
 			'links' => [
-				wp_app_public_path( 'storage' ) => wp_app_storage_path( 'app/public' ),
+				public_path( 'storage' ) => storage_path( 'app/public' ),
 			],
 
 		];
