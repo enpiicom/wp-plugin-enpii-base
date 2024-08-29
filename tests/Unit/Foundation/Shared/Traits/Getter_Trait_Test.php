@@ -35,10 +35,25 @@ class Getter_Trait_Test extends Unit_Test_Case {
 		$this->assertEquals( 'Method Secret', $getter_trait_class->secret );
 	}
 
-	public function test_get_non_existent_property() {
+	public function test_get_non_existent_method() {
 		$getter_trait_class = $this->getter_trait_class;
 
 		$this->assertEquals( 'Test Name', $getter_trait_class->name );
+	}
+
+	public function test_get_non_existent_property() {
+		// Temporarily suppress PHP warnings
+		$previous_error_reporting = error_reporting();
+		error_reporting( $previous_error_reporting & ~E_WARNING );
+		
+		// Accessing an undefined property
+		$result = $this->getter_trait_class->undefined_property;
+
+		// Restore previous error reporting level
+		error_reporting( $previous_error_reporting );
+
+		// Optionally assert that $result is null or any other expected behavior
+		$this->assertNull( $result );
 	}
 }
 
