@@ -77,11 +77,6 @@
     "vendor-dir": "./vendor",
     "sort-packages": true
   },
-  "extra": {
-    "exclude-from-files": [
-      "laravel/framework/src/Illuminate/Foundation/helpers.php"
-    ]
-  },
   "scripts": {
     "post-install-cmd": [
       "@php -r \"copy('src-override/nesbot/carbon/src/Carbon/Traits/Creator.php', 'vendor/nesbot/carbon/src/Carbon/Traits/Creator.php');\"",
