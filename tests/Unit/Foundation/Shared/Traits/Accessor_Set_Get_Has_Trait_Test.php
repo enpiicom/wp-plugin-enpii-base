@@ -10,16 +10,12 @@ use InvalidArgumentException;
 
 class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
 
-	private $dummy_obj;
+	private $accessor_trait_class;
 
 	protected function setUp(): void {
-		// Create a dummy class that uses the Accessor_Set_Get_Has_Trait
-		$this->dummy_obj = new class() {
-			use Accessor_Set_Get_Has_Trait;
+		parent::setUp();
 
-			public $property1;
-			public $property2;
-		};
+		$this->accessor_trait_class = new Accessor_Set_Get_Has_Trait_Tmp();
 	}
 
 	protected function tearDown(): void {
@@ -28,19 +24,22 @@ class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
 
 	public function test_set_property(): void {
 		// Set a property using the set_property method
-		$this->dummy_obj->set_property( 'property1', 'value' );
+		$accessor_trait_class = $this->accessor_trait_class;
+		$accessor_trait_class->set_property( 'property1', 'value' );
 
 		// Assert that the property value is set correctly
-		$this->assertEquals( 'value', $this->dummy_obj->get_property( 'property1' ) );
+		$this->assertEquals( 'value', $accessor_trait_class->get_property( 'property1' ) );
 	}
 
 	public function test_set_property_with_invalid_property(): void {
+		$accessor_trait_class = $this->accessor_trait_class;
+
 		// Expect an exception when setting an invalid property
 		$this->expectException( InvalidArgumentException::class );
 	
 		try {
 			// Attempt to set a property that does not exist
-			$this->dummy_obj->set_property( 'invalid_property', 'some_value' );
+			$accessor_trait_class->set_property( 'invalid_property', 'some_value' );
 		} catch ( InvalidArgumentException $e ) {
 			// Assert that the exception message contains the expected core part
 			$expected_message_part = "Property 'invalid_property' does not exist in";
@@ -52,11 +51,13 @@ class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
 	}
 
 	public function test_get_property(): void {
+		$accessor_trait_class = $this->accessor_trait_class;
+
 		// Set new properties
-		$this->dummy_obj->property1 = 'value1';
-		$this->dummy_obj->property2 = 'value2';
-		$result1 = $this->dummy_obj->get_property( 'property1' );
-		$result2 = $this->dummy_obj->get_property( 'property2' );
+		$accessor_trait_class->property1 = 'value1';
+		$accessor_trait_class->property2 = 'value2';
+		$result1 = $accessor_trait_class->get_property( 'property1' );
+		$result2 = $accessor_trait_class->get_property( 'property2' );
 
 		// Assert that the property value is get correctly
 		$this->assertEquals( 'value1', $result1 );
@@ -64,12 +65,14 @@ class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
 	}
 
 	public function test_get_property_with_invalid_property(): void {
+		$accessor_trait_class = $this->accessor_trait_class;
+
 		// Expect an exception when setting an invalid property
 		$this->expectException( InvalidArgumentException::class );
 	
 		try {
 			// Attempt to get a property that does not exist
-			$this->dummy_obj->get_property( 'invalid_property' );
+			$accessor_trait_class->get_property( 'invalid_property' );
 		} catch ( InvalidArgumentException $e ) {
 			// Assert that the exception message contains the expected core part
 			$expected_message_part = "Property 'invalid_property' does not exist in";
@@ -81,21 +84,25 @@ class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
 	}
 
 	public function test_has_property(): void {
+		$accessor_trait_class = $this->accessor_trait_class;
+
 		// Set new properties
-		$this->dummy_obj->property1 = 'value1';
-		$result1 = $this->dummy_obj->has_property( 'property1' );
+		$accessor_trait_class->property1 = 'value1';
+		$result1 = $accessor_trait_class->has_property( 'property1' );
 
 		// Assert that the property exists
 		$this->assertTrue( $result1 );
 	}
 
 	public function test_has_property_check_with_invalid_property(): void {
+		$accessor_trait_class = $this->accessor_trait_class;
+
 		// Expect an exception when setting an invalid property
 		$this->expectException( InvalidArgumentException::class );
 	
 		try {
 			// Attempt to get a property that does not exist
-			$this->dummy_obj->has_property( 'invalid_property' );
+			$accessor_trait_class->has_property( 'invalid_property' );
 		} catch ( InvalidArgumentException $e ) {
 			// Assert that the exception message contains the expected core part
 			$expected_message_part = "Property 'invalid_property' does not exist in";
@@ -106,9 +113,21 @@ class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
 		}
 	}
 
-	public function test_non_existing_method_throws_exception() {
+	public function test_magic_method_throws_exception_for_undefined_method() {
+		$accessor_trait_class = $this->accessor_trait_class;
+	
+		// Expecting an exception when calling an undefined method
 		$this->expectException( \BadMethodCallException::class );
-		$this->expectExceptionMessage( "'undefined_method' does not exist in 'Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait'." );
-		$this->dummy_obj->undefined_method();
+		$this->expectExceptionMessage( "'undefined_method' does not exist in 'Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait_Tmp'." );
+	
+		$accessor_trait_class->undefined_method();
 	}
+}
+
+
+class Accessor_Set_Get_Has_Trait_Tmp {
+	use Accessor_Set_Get_Has_Trait;
+
+	public $property1;
+	public $property2;
 }
