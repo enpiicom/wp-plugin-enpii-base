@@ -48,7 +48,6 @@
   "autoload": {
     "files": [
       "src/Foundation/Support/helpers-utils.php",
-      "vendor/laravel/framework/src/Illuminate/Foundation/helpers.php",
       "enpii-base-bootstrap.php"
     ],
     "psr-4": {
