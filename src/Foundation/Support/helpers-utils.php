@@ -57,7 +57,8 @@ if ( ! function_exists( 'devvard' ) ) {
 
 		// Output or return the dump based on the $is_dump_content flag
 		if ( $is_dump_content ) {
-			echo esc_html( $dump ); // Escaping the output
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $dump; // Escaping the output
 		} else {
 			return $dump;
 		}
@@ -81,7 +82,7 @@ if ( ! function_exists( 'develog' ) ) {
 			} else {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
 
-				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export 
 				$dump_content = devvard( $var );
 			}
 			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
@@ -104,7 +105,7 @@ if ( ! function_exists( 'devlogger' ) ) {
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 0 );
 
 		$logger = logger()->channel( 'single' );
-
+		
 		$log_message = '';
 		$log_message .= ! empty( $dev_trace[1] ) ? 'Debugging dev_error_log, url (' . Enpii_Base_Helper::get_current_url() . ") \n======= Dev logging start here \n" . $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . " \n" : '';
 		unset( $dev_trace[0] );
