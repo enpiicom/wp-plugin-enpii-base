@@ -8,6 +8,8 @@ use Illuminate\Container\Container;
 
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Mockery;
+use WP_Mock;
 
 class Executable_Trait_Test extends Unit_Test_Case {
 	private $app;
@@ -16,37 +18,41 @@ class Executable_Trait_Test extends Unit_Test_Case {
 	protected function setUp(): void {
 		parent::setUp();
 
-		// Mock the application container and bind the mock handler
-		$this->mock_container = $this->createMock( Container::class );
-		$this->mock_container->method( 'call' )->willReturn( 'handled' );
+		// Mock the application container and configure it to handle the 'call' method
+		$this->mock_container = Mockery::mock( Container::class );
+		$this->mock_container->shouldReceive( 'call' )
+								->andReturn( 'handled' );
 
-		// Bind the mock container to the app() function
-		$this->app = $this->mock_container;
+		// Mock the app() function to return the mocked container
+		WP_Mock::userFunction( 'app' )
+				->once()
+				->andReturn( $this->mock_container );
 	}
 
 	protected function tearDown(): void {
 		parent::tearDown();
+		Mockery::close();
 	}
 
 	public function test_execute_now_creates_instance_and_calls_handle(): void {
-		// Mock the command class
-		$mock_command = $this->createMock( Executable_Trait_Test_Tmp::class );
+		// Mock the command class that uses the Executable_Trait
+		$mock_command = Mockery::mock( Executable_Trait_Test_Tmp::class )
+								->shouldReceive( 'handle' )
+								->andReturn( 'handled' )
+								->getMock();
 
-		// Bind the mocked command class to the container
-		$this->mock_container->method( 'call' )
-							->with(
-								$this->callback(
-									function ( $args ) use ( $mock_command ) {
-										return $args[0] === $mock_command && $args[1] === 'handle';
-									}
-								)
+		// Configure the mock container to call the 'handle' method on the mock command
+		$this->mock_container->shouldReceive( 'call' )
+							->withArgs(
+								function ( $args ) use ( $mock_command ) {
+									return $args[0] === [ $mock_command, 'handle' ];
+								}
 							)
-							->willReturn( 'handled' );
+							->andReturn( 'handled' );
 
-		// Call the execute_now method
+		// Execute the method and assert the expected result
 		$result = Executable_Trait_Test_Tmp::execute_now( 'arg1', 'arg2' );
 
-		// Assert that the result is as expected
 		$this->assertEquals( 'handled', $result );
 	}
 }

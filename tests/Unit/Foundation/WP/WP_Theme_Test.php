@@ -45,7 +45,7 @@ class WP_Theme_Test extends Unit_Test_Case {
 
 	public function test_wp_app_instance(): void {
 		$mock_wp_theme = $this->mock_wp_theme;
-		WP_Mock::userFunction( 'wp_app' )
+		WP_Mock::userFunction( 'app' )
 			->times( 1 )
 			->withAnyArgs()
 			->andReturn( $mock_wp_theme );
@@ -67,7 +67,7 @@ class WP_Theme_Test extends Unit_Test_Case {
 
 		$slug = 'theme-slug';
 
-		WP_Mock::userFunction( 'wp_app' )
+		WP_Mock::userFunction( 'app' )
 			->times( 2 )
 			->withAnyArgs()
 			->andReturnUsing(
@@ -83,7 +83,7 @@ class WP_Theme_Test extends Unit_Test_Case {
 		$this->assertEquals( $mock_wp_theme, $result );
 
 		// Stub the wp_app function
-		WP_Mock::userFunction( 'wp_app' )
+		WP_Mock::userFunction( 'app' )
 			->times( 1 )
 			->withAnyArgs()
 			->andReturnUsing(
@@ -108,6 +108,9 @@ class WP_Theme_Test extends Unit_Test_Case {
 		$this->assertInstanceOf( WP_Theme_Interface::class, $result );
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_init_with_needed_params_with_parent() {
 		$mock_wp_theme = $this->build_mock_wp_theme();
 
@@ -156,6 +159,9 @@ class WP_Theme_Test extends Unit_Test_Case {
 		$this->assertEquals( '/themes/parent-theme-uri', $mock_wp_theme->get_parent_base_url() );
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_init_with_needed_params_with_no_parent_and_failed() {
 		$mock_wp_theme = $this->build_mock_wp_theme();
 
@@ -208,7 +214,7 @@ class WP_Theme_Test extends Unit_Test_Case {
 			]
 		);
 
-		WP_Mock::userFunction( 'wp_app' )
+		WP_Mock::userFunction( 'app' )
 			->times( 2 )
 			->withAnyArgs()
 			->andReturnUsing(
@@ -259,8 +265,6 @@ class WP_Theme_Test extends Unit_Test_Case {
 		$mock_wp_theme->register();
 	}
 }
-
-
 
 class WP_Theme_Tmp extends WP_Theme {
 	public function manipulate_hooks(): void {
