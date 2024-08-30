@@ -47,7 +47,7 @@ class WP_Plugin_Test extends Unit_Test_Case {
 
 	public function test_wp_app_instance(): void {
 		$mock_wp_plugin = $this->mock_wp_plugin;
-		WP_Mock::userFunction( 'wp_app' )
+		WP_Mock::userFunction( 'app' )
 			->times( 1 )
 			->withAnyArgs()
 			->andReturn( $mock_wp_plugin );
@@ -70,7 +70,7 @@ class WP_Plugin_Test extends Unit_Test_Case {
 		$base_path = '/path/to/plugin';
 		$base_url = 'https://example.com';
 
-		WP_Mock::userFunction( 'wp_app' )
+		WP_Mock::userFunction( 'app' )
 			->times( 2 )
 			->withAnyArgs()
 			->andReturnUsing(
@@ -86,7 +86,7 @@ class WP_Plugin_Test extends Unit_Test_Case {
 		$this->assertEquals( $mock_wp_plugin, $result );
 
 		// Stub the wp_app function
-		WP_Mock::userFunction( 'wp_app' )
+		WP_Mock::userFunction( 'app' )
 			->times( 1 )
 			->withAnyArgs()
 			->andReturnUsing(
@@ -134,7 +134,7 @@ class WP_Plugin_Test extends Unit_Test_Case {
 			]
 		);
 
-		WP_Mock::userFunction( 'wp_app' )
+		WP_Mock::userFunction( 'app' )
 			->times( 2 )
 			->withAnyArgs()
 			->andReturnUsing(
@@ -355,7 +355,7 @@ class WP_Plugin_Test extends Unit_Test_Case {
 		// Expected method calls
 		$mock_wp_plugin->expects( $this->exactly( 2 ) )->method( 'get_plugin_slug' )->willReturn( 'namespace' );
 
-		WP_Mock::userFunction( 'wp_app_view' )
+		WP_Mock::userFunction( 'view' )
 			->times( 2 )
 			->withAnyArgs()
 			->andReturnUsing(

@@ -16,7 +16,7 @@ class Executable_Trait_Test extends Unit_Test_Case {
 	protected function setUp(): void {
 		parent::setUp();
 
-        // Mock the application container and bind the mock handler
+		// Mock the application container and bind the mock handler
 		$this->mock_container = $this->createMock( Container::class );
 		$this->mock_container->method( 'call' )->willReturn( 'handled' );
 
