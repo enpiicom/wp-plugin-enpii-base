@@ -43,13 +43,24 @@ if ( ! function_exists( 'devdd' ) ) {
 	}
 }
 
-if ( ! function_exists( 'dev_var_dump' ) ) {
-	function dev_var_dump( $var_to_be_dumped, int $max_depth = 5 ): string {
+if ( ! function_exists( 'devvard' ) ) {
+	function devvard( $var_to_be_dumped, int $max_depth = 5, bool $is_dump_content = true ) {
 		$dumper = new CliDumper();
 		$cloner = new VarCloner();
 		$cloner->addCasters( ReflectionCaster::UNSET_CLOSURE_FILE_INFO );
+		
+		// Clone the variable and set the maximum depth
+		$cloned_var = $cloner->cloneVar( $var_to_be_dumped )->withMaxDepth( $max_depth );
 
-		return $dumper->dump( $cloner->cloneVar( $var_to_be_dumped )->withMaxDepth( $max_depth ), true );
+		// Dump the variable
+		$dump = $dumper->dump( $cloned_var, true );
+
+		// Output or return the dump based on the $is_dump_content flag
+		if ( $is_dump_content ) {
+			echo esc_html( $dump ); // Escaping the output
+		} else {
+			return $dump;
+		}
 	}
 }
 
@@ -71,13 +82,13 @@ if ( ! function_exists( 'dev_error_log' ) ) {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
 
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
-				$dump_content = dev_var_dump( $var );
+				$dump_content = devvard( $var );
 			}
 			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
 		}
 
 		if ( defined( 'DEV_LOG_TRACE' ) ) {
-			$log_message .= 'Trace :' . dev_var_dump( $dev_trace ) . " \n";
+			$log_message .= 'Trace :' . devvard( $dev_trace ) . " \n";
 			$log_message .= "\n======= Dev logging ends here =======\n";
 			$log_message .= "\n=====================================\n\n\n\n";
 		}
@@ -106,13 +117,13 @@ if ( ! function_exists( 'dev_logger' ) ) {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
 
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
-				$dump_content = dev_var_dump( $var );
+				$dump_content = devvard( $var );
 			}
 			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
 		}
 
 		if ( defined( 'DEV_LOG_TRACE' ) ) {
-			$log_message .= 'Trace :' . dev_var_dump( $dev_trace ) . " \n";
+			$log_message .= 'Trace :' . devvard( $dev_trace ) . " \n";
 			$log_message .= "\n======= Dev logging ends here =======\n";
 			$log_message .= "\n=====================================\n\n\n\n";
 		}
