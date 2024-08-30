@@ -83,7 +83,7 @@
   },
   "extra": {
     "exclude-from-files": [
-      "vendor/laravel/framework/src/Illuminate/Foundation/helpers.php"
+      "laravel/framework/src/Illuminate/Foundation/helpers.php"
     ],
     "installer-paths": {
       "dev-docker/wordpress/wp-content/mu-plugins/{$name}/": [
