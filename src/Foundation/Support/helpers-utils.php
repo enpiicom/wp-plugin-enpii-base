@@ -64,8 +64,8 @@ if ( ! function_exists( 'devvard' ) ) {
 	}
 }
 
-if ( ! function_exists( 'dev_error_log' ) ) {
-	function dev_error_log( ...$vars ): void {
+if ( ! function_exists( 'develog' ) ) {
+	function develog( ...$vars ): void {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 0 );
 
@@ -98,8 +98,8 @@ if ( ! function_exists( 'dev_error_log' ) ) {
 	}
 }
 
-if ( ! function_exists( 'dev_logger' ) ) {
-	function dev_logger( ...$vars ): void {
+if ( ! function_exists( 'devlogger' ) ) {
+	function devlogger( ...$vars ): void {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 0 );
 
@@ -133,20 +133,20 @@ if ( ! function_exists( 'dev_logger' ) ) {
 	}
 }
 
-if ( ! function_exists( 'dev_log' ) ) {
-	function dev_log( ...$vars ): void {
-		dev_error_log( ...$vars );
-		dev_logger( ...$vars );
+if ( ! function_exists( 'devlog' ) ) {
+	function devlog( ...$vars ): void {
+		develog( ...$vars );
+		devlogger( ...$vars );
 	}
 }
 
-if ( ! function_exists( 'dev_dump_log' ) ) {
+if ( ! function_exists( 'devdlog' ) ) {
 	/**
 	 * @throws \Exception
 	 */
-	function dev_dump_log( ...$vars ): void {
+	function devdlog( ...$vars ): void {
 		devd( ...$vars );
-		dev_error_log( ...$vars );
-		dev_logger( ...$vars );
+		develog( ...$vars );
+		devlogger( ...$vars );
 	}
 }
