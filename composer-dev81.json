@@ -55,7 +55,6 @@
   ],
   "autoload": {
     "files": [
-      "vendor/laravel/framework/src/Illuminate/Foundation/helpers.php"
     ],
     "psr-4": {
       "Enpii_Base\\Deps\\": "src-deps",
@@ -83,6 +82,9 @@
     "sort-packages": true
   },
   "extra": {
+    "exclude-from-files": [
+      "vendor/laravel/framework/src/Illuminate/Foundation/helpers.php"
+    ],
     "installer-paths": {
       "dev-docker/wordpress/wp-content/mu-plugins/{$name}/": [
         "type:wordpress-muplugin"
