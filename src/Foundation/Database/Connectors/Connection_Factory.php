@@ -19,11 +19,11 @@ class Connection_Factory extends ConnectionFactory {
 	 * @throws \InvalidArgumentException
 	 */
 	public function createConnector( array $config ) {
-		$key = "db.connector.{$config['driver']}";
-
 		if ( ! isset( $config['driver'] ) ) {
 			throw new InvalidArgumentException( 'A driver must be specified.' );
 		}
+
+		$key = "db.connector.{$config['driver']}";
 
 		if ( $this->container->bound( $key ) ) {
 			return $this->container->make( $key );
