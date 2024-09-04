@@ -15,7 +15,7 @@ class Queue_Service_Provider extends QueueServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'queue' => apply_filters(
 					App_Const::FILTER_WP_APP_MAIL_CONFIG,

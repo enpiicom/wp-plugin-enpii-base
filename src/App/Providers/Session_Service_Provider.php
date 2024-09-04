@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class Session_Service_Provider extends SessionServiceProvider {
 	public function register() {
 		// If running in WP_CLI, we need to skip the session
-		if ( class_exists( 'WP_CLI' ) && wp_app()->runningInConsole() ) {
+		if ( class_exists( 'WP_CLI' ) && app()->runningInConsole() ) {
 			return;
 		}
 
@@ -21,7 +21,7 @@ class Session_Service_Provider extends SessionServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'session' => apply_filters(
 					App_Const::FILTER_WP_APP_SESSION_CONFIG,
