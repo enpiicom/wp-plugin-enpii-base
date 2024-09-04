@@ -6,7 +6,6 @@ namespace Enpii_Base\Tests\Unit\Foundation\Database;
 
 use Enpii_Base\Foundation\Database\Wpdb_Connection;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
-use Mockery;
 use PDO;
 
 class Wpdb_Connection_Test extends Unit_Test_Case {
@@ -30,7 +29,6 @@ class Wpdb_Connection_Test extends Unit_Test_Case {
 	}
 
 	protected function tearDown(): void {
-		Mockery::close();
 		parent::tearDown();
 	}
 

@@ -12,22 +12,23 @@ use Illuminate\Database\Connection;
 use Illuminate\Database\Connectors\MySqlConnector;
 use Illuminate\Database\MySqlConnection;
 use InvalidArgumentException;
-use Mockery;
-
 
 class Connection_Factory_Test extends Unit_Test_Case {
 	protected $container;
 	protected $connection_factory;
+	protected $pdo_connection;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->container = new Container_Test_Tmp();
 		$this->connection_factory = new Connection_Factory( $this->container );
+		$this->pdo_connection = $this->getMockBuilder( Container_Test_Tmp_PDO::class )
+		->disableOriginalConstructor()
+		->getMock();
 	}
 
 	protected function tearDown(): void {
-		Mockery::close();
 		parent::tearDown();
 	}
 
@@ -65,33 +66,25 @@ class Connection_Factory_Test extends Unit_Test_Case {
 	}
 
 	/**
-	 * @throws \ReflectionException
+	 * @runInSeparateProcess
 	 */
 	public function test_create_connection_with_resolver() {
 		$driver = 'mysql';
-		// phpcs:ignore WordPress.DB.RestrictedClasses.mysql__PDO
-		$connection = $this->getMockBuilder( \PDO::class )
-							->disableOriginalConstructor()
-							->getMock();
 		$database = 'test';
 		$prefix = 'prefix_';
 		$config = [];
 
 		// Invoke the createConnection method
-		$result = $this->invoke_protected_method( $this->connection_factory, 'createConnection', [ $driver, $connection, $database, $prefix, $config ] );
+		$result = $this->invoke_protected_method( $this->connection_factory, 'createConnection', [ $driver, $this->pdo_connection, $database, $prefix, $config ] );
 
 		// Assert that the result is an instance of Connection
 		$this->assertInstanceOf( Connection::class, $result );
 	}
 
 	/**
-	 * @throws \ReflectionException
+	 * @runInSeparateProcess
 	 */
 	public function test_create_connection_with_wpdb_driver() {
-		// phpcs:ignore WordPress.DB.RestrictedClasses.mysql__PDO
-		$connection = $this->getMockBuilder( \PDO::class )
-							->disableOriginalConstructor()
-							->getMock();
 		$driver     = 'wpdb';
 		$database   = 'test';
 		$prefix     = 'prefix_';
@@ -101,7 +94,7 @@ class Connection_Factory_Test extends Unit_Test_Case {
 		global $wpdb;
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$wpdb     = new \stdClass();
-		$wpdb->db = $connection;
+		$wpdb->db = $this->pdo_connection;
 
 		// Invoke the createConnection method
 		$result = $this->invoke_protected_method( $this->connection_factory, 'createConnection', [ $driver, $wpdb->db, $database, $prefix, $config ] );
@@ -128,9 +121,12 @@ class Connection_Factory_Test extends Unit_Test_Case {
 	}
 }
 
-namespace Enpii_Base\Tests\Unit\Foundation\Database\Connectors;
 
 use Illuminate\Container\Container as ContainerContainer;
+use PDO;
 
 class Container_Test_Tmp extends ContainerContainer {
+}
+
+class Container_Test_Tmp_PDO extends PDO {
 }
