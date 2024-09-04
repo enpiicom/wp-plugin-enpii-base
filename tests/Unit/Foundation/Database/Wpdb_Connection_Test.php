@@ -8,7 +8,6 @@ use Enpii_Base\Foundation\Database\Wpdb_Connection;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Mockery;
 use PDO;
-use wpdb;
 
 class Wpdb_Connection_Test extends Unit_Test_Case {
 
@@ -19,7 +18,7 @@ class Wpdb_Connection_Test extends Unit_Test_Case {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$pdo_mock = $this->getMockBuilder( PDO::class )
+		$pdo_mock = $this->getMockBuilder( Wpdb_Connection_Test_PDO::class )
 		->disableOriginalConstructor()
 		->getMock();
 
@@ -154,4 +153,8 @@ class Wpdb_Connection_Test extends Unit_Test_Case {
 
 		$this->assertSame( '%i', $result );
 	}
+}
+
+
+class Wpdb_Connection_Test_PDO extends PDO {
 }
