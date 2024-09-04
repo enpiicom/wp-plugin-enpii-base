@@ -1274,7 +1274,21 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertEquals( true, Enpii_Base_Helper_Test_Tmp_Setup_App_Completed_No_Error::$wp_app_check );
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_perform_wp_app_at_setup_app_url() {
+
+		$expected_site_url = 'https://example.com';
+
+		// Mock the site_url() function to return the expected site URL
+		WP_Mock::userFunction(
+			'site_url',
+			[
+				'return' => $expected_site_url,
+			]
+		);
+
 		// Act
 		Enpii_Base_Helper_Test_Tmp_Setup_App_Url::perform_wp_app_check();
 
@@ -1398,33 +1412,27 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 	 * @runInSeparateProcess
 	 */
 	public function test_route_with_wp_url() {
-		// Arrange: Define the expected site URL and route values
-		$expected_site_url = 'https://example.com';
-		$expected_route = '/my-route';
+        // Arrange: Define the expected site URL and route values
+        $expected_site_url = 'https://example.com';
+        $expected_route = '/my-route';
 
-		// Mock the site_url() function to return the expected site URL
-		WP_Mock::userFunction(
-			'site_url',
-			[
-				'return' => $expected_site_url,
-			]
-		);
+        // Mock the site_url() function to return the expected site URL
+        WP_Mock::userFunction('site_url', [
+            'return' => $expected_site_url,
+        ]);
 
-		// Mock the route() function to return the expected route path
-		WP_Mock::userFunction(
-			'route',
-			[
-				'args' => [ 'test-route', [], false ],
-				'return' => $expected_route,
-			]
-		);
+        // Mock the route() function to return the expected route path
+        WP_Mock::userFunction('route', [
+            'args' => ['test-route', [], false],
+            'return' => $expected_route,
+        ]);
 
-		// Act: Call the method you are testing
-		$result = Enpii_Base_Helper::route_with_wp_url( 'test-route' );
+        // Act: Call the method you are testing
+        $result = Enpii_Base_Helper::route_with_wp_url('test-route');
 
-		// Assert: Check that the result matches the expected full URL
-		$this->assertEquals( 'https://example.com/my-route', $result );
-	}
+        // Assert: Check that the result matches the expected full URL
+        $this->assertEquals('https://example.com/my-route', $result);
+    }
 }
 
 
