@@ -19,6 +19,9 @@
       "role": "Developer"
     }
   ],
+  "require": {
+    "php": "^7.3|^8.0"
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "repositories": [
