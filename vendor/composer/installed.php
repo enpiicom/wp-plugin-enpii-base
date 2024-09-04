@@ -7,9 +7,18 @@
         'type' => 'wordpress-muplugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
+        'automattic/vipwpcs' => array(
+            'pretty_version' => '3.0.1',
+            'version' => '3.0.1.0',
+            'reference' => '2b1d206d81b74ed999023cffd924f862ff2753c8',
+            'type' => 'phpcodesniffer-standard',
+            'install_path' => __DIR__ . '/../automattic/vipwpcs',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'brick/math' => array(
             'pretty_version' => '0.9.3',
             'version' => '0.9.3.0',
@@ -27,6 +36,15 @@
             'install_path' => __DIR__ . '/../carbonphp/carbon-doctrine-types',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'dealerdirect/phpcodesniffer-composer-installer' => array(
+            'pretty_version' => 'v1.0.0',
+            'version' => '1.0.0.0',
+            'reference' => '4be43904336affa5c2f70744a348312336afd0da',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/../dealerdirect/phpcodesniffer-composer-installer',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'doctrine/cache' => array(
             'pretty_version' => '2.2.0',
@@ -409,6 +427,33 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'phpcompatibility/php-compatibility' => array(
+            'pretty_version' => '9.3.5',
+            'version' => '9.3.5.0',
+            'reference' => '9fb324479acf6f39452e0655d2429cc0d3914243',
+            'type' => 'phpcodesniffer-standard',
+            'install_path' => __DIR__ . '/../phpcompatibility/php-compatibility',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+        'phpcsstandards/phpcsextra' => array(
+            'pretty_version' => '1.2.1',
+            'version' => '1.2.1.0',
+            'reference' => '11d387c6642b6e4acaf0bd9bf5203b8cca1ec489',
+            'type' => 'phpcodesniffer-standard',
+            'install_path' => __DIR__ . '/../phpcsstandards/phpcsextra',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+        'phpcsstandards/phpcsutils' => array(
+            'pretty_version' => '1.0.12',
+            'version' => '1.0.12.0',
+            'reference' => '87b233b00daf83fb70f40c9a28692be017ea7c6c',
+            'type' => 'phpcodesniffer-standard',
+            'install_path' => __DIR__ . '/../phpcsstandards/phpcsutils',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'phpoption/phpoption' => array(
             'pretty_version' => '1.9.2',
             'version' => '1.9.2.0',
@@ -484,8 +529,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -536,6 +581,15 @@
                 0 => '4.2.3',
             ),
         ),
+        'sirbrillig/phpcs-variable-analysis' => array(
+            'pretty_version' => 'v2.11.18',
+            'version' => '2.11.18.0',
+            'reference' => 'ca242a0b7309e0f9d1f73b236e04ecf4ca3248d0',
+            'type' => 'phpcodesniffer-standard',
+            'install_path' => __DIR__ . '/../sirbrillig/phpcs-variable-analysis',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'spatie/laravel-html' => array(
             'pretty_version' => '2.30.0',
             'version' => '2.30.0.0',
@@ -544,6 +598,15 @@
             'install_path' => __DIR__ . '/../spatie/laravel-html',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'squizlabs/php_codesniffer' => array(
+            'pretty_version' => '3.10.1',
+            'version' => '3.10.1.0',
+            'reference' => '8f90f7a53ce271935282967f53d0894f8f1ff877',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../squizlabs/php_codesniffer',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'swiftmailer/swiftmailer' => array(
             'pretty_version' => 'v6.3.0',
@@ -844,6 +907,15 @@
             'install_path' => __DIR__ . '/../webmozart/assert',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'wp-coding-standards/wpcs' => array(
+            'pretty_version' => '3.1.0',
+            'version' => '3.1.0.0',
+            'reference' => '9333efcbff231f10dfd9c56bb7b65818b4733ca7',
+            'type' => 'phpcodesniffer-standard',
+            'install_path' => __DIR__ . '/../wp-coding-standards/wpcs',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
     ),
 );
