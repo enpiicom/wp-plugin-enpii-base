@@ -58,7 +58,7 @@ if ( ! function_exists( 'devvard' ) ) {
 		// Output or return the dump based on the $is_dump_content flag
 		if ( $is_dump_content ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo $dump; // Escaping the output
+			echo $dump;
 		} else {
 			return $dump;
 		}
