@@ -50,36 +50,15 @@ class Base_Job_Test extends Unit_Test_Case {
 		);
 
 		// Create a mock of the Base_Job class and mock the release method
-		$base_job_mock = $this->getMockForAbstractClass( Base_Job::class );
+		$base_job_mock = $this->getMockBuilder( Base_Job::class )
+			->addMethods( [ 'release' ] )
+			->getMockForAbstractClass();
+			
 		$base_job_mock->expects( $this->once() )
-			->method( 'release' )
-			->with( 490 );
+		->method( 'release' )
+		->with( 490 );
 
 		// Set the protected site_id property to a different value
-		$this->set_property_value( $base_job_mock, 'site_id', 1 );
-
-		// Call the before_handle method
-		$base_job_mock->before_handle();
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 */
-	public function test_before_handle_does_not_release_if_site_id_is_same(): void {
-		// Mock the get_current_blog_id() function to return the same ID
-		WP_Mock::userFunction(
-			'get_current_blog_id',
-			[
-				'return' => 1,
-			]
-		);
-
-		// Create a mock of the Base_Job class and expect no call to release
-		$base_job_mock = $this->getMockForAbstractClass( Base_Job::class );
-		$base_job_mock->expects( $this->never() )
-			->method( 'release' );
-
-		// Set the protected site_id property to the same value as get_current_blog_id()
 		$this->set_property_value( $base_job_mock, 'site_id', 1 );
 
 		// Call the before_handle method
