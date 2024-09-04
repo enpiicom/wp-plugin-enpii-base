@@ -14,10 +14,10 @@ class Process_WP_App_Request {
 	 */
 	public function handle(): void {
 		/** @var \Enpii_Base\App\Http\Kernel $kernel */
-		$kernel = wp_app()->make( \Illuminate\Contracts\Http\Kernel::class );
+		$kernel = app()->make( \Illuminate\Contracts\Http\Kernel::class );
 
 		/** @var \Enpii_Base\App\Http\Request $request */
-		$request = wp_app_request();
+		$request = request();
 		$response = $kernel->handle( $request );
 		$response->send();
 

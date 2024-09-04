@@ -11,6 +11,6 @@ class Logout_WP_App_User extends Base_Job {
 
 	public function handle() {
 		Auth::logoutCurrentDevice();
-		wp_app_session()->save();
+		session()->save();
 	}
 }

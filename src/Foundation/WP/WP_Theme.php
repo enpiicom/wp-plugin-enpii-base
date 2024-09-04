@@ -36,15 +36,15 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 	 */
 	public static function wp_app_instance(): self {
 		// We return the wp_app instance of the successor's class
-		return wp_app( static::class );
+		return app( static::class );
 	}
 
 	public static function init_with_wp_app( string $slug ): WP_Theme_Interface {
-		if ( wp_app()->has( static::class ) ) {
-			return wp_app( static::class );
+		if ( app()->has( static::class ) ) {
+			return app( static::class );
 		}
 
-		$theme = new static( wp_app() );
+		$theme = new static( app() );
 		$theme->init_with_needed_params( $slug );
 
 		// Attch the instance to WP Application
@@ -172,8 +172,8 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 	 * @throws Exception
 	 */
 	protected function attach_to_wp_app(): void {
-		wp_app()->instance( static::class, $this );
-		wp_app()->alias( static::class, 'theme-' . $this->get_theme_slug() );
+		app()->instance( static::class, $this );
+		app()->alias( static::class, 'theme-' . $this->get_theme_slug() );
 
 		// We want to register the WP_Thee after all needed Service Providers
 		add_action(

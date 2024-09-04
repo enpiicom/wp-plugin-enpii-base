@@ -29,8 +29,5 @@ return array(
     '58571171fd5812e6e447dce228f52f4d' => $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
     'eed9c7469f94573c0d97cc45de79b754' => $vendorDir . '/spatie/laravel-html/src/helpers.php',
     '0a04fd8b6cb0d1ef5b4816cca310de45' => $baseDir . '/src/Foundation/Support/helpers-utils.php',
-    '1a9d4c5b6fdccdf53758bb42093f047e' => $baseDir . '/src/Foundation/helpers-wp-app.php',
-    'd52cbd35db56d8db88f4e6d99ac7ba97' => $baseDir . '/src/Foundation/helpers-overrides.php',
     'd87cfd2ed7cce067b66b8a69d0d19e97' => $baseDir . '/enpii-base-bootstrap.php',
-    '1e97b44e360a44a4786951dfe5cec916' => $baseDir . '/enpii-base-init.php',
 );

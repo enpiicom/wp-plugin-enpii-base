@@ -22,7 +22,7 @@ class Put_Setup_Error_Message_To_Log_File {
 
 	public function handle() {
 		$monolog = new Logger( 'setup_app' );
-		$stream_handler = new StreamHandler( wp_app_storage_path( 'logs/setup-app.log' ) );
+		$stream_handler = new StreamHandler( storage_path( 'logs/setup-app.log' ) );
 		$monolog->pushHandler( $stream_handler );
 		$monolog->warning( '========= Errors from Setup app ============' );
 		$monolog->error( $this->message );

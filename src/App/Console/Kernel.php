@@ -63,8 +63,8 @@ class Kernel extends ConsoleKernel {
 				/** @var \Illuminate\Foundation\Console\ClosureCommand $this */
 				$start_time = microtime( true );
 				for ( $i = 0; $i < 500000; $i++ ) {
-					$message = $enpii_base_plugin->__( 'Hello from Enpii Base wp_app()' );
-					// $message = __( 'Hello from Enpii Base wp_app()' );
+					$message = $enpii_base_plugin->__( 'Hello from Enpii Base app()' );
+					// $message = __( 'Hello from Enpii Base app()' );
 				}
 				$end_time = microtime( true );
 				$this->comment( $message );

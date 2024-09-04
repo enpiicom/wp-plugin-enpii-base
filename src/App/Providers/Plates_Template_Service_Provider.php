@@ -28,7 +28,7 @@ class Plates_Template_Service_Provider extends ServiceProvider {
 		$app->singleton(
 			PlatesEngine::class,
 			function () use ( $app ) {
-				$paths = wp_app_config( 'view.paths' );
+				$paths = config( 'view.paths' );
 
 				// phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 				// return new PlatesEngine($paths, 'php');
