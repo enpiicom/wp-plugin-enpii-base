@@ -83,7 +83,7 @@ class WP_Application extends Application {
 	 * @param  string|null  $basePath
 	 * @return void
 	 */
-	protected function __construct( $basePath = null ) {
+	public function __construct( $basePath = null ) {
 		parent::__construct( $basePath );
 
 		// We need to add the aliases to the custom classes for
