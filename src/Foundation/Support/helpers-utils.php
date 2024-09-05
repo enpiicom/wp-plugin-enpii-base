@@ -25,7 +25,7 @@ if ( ! function_exists( 'devd' ) ) {
 		echo ( ! empty( $dev_trace[1] ) ) ? $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . ': ' . "\n" : '';
 		// We want to put the file name and the 7 steps trace to know where
 		//  where the dump is produced
-		if ( ! enpii_base_is_console_mode() && defined( 'DEV_LOG_TRACE' ) ) {
+		if ( ! Enpii_Base_Helper::is_console_mode() && defined( 'DEV_LOG_TRACE' ) ) {
 			echo 'Traceback: ';
 			dump( $dev_trace );
 		}
@@ -43,18 +43,30 @@ if ( ! function_exists( 'devdd' ) ) {
 	}
 }
 
-if ( ! function_exists( 'dev_var_dump' ) ) {
-	function dev_var_dump( $var_to_be_dumped, int $max_depth = 5 ): string {
+if ( ! function_exists( 'devvard' ) ) {
+	function devvard( $var_to_be_dumped, int $max_depth = 5, bool $is_dump_content = true ) {
 		$dumper = new CliDumper();
 		$cloner = new VarCloner();
 		$cloner->addCasters( ReflectionCaster::UNSET_CLOSURE_FILE_INFO );
+		
+		// Clone the variable and set the maximum depth
+		$cloned_var = $cloner->cloneVar( $var_to_be_dumped )->withMaxDepth( $max_depth );
 
-		return $dumper->dump( $cloner->cloneVar( $var_to_be_dumped )->withMaxDepth( $max_depth ), true );
+		// Dump the variable
+		$dump = $dumper->dump( $cloned_var, true );
+
+		// Output or return the dump based on the $is_dump_content flag
+		if ( $is_dump_content ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $dump;
+		} else {
+			return $dump;
+		}
 	}
 }
 
-if ( ! function_exists( 'dev_error_log' ) ) {
-	function dev_error_log( ...$vars ): void {
+if ( ! function_exists( 'develog' ) ) {
+	function develog( ...$vars ): void {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 0 );
 
@@ -70,14 +82,14 @@ if ( ! function_exists( 'dev_error_log' ) ) {
 			} else {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
 
-				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
-				$dump_content = dev_var_dump( $var );
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export 
+				$dump_content = devvard( $var );
 			}
 			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
 		}
 
 		if ( defined( 'DEV_LOG_TRACE' ) ) {
-			$log_message .= 'Trace :' . dev_var_dump( $dev_trace ) . " \n";
+			$log_message .= 'Trace :' . devvard( $dev_trace ) . " \n";
 			$log_message .= "\n======= Dev logging ends here =======\n";
 			$log_message .= "\n=====================================\n\n\n\n";
 		}
@@ -87,13 +99,13 @@ if ( ! function_exists( 'dev_error_log' ) ) {
 	}
 }
 
-if ( ! function_exists( 'dev_logger' ) ) {
-	function dev_logger( ...$vars ): void {
+if ( ! function_exists( 'devlogger' ) ) {
+	function devlogger( ...$vars ): void {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 0 );
 
-		$logger = wp_app_logger()->channel( 'single' );
-
+		$logger = logger()->channel( 'single' );
+		
 		$log_message = '';
 		$log_message .= ! empty( $dev_trace[1] ) ? 'Debugging dev_error_log, url (' . Enpii_Base_Helper::get_current_url() . ") \n======= Dev logging start here \n" . $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . " \n" : '';
 		unset( $dev_trace[0] );
@@ -106,13 +118,13 @@ if ( ! function_exists( 'dev_logger' ) ) {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
 
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
-				$dump_content = dev_var_dump( $var );
+				$dump_content = devvard( $var );
 			}
 			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
 		}
 
 		if ( defined( 'DEV_LOG_TRACE' ) ) {
-			$log_message .= 'Trace :' . dev_var_dump( $dev_trace ) . " \n";
+			$log_message .= 'Trace :' . devvard( $dev_trace ) . " \n";
 			$log_message .= "\n======= Dev logging ends here =======\n";
 			$log_message .= "\n=====================================\n\n\n\n";
 		}
@@ -122,20 +134,20 @@ if ( ! function_exists( 'dev_logger' ) ) {
 	}
 }
 
-if ( ! function_exists( 'dev_log' ) ) {
-	function dev_log( ...$vars ): void {
-		dev_error_log( ...$vars );
-		dev_logger( ...$vars );
+if ( ! function_exists( 'devlog' ) ) {
+	function devlog( ...$vars ): void {
+		develog( ...$vars );
+		devlogger( ...$vars );
 	}
 }
 
-if ( ! function_exists( 'dev_dump_log' ) ) {
+if ( ! function_exists( 'devdlog' ) ) {
 	/**
 	 * @throws \Exception
 	 */
-	function dev_dump_log( ...$vars ): void {
+	function devdlog( ...$vars ): void {
 		devd( ...$vars );
-		dev_error_log( ...$vars );
-		dev_logger( ...$vars );
+		develog( ...$vars );
+		devlogger( ...$vars );
 	}
 }

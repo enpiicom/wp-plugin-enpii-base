@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Jobs;
 
+use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use PHPUnit\Framework\ExpectationFailedException;
 use Exception;
@@ -26,7 +27,7 @@ class Write_Setup_Client_Script {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( is_admin() && $current_screen->id === 'plugins' && $current_screen->parent_file === 'plugins.php' && ! empty( $_GET['activate'] ) ) {
 			$setup_url = esc_js(
-				wp_app_route_wp_url(
+				Enpii_Base_Helper::route_with_wp_url(
 					'wp-app::setup-app',
 					[
 						'force_app_running_in_console' => 1,

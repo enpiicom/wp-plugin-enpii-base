@@ -48,7 +48,7 @@ class WP_Application extends Application {
 		}
 
 		/**
-		| Create a wp_app() instance to be used in the whole application
+		| Create a app() instance to be used in the whole application
 		*/
 		$wp_app_base_path = Enpii_Base_Helper::get_wp_app_base_path();
 		$config = apply_filters(
@@ -123,9 +123,9 @@ class WP_Application extends Application {
 	public function runningInConsole() {
 		if ( $this->isRunningInConsole === null ) {
 			if (
-				( strpos( wp_app_request()->getPathInfo(), '/setup-app' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
-				( strpos( wp_app_request()->getPathInfo(), '/admin' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
-				( strpos( wp_app_request()->getPathInfo(), '/web-worker' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( request()->getPathInfo(), '/setup-app' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( request()->getPathInfo(), '/admin' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( request()->getPathInfo(), '/web-worker' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
 				Enpii_Base_Helper::at_setup_app_url()
 			) {
 				$this->isRunningInConsole = true;
@@ -233,7 +233,7 @@ class WP_Application extends Application {
 	}
 
 	public function is_debug_mode(): bool {
-		return wp_app_config( 'app.debug' );
+		return config( 'app.debug' );
 	}
 
 	/**
@@ -265,7 +265,7 @@ class WP_Application extends Application {
 	}
 
 	public function get_laravel_major_version(): int {
-		return (int) enpii_base_get_major_version( Application::VERSION );
+		return (int) Enpii_Base_Helper::get_major_version( Application::VERSION );
 	}
 
 	public function get_composer_path(): string {

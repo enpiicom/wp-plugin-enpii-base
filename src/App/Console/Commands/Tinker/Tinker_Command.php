@@ -34,7 +34,7 @@ class Tinker_Command extends TinkerCommand {
 		$shell->addCommands( $this->getCommands() );
 		$shell->setIncludes( $this->argument( 'include' ) );
 
-		$path = wp_app()->get_composer_path();
+		$path = app()->get_composer_path();
 		$path .= '/composer/autoload_classmap.php';
 
 		$config = $this->getLaravel()->make( 'config' );

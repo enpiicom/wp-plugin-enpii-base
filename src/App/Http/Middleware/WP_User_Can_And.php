@@ -12,7 +12,7 @@ class WP_User_Can_And extends Middleware {
 	use Enpii_Base_Trans_Trait;
 
 	public function handle( $request, Closure $next, ...$capabilities ) {
-		$message = wp_app_config( 'app.debug' ) ?
+		$message = config( 'app.debug' ) ?
 			$this->__( 'Access Denied! You need to login with proper account to perform this action!' ) . ' :: ' . implode( ', ', (array) $capabilities ) :
 			$this->__( 'Access Denied!' );
 

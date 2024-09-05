@@ -61,7 +61,7 @@ trait Has_Api_Tokens {
 	 */
 	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 	public function createToken( $name, array $scopes = [] ) {
-		return wp_app()->make( PersonalAccessTokenFactory::class )->make(
+		return app()->make( PersonalAccessTokenFactory::class )->make(
 			$this->getKey(),
 			$name,
 			$scopes

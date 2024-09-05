@@ -16,7 +16,7 @@ class Main_Controller extends Base_Controller {
 			$data['current_logged_in_user'] = wp_get_current_user();
 		}
 
-		return wp_app_response()->json(
+		return response()->json(
 			[
 				'message' => 'Welcome to Enpii Base WP App API',
 				'data' => $data,
@@ -27,7 +27,7 @@ class Main_Controller extends Base_Controller {
 	public function web_worker() {
 		do_action( App_Const::ACTION_WP_APP_WEB_WORKER );
 
-		return wp_app_response()->json(
+		return response()->json(
 			[
 				'message' => 'Web worker executed',
 			]

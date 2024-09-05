@@ -1,5 +1,5 @@
 @php
-	$locale = wp_app_config('app.locale');
+	$locale = config('app.locale');
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $locale }}">

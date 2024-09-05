@@ -17,9 +17,9 @@ class Bootstrap_WP_App {
 	 */
 	public function handle(): void {
 		/** @var \Enpii_Base\App\WP\WP_Application $wp_app  */
-		$wp_app = wp_app();
-		$wp_app['env'] = wp_app_config( 'app.env' );
-		$config = wp_app_config();
+		$wp_app = app();
+		$wp_app['env'] = config( 'app.env' );
+		$config = config();
 
 		if ( Enpii_Base_Helper::is_console_mode() ) {
 			/** @var \Enpii_Base\App\Console\Kernel $console_kernel */

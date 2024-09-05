@@ -15,7 +15,7 @@ class Mail_Service_Provider extends MailServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'mail' => apply_filters(
 					App_Const::FILTER_WP_APP_MAIL_CONFIG,

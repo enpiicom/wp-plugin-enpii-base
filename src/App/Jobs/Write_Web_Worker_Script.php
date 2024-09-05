@@ -27,7 +27,7 @@ class Write_Web_Worker_Script {
 		}
 
 		// We want to add the trailing slash to avoid the redirect in WP webserver rule
-		$web_worker_url = esc_js( wp_app_route_wp_url( 'wp-api::web-worker' ) );
+		$web_worker_url = esc_js( Enpii_Base_Helper::route_with_wp_url( 'wp-api::web-worker' ) );
 
 		// We want to have an interval that works every 5 mins (300 000 miliseconds)
 		//  to perform the web worker (queue, scheduler worker) execution

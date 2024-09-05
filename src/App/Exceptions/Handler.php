@@ -42,9 +42,9 @@ class Handler extends ExceptionHandler {
 		//  and the environment should not be 'production'
 		if (
 			view()->exists( $view )
-			&& ( ! wp_app_config( 'app.debug' ) || wp_app_config( 'app.env' ) === 'production' )
+			&& ( ! config( 'app.debug' ) || config( 'app.env' ) === 'production' )
 		) {
-			return wp_app_response()->view(
+			return response()->view(
 				$view,
 				[
 					'errors' => new ViewErrorBag(),
