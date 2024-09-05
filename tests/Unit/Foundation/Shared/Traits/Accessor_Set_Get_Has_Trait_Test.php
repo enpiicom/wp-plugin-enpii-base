@@ -6,6 +6,7 @@ namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits;
 
 use Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait_Test\Accessor_Set_Get_Has_Trait_Tmp;
 use InvalidArgumentException;
 
 class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
@@ -124,6 +125,9 @@ class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait_Test;
+
+use Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
 
 class Accessor_Set_Get_Has_Trait_Tmp {
 	use Accessor_Set_Get_Has_Trait;

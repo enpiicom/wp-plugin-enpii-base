@@ -43,6 +43,9 @@ class Setter_Trait_Test extends Unit_Test_Case {
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Setter_Trait_Test;
+
+use Enpii_Base\Foundation\Shared\Traits\Setter_Trait;
 
 class Setter_Trait_Test_Tmp {
 	use Setter_Trait;

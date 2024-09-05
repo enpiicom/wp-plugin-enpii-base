@@ -6,6 +6,7 @@ namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits;
 
 use Enpii_Base\Foundation\Shared\Traits\Getter_Trait;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Getter_Trait_Test\Getter_Trait_Test_Tmp;
 
 class Getter_Trait_Test extends Unit_Test_Case {
 
@@ -57,6 +58,9 @@ class Getter_Trait_Test extends Unit_Test_Case {
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Getter_Trait_Test;
+
+use Enpii_Base\Foundation\Shared\Traits\Getter_Trait;
 
 class Getter_Trait_Test_Tmp {
 	use Getter_Trait;

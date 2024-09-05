@@ -8,6 +8,8 @@ use Enpii_Base\Foundation\Database\Connectors\Connection_Factory;
 use Enpii_Base\Foundation\Database\Connectors\Wpdb_Connector;
 use Enpii_Base\Foundation\Database\Wpdb_Connection;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\Foundation\Database\Connectors\Connection_Factory_Test\Container_Test_Tmp;
+use Enpii_Base\Tests\Unit\Foundation\Database\Connectors\Connection_Factory_Test\Container_Test_Tmp_PDO;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Connectors\MySqlConnector;
 use Illuminate\Database\MySqlConnection;
@@ -121,6 +123,7 @@ class Connection_Factory_Test extends Unit_Test_Case {
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Database\Connectors\Connection_Factory_Test;
 
 use Illuminate\Container\Container as ContainerContainer;
 use PDO;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP;
 
-use Enpii_Base\App\Jobs\Init_WP_App_Kernels;
+use Enpii_Base\App\Actions\Init_WP_App_Kernels_Action;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Illuminate\Config\Repository;
@@ -73,7 +73,7 @@ class WP_Application extends Application {
 			$config
 		);
 
-		Init_WP_App_Kernels::execute_now();
+		Init_WP_App_Kernels_Action::exec();
 		do_action( App_Const::ACTION_WP_APP_LOADED );
 	}
 

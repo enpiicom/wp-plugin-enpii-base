@@ -6,6 +6,7 @@ namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits;
 
 use Enpii_Base\Foundation\Shared\Traits\Config_Trait;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Config_Trait_Test\Config_Trait_Test_Tmp;
 
 class Config_Trait_Test extends Unit_Test_Case {
 
@@ -56,6 +57,9 @@ class Config_Trait_Test extends Unit_Test_Case {
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Config_Trait_Test;
+
+use Enpii_Base\Foundation\Shared\Traits\Config_Trait;
 
 class Config_Trait_Test_Tmp {
 	use Config_Trait;
