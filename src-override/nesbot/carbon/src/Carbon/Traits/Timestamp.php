@@ -28,7 +28,7 @@ trait Timestamp
      */
     public static function createFromTimestamp($timestamp, $tz = null)
     {
-		$tz !== null || $tz = wp_app_config('app.timezone', 'UTC');
+		$tz !== null || $tz = config('app.timezone', 'UTC');
         return static::createFromTimestampUTC($timestamp)->setTimezone($tz);
     }
 
@@ -88,7 +88,7 @@ trait Timestamp
      */
     public static function createFromTimestampMs($timestamp, $tz = null)
     {
-		$tz !== null || $tz = wp_app_config('app.timezone', 'UTC');
+		$tz !== null || $tz = config('app.timezone', 'UTC');
         return static::createFromTimestampMsUTC($timestamp)
             ->setTimezone($tz);
     }

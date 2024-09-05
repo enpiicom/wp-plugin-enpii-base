@@ -58,7 +58,7 @@ trait Creator {
 	 * @throws InvalidFormatException
 	 */
 	public function __construct( $time = null, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		if ( $time instanceof DateTimeInterface ) {
 			$time = $this->constructTimezoneFromDateTime( $time, $tz )->format( 'Y-m-d H:i:s.u' );
 		}
@@ -175,7 +175,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function rawParse( $time = null, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		if ( $time instanceof DateTimeInterface ) {
 			return static::instance( $time );
 		}
@@ -214,7 +214,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function parse( $time = null, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		$function = static::$parseFunction;
 
 		if ( ! $function ) {
@@ -241,7 +241,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function parseFromLocale( $time, $locale = null, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		return static::rawParse( static::translateTimeString( $time, $locale, 'en' ), $tz );
 	}
 
@@ -253,7 +253,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function now( $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		return new static( null, $tz );
 	}
 
@@ -265,7 +265,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function today( $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		return static::rawParse( 'today', $tz );
 	}
 
@@ -277,7 +277,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function tomorrow( $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		return static::rawParse( 'tomorrow', $tz );
 	}
 
@@ -289,7 +289,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function yesterday( $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		return static::rawParse( 'yesterday', $tz );
 	}
 
@@ -368,7 +368,7 @@ trait Creator {
 	 * @return static|false
 	 */
 	public static function create( $year = 0, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		if ( ( \is_string( $year ) && ! is_numeric( $year ) ) || $year instanceof DateTimeInterface ) {
 			return static::parse( $year, $tz ?: ( \is_string( $month ) || $month instanceof DateTimeZone ? $month : null ) );
 		}
@@ -455,7 +455,7 @@ trait Creator {
 	 * @return static|false
 	 */
 	public static function createSafe( $year = null, $month = null, $day = null, $hour = null, $minute = null, $second = null, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		$fields = static::getRangesByUnit();
 
 		foreach ( $fields as $field => $range ) {
@@ -501,7 +501,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function createStrict( ?int $year = 0, ?int $month = 1, ?int $day = 1, ?int $hour = 0, ?int $minute = 0, ?int $second = 0, $tz = null ): self {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		$initialStrictMode = static::isStrictModeEnabled();
 		static::useStrictMode( true );
 
@@ -527,7 +527,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function createFromDate( $year = null, $month = null, $day = null, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		return static::create( $year, $month, $day, null, null, null, $tz );
 	}
 
@@ -544,7 +544,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function createMidnightDate( $year = null, $month = null, $day = null, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		return static::create( $year, $month, $day, 0, 0, 0, $tz );
 	}
 
@@ -561,7 +561,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function createFromTime( $hour = 0, $minute = 0, $second = 0, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		return static::create( null, null, null, $hour, $minute, $second, $tz );
 	}
 
@@ -576,7 +576,7 @@ trait Creator {
 	 * @return static
 	 */
 	public static function createFromTimeString( $time, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		return static::today( $tz )->setTimeFromTimeString( $time );
 	}
 
@@ -624,7 +624,7 @@ trait Creator {
 	 * @return static|false
 	 */
 	public static function rawCreateFromFormat( $format, $time, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		// Work-around for https://bugs.php.net/bug.php?id=80141
 		$format = preg_replace( '/(?<!\\\\)((?:\\\\{2})*)c/', '$1Y-m-d\TH:i:sP', $format );
 
@@ -701,7 +701,7 @@ trait Creator {
 	 */
 	#[ReturnTypeWillChange]
 	public static function createFromFormat( $format, $time, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		$function = static::$createFromFormatFunction;
 
 		if ( ! $function ) {
@@ -729,7 +729,7 @@ trait Creator {
 	 * @return static|false
 	 */
 	public static function createFromIsoFormat( $format, $time, $tz = null, $locale = 'en', $translator = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		$format = preg_replace_callback(
 			'/(?<!\\\\)(\\\\{2})*(LTS|LT|[Ll]{1,4})/',
 			function ( $match ) use ( $locale, $translator ) {
@@ -878,7 +878,7 @@ trait Creator {
 	 * @return static|false
 	 */
 	public static function createFromLocaleFormat( $format, $locale, $time, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		$format = preg_replace_callback(
 			'/(?:\\\\[a-zA-Z]|[bfkqCEJKQRV]){2,}/',
 			static function ( array $match ) use ( $locale ): string {
@@ -908,7 +908,7 @@ trait Creator {
 	 * @return static|false
 	 */
 	public static function createFromLocaleIsoFormat( $format, $locale, $time, $tz = null ) {
-		$tz !== null || $tz = wp_app_config( 'app.timezone', 'UTC' );
+		$tz !== null || $tz = config( 'app.timezone', 'UTC' );
 		$time = static::translateTimeString( $time, $locale, 'en', CarbonInterface::TRANSLATE_MONTHS | CarbonInterface::TRANSLATE_DAYS | CarbonInterface::TRANSLATE_MERIDIEM );
 
 		return static::createFromIsoFormat( $format, $time, $tz, $locale );
