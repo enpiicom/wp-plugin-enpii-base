@@ -22,7 +22,7 @@ class Tinker_Service_Provider extends TinkerServiceProvider {
 	}
 
 	protected function before_register(): void {
-		wp_app_config(
+		config(
 			[
 				'tinker' => apply_filters(
 					'enpii_base_wp_app_tinker_config',

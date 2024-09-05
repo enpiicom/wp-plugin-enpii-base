@@ -17,12 +17,12 @@ class View_Service_Provider extends ViewServiceProvider {
 
 	public function boot() {
 		/** @var \Illuminate\View\Factory $view */
-		$view = wp_app_view();
+		$view = view();
 		$view->addExtension( 'php', 'blade' );
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'view' => apply_filters(
 					App_Const::FILTER_WP_APP_VIEW_CONFIG,
@@ -60,6 +60,6 @@ class View_Service_Provider extends ViewServiceProvider {
 	 * @throws BindingResolutionException
 	 */
 	protected function generate_view_compiled_path(): string {
-		return (string) realpath( wp_app_storage_path( 'framework/views' ) );
+		return (string) realpath( storage_path( 'framework/views' ) );
 	}
 }

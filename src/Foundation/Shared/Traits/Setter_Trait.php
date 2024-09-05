@@ -12,8 +12,8 @@ trait Setter_Trait {
 		$method_name = 'set_' . $name;
 		if ( method_exists( $this, $method_name ) ) {
 			$this->$name = $this->$method_name( $value );
+		} else {
+			$this->$name = $value;
 		}
-
-		$this->$name = $value;
 	}
 }

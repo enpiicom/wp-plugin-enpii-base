@@ -15,7 +15,7 @@ class User_Controller extends Base_Controller {
 		$wp_user = wp_get_current_user();
 		unset( $wp_user->data->user_pass, $wp_user->data->user_activation_key );
 
-		return wp_app_response()->json(
+		return response()->json(
 			[
 				'data' => [
 					'user' => $user,

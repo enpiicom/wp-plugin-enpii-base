@@ -51,7 +51,7 @@ class Setup_WP_App_In_Console {
 		$console_command->comment( 'Cleanup migrations rule' );
 
 		$filesystem = new Filesystem();
-		$filesystem->cleanDirectory( wp_app()->databasePath( 'migrations' ) );
+		$filesystem->cleanDirectory( app()->databasePath( 'migrations' ) );
 	}
 
 	/**

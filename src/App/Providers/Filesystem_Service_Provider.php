@@ -15,7 +15,7 @@ class Filesystem_Service_Provider extends FilesystemServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'filesystems' => apply_filters(
 					App_Const::FILTER_WP_APP_FILESYSTEMS_CONFIG,
@@ -96,7 +96,7 @@ class Filesystem_Service_Provider extends FilesystemServiceProvider {
 			*/
 
 			'links' => [
-				wp_app_public_path( 'storage' ) => wp_app_storage_path( 'app/public' ),
+				public_path( 'storage' ) => storage_path( 'app/public' ),
 			],
 
 		];
