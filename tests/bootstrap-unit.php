@@ -24,6 +24,7 @@ function get_output_tmp_folder_path() {
 
 defined( 'DIR_SEP' ) || define( 'DIR_SEP', DIRECTORY_SEPARATOR );
 defined( 'ENPII_BASE_PLUGIN_SLUG' ) || define( 'ENPII_BASE_PLUGIN_SLUG', 'enpii-base' );
+defined( 'ENPII_BASE_PLUGIN_VERSION' ) || define( 'ENPII_BASE_PLUGIN_VERSION', '0.7.0' );
 defined( 'ENPII_BASE_SETUP_HOOK_NAME' ) || define(
 	'ENPII_BASE_SETUP_HOOK_NAME',
 	! empty( getenv( 'ENPII_BASE_SETUP_HOOK_NAME' ) ) ? getenv( 'ENPII_BASE_SETUP_HOOK_NAME' ) : 'plugins_loaded'
