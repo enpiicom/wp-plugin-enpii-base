@@ -10,10 +10,10 @@ use Enpii_Base\App\Actions\Login_WP_App_User_Action;
 use Enpii_Base\App\Actions\Logout_WP_App_User_Action;
 use Enpii_Base\App\Actions\Perform_Setup_WP_App_Action;
 use Enpii_Base\App\Actions\Perform_Web_Worker_Action;
+use Enpii_Base\App\Actions\Process_WP_Api_Request_Action;
+use Enpii_Base\App\Actions\Process_WP_App_Request_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Process_WP_Api_Request;
-use Enpii_Base\App\Jobs\Process_WP_App_Request;
 use Enpii_Base\App\Jobs\Put_Setup_Error_Message_To_Log_File;
 use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes;
 use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes;
@@ -217,11 +217,11 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function process_wp_app_request(): void {
-		Process_WP_App_Request::execute_now();
+		Process_WP_App_Request_Action::exec();
 	}
 
 	public function process_wp_api_request(): void {
-		Process_WP_Api_Request::execute_now();
+		Process_WP_Api_Request_Action::exec();
 	}
 
 	/**
