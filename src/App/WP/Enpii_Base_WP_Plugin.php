@@ -12,9 +12,9 @@ use Enpii_Base\App\Actions\Perform_Setup_WP_App_Action;
 use Enpii_Base\App\Actions\Perform_Web_Worker_Action;
 use Enpii_Base\App\Actions\Process_WP_Api_Request_Action;
 use Enpii_Base\App\Actions\Process_WP_App_Request_Action;
+use Enpii_Base\App\Actions\Put_Setup_Error_Message_To_Log_File_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Put_Setup_Error_Message_To_Log_File;
 use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes;
 use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes;
 use Enpii_Base\App\Jobs\Schedule_Run_Backup;
@@ -182,7 +182,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function put_error_message_to_log_file( $message ): void {
-		Put_Setup_Error_Message_To_Log_File::execute_now( $message );
+		Put_Setup_Error_Message_To_Log_File_Action::exec( $message );
 	}
 
 	public function bootstrap_wp_app(): void {
