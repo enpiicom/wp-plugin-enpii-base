@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Enpii_Base\App\WP;
 
 use Carbon\Carbon;
+use Enpii_Base\App\Action\Logout_WP_App_User_Action;
 use Enpii_Base\App\Actions\Bootstrap_WP_App_Action;
+use Enpii_Base\App\Actions\Login_WP_App_User_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Bootstrap_WP_App;
-use Enpii_Base\App\Jobs\Login_WP_App_User;
-use Enpii_Base\App\Jobs\Logout_WP_App_User;
 use Enpii_Base\App\Jobs\Perform_Setup_WP_App;
 use Enpii_Base\App\Jobs\Perform_Web_Worker;
 use Enpii_Base\App\Jobs\Process_WP_Api_Request;
@@ -30,7 +29,6 @@ use Enpii_Base\Foundation\WP\WP_Plugin;
 use Exception;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\ViewException;
 use InvalidArgumentException;
@@ -370,16 +368,16 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 */
 	public function sync_wp_user_to_wp_app_user() {
 		if ( ! empty( get_current_user_id() ) && empty( Auth::user() ) ) {
-			Login_WP_App_User::execute_now( get_current_user_id() );
+			Login_WP_App_User_Action::exec( get_current_user_id() );
 		}
 	}
 
 	public function login_wp_app_user( $user_login, WP_User $wp_user ) {
-		Login_WP_App_User::execute_now( $wp_user->ID );
+		Login_WP_App_User_Action::exec( $wp_user->ID );
 	}
 
 	public function logout_wp_app_user( $user_id ) {
-		Logout_WP_App_User::execute_now();
+		Logout_WP_App_User_Action::exec();
 	}
 
 	public function load_textdomain() {
