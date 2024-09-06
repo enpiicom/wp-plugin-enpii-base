@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enpii_Base\App\WP;
 
 use Carbon\Carbon;
+use Enpii_Base\App\Actions\Bootstrap_WP_App_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
 use Enpii_Base\App\Jobs\Bootstrap_WP_App;
@@ -187,7 +188,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function bootstrap_wp_app(): void {
-		Bootstrap_WP_App::execute_now();
+		Bootstrap_WP_App_Action::exec();
 	}
 
 	public function write_setup_wp_app_client_script(): void {

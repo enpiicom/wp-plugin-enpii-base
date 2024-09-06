@@ -10,4 +10,10 @@ trait Executable_Trait {
 
 		return app()->call( [ $command, 'handle' ] );
 	}
+
+	public static function exec( ...$arguments ) {
+		$command = new static( ...$arguments );
+
+		return app()->call( [ $command, 'execute' ] );
+	}
 }
