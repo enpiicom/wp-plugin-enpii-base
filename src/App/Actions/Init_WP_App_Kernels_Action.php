@@ -2,12 +2,13 @@
 
 namespace Enpii_Base\App\Actions;
 
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 
 /**
  * @method static function exec(): void
  */
-class Init_WP_App_Kernels_Action {
+class Init_WP_App_Kernels_Action extends Base_Action {
 	use Executable_Trait;
 
 	/**
