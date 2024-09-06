@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Enpii_Base\App\Actions;
 
 use Enpii_Base\App\Models\User;

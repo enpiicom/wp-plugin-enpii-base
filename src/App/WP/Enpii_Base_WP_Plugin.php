@@ -9,9 +9,9 @@ use Enpii_Base\App\Actions\Bootstrap_WP_App_Action;
 use Enpii_Base\App\Actions\Login_WP_App_User_Action;
 use Enpii_Base\App\Actions\Logout_WP_App_User_Action;
 use Enpii_Base\App\Actions\Perform_Setup_WP_App_Action;
+use Enpii_Base\App\Actions\Perform_Web_Worker_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Perform_Web_Worker;
 use Enpii_Base\App\Jobs\Process_WP_Api_Request;
 use Enpii_Base\App\Jobs\Process_WP_App_Request;
 use Enpii_Base\App\Jobs\Put_Setup_Error_Message_To_Log_File;
@@ -284,7 +284,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws BindingResolutionException
 	 */
 	public function web_worker() {
-		Perform_Web_Worker::execute_now();
+		Perform_Web_Worker_Action::exec();
 	}
 
 	/**
