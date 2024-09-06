@@ -1,6 +1,6 @@
 <?php
 
-namespace Enpii_Base\App\Action;
+namespace Enpii_Base\App\Actions;
 
 use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;

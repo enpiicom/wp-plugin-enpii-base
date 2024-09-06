@@ -7,10 +7,10 @@ namespace Enpii_Base\App\WP;
 use Carbon\Carbon;
 use Enpii_Base\App\Actions\Bootstrap_WP_App_Action;
 use Enpii_Base\App\Actions\Login_WP_App_User_Action;
-use Enpii_Base\App\Action\Logout_WP_App_User_Action;
+use Enpii_Base\App\Actions\Logout_WP_App_User_Action;
+use Enpii_Base\App\Actions\Perform_Setup_WP_App_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Perform_Setup_WP_App;
 use Enpii_Base\App\Jobs\Perform_Web_Worker;
 use Enpii_Base\App\Jobs\Process_WP_Api_Request;
 use Enpii_Base\App\Jobs\Process_WP_App_Request;
@@ -178,7 +178,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function setup_app(): void {
-		Perform_Setup_WP_App::execute_now();
+		Perform_Setup_WP_App_Action::exec();
 	}
 
 	public function put_error_message_to_log_file( $message ): void {
