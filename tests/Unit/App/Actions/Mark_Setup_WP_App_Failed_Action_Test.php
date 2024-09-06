@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Tests\Unit\App\Actions;
 
-use Enpii_Base\App\Actions\Mark_Setup_WP_App_Done_Action;
+use Enpii_Base\App\Actions\Mark_Setup_WP_App_Failed_Action;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Mockery;
 use WP_Mock;
 
 
-class Mark_Setup_WP_App_Done_Action_Test extends Unit_Test_Case {
+class Mark_Setup_WP_App_Failed_Action_Test extends Unit_Test_Case {
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -26,27 +26,21 @@ class Mark_Setup_WP_App_Done_Action_Test extends Unit_Test_Case {
 	 * @runInSeparateProcess
 	 */
 	public function test_handle() {
+		$failed_message = 'failed';
+		
 		// Arrange: Mock the WordPress functions
 		WP_Mock::userFunction(
 			'update_option',
 			[
 				'times' => 1,
-				'args' => [ App_Const::OPTION_VERSION, ENPII_BASE_PLUGIN_VERSION, false ],
+				'args' => [ App_Const::OPTION_SETUP_INFO, 'failed', false ],
 			]
 		);
 
-		WP_Mock::userFunction(
-			'delete_option',
-			[
-				'times' => 1,
-				'args' => [ App_Const::OPTION_SETUP_INFO ],
-			]
-		);
-
-		WP_Mock::expectAction( App_Const::ACTION_WP_APP_MARK_SETUP_APP_DONE );
+		WP_Mock::expectAction( App_Const::ACTION_WP_APP_MARK_SETUP_APP_FAILED, $failed_message );
 
 		// Act: Execute the handle method
-		$action = new Mark_Setup_WP_App_Done_Action();
+		$action = new Mark_Setup_WP_App_Failed_Action( $failed_message );
 		$action->handle();
 
 		// Assert: Ensure that the functions are called as expected
