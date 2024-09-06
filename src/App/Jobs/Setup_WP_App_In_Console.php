@@ -2,6 +2,8 @@
 
 namespace Enpii_Base\App\Jobs;
 
+use Enpii_Base\App\Actions\Mark_Setup_WP_App_Done_Action;
+use Enpii_Base\App\Actions\Mark_Setup_WP_App_Failed_Action;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Exception;
@@ -37,12 +39,12 @@ class Setup_WP_App_In_Console {
 
 			if ( Enpii_Base_Helper::is_console_mode() ) {
 				// If no exception thrown earlier, we can consider the setup script is done
-				Mark_Setup_WP_App_Done::execute_now();
+				Mark_Setup_WP_App_Done_Action::exec();
 			}
 		// phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 		} catch ( Exception $e ) {
 			if ( Enpii_Base_Helper::is_console_mode() ) {
-				Mark_Setup_WP_App_Failed::execute_now( $e->getMessage() );
+				Mark_Setup_WP_App_Failed_Action::exec( $e->getMessage() );
 			}
 		}
 

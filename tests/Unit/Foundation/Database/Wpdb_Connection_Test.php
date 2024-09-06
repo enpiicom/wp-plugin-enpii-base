@@ -6,7 +6,7 @@ namespace Enpii_Base\Tests\Unit\Foundation\Database;
 
 use Enpii_Base\Foundation\Database\Wpdb_Connection;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
-use PDO;
+use Enpii_Base\Tests\Unit\Foundation\Database\Wpdb_Connection_Test\Wpdb_Connection_Test_PDO;
 
 class Wpdb_Connection_Test extends Unit_Test_Case {
 
@@ -153,6 +153,9 @@ class Wpdb_Connection_Test extends Unit_Test_Case {
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Database\Wpdb_Connection_Test;
+
+use PDO;
 
 class Wpdb_Connection_Test_PDO extends PDO {
 }

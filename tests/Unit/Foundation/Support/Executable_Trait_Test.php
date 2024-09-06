@@ -8,6 +8,7 @@ use Illuminate\Container\Container;
 
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\Foundation\Support\Executable_Trait_Test\Executable_Trait_Test_Tmp;
 use Mockery;
 use WP_Mock;
 
@@ -57,6 +58,9 @@ class Executable_Trait_Test extends Unit_Test_Case {
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Support\Executable_Trait_Test;
+
+use Enpii_Base\Foundation\Support\Executable_Trait;
 
 class Executable_Trait_Test_Tmp {
 	use Executable_Trait;

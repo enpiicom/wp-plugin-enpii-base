@@ -6,6 +6,7 @@ namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits;
 
 use Enpii_Base\Foundation\Shared\Traits\Setter_Trait;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Setter_Trait_Test\Setter_Trait_Test_Tmp;
 
 class Setter_Trait_Test extends Unit_Test_Case {
 	private $setter_trait_class;
@@ -18,7 +19,7 @@ class Setter_Trait_Test extends Unit_Test_Case {
 
 	protected function tearDown(): void {
 		parent::tearDown();
-	}
+	}   
 
 	public function test_set_protected_property(): void {
 		$setter_trait_class = $this->setter_trait_class;
@@ -43,6 +44,9 @@ class Setter_Trait_Test extends Unit_Test_Case {
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Setter_Trait_Test;
+
+use Enpii_Base\Foundation\Shared\Traits\Setter_Trait;
 
 class Setter_Trait_Test_Tmp {
 	use Setter_Trait;

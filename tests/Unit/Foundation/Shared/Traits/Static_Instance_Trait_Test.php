@@ -6,6 +6,9 @@ namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits;
 
 use Enpii_Base\Foundation\Shared\Traits\Static_Instance_Trait;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Static_Instance_Trait_Test\Static_Instance_Trait_Test_Tmp;
+use Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Static_Instance_Trait_Test\Static_Instance_Trait_Test_Tmp_Not_Reinitialize;
+use Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Static_Instance_Trait_Test\Static_Instance_Trait_Test_Tmp_With_Args;
 
 class Static_Instance_Trait_Test extends Unit_Test_Case {
 
@@ -54,6 +57,9 @@ class Static_Instance_Trait_Test extends Unit_Test_Case {
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Static_Instance_Trait_Test;
+
+use Enpii_Base\Foundation\Shared\Traits\Static_Instance_Trait;
 
 class Static_Instance_Trait_Test_Tmp {
 	use Static_Instance_Trait;

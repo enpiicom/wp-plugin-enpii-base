@@ -33,6 +33,7 @@ class Bootstrap_WP_App_Action_Test extends Unit_Test_Case {
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function test_handle_in_console_mode() {
 		// Mock the global config() function
@@ -81,6 +82,7 @@ class Bootstrap_WP_App_Action_Test extends Unit_Test_Case {
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function test_handle_not_in_console_mode() {
 		// Mock the global config() function

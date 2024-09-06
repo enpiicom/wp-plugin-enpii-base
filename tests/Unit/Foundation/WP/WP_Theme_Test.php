@@ -54,6 +54,9 @@ class WP_Theme_Test extends Unit_Test_Case {
 		$this->assertEquals( $mock_wp_theme, $result );
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_init_with_wp_app() {
 		$mock_wp_theme = $this->build_mock_wp_theme(
 			[
@@ -68,7 +71,7 @@ class WP_Theme_Test extends Unit_Test_Case {
 		$slug = 'theme-slug';
 
 		WP_Mock::userFunction( 'app' )
-			->times( 2 )
+			->times( 4 )
 			->withAnyArgs()
 			->andReturnUsing(
 				function ( $abstract = null ) use ( $mock_wp_theme ) {
@@ -81,20 +84,6 @@ class WP_Theme_Test extends Unit_Test_Case {
 			);
 		$result = $mock_class_name::init_with_wp_app( $slug );
 		$this->assertEquals( $mock_wp_theme, $result );
-
-		// Stub the wp_app function
-		WP_Mock::userFunction( 'app' )
-			->times( 1 )
-			->withAnyArgs()
-			->andReturnUsing(
-				function ( $abstract = null ) use ( $mock_wp_theme ) {
-					if ( $abstract ) {
-							return $mock_wp_theme;
-					} else {
-						return new WP_App_Tmp_Has_False_WP_Theme();
-					}
-				}
-			);
 
 		$slug = 'theme-slug';
 

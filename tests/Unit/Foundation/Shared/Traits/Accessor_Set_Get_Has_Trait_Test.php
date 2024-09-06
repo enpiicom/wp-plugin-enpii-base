@@ -6,6 +6,7 @@ namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits;
 
 use Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait_Test\Accessor_Set_Get_Has_Trait_Tmp;
 use InvalidArgumentException;
 
 class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
@@ -118,12 +119,15 @@ class Accessor_Set_Get_Has_Trait_Test extends Unit_Test_Case {
 	
 		// Expecting an exception when calling an undefined method
 		$this->expectException( \BadMethodCallException::class );
-		$this->expectExceptionMessage( "'undefined_method' does not exist in 'Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait_Tmp'." );
+		$this->expectExceptionMessage( "'undefined_method' does not exist in 'Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait_Test\Accessor_Set_Get_Has_Trait_Tmp'." );
 	
 		$accessor_trait_class->undefined_method();
 	}
 }
 
+namespace Enpii_Base\Tests\Unit\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait_Test;
+
+use Enpii_Base\Foundation\Shared\Traits\Accessor_Set_Get_Has_Trait;
 
 class Accessor_Set_Get_Has_Trait_Tmp {
 	use Accessor_Set_Get_Has_Trait;
