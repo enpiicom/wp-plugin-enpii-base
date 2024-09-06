@@ -28,6 +28,10 @@ class Process_WP_App_Request_Action extends Base_Action {
 		$kernel->terminate( $request, $response );
 
 		// We want to end up the execution here to conclude the request
+		$this->terminate_request();
+	}
+
+	protected function terminate_request(): void {
 		exit( 0 );
 	}
 }

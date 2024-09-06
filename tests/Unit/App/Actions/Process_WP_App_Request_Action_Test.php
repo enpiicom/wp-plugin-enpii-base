@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Tests\Unit\App\Actions;
 
-use Enpii_Base\App\Actions\Process_WP_Api_Request_Action;
+use Enpii_Base\App\Actions\Process_WP_App_Request_Action;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Mockery;
 use WP_Mock;
 
-class Process_WP_Api_Request_Action_Test extends Unit_Test_Case {
+class Process_WP_App_Request_Action_Test extends Unit_Test_Case {
 
 	public $http_kernel_handle;
 	public $http_kernel_terminate;
@@ -28,11 +28,12 @@ class Process_WP_Api_Request_Action_Test extends Unit_Test_Case {
 	 * @preserveGlobalState disabled
 	 */
 	public function test_handle() {
+		// Mocking app and request helper functions
 		$kernel_mock = Mockery::mock( \Illuminate\Contracts\Http\Kernel::class );
 		$request_mock = Mockery::mock( \Enpii_Base\App\Http\Request::class );
 		$response_mock = Mockery::mock();
 
-		// Expect app()->make() to return the mocked kernel
+		// Mock the app()->make() call to return the kernel mock
 		WP_Mock::userFunction(
 			'app',
 			[
@@ -40,7 +41,7 @@ class Process_WP_Api_Request_Action_Test extends Unit_Test_Case {
 			]
 		);
 
-		// Expect request() to return the mocked request
+		// Mock the request() call to return the request mock
 		WP_Mock::userFunction(
 			'request',
 			[
@@ -48,15 +49,18 @@ class Process_WP_Api_Request_Action_Test extends Unit_Test_Case {
 			]
 		);
 
-		// Expect kernel handle() and terminate() to be called
+		// Expect the kernel to handle the request and return the response
 		$kernel_mock->shouldReceive( 'handle' )->with( $request_mock )->andReturn( $response_mock )->once();
 		$kernel_mock->shouldReceive( 'terminate' )->with( $request_mock, $response_mock )->once();
 
-		// Expect response send() to be called
+		// Expect the response to send the output
 		$response_mock->shouldReceive( 'send' )->once();
 
+		// Mock the terminate_request method to prevent actual exit
+		$action = Mockery::mock( Process_WP_App_Request_Action::class )->makePartial()->shouldAllowMockingProtectedMethods();
+		$action->shouldReceive( 'terminate_request' )->once();
+
 		// Execute the action
-		$action = new Process_WP_Api_Request_Action();
 		$action->handle();
 
 		$this->assertTrue( true );
