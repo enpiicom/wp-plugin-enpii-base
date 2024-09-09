@@ -16,13 +16,12 @@ use Enpii_Base\App\Actions\Write_Setup_Client_Script_Action;
 use Enpii_Base\App\Actions\Write_Web_Worker_Script_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Process_WP_Api_Request;
-use Enpii_Base\App\Jobs\Process_WP_App_Request;
-use Enpii_Base\App\Jobs\Put_Setup_Error_Message_To_Log_File;
-use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes;
-use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes;
-use Enpii_Base\App\Jobs\Schedule_Run_Backup;
-use Enpii_Base\App\Queries\Add_More_Providers;
+use Enpii_Base\App\Actions\Process_WP_Api_Request_Action;
+use Enpii_Base\App\Actions\Process_WP_App_Request_Action;
+use Enpii_Base\App\Actions\Put_Setup_Error_Message_To_Log_File_Action;
+use Enpii_Base\App\Actions\Register_Base_WP_Api_Routes_Action;
+use Enpii_Base\App\Actions\Register_Base_WP_App_Routes_Action;
+use Enpii_Base\App\Actions\Schedule_Run_Backup_Action;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
@@ -183,7 +182,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function put_error_message_to_log_file( $message ): void {
-		Put_Setup_Error_Message_To_Log_File::execute_now( $message );
+		Put_Setup_Error_Message_To_Log_File_Action::exec( $message );
 	}
 
 	public function bootstrap_wp_app(): void {
@@ -199,11 +198,11 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function register_base_wp_app_routes(): void {
-		Register_Base_WP_App_Routes::execute_now();
+		Register_Base_WP_App_Routes_Action::exec();
 	}
 
 	public function register_base_wp_api_routes(): void {
-		Register_Base_WP_Api_Routes::execute_now();
+		Register_Base_WP_Api_Routes_Action::exec();
 	}
 
 	public function register_wp_cli_commands(): void {
@@ -218,11 +217,11 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function process_wp_app_request(): void {
-		Process_WP_App_Request::execute_now();
+		Process_WP_App_Request_Action::exec();
 	}
 
 	public function process_wp_api_request(): void {
-		Process_WP_Api_Request::execute_now();
+		Process_WP_Api_Request_Action::exec();
 	}
 
 	/**
@@ -296,7 +295,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws InvalidArgumentException
 	 */
 	public function schedule_run_backup( Schedule $schedule ) {
-		Schedule_Run_Backup::execute_now( $schedule );
+		Schedule_Run_Backup_Action::exec( $schedule );
 	}
 
 	/**
