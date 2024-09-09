@@ -11,6 +11,7 @@ use Enpii_Base\App\Actions\Logout_WP_App_User_Action;
 use Enpii_Base\App\Actions\Perform_Setup_WP_App_Action;
 use Enpii_Base\App\Actions\Perform_Web_Worker_Action;
 use Enpii_Base\App\Actions\Show_Admin_Notice_From_Flash_Messages_Action;
+use Enpii_Base\App\Actions\Write_Setup_Client_Script_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
 use Enpii_Base\App\Jobs\Process_WP_Api_Request;
@@ -19,7 +20,6 @@ use Enpii_Base\App\Jobs\Put_Setup_Error_Message_To_Log_File;
 use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes;
 use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes;
 use Enpii_Base\App\Jobs\Schedule_Run_Backup;
-use Enpii_Base\App\Jobs\Write_Setup_Client_Script;
 use Enpii_Base\App\Jobs\Write_Web_Worker_Script;
 use Enpii_Base\App\Queries\Add_More_Providers;
 use Enpii_Base\App\Support\App_Const;
@@ -190,7 +190,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function write_setup_wp_app_client_script(): void {
-		Write_Setup_Client_Script::execute_now();
+		Write_Setup_Client_Script_Action::exec();
 	}
 
 	public function write_web_worker_client_script(): void {
