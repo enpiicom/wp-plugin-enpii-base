@@ -13,9 +13,9 @@ use Enpii_Base\App\Actions\Perform_Web_Worker_Action;
 use Enpii_Base\App\Actions\Process_WP_Api_Request_Action;
 use Enpii_Base\App\Actions\Process_WP_App_Request_Action;
 use Enpii_Base\App\Actions\Put_Setup_Error_Message_To_Log_File_Action;
+use Enpii_Base\App\Actions\Register_Base_WP_Api_Routes_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes;
 use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes;
 use Enpii_Base\App\Jobs\Schedule_Run_Backup;
 use Enpii_Base\App\Jobs\Show_Admin_Notice_From_Flash_Messages;
@@ -202,7 +202,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function register_base_wp_api_routes(): void {
-		Register_Base_WP_Api_Routes::execute_now();
+		Register_Base_WP_Api_Routes_Action::exec();
 	}
 
 	public function register_wp_cli_commands(): void {
