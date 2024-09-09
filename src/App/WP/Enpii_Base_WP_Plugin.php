@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enpii_Base\App\WP;
 
 use Carbon\Carbon;
+use Enpii_Base\App\Actions\Add_More_Providers_Action;
 use Enpii_Base\App\Actions\Bootstrap_WP_App_Action;
 use Enpii_Base\App\Actions\Login_WP_App_User_Action;
 use Enpii_Base\App\Actions\Logout_WP_App_User_Action;
@@ -265,7 +266,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function register_more_providers( $providers ) {
-		return Add_More_Providers::execute_now( $providers );
+		return Add_More_Providers_Action::exec( $providers );
 	}
 
 	/**
