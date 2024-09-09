@@ -15,9 +15,9 @@ use Enpii_Base\App\Actions\Process_WP_App_Request_Action;
 use Enpii_Base\App\Actions\Put_Setup_Error_Message_To_Log_File_Action;
 use Enpii_Base\App\Actions\Register_Base_WP_Api_Routes_Action;
 use Enpii_Base\App\Actions\Register_Base_WP_App_Routes_Action;
+use Enpii_Base\App\Actions\Schedule_Run_Backup_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Schedule_Run_Backup;
 use Enpii_Base\App\Jobs\Show_Admin_Notice_From_Flash_Messages;
 use Enpii_Base\App\Jobs\Write_Setup_Client_Script;
 use Enpii_Base\App\Jobs\Write_Web_Worker_Script;
@@ -295,7 +295,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws InvalidArgumentException
 	 */
 	public function schedule_run_backup( Schedule $schedule ) {
-		Schedule_Run_Backup::execute_now( $schedule );
+		Schedule_Run_Backup_Action::exec( $schedule );
 	}
 
 	/**
