@@ -15,7 +15,7 @@ class Get_WP_App_Info_Action_Test extends Unit_Test_Case {
 		parent::setUp();
 	}
 
-	protected function tearDown(): void {
+	protected function tearDown(): void { 
 		parent::tearDown();
 	}
 

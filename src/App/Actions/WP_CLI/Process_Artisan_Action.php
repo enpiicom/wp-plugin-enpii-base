@@ -1,11 +1,17 @@
 <?php
 
-namespace Enpii_Base\App\Jobs\WP_CLI;
+declare(strict_types=1);
 
+namespace Enpii_Base\App\Actions\WP_CLI;
+
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use InvalidArgumentException;
 
-class Process_Artisan {
+/**
+ * @method static function exec(): void
+ */
+class Process_Artisan_Action extends Base_Action {
 	use Executable_Trait;
 
 	/**
