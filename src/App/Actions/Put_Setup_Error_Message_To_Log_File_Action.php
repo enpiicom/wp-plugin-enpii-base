@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Actions;
 
-use Enpii_Base\App\Queries\Get_WP_App_Info;
+use Enpii_Base\App\Actions\Get_WP_App_Info_Action;
 use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Monolog\Handler\StreamHandler;
@@ -30,7 +30,7 @@ class Put_Setup_Error_Message_To_Log_File_Action extends Base_Action {
 		$monolog->error( $this->message );
 
 		/** @var array $wp_app_info */
-		$wp_app_info = Get_WP_App_Info::execute_now();
+		$wp_app_info = Get_WP_App_Info_Action::exec();
 		$monolog->info( devvard( $wp_app_info ) );
 		$monolog->info( devvard( get_loaded_extensions() ) );
 		$monolog->warning( '========= /Errors from Setup app ===========' );

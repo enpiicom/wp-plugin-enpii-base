@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace Enpii_Base\App\WP;
 
 use Carbon\Carbon;
+use Enpii_Base\App\Actions\Add_More_Providers_Action;
 use Enpii_Base\App\Actions\Bootstrap_WP_App_Action;
 use Enpii_Base\App\Actions\Login_WP_App_User_Action;
 use Enpii_Base\App\Actions\Logout_WP_App_User_Action;
 use Enpii_Base\App\Actions\Perform_Setup_WP_App_Action;
 use Enpii_Base\App\Actions\Perform_Web_Worker_Action;
+use Enpii_Base\App\Actions\Show_Admin_Notice_From_Flash_Messages_Action;
+use Enpii_Base\App\Actions\Write_Setup_Client_Script_Action;
+use Enpii_Base\App\Actions\Write_Web_Worker_Script_Action;
+use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
+use Enpii_Base\App\Http\Response;
 use Enpii_Base\App\Actions\Process_WP_Api_Request_Action;
 use Enpii_Base\App\Actions\Process_WP_App_Request_Action;
 use Enpii_Base\App\Actions\Put_Setup_Error_Message_To_Log_File_Action;
 use Enpii_Base\App\Actions\Register_Base_WP_Api_Routes_Action;
 use Enpii_Base\App\Actions\Register_Base_WP_App_Routes_Action;
 use Enpii_Base\App\Actions\Schedule_Run_Backup_Action;
-use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
-use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Show_Admin_Notice_From_Flash_Messages;
-use Enpii_Base\App\Jobs\Write_Setup_Client_Script;
-use Enpii_Base\App\Jobs\Write_Web_Worker_Script;
-use Enpii_Base\App\Queries\Add_More_Providers;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
@@ -190,11 +190,11 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function write_setup_wp_app_client_script(): void {
-		Write_Setup_Client_Script::execute_now();
+		Write_Setup_Client_Script_Action::exec();
 	}
 
 	public function write_web_worker_client_script(): void {
-		Write_Web_Worker_Script::execute_now();
+		Write_Web_Worker_Script_Action::exec();
 	}
 
 	public function register_base_wp_app_routes(): void {
@@ -265,7 +265,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function register_more_providers( $providers ) {
-		return Add_More_Providers::execute_now( $providers );
+		return Add_More_Providers_Action::exec( $providers );
 	}
 
 	/**
@@ -275,7 +275,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws BindingResolutionException
 	 */
 	public function handle_admin_head() {
-		Show_Admin_Notice_From_Flash_Messages::execute_now();
+		Show_Admin_Notice_From_Flash_Messages_Action::exec();
 	}
 
 	/**
