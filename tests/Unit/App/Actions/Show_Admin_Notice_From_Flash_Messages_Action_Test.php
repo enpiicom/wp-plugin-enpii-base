@@ -20,6 +20,7 @@ class Show_Admin_Notice_From_Flash_Messages_Action_Test extends Unit_Test_Case {
 		parent::tearDown();
 		Mockery::close();
 	}
+	
 	/**
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
