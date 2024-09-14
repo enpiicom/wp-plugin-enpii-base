@@ -16,11 +16,19 @@ class Get_WP_App_Info_Action extends Base_Action {
 
 	public function handle(): array {
 		$info = [];
-		$info['php_version'] = phpversion();
-		$info['wp_version'] = get_bloginfo( 'version' );
+		$info['php_version'] = $this->get_php_version();
+		$info['wp_version'] = $this->get_wp_version();
 		$info['laravel_version'] = Application::VERSION;
 		$info['enpii_base_version'] = ENPII_BASE_PLUGIN_VERSION;
 
 		return $info;
+	}
+
+	protected function get_php_version(): string {
+		return phpversion();
+	}
+
+	protected function get_wp_version(): string {
+		return get_bloginfo( 'version' );
 	}
 }
