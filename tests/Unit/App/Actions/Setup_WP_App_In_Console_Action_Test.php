@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Tests\Unit\App\Actions;
 
-use Enpii_Base\App\Actions\Mark_Setup_WP_App_Done_Action;
 use Enpii_Base\App\Actions\Setup_WP_App_In_Console_Action;
-use Enpii_Base\App\WP\WP_Application;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use InvalidArgumentException;
-
 use Mockery;
-use WP_Mock;
 
 class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 	protected $console_command;

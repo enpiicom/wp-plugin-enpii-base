@@ -29,9 +29,11 @@ class Show_Admin_Notice_And_Disable_Plugin_Action extends Base_Action {
 	}
 
 	/**
-	 * @throws \Exception
-	 */
-	public function handle() {
+		 * Handle the action.
+		 *
+		 * @throws \Exception
+		 */
+	public function handle(): void {
 		foreach ( $this->extra_messages as $message ) {
 			Session::push( 'caution', $message );
 		}
@@ -45,7 +47,13 @@ class Show_Admin_Notice_And_Disable_Plugin_Action extends Base_Action {
 			)
 		);
 
-		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		$this->load_plugin_file();
 		deactivate_plugins( $this->plugin->get_plugin_basename() );
+	}
+
+	protected function load_plugin_file(): void {
+		if ( ! function_exists( 'deactivate_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
 	}
 }
