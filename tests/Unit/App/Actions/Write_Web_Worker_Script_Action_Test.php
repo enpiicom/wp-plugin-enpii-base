@@ -39,11 +39,11 @@ class Write_Web_Worker_Script_Action_Test extends Unit_Test_Case {
 
 		// Capture the output
 		ob_start();
-		
+
 		// Create the action instance and run the handle method
 		$action = new Write_Web_Worker_Script_Action();
 		$action->handle();
-		
+
 		$output = ob_get_clean();
 
 		// Assert the expected output contains the correct script
@@ -72,6 +72,10 @@ SCRIPT;
 		$this->assertStringContainsString( $expected_script, $output );
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function test_handle_does_not_output_script_when_disabled() {
 		// Mock Enpii_Base_Helper::disable_web_worker to return true
 		$helper_mock = Mockery::mock( 'alias:Enpii_Base\App\Support\Enpii_Base_Helper' );
@@ -81,11 +85,11 @@ SCRIPT;
 
 		// Capture the output
 		ob_start();
-		
+
 		// Create the action instance and run the handle method
 		$action = new Write_Web_Worker_Script_Action();
 		$action->handle();
-		
+
 		$output = ob_get_clean();
 
 		// Assert that no script is outputted
