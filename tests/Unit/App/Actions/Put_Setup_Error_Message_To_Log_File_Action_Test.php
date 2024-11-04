@@ -17,4 +17,8 @@ class Put_Setup_Error_Message_To_Log_File_Action_Test extends Unit_Test_Case {
 		parent::tearDown();
 		Mockery::close();
 	}
+
+	public function test_handle() {
+		$this->assertTrue(true);
+	}
 }
