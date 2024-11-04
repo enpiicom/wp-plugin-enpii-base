@@ -50,7 +50,7 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 	 * @preserveGlobalState disabled
 	 */
 	public function test_handle() {
-		$this->assertTrue(true);
+		$this->assertTrue( true );
 	}
 
 	public function test_perform_setup_actions(): void {

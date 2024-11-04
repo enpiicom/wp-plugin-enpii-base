@@ -7,7 +7,7 @@ namespace Enpii_Base\Tests\Unit\App\Actions;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use Mockery;
 
-class Put_Setup_Error_Message_To_Log_File_Action_Test extends Unit_Test_Case {
+class Show_Basic_Info_Action_Test extends Unit_Test_Case {
 
 	protected function setUp(): void {
 		parent::setUp();

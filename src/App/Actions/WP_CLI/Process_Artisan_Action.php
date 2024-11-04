@@ -45,7 +45,12 @@ class Process_Artisan_Action extends Base_Action {
 			$input,
 			new \Symfony\Component\Console\Output\ConsoleOutput()
 		);
+
+		$this->exit_with_status($status);
+	}
+
+	protected function exit_with_status(int $status) {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		exit( $status );
+		exit($status);
 	}
 }
