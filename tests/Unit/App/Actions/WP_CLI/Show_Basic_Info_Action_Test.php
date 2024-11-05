@@ -22,6 +22,10 @@ class Show_Basic_Info_Action_Test extends Unit_Test_Case {
 		Mockery::close();
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function test_handle() {
 		// Mock the output of Get_WP_App_Info_Action::exec
 		$app_info = [

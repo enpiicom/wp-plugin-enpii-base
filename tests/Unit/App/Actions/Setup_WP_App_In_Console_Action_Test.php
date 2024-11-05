@@ -4,17 +4,23 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Tests\Unit\App\Actions;
 
+use Enpii_Base\App\Actions\Mark_Setup_WP_App_Done_Action;
+use Enpii_Base\App\Actions\Mark_Setup_WP_App_Failed_Action;
 use Enpii_Base\App\Actions\Setup_WP_App_In_Console_Action;
+use Enpii_Base\App\Support\Enpii_Base_Helper;
+use Enpii_Base\App\WP\WP_Application;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Exception;
 use InvalidArgumentException;
 use Mockery;
+use WP_Mock;
 
 class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
+
 	protected $console_command;
 	protected $filesystem;
-
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,7 +55,86 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function test_handle() {
+	public function test_handle_executes_successfully_and_marks_done() {
+		// Mock Command instance
+		$commandMock = Mockery::mock( Command::class );
+		$commandMock->shouldReceive( 'comment' )->atLeast()->once();
+		$commandMock->shouldReceive( 'call' )->atLeast()->once();
+
+		// Mock Enpii_Base_Helper static methods
+		$helperMock = Mockery::mock( 'alias:Enpii_Base\App\Support\Enpii_Base_Helper' );
+		$helperMock->shouldReceive( 'prepare_wp_app_folders' )->once();
+		$helperMock->shouldReceive( 'is_console_mode' )->andReturn( true );
+
+		// Mock Mark_Setup_WP_App_Done_Action to ensure exec is called once
+		$markDoneMock = Mockery::mock( 'alias:' . Mark_Setup_WP_App_Done_Action::class );
+		$markDoneMock->shouldReceive( 'exec' )->once();
+
+		// Mock Filesystem to intercept cleanDirectory call
+		$filesystemMock = Mockery::mock( Filesystem::class );
+		/** @var WP_Application $app_mock */
+		$app_mock = $this->createMock( WP_Application::class );
+
+		// Mock the `make` method to always return the same instances
+		$app_mock->method( 'make' )->willReturnMap(
+			[
+				[ Filesystem::class, [], $filesystemMock ],
+			]
+		);
+
+		// Set the mocked WP_Application instance globally
+		WP_Application::setInstance( $app_mock );
+
+		// Use the custom path directly when creating the action
+		$action = new Setup_WP_App_In_Console_Action( $commandMock, '/fake/path/to/migrations' );
+
+		// Run the handle method
+		$action->handle();
+
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_handle_handles_exception_and_marks_failed() {
+		// Mock Command instance
+		$commandMock = Mockery::mock( Command::class );
+		$commandMock->shouldReceive( 'comment' )->atLeast()->once();
+		$commandMock->shouldReceive( 'call' )->andThrow( new Exception( 'Setup failed' ) );
+
+		// Mock Enpii_Base_Helper static methods
+		$helperMock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
+		$helperMock->shouldReceive( 'prepare_wp_app_folders' )->once();
+		$helperMock->shouldReceive( 'is_console_mode' )->andReturn( true );
+
+		// Mock Mark_Setup_WP_App_Done_Action and Mark_Setup_WP_App_Failed_Action
+		$markDoneMock = Mockery::mock( 'alias:' . Mark_Setup_WP_App_Done_Action::class );
+		$markDoneMock->shouldReceive( 'exec' )->never();
+
+		$markFailedMock = Mockery::mock( 'alias:' . Mark_Setup_WP_App_Failed_Action::class );
+		$markFailedMock->shouldReceive( 'exec' )->once()->with( 'Setup failed' );
+
+		// Mock Filesystem to intercept cleanDirectory call
+		$filesystemMock = Mockery::mock( Filesystem::class );
+		/** @var WP_Application $app_mock */
+		$app_mock = $this->createMock( WP_Application::class );
+
+		// Mock the `make` method to always return the same instances
+		$app_mock->method( 'make' )->willReturnMap(
+			[
+				[ Filesystem::class, [], $filesystemMock ],
+			]
+		);
+
+		// Set the mocked WP_Application instance globally
+		WP_Application::setInstance( $app_mock );
+
+		// Run the action
+		$action = new Setup_WP_App_In_Console_Action( $commandMock );
+		$action->handle();
+
 		$this->assertTrue( true );
 	}
 
@@ -64,7 +149,7 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 				[
 					'--tag' => 'laravel-migrations',
 					'--force' => true,
-				] 
+				]
 			)
 			->once();
 
@@ -77,7 +162,7 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 				[
 					'--tag' => 'laravel-assets',
 					'--force' => true,
-				] 
+				]
 			)
 			->once();
 
@@ -90,7 +175,7 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 				[
 					'--tag' => 'enpii-base-migrations',
 					'--force' => true,
-				] 
+				]
 			)
 			->once();
 
@@ -103,7 +188,7 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 				[
 					'--tag' => 'enpii-base-assets',
 					'--force' => true,
-				] 
+				]
 			)
 			->once();
 
@@ -117,7 +202,7 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 					'--no-interaction' => true,
 					'--force' => true,
 					'--step' => true,
-				] 
+				]
 			)
 			->once();
 
