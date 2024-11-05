@@ -29,6 +29,10 @@ class Show_Basic_Info_Action extends Base_Action {
 		}
 
 		// Exit 0 for telling that the command is a successful one
-		exit( 0 );
+		$this->exit_with_status( 0 );
+	}
+
+	protected function exit_with_status(int $status): void {
+		exit( $status );
 	}
 }

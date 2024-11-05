@@ -49,7 +49,7 @@ class Process_Artisan_Action extends Base_Action {
 		$this->exit_with_status($status);
 	}
 
-	protected function exit_with_status(int $status) {
+	protected function exit_with_status(int $status): void {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit($status);
 	}

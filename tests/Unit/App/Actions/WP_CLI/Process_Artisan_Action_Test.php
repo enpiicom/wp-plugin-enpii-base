@@ -11,6 +11,7 @@ use Mockery;
 
 class Process_Artisan_Action_Test extends Unit_Test_Case {
 
+
 	protected function setUp(): void {
 		parent::setUp();
 	}
@@ -41,7 +42,7 @@ class Process_Artisan_Action_Test extends Unit_Test_Case {
 		// Mock the Kernel
 		$kernelMock = Mockery::mock( \Illuminate\Contracts\Console\Kernel::class );
 		$kernelMock->shouldReceive( 'handle' )
-		->once()
+			->once()
 			->andReturn( 0 );
 
 		app()->instance( \Illuminate\Contracts\Console\Kernel::class, $kernelMock );
@@ -49,7 +50,7 @@ class Process_Artisan_Action_Test extends Unit_Test_Case {
 		$action = new Process_Artisan_Action_Test_Tmp();
 		$status = $action->handle();
 
-		$this->assertEquals( 'test', $status );
+		$this->assertNull( $status );
 	}
 }
 
@@ -59,7 +60,5 @@ use Enpii_Base\App\Actions\WP_CLI\Process_Artisan_Action;
 
 class Process_Artisan_Action_Test_Tmp extends Process_Artisan_Action {
 
-	protected function exit_with_status( int $status ) {
-		return 'test';
-	}
+	protected function exit_with_status( int $status ): void {}
 }
