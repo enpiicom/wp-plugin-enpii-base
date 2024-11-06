@@ -80,7 +80,8 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function bootstrappers() {
 		$bootstrappers = $this->bootstrappers;
-
+		
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Command-line arguments are not directly user-supplied
 		if ( ( ! empty( $_SERVER['argv'] ) && ! empty( array_intersect( (array) $_SERVER['argv'], [ 'enpii-base', 'artisan' ] ) ) ) || Enpii_Base_Helper::use_enpii_base_error_handler() ) {
 			array_unshift( $bootstrappers, \Illuminate\Foundation\Bootstrap\HandleExceptions::class );
 		}

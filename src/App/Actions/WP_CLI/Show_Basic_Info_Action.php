@@ -32,7 +32,8 @@ class Show_Basic_Info_Action extends Base_Action {
 		$this->exit_with_status( 0 );
 	}
 
-	protected function exit_with_status(int $status): void {
+	protected function exit_with_status( int $status ): void {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Status code exit does not need escaping
 		exit( $status );
 	}
 }
