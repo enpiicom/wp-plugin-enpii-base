@@ -22,6 +22,10 @@ class Logout_WP_App_User_Action_Test extends Unit_Test_Case {
 		Mockery::close();
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function test_handle() {
 		/** @var WP_Application $app_mock */
 		$app_mock = $this->createMock( WP_Application::class );

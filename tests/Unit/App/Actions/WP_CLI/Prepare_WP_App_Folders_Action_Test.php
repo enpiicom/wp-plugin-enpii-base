@@ -7,20 +7,20 @@ use Enpii_Base\App\Actions\WP_CLI\Prepare_WP_App_Folders_Action;
 
 class Prepare_WP_App_Folders_Action_Test extends TestCase {
 
-
 	protected function setUp(): void {
 		parent::setUp();
-
-		// Mocking WP_CLI
 		WP_Mock::setUp();
 	}
 
 	protected function tearDown(): void {
 		WP_Mock::tearDown();
-
 		parent::tearDown();
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function test_handle() {
 		// Mock Enpii_Base_Helper::prepare_wp_app_folders method
 		$helper_mock = Mockery::mock( 'alias:Enpii_Base\App\Support\Enpii_Base_Helper' );
