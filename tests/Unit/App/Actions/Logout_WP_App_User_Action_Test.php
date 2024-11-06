@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Tests\Unit\App\Actions;
 
+use Enpii_Base\App\Actions\Logout_WP_App_User_Action;
+use Enpii_Base\App\WP\WP_Application;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Mockery;
 
 class Logout_WP_App_User_Action_Test extends Unit_Test_Case {
@@ -19,6 +23,30 @@ class Logout_WP_App_User_Action_Test extends Unit_Test_Case {
 	}
 
 	public function test_handle() {
+		/** @var WP_Application $app_mock */
+		$app_mock = $this->createMock( WP_Application::class );
+
+		// Mock session to intercept session()->save() call
+		$sessionMock = Mockery::mock();
+		$sessionMock->shouldReceive( 'save' )->once()->andReturn( true );
+
+		// Mock the `make` method to always return the same instances
+		$app_mock->method( 'make' )->willReturnMap(
+			[
+				[ 'session', [], $sessionMock ],
+			]
+		);
+
+		// Set the mocked WP_Application instance globally
+		WP_Application::setInstance( $app_mock );
+
+		// Spy on the Auth facade to expect logoutCurrentDevice to be called once
+		Auth::shouldReceive( 'logoutCurrentDevice' )->once();
+		
+		// Run the action
+		$action = new Logout_WP_App_User_Action();
+		$action->handle();
+
 		$this->assertTrue( true );
 	}
 }
