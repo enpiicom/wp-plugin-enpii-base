@@ -21,6 +21,10 @@ class Process_Artisan_Action_Test extends Unit_Test_Case {
 		Mockery::close();
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function test_handle_throws_exception_if_artisan_not_in_args() {
 		$this->expectException( InvalidArgumentException::class );
 		$this->expectExceptionMessage( 'Not an artisan command' );
@@ -31,10 +35,14 @@ class Process_Artisan_Action_Test extends Unit_Test_Case {
 		// Simulate $_SERVER['argv'] without 'artisan'
 		$_SERVER['argv'] = [ 'some_command', 'another_command' ];
 
-		$action = new Process_Artisan_Action();
+		$action = new Process_Artisan_Action_Test_Tmp();
 		$action->handle();
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function test_handle() {
 		// Simulate $_SERVER['argv'] with 'artisan'
 		$_SERVER['argv'] = [ 'php', 'artisan', 'make:command', 'TestCommand' ];
