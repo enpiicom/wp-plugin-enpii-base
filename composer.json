@@ -48,6 +48,7 @@
   "autoload": {
     "files": [
       "src/Foundation/Support/helpers-utils.php",
+      "src/helpers.php",
       "enpii-base-bootstrap.php"
     ],
     "psr-4": {

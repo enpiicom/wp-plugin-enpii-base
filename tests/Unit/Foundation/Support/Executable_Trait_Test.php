@@ -52,7 +52,7 @@ class Executable_Trait_Test extends Unit_Test_Case {
 							->andReturn( 'handled' );
 
 		// Execute the method and assert the expected result
-		$result = Executable_Trait_Test_Tmp::execute_now( 'arg1', 'arg2' );
+		$result = Executable_Trait_Test_Tmp::exec( 'arg1', 'arg2' );
 
 		$this->assertEquals( 'handled', $result );
 	}
