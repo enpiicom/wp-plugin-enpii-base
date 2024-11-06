@@ -57,28 +57,28 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 	 */
 	public function test_handle_executes_successfully_and_marks_done() {
 		// Mock Command instance
-		$commandMock = Mockery::mock( Command::class );
-		$commandMock->shouldReceive( 'comment' )->atLeast()->once();
-		$commandMock->shouldReceive( 'call' )->atLeast()->once();
+		$command_mock = Mockery::mock( Command::class );
+		$command_mock->shouldReceive( 'comment' )->atLeast()->once();
+		$command_mock->shouldReceive( 'call' )->atLeast()->once();
 
 		// Mock Enpii_Base_Helper static methods
-		$helperMock = Mockery::mock( 'alias:Enpii_Base\App\Support\Enpii_Base_Helper' );
-		$helperMock->shouldReceive( 'prepare_wp_app_folders' )->once();
-		$helperMock->shouldReceive( 'is_console_mode' )->andReturn( true );
+		$helper_mock = Mockery::mock( 'alias:Enpii_Base\App\Support\Enpii_Base_Helper' );
+		$helper_mock->shouldReceive( 'prepare_wp_app_folders' )->once();
+		$helper_mock->shouldReceive( 'is_console_mode' )->andReturn( true );
 
 		// Mock Mark_Setup_WP_App_Done_Action to ensure exec is called once
-		$markDoneMock = Mockery::mock( 'alias:' . Mark_Setup_WP_App_Done_Action::class );
-		$markDoneMock->shouldReceive( 'exec' )->once();
+		$mark_done_mock = Mockery::mock( 'alias:' . Mark_Setup_WP_App_Done_Action::class );
+		$mark_done_mock->shouldReceive( 'exec' )->once();
 
 		// Mock Filesystem to intercept cleanDirectory call
-		$filesystemMock = Mockery::mock( Filesystem::class );
+		$filesystem_mock = Mockery::mock( Filesystem::class );
 		/** @var WP_Application $app_mock */
 		$app_mock = $this->createMock( WP_Application::class );
 
 		// Mock the `make` method to always return the same instances
 		$app_mock->method( 'make' )->willReturnMap(
 			[
-				[ Filesystem::class, [], $filesystemMock ],
+				[ Filesystem::class, [], $filesystem_mock ],
 			]
 		);
 
@@ -86,7 +86,7 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 		WP_Application::setInstance( $app_mock );
 
 		// Use the custom path directly when creating the action
-		$action = new Setup_WP_App_In_Console_Action( $commandMock, '/fake/path/to/migrations' );
+		$action = new Setup_WP_App_In_Console_Action( $command_mock, '/fake/path/to/migrations' );
 
 		// Run the handle method
 		$action->handle();
@@ -100,31 +100,31 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 	 */
 	public function test_handle_handles_exception_and_marks_failed() {
 		// Mock Command instance
-		$commandMock = Mockery::mock( Command::class );
-		$commandMock->shouldReceive( 'comment' )->atLeast()->once();
-		$commandMock->shouldReceive( 'call' )->andThrow( new Exception( 'Setup failed' ) );
+		$command_mock = Mockery::mock( Command::class );
+		$command_mock->shouldReceive( 'comment' )->atLeast()->once();
+		$command_mock->shouldReceive( 'call' )->andThrow( new Exception( 'Setup failed' ) );
 
 		// Mock Enpii_Base_Helper static methods
-		$helperMock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
-		$helperMock->shouldReceive( 'prepare_wp_app_folders' )->once();
-		$helperMock->shouldReceive( 'is_console_mode' )->andReturn( true );
+		$helper_mock = Mockery::mock( 'alias:' . Enpii_Base_Helper::class );
+		$helper_mock->shouldReceive( 'prepare_wp_app_folders' )->once();
+		$helper_mock->shouldReceive( 'is_console_mode' )->andReturn( true );
 
 		// Mock Mark_Setup_WP_App_Done_Action and Mark_Setup_WP_App_Failed_Action
-		$markDoneMock = Mockery::mock( 'alias:' . Mark_Setup_WP_App_Done_Action::class );
-		$markDoneMock->shouldReceive( 'exec' )->never();
+		$mark_done_mock = Mockery::mock( 'alias:' . Mark_Setup_WP_App_Done_Action::class );
+		$mark_done_mock->shouldReceive( 'exec' )->never();
 
-		$markFailedMock = Mockery::mock( 'alias:' . Mark_Setup_WP_App_Failed_Action::class );
-		$markFailedMock->shouldReceive( 'exec' )->once()->with( 'Setup failed' );
+		$mark_failed_mock = Mockery::mock( 'alias:' . Mark_Setup_WP_App_Failed_Action::class );
+		$mark_failed_mock->shouldReceive( 'exec' )->once()->with( 'Setup failed' );
 
 		// Mock Filesystem to intercept cleanDirectory call
-		$filesystemMock = Mockery::mock( Filesystem::class );
+		$filesystem_mock = Mockery::mock( Filesystem::class );
 		/** @var WP_Application $app_mock */
 		$app_mock = $this->createMock( WP_Application::class );
 
 		// Mock the `make` method to always return the same instances
 		$app_mock->method( 'make' )->willReturnMap(
 			[
-				[ Filesystem::class, [], $filesystemMock ],
+				[ Filesystem::class, [], $filesystem_mock ],
 			]
 		);
 
@@ -132,7 +132,7 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 		WP_Application::setInstance( $app_mock );
 
 		// Run the action
-		$action = new Setup_WP_App_In_Console_Action( $commandMock );
+		$action = new Setup_WP_App_In_Console_Action( $command_mock );
 		$action->handle();
 
 		$this->assertTrue( true );

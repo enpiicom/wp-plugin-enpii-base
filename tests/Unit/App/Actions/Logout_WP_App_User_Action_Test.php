@@ -27,13 +27,13 @@ class Logout_WP_App_User_Action_Test extends Unit_Test_Case {
 		$app_mock = $this->createMock( WP_Application::class );
 
 		// Mock session to intercept session()->save() call
-		$sessionMock = Mockery::mock();
-		$sessionMock->shouldReceive( 'save' )->once()->andReturn( true );
+		$session_mock = Mockery::mock();
+		$session_mock->shouldReceive( 'save' )->once()->andReturn( true );
 
 		// Mock the `make` method to always return the same instances
 		$app_mock->method( 'make' )->willReturnMap(
 			[
-				[ 'session', [], $sessionMock ],
+				[ 'session', [], $session_mock ],
 			]
 		);
 

@@ -56,10 +56,10 @@ class Put_Setup_Error_Message_To_Log_File_Action_Test extends Unit_Test_Case {
 		$extensions_output = 'array:' . count( $extensions ) . " [\n" . $this->format_array_for_output( $extensions ) . "]\n";
 
 		// Combine dynamic parts to form the expected output
-		$expectedOutput = $wp_app_info_output . $extensions_output;
+		$expected_output = $wp_app_info_output . $extensions_output;
 
 		// Assert that the captured output matches the expected output
-		$this->assertEquals( $expectedOutput, $output );
+		$this->assertEquals( $expected_output, $output );
 
 		// Verify assertions
 		$this->assertTrue( true );
@@ -69,9 +69,9 @@ class Put_Setup_Error_Message_To_Log_File_Action_Test extends Unit_Test_Case {
 		$output = '';
 		foreach ( $data as $key => $value ) {
 			// Format keys and values with double quotes to match the observed output
-			$formattedKey = is_string( $key ) ? "\"$key\"" : $key;
-			$formattedValue = is_string( $value ) ? "\"$value\"" : $value;
-			$output .= "  $formattedKey => $formattedValue\n";
+			$formatted_key = is_string( $key ) ? "\"$key\"" : $key;
+			$formatted_value = is_string( $value ) ? "\"$value\"" : $value;
+			$output .= "  $formatted_key => $formatted_value\n";
 		}
 		return $output;
 	}
