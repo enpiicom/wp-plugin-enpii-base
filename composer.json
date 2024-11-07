@@ -49,7 +49,7 @@
     "files": [
       "src/Foundation/Support/helpers-utils.php",
       "src/helpers.php",
-      "enpii-base-bootstrap.php"
+      "enpii-base.php"
     ],
     "psr-4": {
       "Carbon\\Traits\\Creator\\": "src/Foundation/Support/Carbon/Traits/Creator.php",
