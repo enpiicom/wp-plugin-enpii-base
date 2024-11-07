@@ -30,5 +30,5 @@ return array(
     'eed9c7469f94573c0d97cc45de79b754' => $vendorDir . '/spatie/laravel-html/src/helpers.php',
     '0a04fd8b6cb0d1ef5b4816cca310de45' => $baseDir . '/src/Foundation/Support/helpers-utils.php',
     '37a7bc5d2d9578f97a5d8319c9c268e6' => $baseDir . '/src/helpers.php',
-    'd87cfd2ed7cce067b66b8a69d0d19e97' => $baseDir . '/enpii-base-bootstrap.php',
+    'c571a6958f2a9888e0c21dda9c57c8c5' => $baseDir . '/enpii-base.php',
 );
