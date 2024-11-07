@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP;
 
-use Enpii_Base\App\Jobs\Bootstrap_WP_App;
+use Enpii_Base\App\Actions\Init_WP_App_Kernels_Action;
 use Enpii_Base\App\Jobs\Init_WP_App_Kernels;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
@@ -49,9 +49,9 @@ class WP_Application extends Application {
 		}
 
 		/**
-		| Create a wp_app() instance to be used in the whole application
+		| Create a app() instance to be used in the whole application
 		*/
-		$wp_app_base_path = enpii_base_wp_app_get_base_path();
+		$wp_app_base_path = Enpii_Base_Helper::get_wp_app_base_path();
 		$config = apply_filters(
 			App_Const::FILTER_WP_APP_PREPARE_CONFIG,
 			[
@@ -74,7 +74,7 @@ class WP_Application extends Application {
 			$config
 		);
 
-		Init_WP_App_Kernels::execute_now();
+		Init_WP_App_Kernels_Action::exec();
 		do_action( App_Const::ACTION_WP_APP_LOADED );
 	}
 
@@ -124,9 +124,9 @@ class WP_Application extends Application {
 	public function runningInConsole() {
 		if ( $this->isRunningInConsole === null ) {
 			if (
-				( strpos( wp_app_request()->getPathInfo(), '/setup-app' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
-				( strpos( wp_app_request()->getPathInfo(), '/admin' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
-				( strpos( wp_app_request()->getPathInfo(), '/web-worker' ) !== false && wp_app_request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( request()->getPathInfo(), '/setup-app' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( request()->getPathInfo(), '/admin' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
+				( strpos( request()->getPathInfo(), '/web-worker' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
 				Enpii_Base_Helper::at_setup_app_url()
 			) {
 				$this->isRunningInConsole = true;
@@ -234,7 +234,7 @@ class WP_Application extends Application {
 	}
 
 	public function is_debug_mode(): bool {
-		return wp_app_config( 'app.debug' );
+		return config( 'app.debug' );
 	}
 
 	/**
@@ -266,7 +266,7 @@ class WP_Application extends Application {
 	}
 
 	public function get_laravel_major_version(): int {
-		return (int) enpii_base_get_major_version( Application::VERSION );
+		return (int) Enpii_Base_Helper::get_major_version( Application::VERSION );
 	}
 
 	public function get_composer_path(): string {

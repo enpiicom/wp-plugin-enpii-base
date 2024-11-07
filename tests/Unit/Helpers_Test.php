@@ -4,47 +4,31 @@ declare(strict_types=1);
 
 namespace Enpii_Base\Tests\Unit;
 
-use Enpii_Base\App\WP\WP_Application;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
-use WP_Mock;
+use Mockery;
 
 class Helpers_Test extends Unit_Test_Case {
 
-	public function test_enpii_base_get_major_version() {
-		$version = '1.2.3';
-		$result = enpii_base_get_major_version( $version );
-		$expected = 1;
-
-		$this->assertEquals( $expected, $result );
-
-		$version = 'ver10.29.3';
-		$result = enpii_base_get_major_version( $version );
-		$expected = 10;
-
-		$this->assertEquals( $expected, $result );
+	protected function setUp(): void {
+		parent::setUp();
 	}
 
-	public function skip_test_enpii_base_setup_wp_app() {
-		// Mock the apply_filters() function
-		$mockConfig = $this->get_wp_app_config();
+	protected function tearDown(): void {
+		parent::tearDown();
+	}
 
-		WP_Mock::userFunction( 'site_url' )
-			->once()
-			->andReturn( 'http://enpii-dev.local' );
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_enpii_base_wp_app_web_page_title_returns_expected_value() {
+		// Mock the Enpii_Base_Helper class and the static method wp_app_web_page_title
+		$expected_title = 'Mocked Web Page Title';
+		$helper_mock = Mockery::mock( 'alias:Enpii_Base\App\Support\Enpii_Base_Helper' );
+		$helper_mock->shouldReceive( 'wp_app_web_page_title' )->once()->andReturn( $expected_title );
 
-		WP_Mock::userFunction( 'get_locale' )
-			->once()
-			->andReturn( 'en-us' );
-
-		WP_Mock::userFunction( 'enpii_base_wp_app_prepare_config' )
-			->once()
-			->with( $mockConfig )
-			->andReturn( $mockConfig );
-
-		// Call the function to be tested
-		enpii_base_setup_wp_app();
-
-		// Assert that the WP_Application instance has been created
-		$this->assertTrue( WP_Application::isset() );
+		// Call the function and assert the result
+		$result = enpii_base_wp_app_web_page_title();
+		$this->assertEquals( $expected_title, $result );
 	}
 }

@@ -50,7 +50,7 @@ class User_Controller extends Base_Controller {
 		update_user_meta( $user_id, App_Const::USER_META_CLIENT_CREDENTIALS_APP_ID, $client->id );
 		update_user_meta( $user_id, App_Const::USER_META_CLIENT_CREDENTIALS_APP_SECRET, $client->plainSecret );
 
-		return wp_app_response()->json(
+		return response()->json(
 			[
 				'client_id' => $client->id,
 				'client_secret' => $client->plainSecret,

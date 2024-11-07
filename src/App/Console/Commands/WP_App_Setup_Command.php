@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Console\Commands;
 
-use Enpii_Base\App\Jobs\Setup_WP_App_In_Console;
+use Enpii_Base\App\Actions\Setup_WP_App_In_Console_Action;
 use Illuminate\Console\Command;
 
 class WP_App_Setup_Command extends Command {
@@ -29,6 +29,6 @@ class WP_App_Setup_Command extends Command {
 	 * @return void
 	 */
 	public function handle() {
-		Setup_WP_App_In_Console::execute_now( $this );
+		Setup_WP_App_In_Console_Action::exec( $this );
 	}
 }

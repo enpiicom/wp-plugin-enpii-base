@@ -2,7 +2,7 @@
   "name": "enpii/enpii-base",
   "type": "wordpress-muplugin",
   "description": "The base plugin to have powerful Laravel development on WordPress",
-  "version": "v0.7.0",
+  "version": "v0.8.0",
   "time": "2024-05-23 20:14:04",
   "homepage": "https://enpii.com/wp-plugin-enpii-base",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "laravel/tinker": "~2.9.0",
     "doctrine/dbal": "~3.3.8",
     "symfony/var-dumper": "~5.4.39",
-    "mcaskill/composer-exclude-files": "~3.0.0",
+    "mcaskill/composer-exclude-files": "~4.0.0",
     "php": "^7.3|^8.0"
   },
   "require-dev": {
@@ -47,13 +47,12 @@
   ],
   "autoload": {
     "files": [
-      "./src/Foundation/Support/helpers-utils.php",
-      "./src/Foundation/helpers-wp-app.php",
-      "./src/Foundation/helpers-overrides.php",
-      "./enpii-base-bootstrap.php",
-      "./enpii-base-init.php"
+      "src/Foundation/Support/helpers-utils.php",
+      "src/helpers.php",
+      "enpii-base-bootstrap.php"
     ],
     "psr-4": {
+      "Carbon\\Traits\\Creator\\": "src/Foundation/Support/Carbon/Traits/Creator.php",
       "Enpii_Base\\Deps\\": "src-deps",
       "Enpii_Base\\": "src"
     }
@@ -84,6 +83,14 @@
     ]
   },
   "scripts": {
+    "post-install-cmd": [
+      "@php -r \"copy('src-override/nesbot/carbon/src/Carbon/Traits/Creator.php', 'vendor/nesbot/carbon/src/Carbon/Traits/Creator.php');\"",
+      "@php -r \"copy('src-override/nesbot/carbon/src/Carbon/Traits/Timestamp.php', 'vendor/nesbot/carbon/src/Carbon/Traits/Timestamp.php');\""
+    ],
+    "post-update-cmd": [
+      "@php -r \"copy('src-override/nesbot/carbon/src/Carbon/Traits/Creator.php', 'vendor/nesbot/carbon/src/Carbon/Traits/Creator.php');\"",
+      "@php -r \"copy('src-override/nesbot/carbon/src/Carbon/Traits/Timestamp.php', 'vendor/nesbot/carbon/src/Carbon/Traits/Timestamp.php');\""
+    ],
     "phpcs": [
       "./vendor/bin/phpcs"
     ],

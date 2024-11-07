@@ -14,7 +14,7 @@ class Broadcast_Service_Provider extends BroadcastServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'broadcasting' => apply_filters(
 					App_Const::FILTER_WP_APP_BROADCASTING_CONFIG,

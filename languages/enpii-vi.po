@@ -39,11 +39,11 @@ msgid "https://enpii.com/enpii-team/"
 msgstr ""
 
 #: src/App/Console/Kernel.php:65
-msgid "Hello from Enpii Base wp_app()"
+msgid "Hello from Enpii Base app()"
 msgstr ""
 
 #. translators: %s is replaced with "string" plugin name
-#: src/App/Jobs/Show_Admin_Notice_And_Disable_Plugin.php:39
+#: src/App/Actions/Show_Admin_Notice_And_Disable_Plugin_Action.php:43
 msgid "Plugin <strong>%s</strong> is disabled."
 msgstr ""
 

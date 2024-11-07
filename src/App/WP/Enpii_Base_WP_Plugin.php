@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\WP;
 
+use Carbon\Carbon;
+use Enpii_Base\App\Actions\Add_More_Providers_Action;
+use Enpii_Base\App\Actions\Bootstrap_WP_App_Action;
+use Enpii_Base\App\Actions\Login_WP_App_User_Action;
+use Enpii_Base\App\Actions\Logout_WP_App_User_Action;
+use Enpii_Base\App\Actions\Perform_Setup_WP_App_Action;
+use Enpii_Base\App\Actions\Perform_Web_Worker_Action;
+use Enpii_Base\App\Actions\Show_Admin_Notice_From_Flash_Messages_Action;
+use Enpii_Base\App\Actions\Write_Setup_Client_Script_Action;
+use Enpii_Base\App\Actions\Write_Web_Worker_Script_Action;
 use Enpii_Base\App\Console\Commands\WP_App_Make_PHPUnit_Command;
 use Enpii_Base\App\Http\Response;
-use Enpii_Base\App\Jobs\Bootstrap_WP_App;
-use Enpii_Base\App\Jobs\Login_WP_App_User;
-use Enpii_Base\App\Jobs\Logout_WP_App_User;
-use Enpii_Base\App\Jobs\Perform_Setup_WP_App;
-use Enpii_Base\App\Jobs\Perform_Web_Worker;
-use Enpii_Base\App\Jobs\Process_WP_Api_Request;
-use Enpii_Base\App\Jobs\Process_WP_App_Request;
-use Enpii_Base\App\Jobs\Put_Setup_Error_Message_To_Log_File;
-use Enpii_Base\App\Jobs\Register_Base_WP_Api_Routes;
-use Enpii_Base\App\Jobs\Register_Base_WP_App_Routes;
-use Enpii_Base\App\Jobs\Schedule_Run_Backup;
-use Enpii_Base\App\Jobs\Show_Admin_Notice_From_Flash_Messages;
-use Enpii_Base\App\Jobs\Write_Setup_Client_Script;
-use Enpii_Base\App\Jobs\Write_Web_Worker_Script;
-use Enpii_Base\App\Queries\Add_More_Providers;
+use Enpii_Base\App\Actions\Process_WP_Api_Request_Action;
+use Enpii_Base\App\Actions\Process_WP_App_Request_Action;
+use Enpii_Base\App\Actions\Put_Setup_Error_Message_To_Log_File_Action;
+use Enpii_Base\App\Actions\Register_Base_WP_Api_Routes_Action;
+use Enpii_Base\App\Actions\Register_Base_WP_App_Routes_Action;
+use Enpii_Base\App\Actions\Schedule_Run_Backup_Action;
 use Enpii_Base\App\Support\App_Const;
+use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
 use Enpii_Base\Foundation\WP\WP_Plugin;
 use Exception;
@@ -43,11 +45,13 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	public function boot() {
 		parent::boot();
 
+		Carbon::now();
+
 		if ( $this->app->runningInConsole() ) {
 			// Publish assets
 			$this->publishes(
 				[
-					$this->get_base_path() . '/public-assets/dist' => wp_app_public_path( 'plugins/' . $this->get_plugin_slug() ),
+					$this->get_base_path() . '/public-assets/dist' => public_path( 'plugins/' . $this->get_plugin_slug() ),
 				],
 				[ 'enpii-base-assets', 'laravel-assets' ]
 			);
@@ -55,7 +59,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			// Publish stubs
 			$this->publishes(
 				[
-					$this->get_base_path() . '/resources' => wp_app_resource_path( 'plugins/' . $this->get_plugin_slug() ),
+					$this->get_base_path() . '/resources' => resource_path( 'plugins/' . $this->get_plugin_slug() ),
 				],
 				[ 'enpii-base-assets', 'laravel-assets' ]
 			);
@@ -93,23 +97,25 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		$this->enroll_self_hooks();
 
 		/** WP App hooks */
-		// We want to bootstrap the wp_app(). We use the closure here to ensure that
+		// We want to bootstrap the app(). We use the closure here to ensure that
 		//  it can't be removed
 		add_action(
 			App_Const::ACTION_WP_APP_BOOTSTRAP,
-			function () {
-				Bootstrap_WP_App::execute_now();
-			},
+			[ $this, 'bootstrap_wp_app' ],
 			5
 		);
 
 		// If running in WP_CLI, we need to skip this
 		if ( ! class_exists( 'WP_CLI' ) ) {
-			add_action( App_Const::ACTION_WP_APP_INIT, [ $this, 'build_wp_app_response_via_middleware' ], 5 );
+			add_action(
+				App_Const::ACTION_WP_APP_INIT,
+				[ $this, 'build_wp_app_response_via_middleware' ],
+				5
+			);
 			add_action( App_Const::ACTION_WP_APP_INIT, [ $this, 'sync_wp_user_to_wp_app_user' ] );
 		}
 
-		// We need to have wp_app() terminated before shutting down WP
+		// We need to have app() terminated before shutting down WP
 		add_action( App_Const::ACTION_WP_APP_COMPLETE_EXECUTION, [ $this, 'perform_wp_app_termination' ] );
 
 
@@ -131,12 +137,12 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			add_filter( 'template_include', [ $this, 'use_blade_to_compile_template' ], 99999 );
 		}
 
-		if ( wp_app()->is_wp_app_mode() ) {
+		if ( app()->is_wp_app_mode() ) {
 			// We want to let WP App work the soonest after WP is fully loaded
 			add_action( 'wp_loaded', [ $this, 'process_wp_app_request' ], -9999 );
 		}
 
-		if ( wp_app()->is_wp_api_mode() ) {
+		if ( app()->is_wp_api_mode() ) {
 			add_action( 'init', [ $this, 'process_wp_api_request' ], 999999 );
 		}
 
@@ -148,7 +154,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 		add_action( 'admin_head', [ $this, 'handle_admin_head' ] );
 
-		if ( ! wp_app()->is_wp_app_mode() && ! wp_app()->is_wp_api_mode() ) {
+		if ( ! app()->is_wp_app_mode() && ! app()->is_wp_api_mode() ) {
 			// We want to merge the WP and WP App headers and send at once
 			if ( is_admin() ) {
 				add_action(
@@ -164,7 +170,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		}
 
 		// We use the filter `status_header` to get the status code
-		//  to store to the wp_app() instance
+		//  to store to the app() instance
 		add_filter( 'status_header', [ $this, 'store_status_header' ], 999999, 4 );
 
 		/** WP CLI */
@@ -172,37 +178,37 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function setup_app(): void {
-		Perform_Setup_WP_App::execute_now();
+		Perform_Setup_WP_App_Action::exec();
 	}
 
 	public function put_error_message_to_log_file( $message ): void {
-		Put_Setup_Error_Message_To_Log_File::execute_now( $message );
+		Put_Setup_Error_Message_To_Log_File_Action::exec( $message );
 	}
 
 	public function bootstrap_wp_app(): void {
-		Bootstrap_WP_App::execute_now();
+		Bootstrap_WP_App_Action::exec();
 	}
 
 	public function write_setup_wp_app_client_script(): void {
-		Write_Setup_Client_Script::execute_now();
+		Write_Setup_Client_Script_Action::exec();
 	}
 
 	public function write_web_worker_client_script(): void {
-		Write_Web_Worker_Script::execute_now();
+		Write_Web_Worker_Script_Action::exec();
 	}
 
 	public function register_base_wp_app_routes(): void {
-		Register_Base_WP_App_Routes::execute_now();
+		Register_Base_WP_App_Routes_Action::exec();
 	}
 
 	public function register_base_wp_api_routes(): void {
-		Register_Base_WP_Api_Routes::execute_now();
+		Register_Base_WP_Api_Routes_Action::exec();
 	}
 
 	public function register_wp_cli_commands(): void {
 		WP_CLI::add_command(
 			'enpii-base info',
-			wp_app_resolve( \Enpii_Base\App\WP_CLI\Enpii_Base_Info_WP_CLI::class )
+			resolve( \Enpii_Base\App\WP_CLI\Enpii_Base_Info_WP_CLI::class )
 		);
 		WP_CLI::add_command(
 			'enpii-base artisan',
@@ -211,11 +217,11 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function process_wp_app_request(): void {
-		Process_WP_App_Request::execute_now();
+		Process_WP_App_Request_Action::exec();
 	}
 
 	public function process_wp_api_request(): void {
-		Process_WP_Api_Request::execute_now();
+		Process_WP_Api_Request_Action::exec();
 	}
 
 	/**
@@ -223,14 +229,14 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 */
 	public function use_blade_to_compile_template( $template ) {
 		/** @var \Illuminate\View\Factory $view */
-		$view = wp_app_view();
+		$view = view();
 		// We want to have blade to compile the php file as well
 		$view->addExtension( 'php', 'blade' );
 
 		// We catch exception if view is not rendered correctly
 		//  exception InvalidArgumentException for view file not found in FileViewFinder
 		try {
-			$tmp_view = wp_app_view( basename( $template, '.php' ) );
+			$tmp_view = view( basename( $template, '.php' ) );
 			/** @var \Illuminate\View\View $tmp_view */
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $tmp_view->render();
@@ -259,7 +265,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	public function register_more_providers( $providers ) {
-		return Add_More_Providers::execute_now( $providers );
+		return Add_More_Providers_Action::exec( $providers );
 	}
 
 	/**
@@ -269,7 +275,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws BindingResolutionException
 	 */
 	public function handle_admin_head() {
-		Show_Admin_Notice_From_Flash_Messages::execute_now();
+		Show_Admin_Notice_From_Flash_Messages_Action::exec();
 	}
 
 	/**
@@ -278,7 +284,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws BindingResolutionException
 	 */
 	public function web_worker() {
-		Perform_Web_Worker::execute_now();
+		Perform_Web_Worker_Action::exec();
 	}
 
 	/**
@@ -289,7 +295,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws InvalidArgumentException
 	 */
 	public function schedule_run_backup( Schedule $schedule ) {
-		Schedule_Run_Backup::execute_now( $schedule );
+		Schedule_Run_Backup_Action::exec( $schedule );
 	}
 
 	/**
@@ -298,9 +304,9 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @return void
 	 */
 	public function build_wp_app_response_via_middleware() {
-		if ( ! wp_app()->is_wp_app_mode() && ! wp_app()->is_wp_api_mode() ) {
+		if ( ! app()->is_wp_app_mode() && ! app()->is_wp_api_mode() ) {
 			/** @var \Enpii_Base\App\Http\Kernel $kernel */
-			$kernel = wp_app()->make( \Illuminate\Contracts\Http\Kernel::class );
+			$kernel = app()->make( \Illuminate\Contracts\Http\Kernel::class );
 			$middleware_group = $kernel->getMiddlewareGroups()['web'];
 
 			// We don't want VerifyCsrfToken and SubstituteBindings as
@@ -310,7 +316,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			unset( $middleware_group[ \Illuminate\Routing\Middleware\SubstituteBindings::class ] );
 			$middleware_group = array_flip( $middleware_group );
 
-			$wp_app_request = wp_app_request();
+			$wp_app_request = request();
 			/** @var Response $wp_app_response */
 			$wp_app_response = $kernel->send_request_through_middleware(
 				$wp_app_request,
@@ -321,8 +327,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 					return $response;
 				}
 			);
-			wp_app()->set_response( $wp_app_response );
-			wp_app()->set_request( $wp_app_response->get_request() );
+			app()->set_response( $wp_app_response );
+			app()->set_request( $wp_app_response->get_request() );
 		}
 	}
 
@@ -333,10 +339,10 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws InvalidArgumentException
 	 */
 	public function send_wp_app_headers(): void {
-		$wp_headers = wp_app()->get_wp_headers();
+		$wp_headers = app()->get_wp_headers();
 
 		/** @var Response $wp_app_response */
-		$wp_app_response = wp_app_response();
+		$wp_app_response = response();
 		foreach ( (array) $wp_headers as $wp_header_key => $wp_header_value ) {
 			$wp_app_response->header( $wp_header_key, $wp_header_value );
 		}
@@ -348,8 +354,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 		! isset( $code ) || $wp_app_response->setStatusCode( $code );
 
 		// We need to check status code sent by `status_header()` to override the status code
-		if ( wp_app()->has( 'status_header' ) ) {
-			$status_header = wp_app( 'status_header' );
+		if ( app()->has( 'status_header' ) ) {
+			$status_header = app( 'status_header' );
 			! isset( $status_header['code'] ) || $wp_app_response->setStatusCode( $status_header['code'] );
 		}
 
@@ -362,16 +368,16 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 */
 	public function sync_wp_user_to_wp_app_user() {
 		if ( ! empty( get_current_user_id() ) && empty( Auth::user() ) ) {
-			Login_WP_App_User::execute_now( get_current_user_id() );
+			Login_WP_App_User_Action::exec( get_current_user_id() );
 		}
 	}
 
 	public function login_wp_app_user( $user_login, WP_User $wp_user ) {
-		Login_WP_App_User::execute_now( $wp_user->ID );
+		Login_WP_App_User_Action::exec( $wp_user->ID );
 	}
 
 	public function logout_wp_app_user( $user_id ) {
-		Logout_WP_App_User::execute_now();
+		Logout_WP_App_User_Action::exec();
 	}
 
 	public function load_textdomain() {
@@ -380,7 +386,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	/**
-	 * We want to store status code when using `status_header()` to `wp_app()` instance
+	 * We want to store status code when using `status_header()` to `app()` instance
 	 * @param mixed $status_header
 	 * @param mixed $code
 	 * @param mixed $description
@@ -389,7 +395,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @throws BindingResolutionException
 	 */
 	public function store_status_header( $status_header, $code, $description, $protocol ) {
-		wp_app()->instance(
+		app()->instance(
 			'status_header',
 			[
 				'status_header' => $status_header,
@@ -410,8 +416,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 */
 	public function perform_wp_app_termination() {
 		/** @var \Enpii_Base\App\Http\Kernel $kernel */
-		$kernel = wp_app()->make( \Illuminate\Contracts\Http\Kernel::class );
-		$kernel->terminate( wp_app_request(), wp_app_response() );
+		$kernel = app()->make( \Illuminate\Contracts\Http\Kernel::class );
+		$kernel->terminate( request(), response() );
 	}
 
 	/**
@@ -419,12 +425,12 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	 * @return void
 	 */
 	private function prevent_defaults(): void {
-		if ( ! wp_app()->is_wp_app_mode() && ! wp_app()->is_wp_api_mode() ) {
+		if ( ! app()->is_wp_app_mode() && ! app()->is_wp_api_mode() ) {
 			add_filter(
 				'wp_headers',
 				// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 				function ( $headers ) {
-					wp_app()->set_wp_headers( $headers );
+					app()->set_wp_headers( $headers );
 					return [];
 				},
 				999999,
@@ -459,8 +465,8 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 			999999
 		);
 
-		if ( ! wp_app()->is_wp_app_mode() && ! wp_app()->is_wp_api_mode() ) {
-			// We need to have wp_app() terminated before shutting down WP
+		if ( ! app()->is_wp_app_mode() && ! app()->is_wp_api_mode() ) {
+			// We need to have app() terminated before shutting down WP
 			add_action(
 				'shutdown',
 				function () {
@@ -472,7 +478,6 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 	}
 
 	private function is_blade_for_template_available(): bool {
-		// We only want to use Blade
-		return ! wp_app()->is_wp_app_mode();
+		return Enpii_Base_Helper::use_blade_for_wp_template() && ( ! app()->is_wp_app_mode() );
 	}
 }

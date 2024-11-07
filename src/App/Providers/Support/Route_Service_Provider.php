@@ -35,7 +35,7 @@ class Route_Service_Provider extends RouteServiceProvider {
 	public function map() {
 		$path = Enpii_Base_Helper::get_current_blog_path();
 		$prefix = $path ? '/' . $path . '/' : '/';
-		Route::prefix( $prefix . wp_app()->get_wp_app_slug() )
+		Route::prefix( $prefix . app()->get_wp_app_slug() )
 			->as( 'wp-app::' )
 			->middleware( [ 'web' ] )
 			->group(
@@ -44,7 +44,7 @@ class Route_Service_Provider extends RouteServiceProvider {
 				}
 			);
 
-		Route::prefix( $prefix . wp_app()->get_wp_api_slug() )
+		Route::prefix( $prefix . app()->get_wp_api_slug() )
 			->as( 'wp-api::' )
 			->middleware( [ 'api' ] )
 			->group(

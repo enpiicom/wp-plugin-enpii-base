@@ -5,6 +5,7 @@ namespace Enpii_Base\Tests\Support\Unit\Libs;
 use Enpii_Base\App\WP\WP_Application;
 use Enpii_Base\Tests\Support\Helpers\Test_Utils_Trait;
 use Mockery;
+use WP_Mock;
 
 class Unit_Test_Case extends \PHPUnit\Framework\TestCase {
 	use Test_Utils_Trait;
@@ -13,11 +14,11 @@ class Unit_Test_Case extends \PHPUnit\Framework\TestCase {
 	protected $wp_app_base_path;
 
 	protected function setUp(): void {
-    }
+	}
 
-    protected function tearDown(): void {
-        Mockery::close();
-    }
+	protected function tearDown(): void {
+		Mockery::close();
+	}
 
 	protected function setup_wp_app() {
 		$this->wp_app_base_path = codecept_root_dir();

@@ -31,7 +31,7 @@ class Database_Service_Provider extends DatabaseServiceProvider {
 						$config['name'] = $name;
 
 						/** @var \Enpii_Base\Foundation\Database\Connectors\Connection_Factory $db_factory */
-						$db_factory = wp_app( 'db.factory' );
+						$db_factory = app( 'db.factory' );
 						return $db_factory->make( $config, $name );
 					}
 				);
@@ -40,7 +40,7 @@ class Database_Service_Provider extends DatabaseServiceProvider {
 	}
 
 	protected function fetch_config(): void {
-		wp_app_config(
+		config(
 			[
 				'database' => apply_filters(
 					App_Const::FILTER_WP_APP_DATABASE_CONFIG,

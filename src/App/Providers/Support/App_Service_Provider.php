@@ -18,7 +18,7 @@ class App_Service_Provider extends ServiceProvider {
 
 	protected function fetch_config(): void {
 		// All other configs should go here
-		wp_app_config(
+		config(
 			apply_filters(
 				App_Const::FILTER_WP_APP_APP_CONFIG,
 				$this->get_default_config()
