@@ -1,6 +1,6 @@
 {
   "name": "enpii-base",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Enpii Base packages",
   "scripts": {
     "build": "webpack --mode production",
