@@ -1,13 +1,18 @@
 <?php
 
-namespace Enpii_Base\App\Jobs;
+declare(strict_types=1);
+
+namespace Enpii_Base\App\Actions;
 
 use Enpii_Base\App\Models\User;
-use Enpii_Base\Foundation\Shared\Base_Job;
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Illuminate\Support\Facades\Auth;
 
-class Login_WP_App_User extends Base_Job {
+/**
+ * @method static function exec(): void
+ */
+class Login_WP_App_User_Action extends Base_Action {
 	use Executable_Trait;
 
 	protected $user;

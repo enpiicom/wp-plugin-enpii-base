@@ -2,15 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Enpii_Base\App\Jobs;
+namespace Enpii_Base\App\Actions;
 
 use Enpii_Base\App\Support\Enpii_Base_Helper;
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use PHPUnit\Framework\ExpectationFailedException;
 use Exception;
 
-class Write_Web_Worker_Script {
+/**
+ * @method static function exec(): void
+ */
+class Write_Web_Worker_Script_Action extends Base_Action {
 	use Executable_Trait;
 
 	/**

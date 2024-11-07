@@ -1,13 +1,19 @@
 <?php
 
-namespace Enpii_Base\App\Jobs;
+declare(strict_types=1);
+
+namespace Enpii_Base\App\Actions;
 
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Enpii_Base\App\Support\Traits\Queue_Trait;
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Illuminate\Support\Facades\Artisan;
 
-class Perform_Web_Worker {
+/**
+ * @method static function exec(): void
+ */
+class Perform_Web_Worker_Action extends Base_Action {
 	use Executable_Trait;
 	use Queue_Trait;
 

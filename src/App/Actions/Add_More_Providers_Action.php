@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Enpii_Base\App\Queries;
+namespace Enpii_Base\App\Actions;
 
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 
-class Add_More_Providers {
+/**
+ * @method static function exec(): void
+ */
+class Add_More_Providers_Action extends Base_Action {
 	use Executable_Trait;
 
 	private $providers = [];

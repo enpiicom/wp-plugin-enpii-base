@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Enpii_Base\App\Jobs;
+namespace Enpii_Base\App\Actions;
 
 use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Enpii_Base\Foundation\WP\WP_Plugin_Interface;
 use Illuminate\Support\Facades\Session;
 
-class Show_Admin_Notice_And_Disable_Plugin {
+/**
+ * @method static function exec(): void
+ */
+class Show_Admin_Notice_And_Disable_Plugin_Action extends Base_Action {
 	use Executable_Trait;
 	use Enpii_Base_Trans_Trait;
 
@@ -25,9 +29,11 @@ class Show_Admin_Notice_And_Disable_Plugin {
 	}
 
 	/**
-	 * @throws \Exception
-	 */
-	public function handle() {
+		 * Handle the action.
+		 *
+		 * @throws \Exception
+		 */
+	public function handle(): void {
 		foreach ( $this->extra_messages as $message ) {
 			Session::push( 'caution', $message );
 		}
@@ -41,7 +47,13 @@ class Show_Admin_Notice_And_Disable_Plugin {
 			)
 		);
 
-		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		$this->load_plugin_file();
 		deactivate_plugins( $this->plugin->get_plugin_basename() );
+	}
+
+	protected function load_plugin_file(): void {
+		if ( ! function_exists( 'deactivate_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
 	}
 }

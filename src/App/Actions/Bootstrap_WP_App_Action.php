@@ -1,13 +1,17 @@
 <?php
 
-namespace Enpii_Base\App\Jobs;
+declare(strict_types=1);
 
-use DateTime;
-use DateTimeZone;
+namespace Enpii_Base\App\Actions;
+
 use Enpii_Base\App\Support\Enpii_Base_Helper;
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 
-class Bootstrap_WP_App {
+/**
+ * @method static function exec(): void
+ */
+class Bootstrap_WP_App_Action extends Base_Action {
 	use Executable_Trait;
 
 	/**
@@ -15,7 +19,7 @@ class Bootstrap_WP_App {
 	 *
 	 * @return void
 	 */
-	public function handle(): void {
+	public function handle() {
 		/** @var \Enpii_Base\App\WP\WP_Application $wp_app  */
 		$wp_app = app();
 		$wp_app['env'] = config( 'app.env' );

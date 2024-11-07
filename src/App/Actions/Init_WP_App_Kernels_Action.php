@@ -1,11 +1,16 @@
 <?php
 
-namespace Enpii_Base\App\Jobs;
+declare(strict_types=1);
 
-use Enpii_Base\App\Support\Enpii_Base_Helper;
+namespace Enpii_Base\App\Actions;
+
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 
-class Init_WP_App_Kernels {
+/**
+ * @method static function exec(): void
+ */
+class Init_WP_App_Kernels_Action extends Base_Action {
 	use Executable_Trait;
 
 	/**

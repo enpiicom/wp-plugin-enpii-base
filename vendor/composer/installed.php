@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'enpii/enpii-base',
-        'pretty_version' => 'v0.7.0',
-        'version' => '0.7.0.0',
+        'pretty_version' => 'v0.8.0',
+        'version' => '0.8.0.0',
         'reference' => NULL,
         'type' => 'wordpress-muplugin',
         'install_path' => __DIR__ . '/../../',
@@ -101,8 +101,8 @@
             'dev_requirement' => false,
         ),
         'enpii/enpii-base' => array(
-            'pretty_version' => 'v0.7.0',
-            'version' => '0.7.0.0',
+            'pretty_version' => 'v0.8.0',
+            'version' => '0.8.0.0',
             'reference' => NULL,
             'type' => 'wordpress-muplugin',
             'install_path' => __DIR__ . '/../../',
@@ -484,8 +484,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0.0 || 2.0.0 || 3.0.0',
-                1 => '1.0|2.0',
+                0 => '1.0|2.0',
+                1 => '1.0.0 || 2.0.0 || 3.0.0',
             ),
         ),
         'psr/simple-cache' => array(

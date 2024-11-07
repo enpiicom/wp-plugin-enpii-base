@@ -1,14 +1,20 @@
 <?php
 
-namespace Enpii_Base\App\Jobs;
+declare(strict_types=1);
+
+namespace Enpii_Base\App\Actions;
 
 use Enpii_Base\App\Http\Controllers\Admin\Main_Controller as Admin_Main_Controller;
 use Enpii_Base\App\Http\Controllers\Api\Main_Controller as Api_Main_Controller;
 use Enpii_Base\App\Http\Controllers\Main_Controller;
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Illuminate\Support\Facades\Route;
 
-class Register_Base_WP_App_Routes {
+/**
+ * @method static function exec(): void
+ */
+class Register_Base_WP_App_Routes_Action extends Base_Action {
 	use Executable_Trait;
 
 	/**

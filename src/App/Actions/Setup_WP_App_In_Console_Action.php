@@ -1,15 +1,23 @@
 <?php
 
-namespace Enpii_Base\App\Jobs;
+declare(strict_types=1);
 
+namespace Enpii_Base\App\Actions;
+
+use Enpii_Base\App\Actions\Mark_Setup_WP_App_Done_Action;
+use Enpii_Base\App\Actions\Mark_Setup_WP_App_Failed_Action;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use InvalidArgumentException;
 
-class Setup_WP_App_In_Console {
+/**
+ * @method static function exec(): void
+ */
+class Setup_WP_App_In_Console_Action extends Base_Action {
 	use Executable_Trait;
 
 	protected $console_command;
@@ -37,12 +45,12 @@ class Setup_WP_App_In_Console {
 
 			if ( Enpii_Base_Helper::is_console_mode() ) {
 				// If no exception thrown earlier, we can consider the setup script is done
-				Mark_Setup_WP_App_Done::execute_now();
+				Mark_Setup_WP_App_Done_Action::exec();
 			}
 		// phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 		} catch ( Exception $e ) {
 			if ( Enpii_Base_Helper::is_console_mode() ) {
-				Mark_Setup_WP_App_Failed::execute_now( $e->getMessage() );
+				Mark_Setup_WP_App_Failed_Action::exec( $e->getMessage() );
 			}
 		}
 

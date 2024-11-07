@@ -1,12 +1,13 @@
 <?php
 
-namespace Enpii_Base\App\Jobs;
+namespace Enpii_Base\App\Actions;
 
 use Enpii_Base\App\Support\Traits\Queue_Trait;
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Illuminate\Console\Scheduling\Schedule;
 
-class Schedule_Run_Backup {
+class Schedule_Run_Backup_Action extends Base_Action {
 	use Executable_Trait;
 	use Queue_Trait;
 

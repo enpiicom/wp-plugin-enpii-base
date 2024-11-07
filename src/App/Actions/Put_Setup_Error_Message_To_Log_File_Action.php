@@ -1,17 +1,19 @@
 <?php
 
-namespace Enpii_Base\App\Jobs;
+declare(strict_types=1);
 
-use Enpii_Base\App\Queries\Get_WP_App_Info;
+namespace Enpii_Base\App\Actions;
+
+use Enpii_Base\App\Actions\Get_WP_App_Info_Action;
+use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
 /**
- * static @method execute_now($message) void
- * @package Enpii_Base\App\Jobs
+ * @method static function exec(): void
  */
-class Put_Setup_Error_Message_To_Log_File {
+class Put_Setup_Error_Message_To_Log_File_Action extends Base_Action {
 	use Executable_Trait;
 
 	protected $message;
@@ -28,9 +30,9 @@ class Put_Setup_Error_Message_To_Log_File {
 		$monolog->error( $this->message );
 
 		/** @var array $wp_app_info */
-		$wp_app_info = Get_WP_App_Info::execute_now();
-		$monolog->info( dev_var_dump( $wp_app_info ) );
-		$monolog->info( dev_var_dump( get_loaded_extensions() ) );
+		$wp_app_info = Get_WP_App_Info_Action::exec();
+		$monolog->info( devvard( $wp_app_info ) );
+		$monolog->info( devvard( get_loaded_extensions() ) );
 		$monolog->warning( '========= /Errors from Setup app ===========' );
 	}
 }
