@@ -6,6 +6,8 @@
  * Author:      dev@enpii.com, nptrac@yahoo.com
  * Author URI:  https://enpii.com/enpii-team/
  * Version:     0.8.0
+ * License:     MIT
+ * License URI: https://mit-license.org/
  * Text Domain: enpii
  */
 
