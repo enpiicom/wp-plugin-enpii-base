@@ -8,17 +8,19 @@ use Enpii_Base\App\Actions\WP_CLI\Process_Artisan_Action;
 use Enpii_Base\Tests\Support\Unit\Libs\Unit_Test_Case;
 use InvalidArgumentException;
 use Mockery;
+use WP_Mock;
 
 class Process_Artisan_Action_Test extends Unit_Test_Case {
 
-
 	protected function setUp(): void {
 		parent::setUp();
+		WP_Mock::setUp();
 	}
 
 	protected function tearDown(): void {
-		parent::tearDown();
+		WP_Mock::tearDown();
 		Mockery::close();
+		parent::tearDown();
 	}
 
 	/**
@@ -32,6 +34,22 @@ class Process_Artisan_Action_Test extends Unit_Test_Case {
 		$kernelMock = Mockery::mock( \Illuminate\Contracts\Console\Kernel::class );
 		app()->instance( \Illuminate\Contracts\Console\Kernel::class, $kernelMock );
 
+		WP_Mock::userFunction( 'wp_unslash' )
+		->withAnyArgs()
+		->andReturnUsing(
+			function ( $text ) {
+				return $text;
+			}
+		);
+
+		WP_Mock::userFunction( 'sanitize_text_field' )
+		->withAnyArgs()
+		->andReturnUsing(
+			function ( $text ) {
+				return $text;
+			}
+		);
+
 		// Simulate $_SERVER['argv'] without 'artisan'
 		$_SERVER['argv'] = [ 'some_command', 'another_command' ];
 
@@ -44,6 +62,22 @@ class Process_Artisan_Action_Test extends Unit_Test_Case {
 	 * @preserveGlobalState disabled
 	 */
 	public function test_handle() {
+		WP_Mock::userFunction( 'wp_unslash' )
+		->withAnyArgs()
+		->andReturnUsing(
+			function ( $text ) {
+				return $text;
+			}
+		);
+
+		WP_Mock::userFunction( 'sanitize_text_field' )
+		->withAnyArgs()
+		->andReturnUsing(
+			function ( $text ) {
+				return $text;
+			}
+		);
+
 		// Simulate $_SERVER['argv'] with 'artisan'
 		$_SERVER['argv'] = [ 'php', 'artisan', 'make:command', 'TestCommand' ];
 
