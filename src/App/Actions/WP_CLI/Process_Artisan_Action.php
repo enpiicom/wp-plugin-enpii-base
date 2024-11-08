@@ -27,7 +27,7 @@ class Process_Artisan_Action extends Base_Action {
 
 		// We need to remove 2 first items to match the artisan arguments
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-		$args = $_SERVER['argv'];
+		$args = isset( $_SERVER['argv'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_SERVER['argv'] ) ) : [];
 		if ( ! in_array( 'artisan', $args ) ) {
 			throw new InvalidArgumentException( 'Not an artisan command' );
 		}

@@ -48,6 +48,16 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		global $_SERVER;
 
 		$this->backup_SERVER = $_SERVER;
+
+		WP_Mock::setUp();
+
+		WP_Mock::userFunction( 'wp_unslash' )
+		->withAnyArgs()
+		->andReturnUsing(
+			function ( $text ) {
+				return $text;
+			}
+		);
 	}
 
 	protected function tearDown(): void {
@@ -57,6 +67,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 		parent::tearDown();
 		Mockery::close();
+		WP_Mock::tearDown();
 	}
 
 	public function test_initialize_is_wp_core_loaded_false() {
@@ -111,6 +122,15 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['REQUEST_URI'] = '/test';
 		$expected_url = 'http://example.com/test';
+
+		WP_Mock::userFunction( 'wp_unslash' )
+		->withAnyArgs()
+		->andReturnUsing(
+			function ( $text ) {
+				return $text;
+			}
+		);
+		
 		WP_Mock::userFunction( 'sanitize_text_field' )
 			->twice()
 			->withAnyArgs()
@@ -291,6 +311,14 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 					return $text;
 				}
 			);
+
+		WP_Mock::userFunction( 'wp_unslash' )
+		->withAnyArgs()
+		->andReturnUsing(
+			function ( $text ) {
+				return $text;
+			}
+		);
 
 		$this->expectOutputString( '' );
 

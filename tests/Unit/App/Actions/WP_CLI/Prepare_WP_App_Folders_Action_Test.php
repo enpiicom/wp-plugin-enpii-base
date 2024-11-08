@@ -9,11 +9,9 @@ class Prepare_WP_App_Folders_Action_Test extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		WP_Mock::setUp();
 	}
 
 	protected function tearDown(): void {
-		WP_Mock::tearDown();
 		parent::tearDown();
 	}
 

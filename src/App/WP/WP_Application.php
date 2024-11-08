@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Enpii_Base\App\WP;
 
 use Enpii_Base\App\Actions\Init_WP_App_Kernels_Action;
-use Enpii_Base\App\Jobs\Init_WP_App_Kernels;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Illuminate\Config\Repository;
@@ -245,7 +244,7 @@ class WP_Application extends Application {
 	 */
 	public function is_wp_app_mode(): bool {
 		$wp_app_prefix = $this->wp_app_slug;
-		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
+		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '/';
 		$base_url_path = Enpii_Base_Helper::get_base_url_path();
 
 		return ( strpos( $uri, $base_url_path . '/' . $wp_app_prefix . '/' ) === 0 || $uri === '/' . $wp_app_prefix || $uri === '/' . $wp_app_prefix . '/' );
@@ -259,7 +258,7 @@ class WP_Application extends Application {
 	 */
 	public function is_wp_api_mode(): bool {
 		$wp_api_prefix = $this->wp_api_slug;
-		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '/';
+		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '/';
 		$base_url_path = Enpii_Base_Helper::get_base_url_path();
 
 		return ( strpos( $uri, $base_url_path . '/' . $wp_api_prefix . '/' ) === 0 || $uri === '/' . $wp_api_prefix || $uri === '/' . $wp_api_prefix . '/' );
