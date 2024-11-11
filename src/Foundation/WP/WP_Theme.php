@@ -7,7 +7,6 @@ namespace Enpii_Base\Foundation\WP;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\Foundation\Shared\Traits\Config_Trait;
 use Exception;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use InvalidArgumentException;
 
