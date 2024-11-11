@@ -517,4 +517,5 @@ class Enpii_Base_Helper {
 	public static function route_with_wp_url( $name, $parameters = [] ) {
 		return rtrim( site_url(), '/' ) . route( $name, $parameters, false );
 	}
+
 }
