@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Actions;
 
-use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
 use Enpii_Base\Foundation\Actions\Base_Action;
 use Enpii_Base\Foundation\Support\Executable_Trait;
 use Enpii_Base\Foundation\WP\WP_Plugin_Interface;
@@ -15,7 +14,6 @@ use Illuminate\Support\Facades\Session;
  */
 class Show_Admin_Notice_And_Disable_Plugin_Action extends Base_Action {
 	use Executable_Trait;
-	use Enpii_Base_Trans_Trait;
 
 	/**
 	 * @var \Enpii_Base\Foundation\WP\WP_Plugin

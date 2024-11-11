@@ -7,14 +7,12 @@ namespace Enpii_Base\App\Console;
 use Enpii_Base\App\Console\Commands\WP_App_Setup_Command;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
-use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
 use Enpii_Base\App\WP\Enpii_Base_WP_Plugin;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel {
-	use Enpii_Base_Trans_Trait;
 
 	/**
 	 * The bootstrap classes for the application.

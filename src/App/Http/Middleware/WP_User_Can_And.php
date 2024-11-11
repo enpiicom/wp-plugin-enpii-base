@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace Enpii_Base\App\Http\Middleware;
 
 use Closure;
-use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class WP_User_Can_And extends Middleware {
-	use Enpii_Base_Trans_Trait;
 
 	public function handle( $request, Closure $next, ...$capabilities ) {
 		$message = config( 'app.debug' ) ?
-			$this->__( 'Access Denied! You need to login with proper account to perform this action!' ) . ' :: ' . implode( ', ', (array) $capabilities ) :
-			$this->__( 'Access Denied!' );
+			__( 'Access Denied! You need to login with proper account to perform this action!', 'enpii' ) . ' :: ' . implode( ', ', (array) $capabilities ) :
+			__( 'Access Denied!', 'enpii' );
 
 		foreach ( $capabilities as $capability ) {
 			if ( ! current_user_can( $capability ) ) {
