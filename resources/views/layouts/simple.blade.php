@@ -6,10 +6,13 @@
 			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
 	<title>{{ enpii_base_wp_app_web_page_title() }}</title>
+
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+	
 	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
 		html { font-size: 10px; line-height: 1.5em; }
 		body { margin: 0; padding: 0; font-family: "Plus Jakarta Sans", sans-serif; }
 		a { text-decoration: none; }
