@@ -1,0 +1,21 @@
+version: '1.0'
+
+# Define a simple job
+jobs:
+  code_review:
+    name: Code Review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Run Code Review
+        run: |
+          # Manually trigger review with @coderabbitai if needed
+          echo "Invoke @coderabbitai review to trigger a single review."
+
+# Review settings
+reviews:
+  auto_review:
+    default_branch_only: true  # Disable auto reviews for non-default branches
+  review_status: false         # Disable status message for auto-reviews
