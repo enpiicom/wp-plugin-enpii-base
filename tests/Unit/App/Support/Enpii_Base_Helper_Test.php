@@ -130,7 +130,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 				return $text;
 			}
 		);
-		
+
 		WP_Mock::userFunction( 'sanitize_text_field' )
 			->twice()
 			->withAnyArgs()
@@ -150,9 +150,13 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$_SERVER['REQUEST_URI'] = '/page';
 
 		WP_Mock::userFunction( 'sanitize_text_field' )
-			->times( 3 )
+			->times( 4 )
 			->withAnyArgs()
-			->andReturnValues( [ 'localhost', '8080', '/page' ] );
+			->andReturnUsing(
+				function ( $text ) {
+					return $text;
+				}
+			);
 
 		$this->assertEquals( '//localhost:8080/page', Enpii_Base_Helper::get_current_url() );
 
@@ -161,7 +165,11 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		WP_Mock::userFunction( 'sanitize_text_field' )
 			->times( 2 )
 			->withAnyArgs()
-			->andReturnValues( [ 'localhost', '/page' ] );
+			->andReturnUsing(
+				function ( $text ) {
+					return $text;
+				}
+			);
 
 		$this->assertEquals( '//localhost/page', Enpii_Base_Helper::get_current_url() );
 	}
@@ -175,9 +183,13 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$expected_url = 'https://example.com/secure';
 
 		WP_Mock::userFunction( 'sanitize_text_field' )
-			->times( 2 )
+			->times( 4 )
 			->withAnyArgs()
-			->andReturnValues( [ 'example.com', '/secure' ] );
+			->andReturnUsing(
+				function ( $text ) {
+					return $text;
+				}
+			);
 
 		$this->assertEquals( $expected_url, Enpii_Base_Helper::get_current_url() );
 	}
@@ -651,7 +663,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 	public function test_wp_cli_init() {
 		// Mock the WP_CLI class
 		$mocked_wp_cli = Mockery::mock( 'alias:\WP_CLI' );
-		
+
 		// Expect that the add_command method will be called once with the expected parameters
 		$mocked_wp_cli->shouldReceive( 'add_command' )
 			->once()
@@ -975,7 +987,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 			} else {
 				$this->assertFalse( $result );
 			}
-		}   
+		}
 	}
 
 	public function test_get_use_error_handler_setting_returns_true_when_constant_defined() {
@@ -1103,7 +1115,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 
 	/**
 	 * @runInSeparateProcess
-	 */ 
+	 */
 	public function test_wp_app_get_timezone_with_timezone_string() {
 		// Arrange
 		WP_Mock::userFunction(
@@ -1219,7 +1231,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		// Assert
 		$this->assertEquals( 'Etc/GMT', $result );
 	}
-	
+
 	/**
 	 * @runInSeparateProcess
 	 */
@@ -1480,7 +1492,7 @@ class Enpii_Base_Helper_Test_Tmp_True extends Enpii_Base_Helper {
 	public static $wp_app_check = true;
 
 	public static function add_wp_app_setup_errors( $error_message ): void {
-		Enpii_Base_Helper_Test::$methods[] = 'add_wp_app_setup_errors'; 
+		Enpii_Base_Helper_Test::$methods[] = 'add_wp_app_setup_errors';
 	}
 
 	public static function is_setup_app_completed() {
@@ -1522,7 +1534,7 @@ class Enpii_Base_Helper_Test_Tmp_False extends Enpii_Base_Helper {
 	}
 
 	public static function add_wp_app_setup_errors( $error_message ): void {
-		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors'; 
+		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors';
 	}
 }
 
@@ -1532,7 +1544,7 @@ class Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed extends Enpii_Base_Help
 	}
 
 	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
-		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders'; 
+		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders';
 	}
 
 	public static function is_setup_app_failed() {
@@ -1540,7 +1552,7 @@ class Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed extends Enpii_Base_Help
 	}
 
 	public static function redirect_to_setup_url(): void {
-		Enpii_Base_Helper_Test::$methods[] = 'redirect_to_setup_url'; 
+		Enpii_Base_Helper_Test::$methods[] = 'redirect_to_setup_url';
 	}
 }
 
@@ -1611,11 +1623,11 @@ class Enpii_Base_Helper_Test_Tmp_Setup_App_Url extends Enpii_Base_Helper {
 	}
 
 	public static function add_wp_app_setup_errors( $error_message ): void {
-		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors_setup_app_url'; 
+		Enpii_Base_Helper_Test::$methods[] = 'perform_wp_app_check_add_wp_app_setup_errors_setup_app_url';
 	}
 }
 
-class Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True extends Enpii_Base_Helper { 
+class Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True extends Enpii_Base_Helper {
 	public static $wp_app_check = null;
 
 	public static function is_pdo_mysql_loaded(): bool {
@@ -1634,19 +1646,19 @@ class Enpii_Base_Helper_Test_Tmp_Perform_Wp_App_True extends Enpii_Base_Helper {
 class Enpii_Base_Helper_Test_Tmp_Initialize extends Enpii_Base_Helper {
 
 	public static function register_cli_init_action() {
-		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action';
 	}
 
 	public static function register_setup_app_redirect() {
-		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect';
 	}
 
 	public static function init_wp_app_instance() {
-		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance';
 	}
 
 	public static function init_enpii_base_wp_plugin_instance( $plugin_url, $dirname ) {
-		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance'; 
+		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance';
 	}
 
 	public static function is_enpii_base_prepare_command( array $argv = null ): bool {
@@ -1654,7 +1666,7 @@ class Enpii_Base_Helper_Test_Tmp_Initialize extends Enpii_Base_Helper {
 	}
 
 	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
-		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders'; 
+		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders';
 	}
 }
 
@@ -1665,7 +1677,7 @@ class Enpii_Base_Helper_Test_Tmp_Initialize_Wp_Core_Loaded_False extends Enpii_B
 	}
 
 	public static function init_wp_app_instance(): void {
-		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance';
 	}
 }
 
@@ -1688,15 +1700,15 @@ class Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_True extends Enpii_B
 	}
 
 	public static function register_cli_init_action() {
-		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action';
 	}
 
 	public static function init_wp_app_instance() {
-		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance';
 	}
 
 	public static function init_enpii_base_wp_plugin_instance( string $plugin_url, string $dirname ) {
-		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance'; 
+		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance';
 	}
 }
 
@@ -1719,23 +1731,23 @@ class Enpii_Base_Helper_Test_Tmp_Initialize_Is_Enpii_Base_Prepare_Command extend
 	}
 
 	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
-		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders'; 
+		Enpii_Base_Helper_Test::$methods[] = 'prepare_wp_app_folders';
 	}
 
 	public static function register_setup_app_redirect() {
-		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect';
 	}
 
 	public static function register_cli_init_action() {
-		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action';
 	}
 
 	public static function init_wp_app_instance() {
-		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance';
 	}
 
 	public static function init_enpii_base_wp_plugin_instance( string $plugin_url, string $dirname ) {
-		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance'; 
+		Enpii_Base_Helper_Test::$methods[] = 'init_enpii_base_wp_plugin_instance';
 	}
 }
 class Enpii_Base_Helper_Test_Tmp_Initialize_Is_Perform_WP_App_Check extends Enpii_Base_Helper {
@@ -1753,11 +1765,11 @@ class Enpii_Base_Helper_Test_Tmp_Initialize_Is_Perform_WP_App_Check extends Enpi
 	}
 
 	public static function register_cli_init_action() {
-		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action';
 	}
 
 	public static function register_setup_app_redirect() {
-		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect';
 	}
 }
 
@@ -1775,14 +1787,14 @@ class Enpii_Base_Helper_Test_Tmp_Initialize_In_Console_Mode_False extends Enpii_
 	}
 
 	public static function register_cli_init_action() {
-		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action'; 
+		Enpii_Base_Helper_Test::$methods[] = 'register_cli_init_action';
 	}
 
 	public static function register_setup_app_redirect() {
-		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect'; 
+		Enpii_Base_Helper_Test::$methods[] = 'register_setup_app_redirect';
 	}
 
 	public static function init_wp_app_instance() {
-		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance'; 
+		Enpii_Base_Helper_Test::$methods[] = 'init_wp_app_instance';
 	}
 }

@@ -48,13 +48,12 @@ class Enpii_Base_Helper {
 		if ( empty( $_SERVER['SERVER_NAME'] ) && empty( $_SERVER['HTTP_HOST'] ) ) {
 			return '';
 		}
-
 		if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) === 'https' ) {
 			$_SERVER['HTTPS'] = 'on';
 		}
 
 		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
-			$http_protocol = isset( $_SERVER['HTTPS'] ) && sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) === 'on' ? 'https' : 'http';
+			$http_protocol = isset( $_SERVER['HTTPS'] ) && sanitize_text_field( wp_unslash( $_SERVER['HTTPS'] ) ) === 'on' ? 'https' : 'http';
 		}
 
 		$current_url = $http_protocol ?? '';
