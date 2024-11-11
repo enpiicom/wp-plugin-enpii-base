@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enpii_Base\App\Support;
 
 class Enpii_Base_Helper {
+
 	public static $version_option;
 	public static $setup_info;
 	public static $wp_app_check = null;
@@ -38,32 +39,36 @@ class Enpii_Base_Helper {
 		static::init_enpii_base_wp_plugin_instance( $plugin_url, $dirname );
 	}
 
+	/**
+	 * Retrieves the current URL.
+	 *
+	 * @return string The current URL, or an empty string if not available.
+	 */
 	public static function get_current_url(): string {
 		if ( empty( $_SERVER['SERVER_NAME'] ) && empty( $_SERVER['HTTP_HOST'] ) ) {
 			return '';
 		}
-
-		if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ) {
+		if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) === 'https' ) {
 			$_SERVER['HTTPS'] = 'on';
 		}
 
 		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
-			$http_protocol = isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+			$http_protocol = isset( $_SERVER['HTTPS'] ) && sanitize_text_field( wp_unslash( $_SERVER['HTTPS'] ) ) === 'on' ? 'https' : 'http';
 		}
 
 		$current_url = $http_protocol ?? '';
 		$current_url .= $current_url ? '://' : '//';
 
 		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
-			$current_url .= sanitize_text_field( $_SERVER['HTTP_HOST'] ) . ( isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( $_SERVER['REQUEST_URI'] ) : '' );
+			$current_url .= sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) . ( isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '' );
 
 			return $current_url;
 		}
 
-		if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] != '80' ) {
-			$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . ':' . sanitize_text_field( $_SERVER['SERVER_PORT'] ) . ( isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( $_SERVER['REQUEST_URI'] ) : '' );
+		if ( isset( $_SERVER['SERVER_PORT'] ) && sanitize_text_field( wp_unslash( $_SERVER['SERVER_PORT'] ) ) != '80' ) {
+			$current_url .= sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) ) . ':' . sanitize_text_field( wp_unslash( $_SERVER['SERVER_PORT'] ) ) . ( isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '' );
 		} else {
-			$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . ( isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( $_SERVER['REQUEST_URI'] ) : '' );
+			$current_url .= sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) ) . ( isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '' );
 		}
 
 		return $current_url;
@@ -334,7 +339,7 @@ class Enpii_Base_Helper {
 			@chmod( $filepath, $chmod );
 		}
 	}
-	
+
 	public static function wp_cli_init(): void {
 		\WP_CLI::add_command(
 			'enpii-base prepare',
@@ -409,7 +414,7 @@ class Enpii_Base_Helper {
 
 		return $full_url ? trim( get_site_url(), '/' ) . $slug_to_public_asset : $slug_to_public_asset;
 	}
-	
+
 	/**
 	 * Extract and return the major version number from the version string.
 	 *
@@ -459,13 +464,21 @@ class Enpii_Base_Helper {
 		);
 	}
 
+	/**
+	 * Checks if the command includes 'enpii-base' and 'prepare'.
+	 *
+	 * @param array|null $argv Optional. Command-line arguments. Defaults to $_SERVER['argv'] if not provided.
+	 * @return bool True if the command includes 'enpii-base' and 'prepare'; otherwise, false.
+	 */
 	public static function is_enpii_base_prepare_command( array $argv = null ): bool {
-		// Default to using $_SERVER['argv'] if not provided
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$argv = $argv ?? $_SERVER['argv'];
+		// Default to using sanitized and unslashed $_SERVER['argv'] if not provided
+		$argv = $argv ?? array_map( 'sanitize_text_field', wp_unslash( $_SERVER['argv'] ?? [] ) );
 
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		return ! empty( $argv ) && array_intersect( (array) $argv, [ 'enpii-base', 'prepare' ] );
+		// Required items to check
+		$required = [ 'enpii-base', 'prepare' ];
+
+		// Check if both 'enpii-base' and 'prepare' are in $argv
+		return count( array_intersect( $required, $argv ) ) === count( $required );
 	}
 
 	public static function init_wp_app_instance() {
@@ -494,13 +507,13 @@ class Enpii_Base_Helper {
 	}
 
 	/**
-	* Generate the URL of a full WordPress URL with domain name to a named route.
-	*
-	* @param  array|string  $name
-	* @param  mixed  $parameters
-	* @param  bool  $absolute
-	* @return string
-	*/
+	 * Generate the URL of a full WordPress URL with domain name to a named route.
+	 *
+	 * @param  array|string  $name
+	 * @param  mixed  $parameters
+	 * @param  bool  $absolute
+	 * @return string
+	 */
 	public static function route_with_wp_url( $name, $parameters = [] ) {
 		return rtrim( site_url(), '/' ) . route( $name, $parameters, false );
 	}

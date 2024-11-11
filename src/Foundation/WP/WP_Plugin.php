@@ -9,7 +9,6 @@ use Illuminate\Support\ServiceProvider;
 use Enpii_Base\Foundation\Shared\Traits\Config_Trait;
 use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Facades\Session;
 use InvalidArgumentException;
 
 /**

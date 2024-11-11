@@ -5,9 +5,9 @@
  * Description: Base plugin for WP development using Laravel
  * Author:      dev@enpii.com, nptrac@yahoo.com
  * Author URI:  https://enpii.com/enpii-team/
- * Version:     0.8.0
- * License:     GPLv2 or later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Version:     0.8.1
+ * License:     MIT
+ * License URI: https://mit-license.org/
  * Text Domain: enpii
  */
 
