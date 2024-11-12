@@ -24,7 +24,6 @@ use Enpii_Base\App\Actions\Register_Base_WP_App_Routes_Action;
 use Enpii_Base\App\Actions\Schedule_Run_Backup_Action;
 use Enpii_Base\App\Support\App_Const;
 use Enpii_Base\App\Support\Enpii_Base_Helper;
-use Enpii_Base\App\Support\Traits\Enpii_Base_Trans_Trait;
 use Enpii_Base\Foundation\WP\WP_Plugin;
 use Exception;
 use Illuminate\Console\Scheduling\Schedule;
@@ -40,7 +39,6 @@ use WP_User;
  * @package Enpii_Base\App\WP
  */
 final class Enpii_Base_WP_Plugin extends WP_Plugin {
-	use Enpii_Base_Trans_Trait;
 
 	public function boot() {
 		parent::boot();

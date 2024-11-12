@@ -25,7 +25,6 @@ use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_T
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Setup_App_Completed_No_Error;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Setup_App_Not_Completed;
 use Enpii_Base\Tests\Unit\App\Support\Enpii_Base_Helper_Test\Enpii_Base_Helper_Test_Tmp_Setup_App_Url;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Mockery;
 use WP_Mock;
 
@@ -1078,37 +1077,37 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertTrue( $result );
 	}
 
-	public function test_prepare_wp_app_folders_empty_wp_app_base_path() {
-		// Arrange
+	public function test_prepare_wp_app_folders() {
 		$chmod = 0777;
-		$mock_base_path = '/path/to/wp-app';
-		$mock_folders = [
-			'/path/to/wp-app/folder1',
-			'/path/to/wp-app/folder2',
-			'/path/to/wp-app/folder3',
-		];
+		$wp_app_base_path = '/var/www/wp-app';
 
-		// Mock the static methods in Enpii_Base_Helper
-		$helper_mock = Mockery::mock( 'alias:Enpii_Base\App\Support\Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App' );
-		$helper_mock->shouldReceive( 'get_wp_app_base_path' )
-			->andReturn( $mock_base_path );
+		// Mock the WP_Filesystem function
+		\WP_Mock::userFunction(
+			'WP_Filesystem',
+			[
+				'times' => 1,
+			]
+		);
 
-		$helper_mock->shouldReceive( 'get_wp_app_base_folders_paths' )
-			->with( $mock_base_path )
-			->andReturn( $mock_folders );
+		// Create a mock object for $wp_filesystem with chmod and mkdir methods
+		$mock_wp_filesystem = $this->getMockBuilder( \stdClass::class )
+			->addMethods( [ 'chmod', 'mkdir' ] )
+			->getMock();
 
-		// Mock the Filesystem class
-		$file_system_mock = Mockery::mock( 'overload:' . Filesystem::class );
-		$file_system_mock->shouldReceive( 'ensureDirectoryExists' )
-			->withArgs(
-				function ( $path, $mode ) use ( $mock_folders, $chmod ) {
-					return in_array( $path, $mock_folders ) && $mode === $chmod;
-				}
-			)
-			->times( count( $mock_folders ) );
+		// Expect chmod on the base path’s parent directory and each folder path
+		$mock_wp_filesystem->expects( $this->exactly( 3 ) )
+			->method( 'chmod' );
 
-		// Act
-		Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App::prepare_wp_app_folders();
+		// Expect mkdir on each folder path
+		$mock_wp_filesystem->expects( $this->exactly( 2 ) )
+			->method( 'mkdir' );
+
+		// Assign the mock to the global $wp_filesystem variable
+		global $wp_filesystem;
+		$wp_filesystem = $mock_wp_filesystem;
+
+		// Call the method
+		Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App::prepare_wp_app_folders( $chmod, $wp_app_base_path );
 
 		$this->assertTrue( true );
 	}
@@ -1581,6 +1580,12 @@ class Enpii_Base_Helper_Test_Tmp_Is_Console_Mode_Apache extends Enpii_Base_Helpe
 }
 
 class Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App extends Enpii_Base_Helper {
+	public static function get_wp_app_base_folders_paths( $wp_app_base_path ) {
+		return [
+			$wp_app_base_path . '/folder1',
+			$wp_app_base_path . '/folder2',
+		];
+	}
 }
 
 class Enpii_Base_Helper_Test_Tmp_Setup_App_Completed_No_Error extends Enpii_Base_Helper {
