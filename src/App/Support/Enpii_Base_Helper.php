@@ -328,15 +328,21 @@ class Enpii_Base_Helper {
 		if ( empty( $wp_app_base_path ) ) {
 			$wp_app_base_path = static::get_wp_app_base_path();
 		}
-		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
-		@chmod( dirname( $wp_app_base_path ), $chmod );
 
-		$file_system = new \Illuminate\Filesystem\Filesystem();
+		// Initialize the WP Filesystem API
+		global $wp_filesystem;
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+		WP_Filesystem();
 
+		// Use WP_Filesystem to change the base directory permissions
+		$wp_filesystem->chmod( dirname( $wp_app_base_path ), $chmod );
+
+		// Use the filesystem to ensure directories and set permissions
 		foreach ( static::get_wp_app_base_folders_paths( $wp_app_base_path ) as $filepath ) {
-			$file_system->ensureDirectoryExists( $filepath, $chmod );
-			// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
-			@chmod( $filepath, $chmod );
+			$wp_filesystem->mkdir( $filepath, $chmod );
+			$wp_filesystem->chmod( $filepath, $chmod );
 		}
 	}
 
