@@ -22,11 +22,9 @@ if [ ${#MISSING_TOOLS[@]} -ne 0 ]; then
 fi
 
 
-
 # Run PHP Code Beautifier and Fixer (phpcbf) on all PHP files in the staged changes
-mapfile -t STAGED_FILES < <(git diff --cached --name-only --diff-filter=d | grep '\.php$')
-
-if [ ${#STAGED_FILES[@]} -eq 0 ]; then
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.php$')
+if [[ "$STAGED_FILES" = "" ]]; then
   echo "No PHP files staged for commit."
   exit 0
 fi
