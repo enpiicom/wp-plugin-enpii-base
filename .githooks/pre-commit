@@ -9,7 +9,7 @@ fi
 if [ ! -f "vendor/bin/phpcbf" ] || [ ! -f "vendor/bin/phpcs" ] || [ ! -f "vendor/bin/phpstan" ]; then
   echo "Required tools not found: phpcbf, phpcs, or phpstan."
   echo "Run 'composer install' to install the necessary dependencies."
-  COMPOSER=composer-dev81.json composer81 install --ignore-platform-reqs
+  COMPOSER=composer-dev81.json composer install --ignore-platform-reqs
   exit 1
 fi
 
