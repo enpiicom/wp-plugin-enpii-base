@@ -1,16 +1,10 @@
 #!/bin/bash
 
-if ! command -v php >/dev/null 2>&1; then 
-  echo "PHP is not installed or not in PATH" 
-  exit 1
-fi
-
 # Check if required tools are available
 if [ ! -f "vendor/bin/phpcbf" ] || [ ! -f "vendor/bin/phpcs" ] || [ ! -f "vendor/bin/phpstan" ]; then
   echo "Required tools not found: phpcbf, phpcs, or phpstan."
-  echo "Run 'composer install' to install the necessary dependencies."
-  COMPOSER=composer-dev81.json composer install --ignore-platform-reqs
-  exit 0
+  echo "Please run 'composer install' to install the necessary dependencies."
+  exit 1
 fi
 
 # Run PHP Code Beautifier and Fixer (phpcbf) on all PHP files in the staged changes
