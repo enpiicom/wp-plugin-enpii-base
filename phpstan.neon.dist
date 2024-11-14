@@ -6,9 +6,9 @@ parameters:
 
     # Excludes certain paths from analysis, such as vendor or test directories
     excludePaths:
-        - %currentWorkingDirectory%/vendor
-        - %currentWorkingDirectory%/tests
+        - vendor
+        - tests
 
     # Define autoload files, if necessary
     bootstrapFiles:
-        - %currentWorkingDirectory%/vendor/autoload.php
+        - vendor/autoload.php
