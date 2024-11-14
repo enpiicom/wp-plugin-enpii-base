@@ -1,5 +1,4 @@
 <?php
-
 $enpii_base_existed = defined( 'ENPII_BASE_PLUGIN_VERSION' );
 
 // General fixed constants
