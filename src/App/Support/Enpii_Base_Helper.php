@@ -10,7 +10,7 @@ class Enpii_Base_Helper {
 	public static $setup_info;
 	public static $wp_app_check = null;
 
-	public static function initialize( string $plugin_url, string $dirname ) {
+	public static function initialize( $plugin_url, $dirname ) {
 		// Check if WordPress core is loaded, if not, exit the method.
 		if ( ! static::is_wp_core_loaded() ) {
 			return;
