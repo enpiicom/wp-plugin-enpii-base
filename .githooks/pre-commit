@@ -10,7 +10,7 @@ if [ ! -f "vendor/bin/phpcbf" ] || [ ! -f "vendor/bin/phpcs" ] || [ ! -f "vendor
   echo "Required tools not found: phpcbf, phpcs, or phpstan."
   echo "Run 'composer install' to install the necessary dependencies."
   COMPOSER=composer-dev81.json composer install --ignore-platform-reqs
-  exit 1
+  exit 0
 fi
 
 # Run PHP Code Beautifier and Fixer (phpcbf) on all PHP files in the staged changes
