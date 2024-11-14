@@ -20,7 +20,10 @@ With all of these vast requirements, all of our problems started.
 - Then after several weeks, we saw that many Laravel package that didn't work well when we change the Laravel namespace (e.g. Telescope, Tinker) and we thought, we need to keep all the packages works so ... we decided to use the default namespace of Laravel. We revert all the changes for replacing namespace. Crazy thing!
 - This time, we decided to use 2 Laravel versions, Laravel 7 (for PHP ^7.2.5 - ~8.0.0) and Laravel 10 (for PHP 8.1+), we created 2 composer files for that.
 - After testing on several sites, we find it complicated to make Laravel 10 working with WordPress ecosystem. So since 23 May 2024, we decide to use 1 single version of Laravel 8 and PHP 8.0 should be used for development. That's ... awesome!
-
+- To ensure the Git hook runs automatically on the server at the post-commit stage—executing phpcbf to fix PHP CodeSniffer (PHPCS) errors, running phpstan for verification, and staging modified files—contributors need to clone the repository and set up the `core.hooksPath` configuration. If `core.hooksPath` isn’t already configured, make sure it is set up by running:
+```
+git config core.hooksPath .githooks
+```
 ### Gradually build the plugin
 - When included Laravel to WordPress, we bumped into the first issues. Laravel used the filesystem to read the configs because it has the fixed base path but in WordPress, we would not know how the Enpii Base plugin works, so we cannot use a fixed base path and therefore, we can not use files to store the configs. The solution was creating a fake base path (mainly for generated files) and use array to store configs in memory (we tweaked the `config` instance of the app).
 - Laravel uses the `Container` instance for the app(). We create a class called `WP_Application` on top of that and we use the `app()` helper function instead of app() from default Laravel. This will use the `WP_Application::$instance` for the app().
