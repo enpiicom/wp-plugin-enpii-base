@@ -18,7 +18,6 @@
     "wpackagist-theme/storefront": "^4.0",
     "wpackagist-theme/twentytwenty": "^2.0",
     "automattic/vipwpcs": "~3.0.0",
-    "phpstan/phpstan": "^1.12",
     "phpcompatibility/php-compatibility": "~9.3.5",
     "dealerdirect/phpcodesniffer-composer-installer": "~1.0.0"
   },

@@ -20,7 +20,7 @@
     "automattic/vipwpcs": "~3.0.0",
     "phpcompatibility/php-compatibility": "~9.3.5",
     "dealerdirect/phpcodesniffer-composer-installer": "~1.0.0",
-    "phpstan/phpstan": "^1.12",
+    "phpstan/phpstan": "~2.0.1",
     "phpunit/phpunit": "~9.6",
     "mockery/mockery": "~1.6",
     "phpspec/prophecy": "~1.19.0",
@@ -125,11 +125,15 @@
     "phpcs": [
       "./vendor/bin/phpcs"
     ],
+    "phpstan": [
+      "./vendor/bin/phpstan"
+    ],
     "phpunit": [
       "./vendor/bin/phpunit"
     ],
     "test": [
       "@phpcs",
+      "@phpstan",
       "@phpunit"
     ]
   }
