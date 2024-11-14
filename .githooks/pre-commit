@@ -15,7 +15,7 @@ done
 if [ ${#MISSING_TOOLS[@]} -ne 0 ]; then
   echo "Required tools not found or not executable: ${MISSING_TOOLS[*]}" 
   echo "Running 'composer install' to install dependencies..."
-  if ! composer install; then
+  if ! COMPOSER=composer-dev81.json composer81 install --ignore-platform-reqs; then
     echo "Failed to install dependencies. Please run 'composer install' manually."
     exit 1
   fi

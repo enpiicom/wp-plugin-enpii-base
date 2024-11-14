@@ -11,4 +11,4 @@ parameters:
 
     # Define autoload files, if necessary
     bootstrapFiles:
-        - vendor/autoload.php
+        - enpii-base-bootstrap.php
