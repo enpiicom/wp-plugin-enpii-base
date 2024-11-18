@@ -48,7 +48,7 @@ if ( ! function_exists( 'devvard' ) ) {
 		$dumper = new CliDumper();
 		$cloner = new VarCloner();
 		$cloner->addCasters( ReflectionCaster::UNSET_CLOSURE_FILE_INFO );
-		
+
 		// Clone the variable and set the maximum depth
 		$cloned_var = $cloner->cloneVar( $var_to_be_dumped )->withMaxDepth( $max_depth );
 
@@ -82,7 +82,7 @@ if ( ! function_exists( 'develog' ) ) {
 			} else {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
 
-				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export 
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
 				$dump_content = devvard( $var );
 			}
 			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
@@ -105,7 +105,7 @@ if ( ! function_exists( 'devlogger' ) ) {
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 0 );
 
 		$logger = logger()->channel( 'single' );
-		
+
 		$log_message = '';
 		$log_message .= ! empty( $dev_trace[1] ) ? 'Debugging dev_error_log, url (' . Enpii_Base_Helper::get_current_url() . ") \n======= Dev logging start here \n" . $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . " \n" : '';
 		unset( $dev_trace[0] );
