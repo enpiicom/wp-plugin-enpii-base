@@ -57,7 +57,8 @@
   "autoload": {
     "files": [
       "src/Foundation/Support/helpers-utils.php",
-      "enpii-base.php"
+      "./enpii-base-bootstrap.php",
+      "./enpii-base-init.php"
     ],
     "psr-4": {
       "Enpii_Base\\Deps\\": "src-deps",
