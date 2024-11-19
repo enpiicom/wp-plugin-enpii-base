@@ -19,7 +19,7 @@ if ( ! function_exists( 'devd' ) ) {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace();
 
-		echo "=== start of dump ===\n";
+		echo "=== start of dev dump ===\n";
 		dump( ...$vars );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo ( ! empty( $dev_trace[1] ) ) ? $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . ': ' . "\n" : '';
@@ -29,7 +29,7 @@ if ( ! function_exists( 'devd' ) ) {
 			echo 'Traceback: ';
 			dump( $dev_trace );
 		}
-		echo "\n=== end of dump === ";
+		echo "\n=== end of dev dump === ";
 	}
 }
 
@@ -48,17 +48,18 @@ if ( ! function_exists( 'devvard' ) ) {
 		$dumper = new CliDumper();
 		$cloner = new VarCloner();
 		$cloner->addCasters( ReflectionCaster::UNSET_CLOSURE_FILE_INFO );
-		
+
 		// Clone the variable and set the maximum depth
 		$cloned_var = $cloner->cloneVar( $var_to_be_dumped )->withMaxDepth( $max_depth );
 
 		// Dump the variable
 		$dump = $dumper->dump( $cloned_var, true );
-
 		// Output or return the dump based on the $is_dump_content flag
 		if ( $is_dump_content ) {
+			echo "=== start of dev var dump ===\n";
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $dump;
+			echo "=== end of dev var dump ===\n";
 		} else {
 			return $dump;
 		}
@@ -82,14 +83,14 @@ if ( ! function_exists( 'develog' ) ) {
 			} else {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
 
-				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export 
-				$dump_content = devvard( $var );
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+				$dump_content = devvard( $var, 5, false );
 			}
 			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
 		}
 
 		if ( defined( 'DEV_LOG_TRACE' ) ) {
-			$log_message .= 'Trace :' . devvard( $dev_trace ) . " \n";
+			$log_message .= 'Trace :' . devvard( $dev_trace, 10, false ) . " \n";
 			$log_message .= "\n======= Dev logging ends here =======\n";
 			$log_message .= "\n=====================================\n\n\n\n";
 		}
@@ -101,11 +102,15 @@ if ( ! function_exists( 'develog' ) ) {
 
 if ( ! function_exists( 'devlogger' ) ) {
 	function devlogger( ...$vars ): void {
+		if ( ! Enpii_Base_Helper::is_app_loaded() ) {
+			dump( '======= Laravel application is not loaded. Logger is not available. =======' );
+			die( 1 );
+		}
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 0 );
 
 		$logger = logger()->channel( 'single' );
-		
+
 		$log_message = '';
 		$log_message .= ! empty( $dev_trace[1] ) ? 'Debugging dev_error_log, url (' . Enpii_Base_Helper::get_current_url() . ") \n======= Dev logging start here \n" . $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . " \n" : '';
 		unset( $dev_trace[0] );
@@ -118,13 +123,13 @@ if ( ! function_exists( 'devlogger' ) ) {
 				$type = is_object( $var ) ? get_class( $var ) : gettype( $var );
 
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
-				$dump_content = devvard( $var );
+				$dump_content = devvard( $var, 5, false );
 			}
 			$log_message .= "Var no $index: type " . $type . ' - ' . $dump_content . " \n";
 		}
 
 		if ( defined( 'DEV_LOG_TRACE' ) ) {
-			$log_message .= 'Trace :' . devvard( $dev_trace ) . " \n";
+			$log_message .= 'Trace :' . devvard( $var, 10, false ) . " \n";
 			$log_message .= "\n======= Dev logging ends here =======\n";
 			$log_message .= "\n=====================================\n\n\n\n";
 		}

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Enpii_Base\App\Support;
 
+use Illuminate\Foundation\Application;
+
 class Enpii_Base_Helper {
 
 	public static $version_option;
@@ -448,6 +450,10 @@ class Enpii_Base_Helper {
 
 	public static function is_wp_core_loaded(): bool {
 		return (bool) defined( 'WP_CONTENT_DIR' );
+	}
+
+	public static function is_app_loaded(): bool {
+		return function_exists( 'app' ) && app() instanceof Application;
 	}
 
 	public static function get_php_sapi_name(): string {
