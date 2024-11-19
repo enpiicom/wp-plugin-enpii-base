@@ -4,7 +4,7 @@ Tags: enpii, enpii base, enpii-base, laravel, wordpress laravel
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.3
-Stable tag: 0.8.4
+Stable tag: 0.8.5
 License: MIT
 License URI: https://mit-license.org/
 
@@ -101,6 +101,11 @@ Enpii Base sets up the Laravel folder structure, redirects to a setup page, and 
 Enpii Base switches to Laravel’s HTTP kernel at the wp_loaded action, bypassing WordPress’s default query and template system. For API requests, it skips session management to keep things stateless while syncing user data between WordPress and Laravel.
 
 == Changelog ==
+
+= 0.8.5 - 2024-11-19 =
+
+- Fix the error when running Enpii Base setup redirect on Frontend.
+- Enhance error log for development.
 
 = 0.8.4 - 2024-11-18 =
 
