@@ -31,8 +31,8 @@ class Put_Setup_Error_Message_To_Log_File_Action extends Base_Action {
 
 		/** @var array $wp_app_info */
 		$wp_app_info = Get_WP_App_Info_Action::exec();
-		$monolog->info( devvard( $wp_app_info ) );
-		$monolog->info( devvard( get_loaded_extensions() ) );
+		$monolog->info( devvard( $wp_app_info, 5, false ) );
+		$monolog->info( devvard( get_loaded_extensions(), 5, false ) );
 		$monolog->warning( '========= /Errors from Setup app ===========' );
 	}
 }
