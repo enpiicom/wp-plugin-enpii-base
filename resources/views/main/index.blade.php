@@ -1,7 +1,6 @@
 @extends('enpii-base::layouts/simple')
 
 @section('content')
-<?php devlogger( 'test np base' ); ?>
 	<div class="container">
 		<h1><?php echo 'Enpii Base WP App Index page'; ?></h1>
 		{{
