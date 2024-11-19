@@ -128,6 +128,9 @@ class WP_Application extends Application {
 				( strpos( request()->getPathInfo(), '/web-worker' ) !== false && request()->get( 'force_app_running_in_console' ) ) ||
 				Enpii_Base_Helper::at_setup_app_url()
 			) {
+				if ( empty( $_SERVER['argv'] ) ) {
+					$_SERVER['argv'] = null;
+				}
 				$this->isRunningInConsole = true;
 			}
 		}
