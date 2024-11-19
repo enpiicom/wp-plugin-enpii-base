@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7ac9ddd6a610c696cb664de3cd5faf26
+class ComposerStaticInit071639ea614d453adeb193b8b797e8b7
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -29,7 +29,8 @@ class ComposerStaticInit7ac9ddd6a610c696cb664de3cd5faf26
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'eed9c7469f94573c0d97cc45de79b754' => __DIR__ . '/..' . '/spatie/laravel-html/src/helpers.php',
         '0a04fd8b6cb0d1ef5b4816cca310de45' => __DIR__ . '/../..' . '/src/Foundation/Support/helpers-utils.php',
-        'c571a6958f2a9888e0c21dda9c57c8c5' => __DIR__ . '/../..' . '/enpii-base.php',
+        '0f59fad7c9b61fab8c403fdbffb776bb' => __DIR__ . '/../..' . '/enpii-base-bootstrap.php',
+        'd784741bc6b753c2977bb46f2ba02513' => __DIR__ . '/../..' . '/enpii-base-init.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -430,9 +431,9 @@ class ComposerStaticInit7ac9ddd6a610c696cb664de3cd5faf26
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7ac9ddd6a610c696cb664de3cd5faf26::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7ac9ddd6a610c696cb664de3cd5faf26::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit7ac9ddd6a610c696cb664de3cd5faf26::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit071639ea614d453adeb193b8b797e8b7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit071639ea614d453adeb193b8b797e8b7::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit071639ea614d453adeb193b8b797e8b7::$classMap;
 
         }, null, ClassLoader::class);
     }
