@@ -24,6 +24,7 @@
     "phpunit/phpunit": "~9.6",
     "mockery/mockery": "~1.6",
     "phpspec/prophecy": "~1.19.0",
+    "php-stubs/wordpress-stubs": "~6.6.2",
     "brain/monkey": "~2.6.0",
     "10up/wp_mock": "~1.0.0",
     "codeception/codeception": "~5.0.0",
