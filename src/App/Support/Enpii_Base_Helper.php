@@ -339,12 +339,32 @@ class Enpii_Base_Helper {
 		WP_Filesystem();
 
 		// Use WP_Filesystem to change the base directory permissions
-		$wp_filesystem->chmod( dirname( $wp_app_base_path ), $chmod );
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		$wp_chmod_result = @$wp_filesystem->chmod( dirname( $wp_app_base_path ), $chmod );
+		if ( ! $wp_chmod_result ) {
+			// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
+			@chmod( dirname( $wp_app_base_path ), $chmod ); // Fallback to native chmod
+		}
+
+		$file_system = new \Illuminate\Filesystem\Filesystem();
 
 		// Use the filesystem to ensure directories and set permissions
 		foreach ( static::get_wp_app_base_folders_paths( $wp_app_base_path ) as $filepath ) {
-			$wp_filesystem->mkdir( $filepath, $chmod );
-			$wp_filesystem->chmod( $filepath, $chmod );
+			if ( ! $wp_filesystem->mkdir( $filepath, $chmod ) ) {
+				// If WP_Filesystem can't create the directory
+				if ( ! is_dir( $filepath ) ) {
+					$file_system->ensureDirectoryExists( $filepath, $chmod );
+				}
+			}
+
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			$wp_chmod_file_path_result = @$wp_filesystem->chmod( $filepath, $chmod );
+
+			// Attempt to set permissions using WP_Filesystem, with a fallback to native chmod
+			if ( ! $wp_chmod_file_path_result ) {
+				// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
+				@chmod( $filepath, $chmod ); // Fallback to native chmod
+			}
 		}
 	}
 
