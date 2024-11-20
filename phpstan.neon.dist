@@ -9,6 +9,9 @@ parameters:
         - vendor
         - tests
 
+    scanFiles:
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+
     # Define autoload files, if necessary
     bootstrapFiles:
         - enpii-base-bootstrap.php
