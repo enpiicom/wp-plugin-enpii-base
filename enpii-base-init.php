@@ -48,7 +48,7 @@ if ( ! $vendor_dir ) {
 
 $helpers_path = $vendor_dir . '/laravel/framework/src/Illuminate/Foundation/helpers.php';
 if ( ! file_exists( $helpers_path ) ) {
-	throw new RuntimeException( 'The Laravel helpers.php file is missing: ' . htmlspecialchars( $helpers_path ) );
+	throw new RuntimeException( 'The Laravel helpers.php file is missing: ' . esc_html( $helpers_path ) );
 }
 
 require_once $helpers_path;
