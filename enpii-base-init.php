@@ -27,14 +27,14 @@ if ( is_array( $autoload_functions ) ) {
 			// Get the class map from the Composer ClassLoader
 			$class_map = $class_loader->getClassMap();
 
-			// Check if the class "Enpii\Enpii_Base_Init" exists in the class map
-			if ( isset( $class_map['Enpii\Enpii_Base_Init'] ) ) {
+			// Check if the class "Enpii_Base\Enpii_Base_Init" exists in the class map
+			if ( isset( $class_map['Enpii_Base\Enpii_Base_Init'] ) ) {
 				$reflection = new ReflectionClass( $class_loader );
-				$fileName = $reflection->getFileName();
+				$file_name = $reflection->getFileName();
 
 				// Ensure $fileName is not false before calling dirname
-				if ( $fileName !== false ) {
-					$vendor_dir = dirname( $fileName, 2 );
+				if ( $file_name !== false ) {
+					$vendor_dir = dirname( $file_name, 2 );
 				}
 				break;
 			}
