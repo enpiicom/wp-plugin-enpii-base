@@ -102,9 +102,10 @@ Enpii Base switches to Laravel’s HTTP kernel at the wp_loaded action, bypassin
 
 == Changelog ==
 
-= 0.8.6 - 2024-11-20 =
+= 0.8.6 - 2024-11-22 =
 
-- Improve the chmod function for setting permissions when creating WP App folders.
+- Resolve issues with requiring Laravel helpers in init file with multiple vendor directories.
+- Enhance the chmod functionality to set correct permissions when creating WordPress application folders.
 
 = 0.8.5 - 2024-11-19 =
 

@@ -28,6 +28,7 @@ return array(
     '58571171fd5812e6e447dce228f52f4d' => $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
     'eed9c7469f94573c0d97cc45de79b754' => $vendorDir . '/spatie/laravel-html/src/helpers.php',
     '0a04fd8b6cb0d1ef5b4816cca310de45' => $baseDir . '/src/Foundation/Support/helpers-utils.php',
+    'dcd5ff824765e1d7efbe771480f4de34' => $baseDir . '/src/Enpii_Base_Init.php',
     '0f59fad7c9b61fab8c403fdbffb776bb' => $baseDir . '/enpii-base-bootstrap.php',
     'd784741bc6b753c2977bb46f2ba02513' => $baseDir . '/enpii-base-init.php',
 );
