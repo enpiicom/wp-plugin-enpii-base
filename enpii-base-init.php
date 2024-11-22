@@ -14,15 +14,33 @@ if ( ! class_exists( 'Composer\Autoload\ClassLoader' ) ) {
 	throw new RuntimeException( "Composer's ClassLoader not found. Ensure Composer's autoloader is included." );
 }
 
-// Get the vendor directory dynamically
-$reflection = new ReflectionClass( 'Composer\Autoload\ClassLoader' );
-$class_loader = $reflection->getFileName();
+$vendor_dir = '';
 
-if ( $class_loader === false ) {
-	throw new RuntimeException( 'Failed to determine the file name for Composer\Autoload\ClassLoader.' );
+// Ensure spl_autoload_functions() returns a valid iterable
+$autoload_functions = spl_autoload_functions();
+if ( is_array( $autoload_functions ) ) {
+	foreach ( $autoload_functions as $autoload_function ) {
+		// Check if the autoload function is an instance of Composer's ClassLoader
+		if ( is_array( $autoload_function ) && $autoload_function[0] instanceof Composer\Autoload\ClassLoader ) {
+			$class_loader = $autoload_function[0];
+
+			// Get the class map from the Composer ClassLoader
+			$class_map = $class_loader->getClassMap();
+
+			// Check if the class "Enpii\Enpii_Base_Init" exists in the class map
+			if ( isset( $class_map['Enpii\Enpii_Base_Init'] ) ) {
+				$reflection = new ReflectionClass( $class_loader );
+				$fileName = $reflection->getFileName();
+
+				// Ensure $fileName is not false before calling dirname
+				if ( $fileName !== false ) {
+					$vendor_dir = dirname( $fileName, 2 );
+				}
+				break;
+			}
+		}
+	}
 }
-
-$vendor_dir = dirname( $class_loader, 2 );
 
 // Require the Laravel helpers.php file
 $helpers_path = $vendor_dir . '/laravel/framework/src/Illuminate/Foundation/helpers.php';
