@@ -3,11 +3,6 @@
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Illuminate\Foundation\Application;
 
-// Ensure WordPress core is loaded before proceeding
-if ( ! Enpii_Base_Helper::is_wp_core_loaded() ) {
-	return;
-}
-
 // Check if the Illuminate\Foundation\Application class exists
 if ( class_exists( Application::class ) ) {
 	// Use Composer's autoload function to resolve the class file path
