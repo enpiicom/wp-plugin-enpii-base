@@ -4,7 +4,7 @@ use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Illuminate\Foundation\Application;
 
 // Ensure WordPress core is loaded before proceeding
-if ( ! Enpii_Base_Helper::is_wp_core_loaded() ) {
+if ( ! defined( 'WP_CONTENT_DIR' ) ) {
 	return;
 }
 
