@@ -1,4 +1,5 @@
 <?php
+    // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 	$locale = config( 'app.locale' );
 ?>
 <!DOCTYPE html>

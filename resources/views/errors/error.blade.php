@@ -4,7 +4,7 @@ try {
 } catch ( \Exception $e ) {
 	$http_code = 500;
 }
-
+    // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 	$errors = [
 		'401' => __( 'Unauthorized', 'enpii-base' ),
 		'403' => __( 'Forbidden', 'enpii-base' ),
