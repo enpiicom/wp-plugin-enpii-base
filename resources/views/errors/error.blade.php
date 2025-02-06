@@ -1,9 +1,9 @@
-@php
-	try {
-		$http_code = $exception->getStatusCode();
-	} catch (\Exception $e) {
-		$http_code = 500;
-	}
+<?php
+try {
+	$http_code = $exception->getStatusCode();
+} catch ( \Exception $e ) {
+	$http_code = 500;
+}
 
 	$errors = [
 		'401' => __( 'Unauthorized', 'enpii-base' ),
@@ -14,8 +14,8 @@
 		'500' => __( 'Server Error', 'enpii-base' ),
 		'503' => __( 'Service Unavailable', 'enpii-base' ),
 	];
-	$error_message = !empty($errors[$http_code]) ? $errors[$http_code] : __('Error');
-@endphp
+	$error_message = ! empty( $errors[ $http_code ] ) ? $errors[ $http_code ] : __( 'Error' );
+	?>
 
 @extends('enpii-base::errors/layout-minimal-error')
 

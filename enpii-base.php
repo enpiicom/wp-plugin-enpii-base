@@ -8,7 +8,7 @@
  * Version:     0.8.9
  * License:     MIT
  * License URI: https://mit-license.org/
- * Text Domain: enpii
+ * Text Domain: enpii-base
  */
 
 // We want to split all the bootstrapping code to a separate file
