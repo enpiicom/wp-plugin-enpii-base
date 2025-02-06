@@ -9,7 +9,7 @@ use Enpii_Base\Foundation\Support\Executable_Trait;
 use InvalidArgumentException;
 
 /**
- * @method static function exec(): void
+ * @method static void exec()
  */
 class Process_Artisan_Action extends Base_Action {
 	use Executable_Trait;
@@ -20,13 +20,27 @@ class Process_Artisan_Action extends Base_Action {
 	 * @return void
 	 */
 	public function handle(): void {
+		$app = app();
+
+		if ( ! is_object( $app ) || ! method_exists( $app, 'make' ) ) {
+			throw new InvalidArgumentException( 'Application instance is not valid.' );
+		}
+
 		/** @var \Enpii_Base\App\Console\Kernel $kernel */
-		$kernel = app()->make(
+		$kernel = $app->make(
 			\Illuminate\Contracts\Console\Kernel::class
 		);
 
 		// We need to remove 2 first items to match the artisan arguments
-		$args = isset( $_SERVER['argv'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_SERVER['argv'] ) ) : [];
+		$args = isset( $_SERVER['argv'] ) && is_array( $_SERVER['argv'] ) ? array_map(
+			function ( $arg ) {
+				return is_string( $arg ) ? sanitize_text_field( wp_unslash( $arg ) ) : $arg;
+			},
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			(array) $_SERVER['argv']
+		) 
+			: [];
+		
 		if ( ! in_array( 'artisan', $args ) ) {
 			throw new InvalidArgumentException( 'Not an artisan command' );
 		}

@@ -10,7 +10,7 @@ use Enpii_Base\Foundation\Support\Executable_Trait;
 use WP_CLI;
 
 /**
- * @method static function exec(): void
+ * @method static void exec()
  */
 class Prepare_WP_App_Folders_Action extends Base_Action {
 	use Executable_Trait;
@@ -22,7 +22,9 @@ class Prepare_WP_App_Folders_Action extends Base_Action {
 	 */
 	public function handle(): void {
 		Enpii_Base_Helper::prepare_wp_app_folders();
-
-		WP_CLI::success( 'Preparing needed folders for WP App done!' );
+		// Conditionally call WP_CLI::success if WP_CLI exists
+		if ( class_exists( 'WP_CLI' ) ) {
+			WP_CLI::success( 'Preparing needed folders for WP App done!' );
+		}
 	}
 }
