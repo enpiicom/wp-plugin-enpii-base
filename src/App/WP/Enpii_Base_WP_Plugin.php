@@ -380,7 +380,7 @@ final class Enpii_Base_WP_Plugin extends WP_Plugin {
 
 	public function load_textdomain() {
 		$locale = determine_locale();
-		load_textdomain( 'enpii', $this->get_base_path() . '/languages/enpii-' . $locale . '.mo' );
+		load_textdomain( 'enpii-base', $this->get_base_path() . '/languages/enpii-' . $locale . '.mo' );
 	}
 
 	/**
