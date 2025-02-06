@@ -30,7 +30,7 @@ vendor/bin/phpcs $STAGED_FILES
 
 # Run PHPStan for static analysis
 echo "Running PHPStan..."
-# vendor/bin/phpstan analyse $STAGED_FILES --memory-limit=512M
+vendor/bin/phpstan analyse $STAGED_FILES --memory-limit=512M
 
 # If any of the checks fail, exit with a non-zero status to block the commit
 if [ $? -ne 0 ]; then
