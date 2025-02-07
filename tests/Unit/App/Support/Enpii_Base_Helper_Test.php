@@ -1077,40 +1077,50 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		$this->assertTrue( $result );
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function test_prepare_wp_app_folders() {
 		$chmod = 0777;
 		$wp_app_base_path = '/var/www/wp-app';
-
-		// Mock the WP_Filesystem function
+	
+		// Mock WP_Filesystem to return true instead of failing
 		\WP_Mock::userFunction(
 			'WP_Filesystem',
 			[
-				'times' => 1,
+				'times'  => 1,
+				'return' => true, // Ensure WP_Filesystem initializes properly
 			]
 		);
-
-		// Create a mock object for $wp_filesystem with chmod and mkdir methods
+	
 		$mock_wp_filesystem = $this->getMockBuilder( \stdClass::class )
 			->addMethods( [ 'chmod', 'mkdir' ] )
 			->getMock();
-
-		// Expect chmod on the base path’s parent directory and each folder path
+	
+		// Expect chmod to be called exactly 3 times
 		$mock_wp_filesystem->expects( $this->exactly( 3 ) )
-			->method( 'chmod' );
-
-		// Expect mkdir on each folder path
+			->method( 'chmod' )
+			->withAnyParameters()
+			->willReturn( true );
+	
+		// Expect mkdir to be called exactly 2 times
 		$mock_wp_filesystem->expects( $this->exactly( 2 ) )
-			->method( 'mkdir' );
-
+			->method( 'mkdir' )
+			->withAnyParameters()
+			->willReturn( true );
+	
 		// Assign the mock to the global $wp_filesystem variable
 		global $wp_filesystem;
 		$wp_filesystem = $mock_wp_filesystem;
-
+	
 		// Call the method
 		Enpii_Base_Helper_Test_Tmp_Prepare_Wp_App::prepare_wp_app_folders( $chmod, $wp_app_base_path );
-
+	
+		// If no exceptions are thrown, the test is successful
 		$this->assertTrue( true );
 	}
+	
 
 	/**
 	 * @runInSeparateProcess
