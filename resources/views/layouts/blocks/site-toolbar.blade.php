@@ -1,3 +1,8 @@
+<?php 
+/**
+ * @package Enpii Base
+ */ 
+?>
 <div class="site-toolbar">
 	<h2>Enpii Base plugin</h2>
 	<div class="guide-link">
