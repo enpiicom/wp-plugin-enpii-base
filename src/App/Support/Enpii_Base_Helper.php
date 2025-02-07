@@ -187,7 +187,7 @@ class Enpii_Base_Helper {
 		if ( ! static::is_pdo_mysql_loaded() ) {
 			$error_message = sprintf(
 				// translators: %1$s is replaced by a string, extension name
-				__( 'Error with PHP extention %1$s. Please enable PHP extension %1$s via your hosting Control Panel or contact your hosting Admin for that.', 'enpii' ),
+				__( 'Error with PHP extention %1$s. Please enable PHP extension %1$s via your hosting Control Panel or contact your hosting Admin for that.', 'enpii-base' ),
 				'PDO MySQL'
 			);
 			static::add_wp_app_setup_errors( $error_message );
@@ -203,7 +203,7 @@ class Enpii_Base_Helper {
 		if ( ! static::at_setup_app_url() && ! static::at_admin_setup_app_url() && static::is_setup_app_failed() ) {
 			$error_message = sprintf(
 				// translators: %1$s is replaced by a string, url
-				__( 'The setup has not been done correctly. Please go to this URL <a href="%1$s">%1$s</a> to complete the setup', 'enpii' ),
+				__( 'The setup has not been done correctly. Please go to this URL <a href="%1$s">%1$s</a> to complete the setup', 'enpii-base' ),
 				static::get_admin_setup_app_uri( true )
 			);
 			static::add_wp_app_setup_errors( $error_message );
