@@ -1,10 +1,16 @@
-<?php
-try {
-	$http_code = $exception->getStatusCode();
-} catch ( \Exception $e ) {
-	$http_code = 500;
-}
-    // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+<?php 
+/**
+ * @package Enpii Base
+ */ 
+?>
+
+@php
+	try {
+		$http_code = $exception->getStatusCode();
+	} catch (\Exception $e) {
+		$http_code = 500;
+	}
+
 	$errors = [
 		'401' => __( 'Unauthorized', 'enpii-base' ),
 		'403' => __( 'Forbidden', 'enpii-base' ),
@@ -14,8 +20,8 @@ try {
 		'500' => __( 'Server Error', 'enpii-base' ),
 		'503' => __( 'Service Unavailable', 'enpii-base' ),
 	];
-	$error_message = ! empty( $errors[ $http_code ] ) ? $errors[ $http_code ] : __( 'Error' );
-	?>
+	$error_message = !empty($errors[$http_code]) ? $errors[$http_code] : __('Error', 'enpii-base');
+@endphp
 
 @extends('enpii-base::errors/layout-minimal-error')
 
