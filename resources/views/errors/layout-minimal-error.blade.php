@@ -1,7 +1,13 @@
-<?php
-    // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-	$locale = config( 'app.locale' );
+<?php 
+/**
+ * @package Enpii Base
+ */ 
 ?>
+
+@php
+	$locale = config('app.locale');
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ $locale }}">
 	<head>
