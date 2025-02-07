@@ -116,7 +116,7 @@ abstract class WP_Theme extends ServiceProvider implements WP_Theme_Interface {
 			throw new InvalidArgumentException(
 				sprintf(
 				    // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped, WordPress.WP.I18n.MissingTranslatorsComment, WordPress.Security.EscapeOutput.ExceptionNotEscaped
-					__( 'Property %1$s must be set for %2$s.', 'enpii' ) . ' ' . __( 'Value must contain only alphanumeric characters _ -', 'enpii' ),
+					__( 'Property %1$s must be set for %2$s.', 'enpii-base' ) . ' ' . __( 'Value must contain only alphanumeric characters _ -', 'enpii-base' ),
 					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					'theme_slug',
 					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
