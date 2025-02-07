@@ -339,20 +339,20 @@ class Enpii_Base_Helper {
 		}
 
 		if ( ! WP_Filesystem() ) {
-			error_log( 'WP_Filesystem could not be initialized.' );
+			develog( 'WP_Filesystem could not be initialized.' );
 			return; // Avoid proceeding if WP_Filesystem isn't available
 		}
 
 		// Ensure WP_Filesystem is ready
 		if ( is_null( $wp_filesystem ) ) {
-			error_log( 'WP_Filesystem global is still null after initialization.' );
+			develog( 'WP_Filesystem global is still null after initialization.' );
 			return;
 		}
 
 		// Use WP_Filesystem to change directory permissions
 		$base_dir = dirname( $wp_app_base_path );
 		if ( ! $wp_filesystem->chmod( $base_dir, $chmod ) ) {
-			error_log( "Failed to change permissions for: $base_dir" );
+			develog( "Failed to change permissions for: $base_dir" );
 		}
 
 		$file_system = new \Illuminate\Filesystem\Filesystem();
@@ -363,13 +363,13 @@ class Enpii_Base_Helper {
 				// If WP_Filesystem fails, check manually if the directory exists
 				if ( ! is_dir( $filepath ) ) {
 					$file_system->ensureDirectoryExists( $filepath, $chmod );
-					error_log( "Fallback: Laravel Filesystem created directory: $filepath" );
+					develog( "Fallback: Laravel Filesystem created directory: $filepath" );
 				}
 			}
 
 			// Attempt to set permissions using WP_Filesystem
 			if ( ! $wp_filesystem->chmod( $filepath, $chmod ) ) {
-				error_log( "Failed to set permissions for: $filepath" );
+				develog( "Failed to set permissions for: $filepath" );
 			}
 		}
 	}
