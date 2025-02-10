@@ -88,7 +88,7 @@ trait Creator {
 		try {
 			parent::__construct( $time ?: 'now', static::safeCreateDateTimeZone( $tz ) ?: null );
 		} catch ( Exception $exception ) {
-			throw new InvalidFormatException( esc_html( $exception->getMessage() ), 0, $exception );
+			throw new InvalidFormatException( esc_html( $exception->getMessage() ), 0 );
 		}
 
 		$this->constructedObjectId = spl_object_hash( $this );
@@ -192,7 +192,7 @@ trait Creator {
 			// @codeCoverageIgnoreEnd
 
 			if ( ! $date ) {
-				throw new InvalidFormatException( "Could not parse '$time': " . esc_html( $exception->getMessage() ), 0, $exception );
+				throw new InvalidFormatException( 'Could not parse time: ' . esc_html( $exception->getMessage() ), 0 );
 			}
 
 			return $date;

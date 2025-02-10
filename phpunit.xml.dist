@@ -25,6 +25,7 @@
     </coverage>
 
     <php>
+        <ini name="error_reporting" value="E_ALL &amp; ~E_DEPRECATED" />
         <ini name="serialize_precision" value="14"/>
 		<env name="WP_TESTS_DIR" value="./tests/Unit" />
         <env name="WP_CORE_DIR" value="./dev-docker/wordpress" />

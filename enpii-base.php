@@ -5,10 +5,10 @@
  * Description: Base plugin for WP development using Laravel
  * Author:      dev@enpii.com, nptrac@yahoo.com
  * Author URI:  https://enpii.com/enpii-team/
- * Version:     0.8.9
+ * Version:     0.9.0
  * License:     MIT
  * License URI: https://mit-license.org/
- * Text Domain: enpii
+ * Text Domain: enpii-base
  */
 
 // We want to split all the bootstrapping code to a separate file

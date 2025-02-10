@@ -187,7 +187,7 @@ class Enpii_Base_Helper {
 		if ( ! static::is_pdo_mysql_loaded() ) {
 			$error_message = sprintf(
 				// translators: %1$s is replaced by a string, extension name
-				__( 'Error with PHP extention %1$s. Please enable PHP extension %1$s via your hosting Control Panel or contact your hosting Admin for that.', 'enpii' ),
+				__( 'Error with PHP extention %1$s. Please enable PHP extension %1$s via your hosting Control Panel or contact your hosting Admin for that.', 'enpii-base' ),
 				'PDO MySQL'
 			);
 			static::add_wp_app_setup_errors( $error_message );
@@ -203,7 +203,7 @@ class Enpii_Base_Helper {
 		if ( ! static::at_setup_app_url() && ! static::at_admin_setup_app_url() && static::is_setup_app_failed() ) {
 			$error_message = sprintf(
 				// translators: %1$s is replaced by a string, url
-				__( 'The setup has not been done correctly. Please go to this URL <a href="%1$s">%1$s</a> to complete the setup', 'enpii' ),
+				__( 'The setup has not been done correctly. Please go to this URL <a href="%1$s">%1$s</a> to complete the setup', 'enpii-base' ),
 				static::get_admin_setup_app_uri( true )
 			);
 			static::add_wp_app_setup_errors( $error_message );
@@ -321,12 +321,13 @@ class Enpii_Base_Helper {
 	}
 
 	/**
+	 * Prepare WordPress application folders with correct permissions.
 	 *
-	 * @param string $wp_app_base_path
-	 * @param int $chmod We may want to use `0755` if running this function in console
+	 * @param int $chmod Permissions, default 0755.
+	 * @param string $wp_app_base_path Base path of the WordPress application.
 	 * @return void
 	 */
-	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
+	public static function prepare_wp_app_folders( $chmod = 0755, string $wp_app_base_path = '' ): void {
 		if ( empty( $wp_app_base_path ) ) {
 			$wp_app_base_path = static::get_wp_app_base_path();
 		}
@@ -336,34 +337,39 @@ class Enpii_Base_Helper {
 		if ( ! function_exists( 'WP_Filesystem' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
-		WP_Filesystem();
 
-		// Use WP_Filesystem to change the base directory permissions
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
-		$wp_chmod_result = @$wp_filesystem->chmod( dirname( $wp_app_base_path ), $chmod );
-		if ( ! $wp_chmod_result ) {
-			// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
-			@chmod( dirname( $wp_app_base_path ), $chmod ); // Fallback to native chmod
+		if ( ! WP_Filesystem() ) {
+			develog( 'WP_Filesystem could not be initialized.' );
+			return; // Avoid proceeding if WP_Filesystem isn't available
+		}
+
+		// Ensure WP_Filesystem is ready
+		if ( is_null( $wp_filesystem ) ) {
+			develog( 'WP_Filesystem global is still null after initialization.' );
+			return;
+		}
+
+		// Use WP_Filesystem to change directory permissions
+		$base_dir = dirname( $wp_app_base_path );
+		if ( ! $wp_filesystem->chmod( $base_dir, $chmod ) ) {
+			develog( "Failed to change permissions for: $base_dir" );
 		}
 
 		$file_system = new \Illuminate\Filesystem\Filesystem();
 
-		// Use the filesystem to ensure directories and set permissions
+		// Use WP_Filesystem for directory creation and permission setting
 		foreach ( static::get_wp_app_base_folders_paths( $wp_app_base_path ) as $filepath ) {
 			if ( ! $wp_filesystem->mkdir( $filepath, $chmod ) ) {
-				// If WP_Filesystem can't create the directory
+				// If WP_Filesystem fails, check manually if the directory exists
 				if ( ! is_dir( $filepath ) ) {
 					$file_system->ensureDirectoryExists( $filepath, $chmod );
+					develog( "Fallback: Laravel Filesystem created directory: $filepath" );
 				}
 			}
 
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
-			$wp_chmod_file_path_result = @$wp_filesystem->chmod( $filepath, $chmod );
-
-			// Attempt to set permissions using WP_Filesystem, with a fallback to native chmod
-			if ( ! $wp_chmod_file_path_result ) {
-				// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod, WordPress.PHP.NoSilencedErrors.Discouraged
-				@chmod( $filepath, $chmod ); // Fallback to native chmod
+			// Attempt to set permissions using WP_Filesystem
+			if ( ! $wp_filesystem->chmod( $filepath, $chmod ) ) {
+				develog( "Failed to set permissions for: $filepath" );
 			}
 		}
 	}

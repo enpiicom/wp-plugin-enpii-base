@@ -40,7 +40,7 @@ class Show_Admin_Notice_And_Disable_Plugin_Action extends Base_Action {
 			'caution',
 			sprintf(
 				// translators: %s is replaced with "string" plugin name
-				__( 'Plugin <strong>%s</strong> is disabled.', 'enpii' ),
+				__( 'Plugin <strong>%s</strong> is disabled.', 'enpii-base' ),
 				$this->plugin->get_name() . ' ' . $this->plugin->get_version()
 			)
 		);

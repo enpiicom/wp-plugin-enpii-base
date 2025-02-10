@@ -61,7 +61,7 @@ class Kernel extends ConsoleKernel {
 				/** @var \Illuminate\Foundation\Console\ClosureCommand $this */
 				$start_time = microtime( true );
 				for ( $i = 0; $i < 500000; $i++ ) {
-					$message = __( 'Hello from Enpii Base app()', 'enpii' );
+					$message = __( 'Hello from Enpii Base app()', 'enpii-base' );
 				}
 				$end_time = microtime( true );
 				$this->comment( $message );

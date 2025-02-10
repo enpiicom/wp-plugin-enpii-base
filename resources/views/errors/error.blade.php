@@ -1,3 +1,9 @@
+<?php 
+/**
+ * @package Enpii Base
+ */ 
+?>
+
 @php
 	try {
 		$http_code = $exception->getStatusCode();
@@ -6,19 +12,19 @@
 	}
 
 	$errors = [
-		'401' => __( 'Unauthorized', 'enpii' ),
-		'403' => __( 'Forbidden', 'enpii' ),
-		'404' => __( 'Not Found', 'enpii' ),
-		'419' => __( 'Page Expired', 'enpii' ),
-		'429' => __( 'Too Many Requests', 'enpii' ),
-		'500' => __( 'Server Error', 'enpii' ),
-		'503' => __( 'Service Unavailable', 'enpii' ),
+		'401' => __( 'Unauthorized', 'enpii-base' ),
+		'403' => __( 'Forbidden', 'enpii-base' ),
+		'404' => __( 'Not Found', 'enpii-base' ),
+		'419' => __( 'Page Expired', 'enpii-base' ),
+		'429' => __( 'Too Many Requests', 'enpii-base' ),
+		'500' => __( 'Server Error', 'enpii-base' ),
+		'503' => __( 'Service Unavailable', 'enpii-base' ),
 	];
-	$error_message = !empty($errors[$http_code]) ? $errors[$http_code] : __('Error');
+	$error_message = !empty($errors[$http_code]) ? $errors[$http_code] : __('Error', 'enpii-base');
 @endphp
 
 @extends('enpii-base::errors/layout-minimal-error')
 
-@section('title', sprintf(__('WP App Error %s', 'enpii' ), $http_code))
+@section('title', sprintf(__('WP App Error %s', 'enpii-base' ), $http_code))
 @section('code', $http_code)
 @section('message', $error_message)
