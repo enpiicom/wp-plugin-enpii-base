@@ -72,6 +72,8 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 
 		// Mock Filesystem to intercept cleanDirectory call
 		$filesystem_mock = Mockery::mock( Filesystem::class );
+		$filesystem_mock->shouldReceive( 'is_dir' )->andReturn( true );
+
 		/** @var WP_Application $app_mock */
 		$app_mock = $this->createMock( WP_Application::class );
 
@@ -118,6 +120,8 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 
 		// Mock Filesystem to intercept cleanDirectory call
 		$filesystem_mock = Mockery::mock( Filesystem::class );
+		$filesystem_mock->shouldReceive( 'is_dir' )->andReturn( true );
+
 		/** @var WP_Application $app_mock */
 		$app_mock = $this->createMock( WP_Application::class );
 
