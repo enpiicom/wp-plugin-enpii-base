@@ -7,7 +7,7 @@ We need to include all vendors to the repo then remove all `require` things in t
 - Switch to `wp-release` branch
 - Delete all vendors
 ```
-rm -rf vendor public-assets src wp-app-config database resources
+rm -rf vendor public-assets scripts src wp-app-config database resources
 ```
 
 - Copy all needed files from master to this branch
