@@ -10,6 +10,7 @@ phpcs.xml
 codeception*
 .phpunit.cache/
 /scripts
+/scripts/*
 
 # WP-CLI
 /wp-cli.local.yml
