@@ -296,7 +296,10 @@ class Enpii_Base_Helper {
 		if ( defined( 'ENPII_BASE_WP_APP_BASE_PATH' ) && ENPII_BASE_WP_APP_BASE_PATH ) {
 			return ENPII_BASE_WP_APP_BASE_PATH;
 		} else {
-			return WP_CONTENT_DIR . DIR_SEP . 'uploads' . DIR_SEP . 'wp-app';
+			$pattern = '#^(.*?)/sites/\d+#'; // Multiple sites pattern
+			$path = wp_upload_dir()['path'];
+			$wp_uploads_base_path = preg_match( $pattern, $path, $matches ) ? $matches[1] : $path;
+			return $wp_uploads_base_path . DIR_SEP . 'wp-app';
 		}
 	}
 
