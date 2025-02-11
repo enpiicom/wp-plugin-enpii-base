@@ -7,12 +7,12 @@ We need to include all vendors to the repo then remove all `require` things in t
 - Switch to `wp-release` branch
 - Delete all vendors
 ```
-rm -rf vendor public-assets src wp-app-config database resources
+rm -rf vendor public-assets scripts src wp-app-config database resources
 ```
 
 - Copy all needed files from master to this branch
 ```
-git checkout master -- database public-assets resources src wp-app-config .editorconfig composer.json composer.lock enpii-base-bootstrap.php enpii-base-init.php enpii-base.php package* yarn* *.js
+git checkout master -- database public-assets resources scripts src wp-app-config .editorconfig composer.json composer.lock enpii-base-bootstrap.php enpii-base-init.php enpii-base.php package* yarn* *.js
 ```
 
 - Install and add vendors
@@ -29,6 +29,7 @@ yarn build
 - Remove unused stuffs
 ```
 rm -rf docker-compose*
+bash scripts/delete-dotfiles-in-vendor.sh && bash scripts/delete-unnecessary-vendor-files.sh && bash scripts/delete-unnecessary-vendor-folders.sh
 ```
 
 - Re-add assets and vendors
