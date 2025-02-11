@@ -20,4 +20,10 @@ find "$VENDOR_DIR" -type f -name ".*" ! -name ".git" ! -name ".env" -exec rm -f 
 ######################
 find "$VENDOR_DIR" -type d -name ".*" ! -name ".git" -exec rm -rf {} + 2>/dev/null
 
-echo "Dot file cleanup completed!"
+######################
+# RUN COMPOSER AUTOLOAD REBUILD
+######################
+echo "Rebuilding Composer autoload..."
+composer dump-autoload
+
+echo "Dot file cleanup completed successfully!"

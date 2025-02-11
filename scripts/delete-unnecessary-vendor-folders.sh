@@ -47,4 +47,10 @@ echo "Deleting specific vendor folders..."
 find "$VENDOR_DIR/nikic/php-parser" -type d -exec rm -rf {} + 2>/dev/null
 find "$VENDOR_DIR/doctrine/deprecations/lib/Doctrine/Deprecations/PHPUnit" -type d -exec rm -rf {} + 2>/dev/null
 
+######################
+# RUN COMPOSER AUTOLOAD REBUILD
+######################
+echo "Rebuilding Composer autoload..."
+composer dump-autoload
+
 echo "Folder cleanup completed successfully!"
