@@ -11,18 +11,6 @@ fi
 echo "Starting cleanup of unnecessary vendor FOLDERS..."
 
 ######################
-# DELETE "bin/" DIRECTORIES
-######################
-echo "Deleting all 'bin/' directories..."
-find "$VENDOR_DIR" -type d -name "bin" -exec rm -rf {} + 2>/dev/null
-
-######################
-# DELETE "vendor/bin/" DIRECTORIES
-######################
-echo "Deleting all 'vendor/bin/' directories..."
-find "$VENDOR_DIR/vendor/bin" -type d -exec rm -rf {} + 2>/dev/null
-
-######################
 # DELETE "tests/" DIRECTORIES
 ######################
 echo "Deleting all 'tests/' directories..."
@@ -41,10 +29,9 @@ echo "Deleting development tool directories..."
 find "$VENDOR_DIR" -type d \( -name "bower_components" -o -name "node_modules" -o -name "grunt" \) -exec rm -rf {} + 2>/dev/null
 
 ######################
-# DELETE "php-parser" and "Doctrine Deprecations" (From WordPress Plugin Review)
+# DELETE "Doctrine Deprecations"
 ######################
 echo "Deleting specific vendor folders..."
-find "$VENDOR_DIR/nikic/php-parser" -type d -exec rm -rf {} + 2>/dev/null
 find "$VENDOR_DIR/doctrine/deprecations/lib/Doctrine/Deprecations/PHPUnit" -type d -exec rm -rf {} + 2>/dev/null
 
 ######################

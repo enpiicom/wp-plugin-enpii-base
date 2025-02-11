@@ -29,9 +29,7 @@ yarn build
 - Remove unused stuffs
 ```
 rm -rf docker-compose*
-bash scripts/delete-dotfiles-in-vendor.sh
-bash scripts/delete-unnecessary-vendor-files.sh
-bash scripts/delete-unnecessary-vendor-folders.sh
+bash scripts/delete-dotfiles-in-vendor.sh && bash scripts/delete-unnecessary-vendor-files.sh && bash scripts/delete-unnecessary-vendor-folders.sh
 ```
 
 - Re-add assets and vendors

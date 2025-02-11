@@ -11,18 +11,6 @@ fi
 echo "Starting cleanup of unnecessary vendor files..."
 
 ######################
-# DELETE "bin/" DIRECTORIES
-######################
-echo "Deleting all 'bin/' directories..."
-find "$VENDOR_DIR" -type d -name "bin" -exec rm -rf {} + 2>/dev/null
-
-######################
-# DELETE "vendor/bin/" DIRECTORIES
-######################
-echo "Deleting all 'vendor/bin/' directories..."
-find "$VENDOR_DIR/vendor/bin" -type d -exec rm -rf {} + 2>/dev/null
-
-######################
 # DELETE "stubs/" FILES
 ######################
 echo "Deleting all '.stub' files..."
@@ -42,10 +30,9 @@ find "$VENDOR_DIR" -type d -name "windows-ansi" -exec rm -rf {} + 2>/dev/null
 find "$VENDOR_DIR" -type f -name "windows-ansi" -exec rm -rf {} + 2>/dev/null
 
 ######################
-# DELETE "commonmark" DIRECTORIES
+# DELETE EXECUTABLE FILES IN */bin/*
 ######################
-echo "Deleting all 'commonmark' directories..."
-find "$VENDOR_DIR" -type d -name "commonmark" -exec rm -rf {} + 2>/dev/null
+find "$VENDOR_DIR" -type f -path "*/bin/*" -executable -exec rm -f {} +
 
 ######################
 # RUN COMPOSER AUTOLOAD REBUILD
