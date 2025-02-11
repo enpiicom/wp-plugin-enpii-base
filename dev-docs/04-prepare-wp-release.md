@@ -12,7 +12,7 @@ rm -rf vendor public-assets src wp-app-config database resources
 
 - Copy all needed files from master to this branch
 ```
-git checkout master -- database public-assets resources src wp-app-config .editorconfig composer.json composer.lock enpii-base-bootstrap.php enpii-base-init.php enpii-base.php package* yarn* *.js
+git checkout master -- database public-assets resources scripts src wp-app-config .editorconfig composer.json composer.lock enpii-base-bootstrap.php enpii-base-init.php enpii-base.php package* yarn* *.js
 ```
 
 - Install and add vendors
