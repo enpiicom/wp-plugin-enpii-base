@@ -445,8 +445,9 @@ class Enpii_Base_Helper {
 		if ( defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) && ENPII_BASE_WP_APP_ASSET_URL ) {
 			return ENPII_BASE_WP_APP_ASSET_URL;
 		}
-
-		$slug_to_wp_app = str_replace( ABSPATH, '', static::get_wp_app_base_path() );
+		$pattern = '#wp-content/uploads/wp-app#';
+		$wp_app_base_path = static::get_wp_app_base_path();
+		$slug_to_wp_app = preg_match( $pattern, $wp_app_base_path, $matches ) ? $matches[0] : $wp_app_base_path;
 		$slug_to_public_asset = '/' . $slug_to_wp_app . '/public';
 
 		return $full_url ? trim( get_site_url(), '/' ) . $slug_to_public_asset : $slug_to_public_asset;
