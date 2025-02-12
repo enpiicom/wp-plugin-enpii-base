@@ -56,6 +56,8 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 	 * @preserveGlobalState disabled
 	 */
 	public function test_handle_executes_successfully_and_marks_done() {
+		error_reporting( ~E_DEPRECATED );
+
 		// Mock Command instance
 		$command_mock = Mockery::mock( Command::class );
 		$command_mock->shouldReceive( 'comment' )->atLeast()->once();
@@ -101,6 +103,8 @@ class Setup_WP_App_In_Console_Action_Test extends Unit_Test_Case {
 	 * @preserveGlobalState disabled
 	 */
 	public function test_handle_handles_exception_and_marks_failed() {
+		error_reporting( ~E_DEPRECATED );
+
 		// Mock Command instance
 		$command_mock = Mockery::mock( Command::class );
 		$command_mock->shouldReceive( 'comment' )->atLeast()->once();

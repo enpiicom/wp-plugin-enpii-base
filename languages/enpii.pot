@@ -44,7 +44,7 @@ msgstr ""
 
 #. translators: %s is replaced with "string" plugin name
 #: src/App/Actions/Show_Admin_Notice_And_Disable_Plugin_Action.php:43
-msgid "Plugin <strong>%s</strong> is disabled."
+msgid "Plugin <strong>%s</strong> is not working properly. Please recheck the mandatory prerequisites."
 msgstr ""
 
 #. translators: %1$s, %2$s are replaced by a string

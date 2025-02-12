@@ -617,15 +617,65 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function test_get_wp_app_base_path_returns_defined_constant_value() {
-		// Define the constant
-		define( 'ENPII_BASE_WP_APP_BASE_PATH', '/custom/path/to/wp-app' );
+	public function test_returns_defined_constant_value() {
+		define( 'ENPII_BASE_WP_APP_BASE_PATH', '/custom/wp-app-path' );
 
-		// Call the method
+		// Call method
 		$result = Enpii_Base_Helper::get_wp_app_base_path();
 
-		// Assert the result matches the defined constant value
-		$this->assertEquals( '/custom/path/to/wp-app', $result );
+		// Assert it returns the constant value
+		$this->assertSame( '/custom/wp-app-path', $result );
+	}
+
+	public function test_returns_correct_path_for_single_site() {
+		WP_Mock::userFunction(
+			'wp_upload_dir',
+			[
+				'return' => [ 'path' => '/var/www/html/wp-content/uploads' ],
+				'times' => 1,
+			]
+		);
+
+		// Call method
+		$result = Enpii_Base_Helper::get_wp_app_base_path();
+
+		// Expected output for single-site installation
+		$expected = '/var/www/html/wp-content/uploads' . DIRECTORY_SEPARATOR . 'wp-app';
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_returns_correct_path_for_multisite() {
+		WP_Mock::userFunction(
+			'wp_upload_dir',
+			[
+				'return' => [ 'path' => '/var/www/html/wp-content/uploads/sites/2' ],
+				'times' => 1,
+			]
+		);
+
+		// Call method
+		$result = Enpii_Base_Helper::get_wp_app_base_path();
+
+		// Expected output for multisite installation
+		$expected = '/var/www/html/wp-content/uploads' . DIRECTORY_SEPARATOR . 'wp-app';
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_returns_correct_path_for_multisite_with_different_site_id() {
+		WP_Mock::userFunction(
+			'wp_upload_dir',
+			[
+				'return' => [ 'path' => '/var/www/html/wp-content/uploads/sites/15' ],
+				'times' => 1,
+			]
+		);
+
+		// Call method
+		$result = Enpii_Base_Helper::get_wp_app_base_path();
+
+		// Expected output for multisite installation with different site ID
+		$expected = '/var/www/html/wp-content/uploads' . DIRECTORY_SEPARATOR . 'wp-app';
+		$this->assertSame( $expected, $result );
 	}
 
 	public function test_get_wp_app_base_folders_paths() {
