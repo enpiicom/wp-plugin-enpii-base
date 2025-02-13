@@ -631,7 +631,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		WP_Mock::userFunction(
 			'wp_upload_dir',
 			[
-				'return' => [ 'path' => '/var/www/html/wp-content/uploads' ],
+				'return' => [ 'basedir' => '/var/www/html/wp-content/uploads' ],
 				'times' => 1,
 			]
 		);
@@ -648,7 +648,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		WP_Mock::userFunction(
 			'wp_upload_dir',
 			[
-				'return' => [ 'path' => '/var/www/html/wp-content/uploads/sites/2' ],
+				'return' => [ 'basedir' => '/var/www/html/wp-content/uploads/sites/2' ],
 				'times' => 1,
 			]
 		);
@@ -665,7 +665,7 @@ class Enpii_Base_Helper_Test extends Unit_Test_Case {
 		WP_Mock::userFunction(
 			'wp_upload_dir',
 			[
-				'return' => [ 'path' => '/var/www/html/wp-content/uploads/sites/15' ],
+				'return' => [ 'basedir' => '/var/www/html/wp-content/uploads/sites/15' ],
 				'times' => 1,
 			]
 		);

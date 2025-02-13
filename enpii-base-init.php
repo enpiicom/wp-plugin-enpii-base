@@ -1,7 +1,5 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
 use Enpii_Base\App\Support\Enpii_Base_Helper;
 use Illuminate\Foundation\Application;
 
