@@ -1,3 +1,7 @@
+<?php 
+	if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+?>
+
 @extends('enpii-base::layouts/wp-main')
 
 @section('content')
