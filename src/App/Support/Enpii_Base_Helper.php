@@ -297,7 +297,7 @@ class Enpii_Base_Helper {
 			return ENPII_BASE_WP_APP_BASE_PATH;
 		} else {
 			$pattern = '#^(.*?)/sites/\d+#'; // Multiple sites pattern
-			$path = wp_upload_dir()['path'];
+			$path = wp_upload_dir()['basedir'];
 			$wp_uploads_base_path = preg_match( $pattern, $path, $matches ) ? $matches[1] : $path;
 			return $wp_uploads_base_path . DIR_SEP . 'wp-app';
 		}
