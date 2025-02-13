@@ -16,55 +16,19 @@
 
 		<title>@yield('title')</title>
 
+		<!-- Google Font Import -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
-		<style>
-			@import url('https://fonts.googleapis.com/css?family=Raleway');
-
-			html, body {
-				background-color: #fff;
-				color: #636b6f;
-				font-family: 'Raleway', sans-serif;
-				font-weight: 100;
-				height: 100vh;
-				margin: 0;
-			}
-
-			.full-height {
-				height: 100vh;
-			}
-
-			.flex-center {
-				align-items: center;
-				display: flex;
-				justify-content: center;
-			}
-
-			.position-ref {
-				position: relative;
-			}
-
-			.code {
-				border-right: 2px solid;
-				font-size: 66px;
-				padding: 0 15px 0 15px;
-				text-align: center;
-			}
-
-			.message {
-				font-size: 24px;
-				text-align: center;
-			}
-		</style>
 	</head>
-	<body>
-		<div class="flex-center position-ref full-height">
-			<div class="code">
+	<body style="background-color: #fff; color: #636b6f; font-family: 'Raleway', sans-serif; font-weight: 100; height: 100vh; margin: 0;">
+		<div class="flex-center position-ref full-height" style="height: 100vh; align-items: center; display: flex; justify-content: center; position: relative;">
+			<div class="code" style="border-right: 2px solid; font-size: 66px; padding: 0 15px; text-align: center;">
 				@yield('code')
 			</div>
 
-			<div class="message" style="padding: 10px;">
+			<div class="message" style="font-size: 24px; text-align: center; padding: 10px;">
 				@yield('message')
 			</div>
 		</div>
