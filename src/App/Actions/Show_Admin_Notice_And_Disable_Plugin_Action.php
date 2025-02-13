@@ -40,18 +40,18 @@ class Show_Admin_Notice_And_Disable_Plugin_Action extends Base_Action {
 			'caution',
 			sprintf(
 				// translators: %s is replaced with "string" plugin name
-				__( 'Plugin <strong>%s</strong> is disabled.', 'enpii-base' ),
+				__( 'Plugin <strong>%s</strong> is not working properly. Please recheck the mandatory prerequisites.', 'enpii-base' ),
 				$this->plugin->get_name() . ' ' . $this->plugin->get_version()
 			)
 		);
 
-		$this->load_plugin_file();
-		deactivate_plugins( $this->plugin->get_plugin_basename() );
+		// $this->load_plugin_file();
+		// deactivate_plugins( $this->plugin->get_plugin_basename() );
 	}
 
 	protected function load_plugin_file(): void {
 		if ( ! function_exists( 'deactivate_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
+		}   
 	}
 }

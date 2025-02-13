@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 do_action( 'get_header' );
 ?><!doctype html>
 <html <?php language_attributes(); ?>>

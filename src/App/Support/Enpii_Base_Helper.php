@@ -296,7 +296,10 @@ class Enpii_Base_Helper {
 		if ( defined( 'ENPII_BASE_WP_APP_BASE_PATH' ) && ENPII_BASE_WP_APP_BASE_PATH ) {
 			return ENPII_BASE_WP_APP_BASE_PATH;
 		} else {
-			return WP_CONTENT_DIR . DIR_SEP . 'uploads' . DIR_SEP . 'wp-app';
+			$pattern = '#^(.*?)/sites/\d+#'; // Multiple sites pattern
+			$path = wp_upload_dir()['basedir'];
+			$wp_uploads_base_path = preg_match( $pattern, $path, $matches ) ? $matches[1] : $path;
+			return $wp_uploads_base_path . DIR_SEP . 'wp-app';
 		}
 	}
 
@@ -442,8 +445,9 @@ class Enpii_Base_Helper {
 		if ( defined( 'ENPII_BASE_WP_APP_ASSET_URL' ) && ENPII_BASE_WP_APP_ASSET_URL ) {
 			return ENPII_BASE_WP_APP_ASSET_URL;
 		}
-
-		$slug_to_wp_app = str_replace( ABSPATH, '', static::get_wp_app_base_path() );
+		$pattern = '#wp-content/uploads/wp-app#';
+		$wp_app_base_path = static::get_wp_app_base_path();
+		$slug_to_wp_app = preg_match( $pattern, $wp_app_base_path, $matches ) ? $matches[0] : $wp_app_base_path;
 		$slug_to_public_asset = '/' . $slug_to_wp_app . '/public';
 
 		return $full_url ? trim( get_site_url(), '/' ) . $slug_to_public_asset : $slug_to_public_asset;

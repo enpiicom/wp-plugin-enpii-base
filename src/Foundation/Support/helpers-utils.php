@@ -19,17 +19,17 @@ if ( ! function_exists( 'devd' ) ) {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$dev_trace = debug_backtrace();
 
-		echo "=== start of dev dump ===\n";
+		echo esc_html( "=== start of dev dump ===\n" );
 		dump( ...$vars );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo ( ! empty( $dev_trace[1] ) ) ? $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . ': ' . "\n" : '';
+		echo esc_html( ! empty( $dev_trace[1] ) ? $dev_trace[1]['file'] . ':' . $dev_trace[1]['line'] . ': ' . "\n" : '' );
 		// We want to put the file name and the 7 steps trace to know where
 		//  where the dump is produced
 		if ( ! Enpii_Base_Helper::is_console_mode() && defined( 'DEV_LOG_TRACE' ) ) {
-			echo 'Traceback: ';
+			echo esc_html( 'Traceback: ' );
 			dump( $dev_trace );
 		}
-		echo "\n=== end of dev dump === ";
+		echo esc_html( "\n=== end of dev dump === " );
 	}
 }
 
@@ -56,10 +56,10 @@ if ( ! function_exists( 'devvard' ) ) {
 		$dump = $dumper->dump( $cloned_var, true );
 		// Output or return the dump based on the $is_dump_content flag
 		if ( $is_dump_content ) {
-			echo "=== start of dev var dump ===\n";
+			echo esc_html( "=== start of dev var dump ===\n" );
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo $dump;
-			echo "=== end of dev var dump ===\n";
+			echo esc_html( $dump );
+			echo esc_html( "=== end of dev var dump ===\n" );
 		} else {
 			return $dump;
 		}
