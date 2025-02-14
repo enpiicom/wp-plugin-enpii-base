@@ -350,6 +350,7 @@ class Enpii_Base_Helper {
 		// Use the filesystem to ensure directories and set permissions
 		foreach ( static::get_wp_app_base_folders_paths( $wp_app_base_path ) as $filepath ) {
 			if ( ! $wp_filesystem->exists( $filepath ) ) {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 				@$wp_filesystem->mkdir( $filepath, $chmod );
 			}
 		}
