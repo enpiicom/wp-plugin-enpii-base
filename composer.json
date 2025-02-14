@@ -20,18 +20,7 @@
     }
   ],
   "require": {
-    "laravel/framework": "~8.83.0",
-    "spatie/laravel-html": "~2.30.0",
-    "laravel/tinker": "~2.9.0",
-    "doctrine/dbal": "~3.3.8",
-    "symfony/var-dumper": "~5.4.39",
-    "mcaskill/composer-exclude-files": "~4.0.0",
     "php": "^7.3|^8.0"
-  },
-  "require-dev": {
-    "automattic/vipwpcs": "~3.0.0",
-    "phpcompatibility/php-compatibility": "~9.3.5",
-    "dealerdirect/phpcodesniffer-composer-installer": "~1.0.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
