@@ -324,55 +324,34 @@ class Enpii_Base_Helper {
 	}
 
 	/**
-	 * Prepare WordPress application folders with correct permissions.
 	 *
-	 * @param int $chmod Permissions, default 0755.
-	 * @param string $wp_app_base_path Base path of the WordPress application.
+	 * @param string $wp_app_base_path
+	 * @param int $chmod We may want to use `0755` if running this function in console
 	 * @return void
 	 */
-	public static function prepare_wp_app_folders( $chmod = 0755, string $wp_app_base_path = '' ): void {
+	public static function prepare_wp_app_folders( $chmod = 0777, string $wp_app_base_path = '' ): void {
 		if ( empty( $wp_app_base_path ) ) {
 			$wp_app_base_path = static::get_wp_app_base_path();
 		}
-
+ 
 		// Initialize the WP Filesystem API
 		global $wp_filesystem;
 		if ( ! function_exists( 'WP_Filesystem' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
+		WP_Filesystem();
 
-		if ( ! WP_Filesystem() ) {
-			develog( 'WP_Filesystem could not be initialized.' );
-			return; // Avoid proceeding if WP_Filesystem isn't available
-		}
+		/** @var \WP_Filesystem_Base $wp_filesystem */
 
-		// Ensure WP_Filesystem is ready
-		if ( is_null( $wp_filesystem ) ) {
-			develog( 'WP_Filesystem global is still null after initialization.' );
-			return;
-		}
+		// Use WP_Filesystem to change the base directory permissions
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		@$wp_filesystem->chmod( dirname( $wp_app_base_path ), $chmod );
 
-		// Use WP_Filesystem to change directory permissions
-		$base_dir = dirname( $wp_app_base_path );
-		if ( ! $wp_filesystem->chmod( $base_dir, $chmod ) ) {
-			develog( "Failed to change permissions for: $base_dir" );
-		}
-
-		$file_system = new \Illuminate\Filesystem\Filesystem();
-
-		// Use WP_Filesystem for directory creation and permission setting
+		// Use the filesystem to ensure directories and set permissions
 		foreach ( static::get_wp_app_base_folders_paths( $wp_app_base_path ) as $filepath ) {
-			if ( ! $wp_filesystem->mkdir( $filepath, $chmod ) ) {
-				// If WP_Filesystem fails, check manually if the directory exists
-				if ( ! is_dir( $filepath ) ) {
-					$file_system->ensureDirectoryExists( $filepath, $chmod );
-					develog( "Fallback: Laravel Filesystem created directory: $filepath" );
-				}
-			}
-
-			// Attempt to set permissions using WP_Filesystem
-			if ( ! $wp_filesystem->chmod( $filepath, $chmod ) ) {
-				develog( "Failed to set permissions for: $filepath" );
+			if ( ! $wp_filesystem->exists( $filepath ) ) {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+				@$wp_filesystem->mkdir( $filepath, $chmod );
 			}
 		}
 	}
